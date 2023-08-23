@@ -40,3 +40,27 @@ const mobileNavbar = new MobileNavbar(
 );
 
 mobileNavbar.init();
+criaNumerador = () => {
+  const numerador = document.querySelector('.numerador');
+  numerador.innerHTML = Math.floor( ( Math.random() * ( 10 - 0 ) + 0 ) * 1 )
+  return numerador;
+}
+criaDenominador = () => {
+  const denominador = document.querySelector('.denominador');
+  denominador.innerHTML = Math.floor( ( Math.random() * ( 10 - 0 ) + 0 ) * 1 )
+  return denominador;
+}
+criaTabuada = () => {
+  criaNumerador();
+  criaDenominador();
+}
+criaTabuada();
+
+checaResultado = () => {
+  const numerador = Number(document.querySelector('.numerador').outerText);
+  const denominador = Number(document.querySelector('.denominador').outerText);
+  const result = numerador + denominador;
+  const resultado = document.getElementById("resultado").value = result;
+  return resultado;
+}
+checaResultado();
