@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 	<head>
-	 	<meta charset="UTF-8">
- 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
- 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	 	<title>Tabuada</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Tabuada</title>
 		<link rel="icon" type="image/png" href="https://cdn.pixabay.com/photo/2016/07/29/21/42/school-1555910_960_720.png">
 		<link rel="stylesheet" href="./assets/css/style.css">
 	</head>
@@ -32,6 +32,15 @@
 					</ul>
 				</nav>
 			</header>
+			<dialog class="dialog">
+					<h2>Resultado da Tabuada</h2>
+					<small>O que você quer fazer agora?</small>
+					<div>
+						<button class="btn voltar">Refazer</button>
+						<button class="btn proxima">Proxima</button>
+						<button class="btn fechar">Finalizar</button>
+					</div>
+			</dialog>
 			<section class="container">
 				<h1>Qual o valor?</h1>
 				<section class="tabuada">
@@ -43,7 +52,7 @@
 				</section>
 				<section class="btn">
 					<button>Anterior</button>
-					<button>Proxima</button>
+					<button class="resposta">Resultado</button>
 				</section>
 			</section>
 		</div>

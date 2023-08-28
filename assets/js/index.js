@@ -64,3 +64,15 @@ checaResultado = () => {
   return resultado;
 }
 checaResultado();
+
+const button = document.querySelector('.resposta')
+const modal = document.querySelector('.dialog')
+const fechar = document.querySelector('.fechar')
+
+button.onclick = function () {
+  modal.showModal()
+}
+
+fechar.onclick = function () {
+  modal.close()
+}
