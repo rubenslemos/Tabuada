@@ -30,13 +30,13 @@ criarSinal = (selectedValue) => {
     sinal.appendChild(i)
     console.log(i)
   }
-  else if (selectedValue?.indexOf("z")===2) {
+  else if (selectedValue?.indexOf("v")===0) {
     i.classList.add("fa-solid")
     i.classList.add("fa-times")
     sinal.appendChild(i)
     console.log(i)
   }
-  else if (selectedValue?.indexOf("v")===2) {
+  else if (selectedValue?.indexOf("d")===0) {
     i.classList.add("fa-solid")
     i.classList.add("fa-divide")
     sinal.appendChild(i)
