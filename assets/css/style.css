@@ -236,17 +236,17 @@ nav{
 }
 
 .nav-list.active{
-  transform: translateX(-100%);
+  transform: translateX(0);
 }
 
 @keyframes navLinkFade {
   from {
     opacity: 0;
-    transform: translateX(0);
+    transform: translateX(-100%);
   }
   to {
     opacity: 1;
-    transform: translateX(100%);
+    transform: translateX(0);
   }
 }
 

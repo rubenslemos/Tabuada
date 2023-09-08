@@ -7,6 +7,7 @@ const diminuir = document.querySelector('menos')
 const multiplicar= document.querySelector('vezes')
 const dividido = document.querySelector('dividir')
 const aleatorio = document.querySelector('todas')
+const selectedValue = 'soma'
 criarNumerador = () => {
   numerador.innerHTML = Math.floor( ( Math.random() * ( 10 - 0 ) + 0 ) * 1 )
   return numerador;
@@ -15,42 +16,54 @@ criarDenominador = () => {
   denominador.innerHTML = Math.floor( ( Math.random() * ( 10 - 0 ) + 0 ) * 1 )
   return denominador;
 }
-criarSinal = () => {
+criarSinal = (selectedValue) => {
   let i = document.createElement('i')
-  if (submenu.id === 'soma') {
+  if (selectedValue?.indexOf("s")=== 0) {
     i.classList.add("fa-solid")
     i.classList.add("fa-plus")
     sinal.appendChild(i)
     console.log(i)
-    } else {
-      if (submenu.id === 'menos') {
-        i = document.createElement('i')
-        i.classList.add("fa-solid")
-        i.classList.add("fa-minus")
-        sinal.appendChild(i)
-        console.log(i)
-      }
-    }
-    return submenu
   }
+  else if (selectedValue?.indexOf("m")===0) {
+    i.classList.add("fa-solid")
+    i.classList.add("fa-minus")
+    sinal.appendChild(i)
+    console.log(i)
+  }
+  else if (selectedValue?.indexOf("z")===2) {
+    i.classList.add("fa-solid")
+    i.classList.add("fa-times")
+    sinal.appendChild(i)
+    console.log(i)
+  }
+  else if (selectedValue?.indexOf("v")===2) {
+    i.classList.add("fa-solid")
+    i.classList.add("fa-divide")
+    sinal.appendChild(i)
+    console.log(i)
+  }
+  else if (selectedValue?.indexOf("t")===0) {
+    i.classList.add("fa-solid")
+    i.classList.add("fa-plus")
+    sinal.appendChild(i)
+    console.log(i)
+  }}
   document.addEventListener("DOMContentLoaded", () => {
     const valorAtual = document.getElementsByClassName(".sinal")
     console.log("subM-ID", submenu)
     console.log("valorAtual: ", valorAtual)
     submenu.forEach((item) => {
       item.addEventListener("click", () => {
-        const selectedValue = item.getAttribute("data-value")
-          //se selectedValue tiver em seu valor o caractere 3 for 
-          //(m, n, z, v ou d) então sinal recebe 
-        
+        const selectedValue = item.getAttribute("value")
+        sinal.innerHTML=''
+        criarSinal(selectedValue)
       })
     })
-  criarSinal()
 })
 criaTabuada = () => {
   criarNumerador()
   criarDenominador()
-  criarSinal()
+  criarSinal(selectedValue)
   resultado.value = null
 }
 criaTabuada();
