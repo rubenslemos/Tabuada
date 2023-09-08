@@ -1,7 +1,5 @@
 const button = document.querySelector('.resposta')
 const modal = document.querySelector('.dialog')
-const numerador = document.querySelector('.numerador')
-const denominador = document.querySelector('.denominador')
 const resultado = document.getElementById("resultado")
 const fechar = document.querySelector('.fechar')
 const sucesso = document.querySelector('.sucess')
@@ -111,21 +109,6 @@ abrirTodas = () => {
 abrirTodas()
 
 mobileNavbar.init();
-
-criarNumerador = () => {
-  numerador.innerHTML = Math.floor( ( Math.random() * ( 10 - 0 ) + 0 ) * 1 )
-  return numerador;
-}
-criarDenominador = () => {
-  denominador.innerHTML = Math.floor( ( Math.random() * ( 10 - 0 ) + 0 ) * 1 )
-  return denominador;
-}
-criaTabuada = () => {
-  criarNumerador();
-  criarDenominador();
-  resultado.value = null
-}
-criaTabuada();
 
 checaResultado = () => {
   const num = Number(numerador.outerText);
