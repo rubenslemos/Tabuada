@@ -1,0 +1,18 @@
+  const criarSinal = (selectedValue) => {
+  const sinal = document.createElement('i');
+  const iconMappings = {
+    's': 'fa-plus',
+    'm': 'fa-minus',
+    'v': 'fa-times',
+    'd': 'fa-divide',
+    't': 'fa-plus',
+  };
+
+  const iconClass = iconMappings[selectedValue?.charAt(0)];
+
+  if (iconClass) {
+    sinal.classList.add('fa-solid', iconClass);
+    document.body.appendChild(sinal); // Substitua document.body pelo elemento desejado
+    console.log(sinal);
+  }
+};

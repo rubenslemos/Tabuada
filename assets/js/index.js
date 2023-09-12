@@ -1,5 +1,6 @@
 const button = document.querySelector('.resposta')
 const modal = document.querySelector('.dialog')
+const subMenu = document.querySelectorAll('.submenu')
 const resultado = document.getElementById("resultado")
 const fechar = document.querySelector('.fechar')
 const sucesso = document.querySelector('.sucess')
@@ -56,8 +57,7 @@ const mobileNavbar = new MobileNavbar(
   ".nav-list li"
 );
 
-
-abrirSoma = () => {
+/* abrirSoma = () => {
   soma.addEventListener('click', () => {
     itensSoma.classList.toggle("mostra")
     itensMenos.classList.remove("mostra")
@@ -106,7 +106,25 @@ abrirTodas = () => {
     itensDividir.classList.remove("mostra")
   })
 }
-abrirTodas()
+abrirTodas() */
+
+const elementosMenu = [soma, menos, vezes, dividir, todas];
+const elementosMostrados = [itensSoma, itensMenos, itensVezes, itensDividir, itensTodas];
+
+function toggleMostra(event) {
+  const elementoClicado = event.target;
+
+  elementosMenu.forEach((elemento, index) => {
+    if (elemento === elementoClicado) {
+      elementosMostrados[index].classList.toggle("mostra");
+    } else {
+      elementosMostrados[index].classList.remove("mostra");
+    }
+  });
+}
+  elementosMenu.forEach((elemento) => {
+  elemento.addEventListener('click', toggleMostra);
+});
 
 mobileNavbar.init();
 

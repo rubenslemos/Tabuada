@@ -16,42 +16,26 @@ criarDenominador = () => {
   denominador.innerHTML = Math.floor( ( Math.random() * ( 10 - 0 ) + 0 ) * 1 )
   return denominador;
 }
+
 criarSinal = (selectedValue) => {
-  let i = document.createElement('i')
-  if (selectedValue?.indexOf("s")=== 0) {
-    i.classList.add("fa-solid")
-    i.classList.add("fa-plus")
-    sinal.appendChild(i)
-    console.log(i)
+  const operador = document.createElement('i');
+  const iconMappings = {
+    's': 'fa-plus',
+    'm': 'fa-minus',
+    'v': 'fa-times',
+    'd': 'fa-divide',
+    't': 'fa-plus',
+  };
+
+  const iconClass = iconMappings[selectedValue?.charAt(0)];
+  if (iconClass) {
+    operador.classList.add('fa-solid', iconClass);
+    sinal.appendChild(operador);
   }
-  else if (selectedValue?.indexOf("m")===0) {
-    i.classList.add("fa-solid")
-    i.classList.add("fa-minus")
-    sinal.appendChild(i)
-    console.log(i)
-  }
-  else if (selectedValue?.indexOf("v")===0) {
-    i.classList.add("fa-solid")
-    i.classList.add("fa-times")
-    sinal.appendChild(i)
-    console.log(i)
-  }
-  else if (selectedValue?.indexOf("d")===0) {
-    i.classList.add("fa-solid")
-    i.classList.add("fa-divide")
-    sinal.appendChild(i)
-    console.log(i)
-  }
-  else if (selectedValue?.indexOf("t")===0) {
-    i.classList.add("fa-solid")
-    i.classList.add("fa-plus")
-    sinal.appendChild(i)
-    console.log(i)
-  }}
+};
+
   document.addEventListener("DOMContentLoaded", () => {
     const valorAtual = document.getElementsByClassName(".sinal")
-    console.log("subM-ID", submenu)
-    console.log("valorAtual: ", valorAtual)
     submenu.forEach((item) => {
       item.addEventListener("click", () => {
         const selectedValue = item.getAttribute("value")
@@ -61,6 +45,7 @@ criarSinal = (selectedValue) => {
     })
 })
 criaTabuada = () => {
+  sinal.innerHTML=""
   criarNumerador()
   criarDenominador()
   criarSinal(selectedValue)
