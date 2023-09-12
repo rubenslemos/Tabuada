@@ -35,7 +35,6 @@ criarSinal = (selectedValue) => {
 };
 
   document.addEventListener("DOMContentLoaded", () => {
-    const valorAtual = document.getElementsByClassName(".sinal")
     submenu.forEach((item) => {
       item.addEventListener("click", () => {
         const selectedValue = item.getAttribute("value")

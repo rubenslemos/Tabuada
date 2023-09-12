@@ -11,7 +11,9 @@ navList.addEventListener('click', function (event) {
     event.preventDefault(); // Impede que o link redirecione
 
     const valor = target.getAttribute('value');
-    console.log('Link clicado:', valor); // Faça algo com o valor aqui
+    const verificador = valor
+    if (verificador === 'somar01') { console.log('Verificador:', verificador); } // Faça algo com o valor aqui
+    else { console.log('Link clicado:', valor); } // Faça algo com o valor aqui
   }
 
   // Verifica se o elemento clicado é um título de menu
