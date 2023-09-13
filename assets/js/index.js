@@ -17,6 +17,7 @@ const itensDividir = document.querySelector('.itensDividir')
 const todas =document.querySelector('.todas')
 const itensTodas = document.querySelector('.itensTodas')
 const voltar = document.querySelector('.voltar')
+const icone = document.querySelector('.sinal i')
 class MobileNavbar {
   constructor(mobileMenu, navList, navLinks) {
     this.mobileMenu = document.querySelector(mobileMenu)
@@ -57,60 +58,10 @@ const mobileNavbar = new MobileNavbar(
   ".nav-list li"
 );
 
-/* abrirSoma = () => {
-  soma.addEventListener('click', () => {
-    itensSoma.classList.toggle("mostra")
-    itensMenos.classList.remove("mostra")
-    itensVezes.classList.remove("mostra")
-    itensDividir.classList.remove("mostra")
-    itensTodas.classList.remove("mostra")
-  })
-}
-abrirSoma()
-abrirMenos = () => {
-  menos.addEventListener('click', () => {
-    itensMenos.classList.toggle("mostra")
-    itensSoma.classList.remove("mostra")
-    itensVezes.classList.remove("mostra")
-    itensDividir.classList.remove("mostra")
-    itensTodas.classList.remove("mostra")
-  })
-}
-abrirMenos()
-abrirVezes = () => {
-  vezes.addEventListener('click', () => {
-    itensVezes.classList.toggle("mostra")
-    itensSoma.classList.remove("mostra")
-    itensMenos.classList.remove("mostra")
-    itensDividir.classList.remove("mostra")
-    itensTodas.classList.remove("mostra")
-  })
-}
-abrirVezes()
-abrirDividir = () => {
-  dividir.addEventListener('click', () => {
-    itensDividir.classList.toggle("mostra")
-    itensSoma.classList.remove("mostra")
-    itensMenos.classList.remove("mostra")
-    itensVezes.classList.remove("mostra")
-    itensTodas.classList.remove("mostra")
-  })
-}
-abrirDividir()
-abrirTodas = () => {
-  todas.addEventListener('click', () => {
-    itensTodas.classList.toggle("mostra")
-    itensSoma.classList.remove("mostra")
-    itensMenos.classList.remove("mostra")
-    itensVezes.classList.remove("mostra")
-    itensDividir.classList.remove("mostra")
-  })
-}
-abrirTodas() */
-
 const elementosMenu = [soma, menos, vezes, dividir, todas];
 const elementosMostrados = [itensSoma, itensMenos, itensVezes, itensDividir, itensTodas];
 
+let result 
 function toggleMostra(event) {
   const elementoClicado = event.target;
 
@@ -128,13 +79,24 @@ function toggleMostra(event) {
 
 mobileNavbar.init();
 
+
 checaResultado = () => {
   const num = Number(numerador.outerText);
-  console.log('num', num)
   const den = Number(denominador.outerText);
-  console.log('den', den)
   const total = Number(resultado.value);
-  const result = num + den;
+  const subMenu = document.querySelectorAll('.submenu')
+  console.log('Icone', icone.classList)
+  console.log('subMenu', subMenu)
+  subMenu.forEach
+  if (subMenu.classList.contains("soma")){ result = num + den }
+  else if (subMenu.classList.contains("menos")) { result = num - den }
+  else if (subMenu.classList.contains("vezes")){ result = num * den }
+  else if (subMenu.classList.contains("dividir")){ result = num / den }
+  else if (subMenu.classList.contains("todas") && icone.classList.contains("fa-plus")) {result = num + den}
+  else if (subMenu.classList.contains("todas") && icone.classList.contains("fa-minus")){ result = num - den}
+  else if (subMenu.classList.contains("todas") && icone.classList.contains("fa-times")) {result = num * den}
+  else if (subMenu.classList.contains("todas") && icone.classList.contains("fa-divide")) { result = num / den }
+  console.log('result', result)
   if (result === total) {
     sucesso.innerHTML = "Parabéns você acertou!!!"
   }

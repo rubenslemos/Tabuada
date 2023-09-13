@@ -182,12 +182,8 @@ cociente = (valor) => {
     } else {
       numerador.innerHTML = getRandomNumber(0, 10)
       denominador.innerHTML = getRandomNumber(0, 10)
-      console.log('Link clicado:', valor);
     }
   }
-
-
-
 
 criarSinal = (selectedValue) => {
   const operador = document.createElement('i');
