@@ -130,10 +130,12 @@ mobileNavbar.init();
 
 checaResultado = () => {
   const num = Number(numerador.outerText);
+  console.log('num', num)
   const den = Number(denominador.outerText);
-  const soma = Number(resultado.value);
+  console.log('den', den)
+  const total = Number(resultado.value);
   const result = num + den;
-  if (result === soma) {
+  if (result === total) {
     sucesso.innerHTML = "Parabéns você acertou!!!"
   }
   else {
