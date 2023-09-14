@@ -298,3 +298,6 @@ nav{
 .itensTodas.mostra{
   display: flex;
 }
+.fonte{
+  font-size: 35px;
+}

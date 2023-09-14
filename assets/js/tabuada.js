@@ -66,11 +66,16 @@ cociente = (valor) => {
     || valor === 'dividi09' || valor === 'todas09') {
     numerador.innerHTML = getRandomNumber(0, 10);
     denominador.innerHTML = 9
-  } else if (valor === 'somar00' || valor === 'menos00' || valor === 'vezes00'
-    || valor === 'dividi00' || valor === 'todas00') {
+  } else if (valor === 'somar10' || valor === 'menos10' || valor === 'vezes10'
+    || valor === 'dividi10' || valor === 'todas10') {
+    numerador.innerHTML = getRandomNumber(0, 10);
+    denominador.innerHTML = 10
+  } else if (valor === 'somar11' || valor === 'menos11' || valor === 'vezes11'
+    || valor === 'dividi11' || valor === 'todas11') {
     numerador.innerHTML = getRandomNumber(0, 10);
     denominador.innerHTML = getRandomNumber(0, 10)
-  } else {
+    console.log('entrei aqui')
+  }else {
     numerador.innerHTML = getRandomNumber(0, 10);
     denominador.innerHTML = getRandomNumber(0, 10)
 }}
