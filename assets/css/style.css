@@ -137,6 +137,8 @@ button:active{
 }
 h2{
   padding: 20px;
+  padding-left: 65px;
+  align-items: center;
   justify-content: center;
   display: flex;
 }
@@ -300,4 +302,51 @@ nav{
 }
 .fonte{
   font-size: 35px;
+}
+
+.imagem{
+  width: 70px;
+  height: 70px;
+  position: absolute;
+}
+
+.fim::backdrop{
+  background-color: rgba(0 0 0 / .4);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  transition: 1s;
+}
+.fim{
+
+  border: none;
+  border-radius: 0.5rem;
+  padding: 15px;
+  box-shadow: 0 0 1em rgb(0 0 0 /.5);
+  transition: 1s;
+}
+.fimdiv{
+  display: flex;
+  flex-direction: row;
+}
+.fimdiv img{
+  padding-right: 35px;
+  width:200px;
+  height: 180px;
+}
+
+.fimdiv p{
+  width: 90%;
+  justify-content: flex-start;
+  font-size:30px;
+}
+
+.ok{
+  justify-content: center;
+  align-items: center;
+  font-size: 35px;
+  padding: 10px 20px;
+  margin-left: 160px;
+  margin-top: 25px;
 }

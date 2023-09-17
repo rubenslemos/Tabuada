@@ -14,7 +14,7 @@ class MobileNavbar {
     this.navLinks.forEach((link, index) => {
       link.style.animation
         ? (link.style.animation = "")
-        : (link.style.animation = `navLinkFade 0.5s ease forwards ${index / 80 + 0.1}s`);
+        : (link.style.animation = `navLinkFade 0.3s ease forwards ${index / 100 + 0.1}s`);
     });
   }
 
@@ -54,6 +54,8 @@ const elementos = {
   itensTodas: document.querySelector('.itensTodas'),
   voltar: document.querySelector('.voltar'),
   icone: document.querySelector('.sinal i'),
+  fim: document.querySelector('.fim'),
+  ok: document.querySelector('.ok'),
 };
 
 const mobileNavbar = new MobileNavbar(".mobile-menu", ".nav-list", ".nav-list li");
@@ -84,6 +86,17 @@ elementos.button.onclick = function () {
 
 elementos.fechar.onclick = function () {
   elementos.modal.close();
+  elementos.fim.showModal()
+};
+elementos.ok.onclick = function () {
+  p[i] = Number(numerador.outerText);
+  s[i] = Number(denominador.outerText);
+  i++;
+  criaTabuada();
+  elementos.fim.close()
+  acerto = 0;
+  errou = 0;
+  jogou = 0;
 };
 
 let p = [];

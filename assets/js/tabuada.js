@@ -8,7 +8,9 @@ const multiplicar= document.querySelector('vezes')
 const dividido = document.querySelector('dividir')
 const aleatorio = document.querySelector('todas')
 const navList = document.querySelector('.nav-list');
-
+const jogado = document.querySelector('.jogou');
+const acertado = document.querySelector('.acertou');
+const errado = document.querySelector('.errou')
 let selectedValue = 'soma'
 let valor = 'todas00' 
 navList.addEventListener('click', function (event) {
@@ -124,15 +126,30 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 })
 
+let acerto = 0;
+let errou = 0;
+let jogou = 0;
+const jogo = "Jogou: "
+const acertar = "Acertou: "
+const errar = "Errou: "
 checaResultado = () => {
   const tot = Number(resultado.value);
   result = total()
+  const imagem = document.querySelector('.imagem')
   if (result === tot) {
     elementos.sucesso.innerHTML = "Parabéns você acertou!!!"
+    imagem.setAttribute('src', '/assets/img/check2.png')
+    acerto++;
   }
   else {
-    elementos.sucesso.innerHTML = "Não foi dessa vez, que pena"
+    elementos.sucesso.innerHTML = "Dessa vez você errou !!!"
+    imagem.setAttribute('src', '/assets/img/redCross2.png')
+    errou++;
   }
+  jogou++;
+  jogado.innerText = jogo + jogou
+  acertado.innerText = acertar + acerto
+  errado.innerText = errar + errou
 }
 
 criaTabuada = () => {

@@ -86,13 +86,7 @@
 							</ul>
 						</li>
 						<li class="menu">
-							<a href="#" class="todas">Todas (
-								<i class="fa-solid fa-plus"></i>
-								<i class="fa-solid fa-minus"></i>
-								<i class="fa-solid fa-times"></i>
-								<i class="fa-solid fa-divide"></i>)
-								<i class="fa-solid fa-angles-right"></i>
-							</a>
+							<a href="#" class="todas">Todas <i class="fa-solid fa-angles-right"></i></a>
 							<ul class="submenu itensTodas todas" id="todas">
 								<li><a class="todas" href="#" value="todas01" id="todas01">01</a></li>
 								<li><a class="todas" href="#" value="todas02" id="todas02">02</a></li>
@@ -111,13 +105,24 @@
 				</nav>
 			</header>
 			<dialog class="dialog">
-					<h2 class="sucess"></h2>
+					<img class="imagem"/><h2 class="sucess"></h2>
 					<small>O que você quer fazer agora?</small>
 					<div>
 						<button class="btn voltar">Refazer</button>
 						<button class="btn proxima">Proxima</button>
 						<button class="btn fechar">Finalizar</button>
 					</div>
+			</dialog>
+			<dialog class="fim">
+				<div class="fimdiv">
+					<img src="/assets/img/enquete.png" alt="resultado">
+					<div>
+						<p class="jogou"></p>
+						<p class="acertou"></p>
+						<p class="errou"></p>
+					</div>
+				</div>
+				<button class="btn ok">OK</button>
 			</dialog>
 			<section class="container">
 				<h1>Qual o valor?</h1>
