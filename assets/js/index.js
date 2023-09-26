@@ -81,11 +81,13 @@ elementosMenu.forEach((elemento) => {
 
 elementos.button.onclick = function () {
   checaResultado();
+  loopDeResultados()
   elementos.modal.showModal();
 };
 
 elementos.fechar.onclick = function () {
   elementos.modal.close();
+  enviarResultadosParaServidor(acerto, errou, jogou)
   elementos.fim.showModal()
 };
 elementos.ok.onclick = function () {
@@ -129,6 +131,7 @@ elementos.anterior.onclick = back;
 elementos.resultado.addEventListener('keypress', function (e) {
   if (e.key === 'Enter') {
     checaResultado();
+    loopDeResultados()
     elementos.modal.showModal();
   }
 });

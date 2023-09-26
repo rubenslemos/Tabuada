@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const express = require('express')
 const app = express()
 const path = require("path")
-
+const bodyParser = require('body-parser')
 require('dotenv').config()
 const user = process.env.DB_USER
 const pass = process.env.DB_PASS
@@ -11,6 +11,7 @@ const host = process.env.HOST
 
 
 app.use(express.static(__dirname + "/assets"))
+app.use(bodyParser.json())
 app.get('/', (req, res) =>{
   res.sendFile(path.join(__dirname + "/assets/index.html"))
 })

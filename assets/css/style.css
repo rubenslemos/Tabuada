@@ -432,6 +432,7 @@ nav{
 }
 .conta{
   display: flex;
+  flex-direction: column;
   justify-content: center;
   font-size: 25px;
   padding: 15px 0 15px 0;

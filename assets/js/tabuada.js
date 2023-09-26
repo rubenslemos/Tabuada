@@ -1,16 +1,21 @@
-criarTabuada = (document)=> {
-
+let acerto = 0
+let errou = 0
+let jogou = 0
+criarTabuada = ()=> {
   const numerador = document.querySelector('.numerador')
   const denominador = document.querySelector('.denominador')
   const sinal = document.querySelector('.sinal')
+/*   const classe = document.querySelector('.menu')
   const submenu = document.querySelectorAll(".menu li a")
+  const diminuir = document.querySelector('menos')
+  const multiplicar= document.querySelector('vezes')
+  const dividido = document.querySelector('dividir')
+  const aleatorio = document.querySelector('todas') */
   const navList = document.querySelector('.nav-list');
   const jogado = document.querySelector('.jogou');
   const acertado = document.querySelector('.acertou');
   const errado = document.querySelector('.errou')
-  const resultado = document.getElementById("resultado")
-  let selectedValue = 'soma'
-  let valor = 'todas00' 
+  let valor = 'soma' 
   const elementos = {
     sucesso: document.querySelector('.sucess')
   }
@@ -73,26 +78,24 @@ criarTabuada = (document)=> {
       || valor === 'dividi10' || valor === 'todas10') {
       numerador.innerHTML = getRandomNumber(0, 10);
       denominador.innerHTML = 10
-    } else if (valor === 'somar11' || valor === 'menos11' || valor === 'vezes11'
-      || valor === 'dividi11' || valor === 'todas11') {
-      numerador.innerHTML = getRandomNumber(0, 10);
-      denominador.innerHTML = getRandomNumber(0, 10)
-      console.log('entrei aqui')
-    }else {
+    } else {
       numerador.innerHTML = getRandomNumber(0, 10);
       denominador.innerHTML = getRandomNumber(0, 10)
   }}
-  criarSinal = (selectedValue) => {
+  criarSinal = (valor) => {
       const operador = document.createElement('i');
+      if (valor===null) {
+        operador.classList.add('fa-solid', 'fa-plus')
+        sinal.appendChild(operador);
+      }
       const iconMappings = {
       's': 'fa-plus',
       'm': 'fa-minus',
       'v': 'fa-times',
       'd': 'fa-divide',
     };
-    let iconClass = iconMappings[selectedValue?.charAt(0)];
-  
-    if (selectedValue.charAt(0) === 't') {
+    let iconClass = iconMappings[valor?.charAt(0)];
+    if (valor?.charAt(0) === 't') {
       const randomIcons = Object.values(iconMappings);
       iconClass = randomIcons[Math.floor(Math.random() * randomIcons.length)];
     }
@@ -117,22 +120,19 @@ criarTabuada = (document)=> {
     else if (valor.charAt(0) === "t" && operador.classList.contains("fa-divide")) { result = num / den }
     return result
   }
-  document.addEventListener("DOMContentLoaded", () => {
-    submenu.forEach((item) => {
-      item.addEventListener("click", () => {
-        selectedValue = item.getAttribute("value")
-        sinal.innerHTML=''
-        criarSinal(selectedValue)
-      })
-    })
-  })
-  
-  let acerto = 0
-  let errou = 0
-  let jogou = 0
-  const jogo = "Jogou: "
-  const acertar = "Acertou: "
-  const errar = "Errou: "
+  loopDeResultados = async() => {
+    while (true) {
+      await new Promise((resolve) => {
+        const elementoFechar = document.querySelector('.fechar');
+        elementoFechar.addEventListener('click', () => {
+          resolve();
+        });
+      });
+      acerto = 0;
+      errou = 0;
+      jogou = 0;
+    }
+  }
   checaResultado = () => {
     const tot = Number(resultado.value);
     result = total()
@@ -148,19 +148,39 @@ criarTabuada = (document)=> {
       errou++;
     }
     jogou++;
-    jogado.innerText = jogo + jogou
-    acertado.innerText = acertar + acerto
-    errado.innerText = errar + errou
+    const errar = "Errou: "
+    jogado.innerText = `Jogos: ${jogou}`
+    acertado.innerText = `Acertos: ${acerto}`
+    errado.innerText = `Erros: ${errou}`
     return{ acerto, errou, jogou }
   }
+  enviarResultadosParaServidor = async () => {
+    try {
+      const resultados = checaResultado()
+      const resposta = await fetch('/round', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(resultados),
+      });
   
+      if (resposta.status === 201) {
+        console.log('Resultados salvos com sucesso no servidor');
+      } else {
+        console.error('Erro ao salvar resultados no servidor');
+      }
+    } catch (error) {
+      console.error('Erro ao enviar resultados para o servidor', error);
+    }
+  }
   criaTabuada = (dom) => {
     sinal.innerHTML=""
-    criarSinal(selectedValue)
+    criarSinal(valor)
     cociente(valor)
     resultado.value = null
   }
   criaTabuada();
   return checaResultado
 }
-module.exports = {criarTabuada}
+criarTabuada()
