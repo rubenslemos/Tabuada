@@ -1,24 +1,16 @@
-let acerto = 0
+let acerto = -1
 let errou = 0
-let jogou = 0
+let jogou = -1
 criarTabuada = ()=> {
   const numerador = document.querySelector('.numerador')
   const denominador = document.querySelector('.denominador')
   const sinal = document.querySelector('.sinal')
-/*   const classe = document.querySelector('.menu')
-  const submenu = document.querySelectorAll(".menu li a")
-  const diminuir = document.querySelector('menos')
-  const multiplicar= document.querySelector('vezes')
-  const dividido = document.querySelector('dividir')
-  const aleatorio = document.querySelector('todas') */
-  const navList = document.querySelector('.nav-list');
-  const jogado = document.querySelector('.jogou');
-  const acertado = document.querySelector('.acertou');
+  const navList = document.querySelector('.nav-list')
+  const jogado = document.querySelector('.jogou')
+  const acertado = document.querySelector('.acertou')
   const errado = document.querySelector('.errou')
   let valor = 'soma' 
-  const elementos = {
-    sucesso: document.querySelector('.sucess')
-  }
+
   navList.addEventListener('click', function (event) {
   const target = event.target;
   if (target.classList.contains('somar') || target.classList.contains('menos') ||
@@ -148,7 +140,6 @@ criarTabuada = ()=> {
       errou++;
     }
     jogou++;
-    const errar = "Errou: "
     jogado.innerText = `Jogos: ${jogou}`
     acertado.innerText = `Acertos: ${acerto}`
     errado.innerText = `Erros: ${errou}`
