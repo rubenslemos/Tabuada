@@ -165,7 +165,7 @@ criarTabuada = ()=> {
       console.error('Erro ao enviar resultados para o servidor', error);
     }
   }
-  criaTabuada = (dom) => {
+  criaTabuada = () => {
     sinal.innerHTML=""
     criarSinal(valor)
     cociente(valor)
@@ -174,4 +174,6 @@ criarTabuada = ()=> {
   criaTabuada();
   return checaResultado
 }
+login.showModal()
+cadastro.close()
 criarTabuada()

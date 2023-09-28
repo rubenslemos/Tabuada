@@ -1,11 +1,11 @@
-const cadastro = document.querySelector('.cadastro')
-const login = document.querySelector('.login')
+const cadastro = document.getElementById('cadastro')
+const login = document.getElementById('login')
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById('usuario');
   const enviarBotao = document.getElementById('enviarFormulario');
 
   enviarBotao.addEventListener('click', async function () {
-    // Coletar os dados do formulário
+
     const formData = new FormData(form);
     const tipo = formData.get('tipo');
     const name = formData.get('name');
@@ -13,10 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const password = formData.get('password');
     const confirmPassword = formData.get('confirmPassword');
 
-
-    // Realizar validações personalizadas aqui, se necessário
-
-    // Enviar os dados para a rota
     try {
       const response = await fetch('/auth/register', {
         method: 'POST',
@@ -28,7 +24,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (response.status === 201) {
         console.log('Usuário criado com sucesso');
-        // Redirecionar ou executar outra ação, se necessário
+        cadastro.close()
+        login.showModal()
       } else {
         console.error('Erro ao criar usuário');
       }

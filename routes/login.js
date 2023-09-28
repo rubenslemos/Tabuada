@@ -17,6 +17,7 @@ router.post('/', async (req,res)=>{
   }
 
   const checkPassword = await bcrypt.compare(password, user.password)
+  console.log(checkPassword)
   if(!checkPassword){
     return res.status(422).json({Msg: 'Senha Inválida'})
   }
@@ -28,7 +29,7 @@ router.post('/', async (req,res)=>{
       },
       secret
     )
-    return res.status(200).json({Msg: 'logado com sucesso', token})
+    return res.status(201).json({Msg: 'logado com sucesso', token})
   } catch (error) {
     console.log(error)
     res.status(500).json({msg: 'Erro no servidor, tente em alguns minutos'})

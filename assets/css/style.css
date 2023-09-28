@@ -491,3 +491,6 @@ nav{
   display: flex;
   flex-direction: row;
 }
+.fechado{
+  display: none;
+}

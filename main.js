@@ -31,5 +31,6 @@ app.use('/auth/login', login)
 
 const auth = require('./routes/authenticator')
 app.use('/user', auth)
+
 const round = require('./routes/round')
 app.use('/round', round)

@@ -3,11 +3,6 @@ const bcrypt = require('bcrypt')
 const User = require('../models/User')
 router.post('/', async (req,res)=>{
   const {tipo, name, email, password, confirmPassword} = req.body
-  console.log(tipo)
-  console.log(name)
-  console.log(email)
-  console.log(password)
-  console.log(confirmPassword)
   if(!tipo){
     return res.status(422).json({Msg: 'Tipo requerido'})
   }

@@ -104,22 +104,22 @@
 					</ul>
 				</nav>
 			</header>
-<!-- 			<dialog class="login">
+			<dialog class="login" id="login">
 				<section class="container">
 					<h1>Login</h1>
-				<form action="/auth/login" class="tabuada largura" method="post">
+				<form action="/auth/login" class="tabuada largura" method="post" id="formLogin">
 					<p>E-mail</p>
-					<input type="email" name="email" id="email" placeholder="Digite seu e-mail">
+					<input type="email" name="email" id="emailLogin" placeholder="Digite seu e-mail" value="">
 					<p>Senha</p>
-					<input type="password" name="password" id="password" placeholder="Digite sua senha">
-					<a href="#" class="senha">Esqueceu a senha?</a>
-					<input type="submit" value="LOGIN">
+					<input type="password" name="password" id="passwordLogin" placeholder="Digite sua senha" value="">
+					<a href="#" class="senha" id="esqueceu">Esqueceu a senha?</a>
+					<input type="button" id="confirmLogin" value="LOGIN">
 					<small class="alerta">Não tem conta?</small>
-					<a href="#" class="registrar">Registre-se</a>
+					<a href="#" class="registrar" id="registrar">Registre-se</a>
 				</form>
 				</section>
-			</dialog>	 -->
-			<dialog class="cadastro">
+			</dialog>	
+			<dialog class="cadastro fechado" id="cadastro">
 				<section class="container">
 					<h1>Cadastro de Usuários</h1>
 					<form action="/auth/register" class="tabuada largura" method="post" enctype="application/x-www-form-urlencoded" id="usuario">
@@ -180,6 +180,8 @@
 		</div>
 		<script src="js/index.js" type="text/javascript"></script>
 		<script src="js/tabuada.js" type="text/javascript"></script>
+		<script src="js/login.js" type="text/javascript"></script>
 		<script src="js/usuario.js" type="text/javascript"></script>
+
 	</body>
 </html>
