@@ -4,6 +4,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const enviarBotao = document.getElementById('enviarFormulario');
   const cadastro = document.getElementById('cadastro')
   const login = document.getElementById('login')
+  const cancelar = document.getElementById('cancelar')
+
+  cancelar.addEventListener('click', ()=> {
+    cadastro.classList.add('fechado')
+    cadastro.close()
+    login.classList.remove('fechado')
+  })
   enviarBotao.addEventListener('click', async function () {
 
     const formData = new FormData(form);
