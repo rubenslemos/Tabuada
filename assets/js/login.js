@@ -3,12 +3,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const confirmLogin = document.getElementById('confirmLogin')
   const registrar = document.getElementById('registrar')
   const esqueceu = document.getElementById('esqueceu')
-  cadastro.close()
-
+  const cadastro = document.getElementById('cadastro')
+  const login = document.getElementById('login')
  registrar.addEventListener('click', ()=>{
   login.close()
-  cadastro.removeAttribute('fechado')
-  cadastro.showModal()
+  login.classList.add('fechado')
+  cadastro.classList.remove('fechado')
  }) 
 
  confirmLogin.addEventListener('click', async function () {
@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
     });
 
     if (response.status === 201) {
-      login.close()
       login.classList.add('fechado')
       cadastro.close()
 

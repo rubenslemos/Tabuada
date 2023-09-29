@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const bcrypt = require('bcrypt')
 const User = require('../models/User')
+
 router.post('/', async (req,res)=>{
   const {tipo, name, email, password, confirmPassword} = req.body
   if(!tipo){

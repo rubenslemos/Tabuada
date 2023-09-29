@@ -174,6 +174,4 @@ criarTabuada = ()=> {
   criaTabuada();
   return checaResultado
 }
-login.showModal()
-cadastro.close()
 criarTabuada()

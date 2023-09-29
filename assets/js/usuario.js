@@ -1,9 +1,9 @@
-const cadastro = document.getElementById('cadastro')
-const login = document.getElementById('login')
+
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById('usuario');
   const enviarBotao = document.getElementById('enviarFormulario');
-
+  const cadastro = document.getElementById('cadastro')
+  const login = document.getElementById('login')
   enviarBotao.addEventListener('click', async function () {
 
     const formData = new FormData(form);
@@ -23,9 +23,10 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       if (response.status === 201) {
-        console.log('Usuário criado com sucesso');
+        cadastro.classList.add('fechado')
         cadastro.close()
-        login.showModal()
+        login.classList.remove('fechado')
+        console.log('Usuário criado com sucesso');
       } else {
         console.error('Erro ao criar usuário');
       }
