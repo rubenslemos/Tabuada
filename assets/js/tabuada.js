@@ -11,6 +11,11 @@ criarTabuada = ()=> {
   const errado = document.querySelector('.errou')
   let valor = 'soma' 
 
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape' || e.key === 'Esc'){
+      e.preventDefault()
+    }
+  })
   navList.addEventListener('click', function (event) {
   const target = event.target;
   if (target.classList.contains('somar') || target.classList.contains('menos') ||

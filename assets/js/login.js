@@ -5,13 +5,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const esqueceu = document.getElementById('esqueceu')
   const cadastro = document.getElementById('cadastro')
   const login = document.getElementById('login')
+  const senha = document.getElementById('passwordLogin')
  registrar.addEventListener('click', ()=>{
   login.close()
   login.classList.add('fechado')
   cadastro.classList.remove('fechado')
  }) 
-
- confirmLogin.addEventListener('click', async function () {
+ async function fazerLogin (e) {
+  e.preventDefault()
   const formData = new FormData(form)
   const email = formData.get('email');
   const password = formData.get('password');
@@ -33,6 +34,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
   } catch (error) {
     console.error('Erro ao enviar os dados do formulário', error);
+  }
+ }
+ confirmLogin.addEventListener('click', fazerLogin)
+ senha.addEventListener('keypress', (e)=>{
+  if(e.key ==='Enter'){
+    fazerLogin(e)
   }
  })
 })

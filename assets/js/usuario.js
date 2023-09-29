@@ -5,14 +5,14 @@ document.addEventListener("DOMContentLoaded", function () {
   const cadastro = document.getElementById('cadastro')
   const login = document.getElementById('login')
   const cancelar = document.getElementById('cancelar')
-
+  const enviar = document.getElementById('confirmPassword')
   cancelar.addEventListener('click', ()=> {
     cadastro.classList.add('fechado')
     cadastro.close()
     login.classList.remove('fechado')
   })
-  enviarBotao.addEventListener('click', async function () {
-
+  async function criarUsuario (e) {
+    e.preventDefault()
     const formData = new FormData(form);
     const tipo = formData.get('tipo');
     const name = formData.get('name');
@@ -40,5 +40,12 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch (error) {
       console.error('Erro ao enviar os dados do formulário', error);
     }
-  });
-});
+  };
+
+  enviarBotao.addEventListener('click', criarUsuario)
+  enviar.addEventListener('keypress', (e)=>{
+    if(e.key === 'Enter'){
+      criarUsuario(e)
+    }
+  })
+})
