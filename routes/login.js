@@ -2,7 +2,14 @@ const router = require('express').Router()
 const bcrypt = require('bcrypt')
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
+require('dotenv').config()
+const hash = process.env.SECRET
 
+function generateToken(params = { }){
+  return jwt.sign(params, hash, {
+    expiresIn:86400,
+  })
+}
 router.post('/', async (req,res)=>{
   const {email, password} = req.body
   if(!email){
@@ -21,19 +28,11 @@ router.post('/', async (req,res)=>{
   if(!checkPassword){
     return res.status(422).json({Msg: 'Senha Inválida'})
   }
-  try {
-    const secret = process.env.SECRET
-    const token = jwt.sign(
-      {
-        id: user._id
-      },
-      secret
-    )
-    return res.status(201).json({Msg: 'logado com sucesso', token})
-  } catch (error) {
-    console.log(error)
-    res.status(500).json({msg: 'Erro no servidor, tente em alguns minutos'})
-  }
+
+  res.send({
+    user,
+    token: generateToken({id:user.id}), 
+  })
 })
 
 module.exports = router

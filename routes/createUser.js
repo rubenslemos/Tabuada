@@ -1,7 +1,15 @@
 const router = require('express').Router()
 const bcrypt = require('bcrypt')
 const User = require('../models/User')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
+const hash = process.env.SECRET
 
+function generateToken(params = { }){
+  return jwt.sign(params, hash, {
+    expiresIn:86400,
+  })
+}
 router.post('/', async (req,res)=>{
   const {tipo, name, email, password, confirmPassword} = req.body
   if(!tipo){
@@ -41,7 +49,10 @@ router.post('/', async (req,res)=>{
     })
     try {
       await user.save()
-      res.status(201).json({msg: 'Usuário criado com sucesso'})
+      res.status(201).send({
+        user,
+        token: generateToken({id:user.id}), 
+      })
     } catch (error) {
       console.log(error)
       res.status(500).json({msg: 'Erro no servidor, tente em alguns minutos'})
