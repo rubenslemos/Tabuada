@@ -158,3 +158,13 @@
 		}
 	]
 }
+
+/* DB_USER=rubenslemos
+DB_PASS=lMMiPmofL8pF6FaZ
+SECRET=asdfhbosdlfsdo2364873264923@#$%¨*&&¨%¨&*%¨&DJASDPOASDJASPÇLDJAKSD
+PORT=3000
+HOST=127.0.0.1
+MAIL_USER=41a34929667784
+MAIL_PASS=b57c2e3e679f5b
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525 */
