@@ -2,6 +2,9 @@ const router = require('express').Router()
 const bcrypt = require('bcrypt')
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
+const auth = require('../middlewares/authenticator')
+const crypto = require('crypto')
+const mailer = require('../modules/mailer')
 require('dotenv').config()
 const hash = process.env.SECRET
 
@@ -18,14 +21,12 @@ router.post('/', async (req,res)=>{
   if(!password){
     return res.status(422).json({Msg: 'Senha requerida'})
   }
-  const user = await User.findOne({email: email.toLowerCase().trim()})
+  const user = await User.findOne({email: email.toLowerCase().trim()}).select('+password')
   if(!user){
     return res.status(404).json({Msg: 'Usuário não cadastrado'})
   }
-
-  const checkPassword = await bcrypt.compare(password, user.password)
-  console.log(checkPassword)
-  if(!checkPassword){
+  
+  if(!await bcrypt.compare(password, user.password)  ){
     return res.status(422).json({Msg: 'Senha Inválida'})
   }
 
@@ -34,5 +35,69 @@ router.post('/', async (req,res)=>{
     token: generateToken({id:user.id}), 
   })
 })
+router.post ('/token', auth, (req, res) => {
+  if (auth) {
+    res.status(200).json({ message: 'Operação bem-sucedida' });
+  } else {
+    res.status(500).json({ error: 'Erro na operação' });
+  }
+})
+router.post('/forgot_password', auth, async (req, res)=>{
+  const {email} = req.body
+  try {
+    
+    const usuario = await User.findOne({email})
+    if(!usuario) 
+      return res.status(400).send({error:'Usuário não existe'})
 
+    const token = crypto.randomBytes(20).toString('hex')
+
+    const now = new Date()
+    now.setHours(now.getHours()+1)
+
+    await User.findByIdAndUpdate(usuario.id, {
+      '$set':{
+        passwordResetToken: token,
+        passwordResetExpires: now,
+      }
+    })
+    mailer.sendMail({
+      to: email,
+      from:'rubenslemos@gmail.com',
+      template:'auth/forgot_password',
+      context: { token },
+    }, (err)=> {
+      if (err)
+        return res.status(400).send({error: 'Não foi possível enviar o email de recuperação, tente novamente'})
+      return res.send({msg: 'Email enviado'})
+    })
+  } catch (error) {
+    return res.status(400).send({error: 'Não foi possível recuperar sua senha, tente novamente'})
+  }
+})
+
+router.post('/reset_password', auth, async (req, res) => {
+  const { email, token, password } = req.body
+
+  try {
+    const usuario = await User.findOne({email}).select('+ passwordResetToken passwordResetExpires')
+    if(!usuario) 
+      return res.status(400).send({error:'Usuário não existe'})
+
+    if(token !== usuario.passwordResetToken)
+      return res.status(400).send({error:'Token Inválido'})
+
+    const now = new Date()
+    if(now >= usuario.passwordResetExpires)
+      return res.status(400).send({error:'Token Expirou, favor gerar um novo'})
+ 
+    usuario.password = password
+
+    await usuario.save()
+    res.send({msg: 'Senha alterada'})
+    
+  } catch (error) {
+    return res.status(400).send({error: 'Não foi possível recuperar sua senha, tente novamente'})
+  }
+})
 module.exports = router

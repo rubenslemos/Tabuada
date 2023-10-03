@@ -1,0 +1,160 @@
+{
+	"info": {
+		"_postman_id": "cd40a7b8-cbd9-4e4b-a5ff-438c7ba9935c",
+		"name": "Tabuada",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "19330024"
+	},
+	"item": [
+		{
+			"name": "Public Route",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{url}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Gravar Usuario",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"RuBenS\",\r\n    \"email\": \"rubenslemoS@gmail.com\",\r\n    \"password\": \"R1982@1r\",\r\n    \"confirmPassword\": \"R1982@1r\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{url}}auth/register"
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": "{{auth}}user"
+			},
+			"response": []
+		},
+		{
+			"name": "Esqueceu Senha",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": "{{auth}}user"
+			},
+			"response": []
+		},
+		{
+			"name": "Recuperar Senha",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": "{{auth}}user"
+			},
+			"response": []
+		},
+		{
+			"name": "Postar Resultado",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"acerto\": 5,\r\n  \"errou\": 5,\r\n  \"jogou\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{url}}round"
+			},
+			"response": []
+		},
+		{
+			"name": "Exibir Resultados",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"acerto\": 5,\r\n  \"errou\": 5,\r\n  \"jogou\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{url}}round"
+			},
+			"response": []
+		},
+		{
+			"name": "Apagar Resultados",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"acerto\": 5,\r\n  \"errou\": 5,\r\n  \"jogou\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{url}}round/6512778c52de8579043a9ec1"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:3000/"
+		},
+		{
+			"key": "auth",
+			"value": "{{url}}auth/"
+		},
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MGI5MWVmNjcwYjEzY2I4YmZmNTQyOSIsImlhdCI6MTY5NTI1OTYwM30.5FwWqGfvVDJyV7hQvjBtjyB24Ljbh0tyVJKsonGX3vM",
+			"type": "string"
+		},
+		{
+			"value": "",
+			"type": "string"
+		}
+	]
+}

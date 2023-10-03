@@ -24,11 +24,24 @@ document.addEventListener('DOMContentLoaded', ()=>{
       },
       body: JSON.stringify({ email, password }),
     });
+    response.statusCode
+    if (response.status === 200) {
+      const { token } = await response.json()
+      const resAuth = await fetch ('/auth/login/token',{
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      })
+      if (resAuth.status === 200) {
+        console.log('Logado com Sucesso');
+      } else {
+        console.error('Erro ao receber o Token');
+      }
 
-    if (response.status === 201) {
-      login.classList.add('fechado')
-      cadastro.close()
-
+      login.classList.add('fechado');
+      cadastro.close();
     } else {
       console.error('Erro ao logar');
     }
