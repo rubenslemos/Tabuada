@@ -42,7 +42,7 @@ router.post ('/token', auth, (req, res) => {
     res.status(500).json({ error: 'Erro na operação' });
   }
 })
-router.post('/forgot_password', auth, async (req, res)=>{
+router.post('/forgot_password', async (req, res)=>{
   const {email} = req.body
   try {
     
@@ -61,7 +61,7 @@ router.post('/forgot_password', auth, async (req, res)=>{
         passwordResetExpires: now,
       }
     })
-    mailer.sendMail({
+    await mailer.sendMail({
       to: email,
       from:'rubenslemos@gmail.com',
       template:'auth/forgot_password',
@@ -69,14 +69,14 @@ router.post('/forgot_password', auth, async (req, res)=>{
     }, (err)=> {
       if (err)
         return res.status(400).send({error: 'Não foi possível enviar o email de recuperação, tente novamente'})
-      return res.send({msg: 'Email enviado'})
+      return res.status(200).json({ token })
     })
   } catch (error) {
     return res.status(400).send({error: 'Não foi possível recuperar sua senha, tente novamente'})
   }
 })
 
-router.post('/reset_password', auth, async (req, res) => {
+router.post('/reset_password', async (req, res) => {
   const { email, token, password } = req.body
 
   try {
