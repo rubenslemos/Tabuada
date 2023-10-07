@@ -10,12 +10,23 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const senha = document.getElementById('passwordLogin')
   const recuperar = document.getElementById('recuperar')
   const trocar = document.getElementById('trocar')
-  const verificar = document.getElementById('VerifyEmail')
+  const verificar = document.getElementById('verifyEmail')
   const email = document.getElementById('emailCheck')
   const confirmAlterar = document.getElementById('ConfirmPasswordAlterar')
   const alterar = document.getElementById('alterarSenha')
   const tokenSenha = document.getElementById('token')
-
+  const voltarSenha = document.getElementById('voltarSenha')
+  const cancelaEmail = document.getElementById('cancelaEmail')
+  cancelaEmail.addEventListener('click', ()=>{
+    trocar.classList.remove('aberto')
+    trocar.classList.add('fechado')
+    trocar.close()
+  })
+  voltarSenha.addEventListener('click', ()=>{
+    recuperar.classList.remove('aberto')
+    recuperar.classList.add('fechado')
+    recuperar.close()
+  })
  registrar.addEventListener('click', ()=>{
   login.close()
   login.classList.add('fechado')

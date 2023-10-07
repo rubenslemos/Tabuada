@@ -603,3 +603,6 @@ nav{
   padding-top: 15px;
   width: 700px;
 }
+.tabuadaPass div{
+  display: flex;
+}

@@ -115,7 +115,10 @@
 					<input type="password" name="passwordAlterar" id="passwordAlterar" placeholder="Digite sua senha" value="">
           <p>Confirmar Senha</p>
 					<input type="password" name="ConfirmPassword" id="ConfirmPasswordAlterar" placeholder="Confirme sua senha" value="">
-					<input type="button" id="alterarSenha" value="ALterar">
+					<div>
+						<input type="button" id="voltarSenha" value="Voltar">
+						<input type="button" id="alterarSenha" value="ALterar">
+					</div>
 				</form>
 				</section>
 			</dialog>					
@@ -125,7 +128,10 @@
 				<form action="/auth/login/forgot_password" class="tabuadaPass larguraConfirm" method="post" id="formVerificar">
 					<p>E-mail</p>
 					<input type="email" name="emailCheck" id="emailCheck" placeholder="Digite seu e-mail" value="">
-					<input type="button" id="VerifyEmail" value="Verificar">
+					<div>
+						<input type="button" id="cancelaEmail" value="Cancelar">
+						<input type="button" id="verifyEmail" value="Verificar">
+					</div>
 				</form>
 				</section>
 			</dialog>
