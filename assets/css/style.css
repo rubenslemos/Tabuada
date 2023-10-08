@@ -145,7 +145,10 @@ h2{
   display: flex;
 }
 small{
-  padding-left: 25px;
+  margin: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 dialog::backdrop{
   background: rgba(0, 0, 0, 0.8);
@@ -156,7 +159,6 @@ dialog::backdrop{
   transition: 1s;
 }
 dialog{
-  background-color: rgba(0, 0, 0, 0.8);
   top:35%;
   left:38.7%;
   border: none;
@@ -332,6 +334,7 @@ nav{
 .fimdiv{
   display: flex;
   flex-direction: row;
+  margin: 20px 0 20px 0;
 }
 .fimdiv img{
   padding-right: 35px;
@@ -346,12 +349,14 @@ nav{
 }
 
 .ok{
+  display: flex;
   justify-content: center;
   align-items: center;
   font-size: 35px;
   padding: 10px 20px;
-  margin-left: 160px;
-  margin-top: 25px;
+  margin: auto;
+  width: 40%;
+
 }
 .largura{
   padding-top: 35px;
@@ -444,6 +449,7 @@ nav{
   justify-content: center;
   font-size: 25px;
   padding: 15px 0 15px 0;
+  margin: 0;
 }
 
 .cadastro input[type=submit], input[type=button]{
@@ -605,4 +611,15 @@ nav{
 }
 .tabuadaPass div{
   display: flex;
+}
+.fim p {
+	font-size: 30px;
+	width: 80%;
+	display: flex;
+	justify-content: flex-end;
+	margin: 20px;
+}
+.modal {
+  margin: auto;
+  display: table;
 }

@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const tokenSenha = document.getElementById('token')
   const voltarSenha = document.getElementById('voltarSenha')
   const cancelaEmail = document.getElementById('cancelaEmail')
+  const usuario = document.querySelector('.usuario')
   cancelaEmail.addEventListener('click', ()=>{
     trocar.classList.remove('aberto')
     trocar.classList.add('fechado')
@@ -45,9 +46,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
       },
       body: JSON.stringify({ email, password }),
     });
-    response.statusCode
     if (response.status === 200) {
-      const { token } = await response.json()
+      const { user, token } = await response.json()
+      localStorage.setItem('token', token);
+      localStorage.setItem('userId', user._id);
       const resAuth = await fetch ('/auth/login/token',{
         method: 'POST',
         headers:{
@@ -62,17 +64,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
         trocar.classList.add('fechado')
         recuperar.close()
         trocar.close()
-        console.log('Logado com Sucesso');
+        console.log(user.name, 'Logado com Sucesso');
+        usuario.innerText = `Resultados ${user.name}:`
+        cadastro.close()
+        login.classList.add('fechado')
+      }
       } else {
         console.error('Erro ao receber o Token');
       }
-
-      cadastro.close()
-      login.classList.add('fechado')
-
-    } else {
-      console.error('Erro ao logar');
-    }
   } catch (error) {
     console.error('Erro ao enviar os dados do formulário', error);
   }
@@ -151,3 +150,7 @@ confirmAlterar.addEventListener('keypress', (e)=>{
   if(e.key === 'Enter') alterarSenha(e)
 })
 })
+
+
+
+

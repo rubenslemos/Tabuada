@@ -100,4 +100,13 @@ router.post('/reset_password', async (req, res) => {
     return res.status(400).send({error: 'Não foi possível recuperar sua senha, tente novamente'})
   }
 })
+router.get('/:id', async (req,res)=>{
+  try{
+    const user = await User.findById(req.params.id).populate('rounds')
+    if(!user) return res.status(400).send({error: 'Usuario não encontrado'})
+    res.status(201).send({user})
+  } catch (error) {
+    return res.status(400).send({error: 'Erro ao listar usuario'})
+  }
+})
 module.exports = router

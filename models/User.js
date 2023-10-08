@@ -20,6 +20,10 @@ const UserSchema = new mongoose.Schema({
     require: true,
     select: false,
   },
+  rounds:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Round',
+  }],
   passwordResetToken:{
     type: String,
     select: false,
@@ -34,9 +38,17 @@ const UserSchema = new mongoose.Schema({
   },
 })
 UserSchema.pre('save', async function (next){
-  const hash = await bcrypt.hash(this.password, 12)
-  this.password = hash
-  next()
+  try {
+    if (!this.isModified('password')) {
+      return next();
+    }
+    
+    const hash = await bcrypt.hash(this.password, 12);
+    this.password = hash;
+    next();
+  } catch (error) {
+    next(error);
+  }
 })
 const User = mongoose.model('User', UserSchema)
 module.exports = User

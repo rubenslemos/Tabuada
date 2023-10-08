@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const User = require('../models/User')
-const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const hash = process.env.SECRET
@@ -39,13 +38,13 @@ router.post('/', async (req,res)=>{
       return res.status(422).json({Msg: 'Senha não segue as condições estabelecidas'})
     }
 
-    const user = new User({
-      tipo,
-      name: name.toLowerCase().trim(),
-      email: email.toLowerCase().trim(),
-      password: password
-    })
     try {
+      const user = await User.create({
+        tipo,
+        name: name.toLowerCase().trim(),
+        email: email.toLowerCase().trim(),
+        password      
+      })
       await user.save()
       res.status(201).send({
         user,
