@@ -334,18 +334,15 @@ nav{
 .fimdiv{
   display: flex;
   flex-direction: row;
-  margin: 20px 0 20px 0;
+  margin: 20px auto 20px auto;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }
 .fimdiv img{
   padding-right: 35px;
   width:200px;
   height: 180px;
-}
-
-.fimdiv p{
-  width: 90%;
-  justify-content: flex-start;
-  font-size:30px;
 }
 
 .ok{
@@ -612,12 +609,17 @@ nav{
 .tabuadaPass div{
   display: flex;
 }
-.fim p {
+.fimdiv p {
 	font-size: 30px;
 	width: 80%;
 	display: flex;
 	justify-content: flex-end;
 	margin: 20px;
+}
+.usuario {
+  width: 100%;
+  justify-content: flex-start;
+  font-size:30px;
 }
 .modal {
   margin: auto;

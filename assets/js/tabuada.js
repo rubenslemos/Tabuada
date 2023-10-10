@@ -1,6 +1,7 @@
-let acerto = -1
-let errou = 0
 let jogou = -1
+let acerto = -1
+let errou = -1
+let resultados = null
 criarTabuada = ()=> {
   const numerador = document.querySelector('.numerador')
   const denominador = document.querySelector('.denominador')
@@ -10,7 +11,6 @@ criarTabuada = ()=> {
   const acertado = document.querySelector('.acertou')
   const errado = document.querySelector('.errou')
   let valor = 'soma' 
-
   document.addEventListener('keydown', (e)=>{
     if(e.key === 'Escape' || e.key === 'Esc'){
       e.preventDefault()
@@ -107,6 +107,9 @@ criarTabuada = ()=> {
     }
   }
   checaResultado = () => {
+    if (jogou < 0 ) jogou = 0
+    if (acerto < 0 ) acerto = 0
+    if (errou < 0 ) errou = 0
     const tot = Number(resultado.value);
     result = total()
     const imagem = document.querySelector('.imagem')
@@ -115,21 +118,21 @@ criarTabuada = ()=> {
       elementos.sucesso.innerHTML = "Parabéns você acertou!!!"
       imagem.setAttribute('src', '/img/check2.png')
       acerto++;
+      jogou++;
     }
-    else {
+    if (result !== tot) {
       elementos.sucesso.innerHTML = "Dessa vez você errou !!!"
       imagem.setAttribute('src', '/img/redCross2.png')
       errou++;
+      jogou++;
     }
-    jogou++;
     jogado.innerText = `Jogos: ${jogou}`
     acertado.innerText = `Acertos: ${acerto}`
     errado.innerText = `Erros: ${errou}`
     return{ acerto, errou, jogou }
   }
-  enviarResultadosParaServidor = async () => {
+  enviarResultadosParaServidor = async ( acerto, errou, jogou ) => {
     try {
-      const { acerto, errou, jogou } = checaResultado();
       const userId = localStorage.getItem('userId') 
       const response = await fetch(`/auth/login/${userId}`, {
         method: 'GET',
@@ -143,7 +146,7 @@ criarTabuada = ()=> {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({acerto, errou, jogou, userId}),
+          body: JSON.stringify({ acerto, errou, jogou , userId}),
         });
         if(resposta.status === 201)
         console.log('Resultados salvos com sucesso no servidor');
@@ -161,6 +164,5 @@ criarTabuada = ()=> {
     resultado.value = null
   }
   criaTabuada();
-  return checaResultado
 }
 criarTabuada()

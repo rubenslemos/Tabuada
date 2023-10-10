@@ -64,8 +64,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
         trocar.classList.add('fechado')
         recuperar.close()
         trocar.close()
-        console.log(user.name, 'Logado com Sucesso');
-        usuario.innerText = `Resultados ${user.name}:`
+        const nome = user.name.replace(/(^\w{1})|(\s+\w{1})/g, letra => letra.toUpperCase())
+        console.log(nome, 'Logado com Sucesso');
+        usuario.innerText = `${nome} fez:`
         cadastro.close()
         login.classList.add('fechado')
       }
