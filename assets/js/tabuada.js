@@ -11,6 +11,7 @@ criarTabuada = ()=> {
   const acertado = document.querySelector('.acertou')
   const errado = document.querySelector('.errou')
   let valor = 'soma' 
+
   document.addEventListener('keydown', (e)=>{
     if(e.key === 'Escape' || e.key === 'Esc'){
       e.preventDefault()

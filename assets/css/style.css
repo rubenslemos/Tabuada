@@ -625,3 +625,72 @@ nav{
   margin: auto;
   display: table;
 }
+.resultados{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 40px calc((100% - (255px * 5)) / 2);
+}
+.rodada{
+  width: 100%;
+  flex: 0 0 215px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  border-color: var(--primary-color);
+  border-style: solid;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.452);
+  margin: 5px;
+}
+.containerResultado{
+  margin: auto;
+  border-radius: 25px;
+  color: var(--primary-color);
+  width: 100vw;
+  height:100vh;
+  top: 0;
+  left: 0;
+  padding: 0;
+}
+.containerResultado h1{
+  margin: 30px auto -10px auto;
+  font-size: 50px;
+  justify-content: center;
+  display: flex;
+}
+
+.elemento{
+  font-size: 20px;
+  margin: 5px;
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 10px;
+}
+
+.btnFechar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  padding: 10px 20px;
+  margin: -20px auto 20px auto;
+  width: 15%;
+}
+.containerResultado::backdrop{
+  background: url(/img/math2.jpg) no-repeat center center;
+  display: flex;
+  flex-direction: column;
+  margin: 0px auto 0px auto;
+  padding: 10px;
+  color: var(--primary-color);
+  height: 100vh;
+}
+.containerResultados{
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  height: 100%;
+  background: url(/img/math2.jpg) no-repeat center center;
+}

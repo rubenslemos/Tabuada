@@ -19,7 +19,6 @@
 						<div class="line2"></div>
 						<div class="line3"></div>
 					</div>
-					
 					<a class="logo" href="/">Tabuada</a>
 					<ul class="nav-list">
 						<li class="menu">
@@ -102,121 +101,19 @@
 								<li><a class="todas fonte" href="#" value="todas11" id="todas11">&#128472;</a></li>
 							</ul>
 						</li>
-						<li class="menu">
-							<a href="#" id="desempenho">Desempenho</a>
-						</li>
 					</ul>
 				</nav>
 			</header>
-			<dialog class="containerResultado" id="resultados" open="false">
-				<section class="containerResultados">
-					<section class="resultados">
-					</section>
-				</section>
-			</dialog>
-			<dialog class="recuperar fechado" id="recuperar">
-				<section class="containerPass">
-					<h1>Recuperar Senha</h1>
-				<form action="/auth/login/reset_password" class="tabuadaPass larguraPass" method="post" id="formAlterar">
-					<p>E-mail</p>
-					<input type="email" name="emailAlterar" id="emailAlterar" placeholder="Digite seu e-mail" value="">
-					<input type="hidden" name="token" id="token" value="">
-          <p>Senha</p>
-					<input type="password" name="passwordAlterar" id="passwordAlterar" placeholder="Digite sua senha" value="">
-          <p>Confirmar Senha</p>
-					<input type="password" name="ConfirmPassword" id="ConfirmPasswordAlterar" placeholder="Confirme sua senha" value="">
-					<div>
-						<input type="button" id="voltarSenha" value="Voltar">
-						<input type="button" id="alterarSenha" value="ALterar">
-					</div>
-				</form>
-				</section>
-			</dialog>					
-      <dialog class="recuperar fechado" id="trocar">
-				<section class="containerPass">
-					<h1>Verificar E-mail</h1>
-				<form action="/auth/login/forgot_password" class="tabuadaPass larguraConfirm" method="post" id="formVerificar">
-					<p>E-mail</p>
-					<input type="email" name="emailCheck" id="emailCheck" placeholder="Digite seu e-mail" value="">
-					<div>
-						<input type="button" id="cancelaEmail" value="Cancelar">
-						<input type="button" id="verifyEmail" value="Verificar">
-					</div>
-				</form>
-				</section>
-			</dialog>
-			<dialog class="login" id="login">
-				<section class="container">
-					<h1>Login</h1>
-				<form action="/auth/login" class="tabuada largura" method="post" id="formLogin">
-					<p>E-mail</p>
-					<input type="email" name="email" id="emailLogin" placeholder="Digite seu e-mail" value="">
-					<p>Senha</p>
-					<input type="password" name="password" id="passwordLogin" placeholder="Digite sua senha" value="">
-					<a href="#" class="senha" id="esqueceu">Esqueceu a senha?</a>
-					<input type="button" id="confirmLogin" value="LOGIN">
-					<small class="alerta">Não tem conta?</small>
-					<a href="#" class="registrar" id="registrar">Registre-se</a>
-				</form>
-				</section>
-			</dialog>	
-			<dialog class="cadastro fechado" id="cadastro">
-				<section class="container">
-					<h1>Cadastro de Usuários</h1>
-					<form action="/auth/register" class="tabuada largura" method="post" enctype="application/x-www-form-urlencoded" id="usuario">
-						<p>Você é?</p>
-						<select name="tipo" id="tipo">
-							<option value="Professor">Professor</option>
-							<option value="Aluno">Aluno</option>
-						</select>
-						<p>Nome</p>
-						<input type="text" name="name" id="name" placeholder="Digite seu nome" value="">	
-						<p>E-mail</p>
-						<input type="email" name="email" id="email" placeholder="Digite seu e-mail" value="">
-						<p>Senha</p>
-						<input type="password" name="password" id="password" placeholder="Senha" value="">
-						<p>Confirmar Senha</p>
-						<input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirme sua senha" value="">
-						<div class="cadastrar">
-							<input type="button" id="cancelar" value="CANCELAR">
-							<input type="button" id="enviarFormulario" value="OK">
-						</div>
-					</form>
-				</section>
-			</dialog> 
-			<dialog class="dialog">
-					<img class="imagem"/><h2 class="sucess"></h2>
-					<small>O que você quer fazer agora?</small>
-					<div class="modal">
-						<button class="btn voltar">Refazer</button>
-						<button class="btn proxima">Proxima</button>
-						<button class="btn fechar">Finalizar</button>
-					</div>
-			</dialog>
-			<dialog class="fim">
-				<p class="usuario"></p>
-				<div class="fimdiv">
-					<img src="img/enquete.png" alt="resultado">
-					<div>
-						<p class="jogou"></p>
-						<p class="acertou"></p>
-						<p class="errou"></p>
-					</div>
-				</div>
-				<button class="btn ok">OK</button>
-			</dialog>
-			<section class="container">
-				<h1>Qual o valor?</h1>
-				<section class="tabuada">
-					<div class="conta">
-						<div class="conta" id="numerador"><span> &nbsp </span><p class="numerador"></p></div>
-						<div class="conta" id="denominador"><span class="sinal"><i></i></span><p class="denominador"></p></div>
-						<div class="resultado conta"><span> &nbsp </span><input type="number" id="resultado"></div>
-					</div>
-				</section>
-				<section class="btn">
-					<button class= "anterior">Anterior</button>
-					<button class="resposta">Resultado</button>
+			<section class="containerResultado">
+				<h1>Resultado</h1>
+				<section class="resultados">
+					<section class="rodada">
+						<p class="elemento">Rodada 1</p>
+						<p class="elemento">Jogou: 3</p>
+						<p class="elemento">Acertou: 1</p>
+						<p class="elemento">Errou: 2</p>
+						<p class="elemento">Acerto (%) 33%</p>
+					</section>				
 				</section>
 			</section>
 		</div>

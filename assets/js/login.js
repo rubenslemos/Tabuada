@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const voltarSenha = document.getElementById('voltarSenha')
   const cancelaEmail = document.getElementById('cancelaEmail')
   const usuario = document.querySelector('.usuario')
+  const resultados = document.getElementById('resultados')
   cancelaEmail.addEventListener('click', ()=>{
     trocar.classList.remove('aberto')
     trocar.classList.add('fechado')
@@ -38,6 +39,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const formData = new FormData(form)
   const email = formData.get('email');
   const password = formData.get('password');
+  const loginError = document.createElement('small')
   try {
     const response = await fetch('/auth/login', {
       method: 'POST',
@@ -64,18 +66,26 @@ document.addEventListener('DOMContentLoaded', ()=>{
         trocar.classList.add('fechado')
         recuperar.close()
         trocar.close()
+        resultados.close()
         const nome = user.name.replace(/(^\w{1})|(\s+\w{1})/g, letra => letra.toUpperCase())
         console.log(nome, 'Logado com Sucesso');
         usuario.innerText = `${nome} fez:`
         cadastro.close()
         login.classList.add('fechado')
-      }
+      } 
       } else {
+        loginError.innerText = 'E-mail e/ou senha Errados, tente novamente'
+        loginError.style.color = 'red'
+        loginError.style.margin = 0
+        form.insertBefore(loginError, esqueceu)
         console.error('Erro ao receber o Token');
       }
   } catch (error) {
-    console.error('Erro ao enviar os dados do formulário', error);
-  }
+      loginError.innerText = 'E-mail e/ou senha Errados, tente novamente'
+      loginError.style.color = 'red'
+      form.insertBefore(loginError, esqueceu)
+      console.error('Erro ao enviar os dados do formulário', error);
+    }
  }
  confirmLogin.addEventListener('click', fazerLogin)
  senha.addEventListener('keypress', (e)=>{
