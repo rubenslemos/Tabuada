@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const email = formData.get('email');
   const password = formData.get('password');
   const loginError = document.createElement('small')
+  loginError.classList.add('erroLogin')
   try {
     const response = await fetch('/auth/login', {
       method: 'POST',
@@ -74,16 +75,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
         login.classList.add('fechado')
       } 
       } else {
+        const errorExistente = form.querySelector('.erroLogin');
+        if (errorExistente) errorExistente.remove();
         loginError.innerText = 'E-mail e/ou senha Errados, tente novamente'
-        loginError.style.color = 'red'
-        loginError.style.margin = 0
         form.insertBefore(loginError, esqueceu)
         console.error('Erro ao receber o Token');
       }
   } catch (error) {
-      loginError.innerText = 'E-mail e/ou senha Errados, tente novamente'
-      loginError.style.color = 'red'
-      form.insertBefore(loginError, esqueceu)
       console.error('Erro ao enviar os dados do formulário', error);
     }
  }

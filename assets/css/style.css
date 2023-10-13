@@ -694,3 +694,8 @@ nav{
   height: 100%;
   background: url(/img/math2.jpg) no-repeat center center;
 }
+
+.erroLogin{
+  color: red;
+  margin: 0px;
+}
