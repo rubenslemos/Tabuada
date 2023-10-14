@@ -73,13 +73,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
         usuario.innerText = `${nome} fez:`
         cadastro.close()
         login.classList.add('fechado')
-      } 
+      }
       } else {
         const errorExistente = form.querySelector('.erroLogin');
         if (errorExistente) errorExistente.remove();
         loginError.innerText = 'E-mail e/ou senha Errados, tente novamente'
         form.insertBefore(loginError, esqueceu)
-        console.error('Erro ao receber o Token');
       }
   } catch (error) {
       console.error('Erro ao enviar os dados do formulário', error);
@@ -133,7 +132,11 @@ async function alterarSenha (e) {
   const token = formData.get('token')
   const password = formData.get('passwordAlterar')
   const confirmPass = formData.get('ConfirmPasswordAlterar')
-  console.log(formData)
+  const erroSenha = formAlterar.querySelector('.btnAlterarSenha')
+  const trocarSenhaError = document.createElement('small')
+  trocarSenhaError.classList.add('senhaError')
+  const trocarSenhaOk = document.createElement('small')
+  trocarSenhaOk.classList.add('senhaOk')
     try {
       const response = await fetch('/auth/login/reset_password', {
         method: 'POST',
@@ -143,11 +146,28 @@ async function alterarSenha (e) {
         body: JSON.stringify({ email, token, password }),
       });
       response.statusCode
-      if (response.status === 200) {
-        alert('Senha Alterada')
-        recuperar.close()
-      } else {
-        alert('Erro ao recuperar senha')
+      if (response.status === 200 && password===confirmPass) {
+        const errorExistente = formAlterar.querySelector('.senhaError');
+        const okExistente = formAlterar.querySelector('.senhaOk');
+        if (errorExistente) errorExistente.remove();
+        if (okExistente) okExistente.remove();
+        trocarSenhaOk.innerText = 'Senha Alterada'
+        formAlterar.insertBefore(trocarSenhaOk, erroSenha)
+        setTimeout(() => {
+          trocarSenhaOk.remove();
+          recuperar.close()
+        }, 5000);
+      } else if (response.status !== 200) {
+        const errorExistente = formAlterar.querySelector('.senhaError');
+        if (errorExistente) errorExistente.remove();
+        trocarSenhaError.innerText = 'Erro ao recuperar senha'
+        formAlterar.insertBefore(trocarSenhaError, erroSenha)
+        console.error('Erro ao recuperar senha')
+      } else if (password!==confirmPass) {
+        const errorExistente = formAlterar.querySelector('.senhaError');
+        if (errorExistente) errorExistente.remove();
+        trocarSenhaError.innerText = 'Senhas digitadas não são iguais'
+        formAlterar.insertBefore(trocarSenhaError, erroSenha)
         console.error('Erro ao recuperar senha')
       }
     } catch (error) {

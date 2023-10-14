@@ -124,8 +124,8 @@
           <p>Senha</p>
 					<input type="password" name="passwordAlterar" id="passwordAlterar" placeholder="Digite sua senha" value="">
           <p>Confirmar Senha</p>
-					<input type="password" name="ConfirmPassword" id="ConfirmPasswordAlterar" placeholder="Confirme sua senha" value="">
-					<div>
+					<input type="password" name="ConfirmPasswordAlterar" id="ConfirmPasswordAlterar" placeholder="Confirme sua senha" value="">
+					<div class="btnAlterarSenha">
 						<input type="button" id="voltarSenha" value="Voltar">
 						<input type="button" id="alterarSenha" value="ALterar">
 					</div>
@@ -164,7 +164,7 @@
 				<section class="container">
 					<h1>Cadastro de Usuários</h1>
 					<form action="/auth/register" class="tabuada largura" method="post" enctype="application/x-www-form-urlencoded" id="usuario">
-						<p>Você é?</p>
+						<p id="cadastrar">Você é?</p>
 						<select name="tipo" id="tipo">
 							<option value="Professor">Professor</option>
 							<option value="Aluno">Aluno</option>
@@ -174,9 +174,9 @@
 						<p>E-mail</p>
 						<input type="email" name="email" id="email" placeholder="Digite seu e-mail" value="">
 						<p>Senha</p>
-						<input type="password" name="password" id="password" placeholder="Senha" value="">
+						<input type="password" name="password" id="password" placeholder="Senha" value="" title="A senha deve ter de 8 a 20 caracteres, pelo menos 1 Letra maiúscula, 1 letra minúscula, 1 nº e 1 caractere especial">
 						<p>Confirmar Senha</p>
-						<input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirme sua senha" value="">
+						<input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirme sua senha" value="" title="A senha deve ter de 8 a 20 caracteres, pelo menos 1 Letra maiúscula, 1 letra minúscula, 1 nº e 1 caractere especial">
 						<div class="cadastrar">
 							<input type="button" id="cancelar" value="CANCELAR">
 							<input type="button" id="enviarFormulario" value="OK">

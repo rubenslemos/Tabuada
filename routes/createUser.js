@@ -46,13 +46,13 @@ router.post('/', async (req,res)=>{
         password      
       })
       await user.save()
+      res.status(201).json({Msg: 'Cadastrado com sucesso'})
       res.status(201).send({
         user,
         token: generateToken({id:user.id}), 
       })
     } catch (error) {
-      console.log(error)
-      res.status(500).json({msg: 'Erro no servidor, tente em alguns minutos'})
+        res.status(500).json({msg: 'Erro no servidor, tente em alguns minutos'})
     }
   }
 })

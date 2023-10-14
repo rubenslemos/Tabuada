@@ -695,7 +695,12 @@ nav{
   background: url(/img/math2.jpg) no-repeat center center;
 }
 
-.erroLogin{
+.erroLogin, .senhaError{
   color: red;
-  margin: 0px;
+  margin: 0;
+}
+
+.senhaOk{
+  color: green;
+  margin: 0;
 }

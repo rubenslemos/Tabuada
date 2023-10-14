@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const desempenho = document.getElementById('desempenho')
   const resultados = document.getElementById('resultados')
   const fecharResultados = document.createElement('button')
+  const erroCadastro = document.getElementById('cadastrar')
   resultados.open = false
   cancelar.addEventListener('click', ()=> {
     cadastro.classList.add('fechado')
@@ -17,13 +18,17 @@ document.addEventListener("DOMContentLoaded", function () {
   })
   async function criarUsuario (e) {
     e.preventDefault()
-    const formData = new FormData(form);
-    const tipo = formData.get('tipo');
-    const name = formData.get('name');
-    const email = formData.get('email');
-    const password = formData.get('password');
-    const confirmPassword = formData.get('confirmPassword');
-
+    const formData = new FormData(form)
+    const tipo = formData.get('tipo')
+    const name = formData.get('name')
+    const email = formData.get('email')
+    const password = formData.get('password')
+    const confirmPassword = formData.get('confirmPassword')
+    const cadastroError = document.createElement('small')
+    cadastroError.classList.add('senhaError')
+    const cadastroOk = document.createElement('small')
+    cadastroOk.classList.add('senhaOk')
+   
     try {
       const response = await fetch('/auth/register', {
         method: 'POST',
@@ -31,21 +36,40 @@ document.addEventListener("DOMContentLoaded", function () {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ tipo, name, email, password, confirmPassword }),
-      });
-
+      })
+      const data = await response.json()
+      mensagem = data.Msg
       if (response.status === 201) {
-        cadastro.classList.add('fechado')
-        cadastro.close()
-        login.classList.remove('fechado')
-        console.log('Usuário criado com sucesso');
-      } else {
-        console.error('Erro ao criar usuário');
+        mostrarMsgSucesso(mensagem)
+      }else {
+        mostrarMsgErro(mensagem)
       }
     } catch (error) {
-      console.error('Erro ao enviar os dados do formulário', error);
+      console.error('Erro ao enviar os dados do formulário', error)
     }
   };
-
+  function mostrarMsgSucesso(mensagem) {
+    const mensagemSucesso = document.createElement('small')
+    mensagemSucesso.classList.add('senhaOk')
+    mensagemSucesso.innerHTML = mensagem
+    form.insertBefore(mensagemSucesso, erroCadastro)
+    setTimeout(() => {
+      cadastro.classList.add('fechado')
+      cadastro.close()
+      login.classList.remove('fechado')
+      mensagemSucesso.remove()
+    }, 5000);
+  }
+  
+  function mostrarMsgErro(mensagem) {
+    const mensagemErro = document.createElement('small')
+    mensagemErro.classList.add('senhaError')
+    mensagemErro.innerHTML = mensagem
+    form.insertBefore(mensagemErro, erroCadastro)
+    setTimeout(()=>{
+      mensagemErro.remove()
+    },5000)
+  }
   enviarBotao.addEventListener('click', criarUsuario)
   enviar.addEventListener('keypress', (e)=>{
     if(e.key === 'Enter'){
