@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const cancelaEmail = document.getElementById('cancelaEmail')
   const usuario = document.querySelector('.usuario')
   const resultados = document.getElementById('resultados')
+  const erroSenha = formAlterar.querySelector('.btnAlterarSenha')
+
   cancelaEmail.addEventListener('click', ()=>{
     trocar.classList.remove('aberto')
     trocar.classList.add('fechado')
@@ -132,48 +134,67 @@ async function alterarSenha (e) {
   const token = formData.get('token')
   const password = formData.get('passwordAlterar')
   const confirmPass = formData.get('ConfirmPasswordAlterar')
-  const erroSenha = formAlterar.querySelector('.btnAlterarSenha')
-  const trocarSenhaError = document.createElement('small')
-  trocarSenhaError.classList.add('senhaError')
-  const trocarSenhaOk = document.createElement('small')
-  trocarSenhaOk.classList.add('senhaOk')
+
     try {
       const response = await fetch('/auth/login/reset_password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, token, password }),
+        body: JSON.stringify({ email, token, password, confirmPass }),
       });
-      response.statusCode
-      if (response.status === 200 && password===confirmPass) {
-        const errorExistente = formAlterar.querySelector('.senhaError');
-        const okExistente = formAlterar.querySelector('.senhaOk');
-        if (errorExistente) errorExistente.remove();
-        if (okExistente) okExistente.remove();
-        trocarSenhaOk.innerText = 'Senha Alterada'
-        formAlterar.insertBefore(trocarSenhaOk, erroSenha)
-        setTimeout(() => {
-          trocarSenhaOk.remove();
-          recuperar.close()
-        }, 5000);
-      } else if (response.status !== 200) {
-        const errorExistente = formAlterar.querySelector('.senhaError');
-        if (errorExistente) errorExistente.remove();
-        trocarSenhaError.innerText = 'Erro ao recuperar senha'
-        formAlterar.insertBefore(trocarSenhaError, erroSenha)
-        console.error('Erro ao recuperar senha')
-      } else if (password!==confirmPass) {
-        const errorExistente = formAlterar.querySelector('.senhaError');
-        if (errorExistente) errorExistente.remove();
-        trocarSenhaError.innerText = 'Senhas digitadas não são iguais'
-        formAlterar.insertBefore(trocarSenhaError, erroSenha)
-        console.error('Erro ao recuperar senha')
+      const data = await response.json()
+      const mensagem = data.Msg
+      if (response.status === 200) {
+        mostrarMsgSucesso(mensagem)
+      }else {
+        mostrarMsgErro(mensagem)
       }
     } catch (error) {
       console.error('Erro ao enviar os dados do formulário', error);
     }
-   }
+  }
+  function mostrarMsgSucesso(mensagem) {
+    const mensagemSucesso = document.createElement('small')
+    mensagemSucesso.classList.add('senhaOk')
+    mensagemSucesso.innerHTML = mensagem
+    formAlterar.insertBefore(mensagemSucesso, erroSenha)
+    setTimeout(() => {
+      mensagemSucesso.remove();
+      recuperar.close()
+    }, 5000);
+  }
+  
+  function mostrarMsgErro(mensagem) {
+    const mensagemErro = document.createElement('small')
+    mensagemErro.classList.add('senhaError')
+    mensagemErro.innerHTML = mensagem
+    formAlterar.insertBefore(mensagemErro, erroSenha)
+    setTimeout(()=>{
+      mensagemErro.remove()
+    },5000)
+  }
+  /* if (response.status === 200 ) {
+    const errorExistente = formAlterar.querySelector('.senhaError');
+    const okExistente = formAlterar.querySelector('.senhaOk');
+    if (errorExistente) errorExistente.remove();
+    if (okExistente) okExistente.remove();
+    trocarSenhaOk.innerText = 'Senha Alterada'
+    formAlterar.insertBefore(trocarSenhaOk, erroSenha)
+
+  } else if (response.status !== 200) {
+    const errorExistente = formAlterar.querySelector('.senhaError');
+    if (errorExistente) errorExistente.remove();
+    trocarSenhaError.innerText = 'Erro ao recuperar senha'
+    formAlterar.insertBefore(trocarSenhaError, erroSenha)
+    console.error('Erro ao recuperar senha')
+  } else if (password!==confirmPass) {
+    const errorExistente = formAlterar.querySelector('.senhaError');
+    if (errorExistente) errorExistente.remove();
+    trocarSenhaError.innerText = 'Senhas digitadas não são iguais'
+    formAlterar.insertBefore(trocarSenhaError, erroSenha)
+    console.error('Erro ao recuperar senha')
+  } */
 alterar.addEventListener('click', alterarSenha)
 confirmAlterar.addEventListener('keypress', (e)=>{
   if(e.key === 'Enter') alterarSenha(e)

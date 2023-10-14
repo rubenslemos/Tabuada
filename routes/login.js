@@ -77,27 +77,41 @@ router.post('/forgot_password', async (req, res)=>{
 })
 
 router.post('/reset_password', async (req, res) => {
-  const { email, token, password } = req.body
+  const { email, token, password, confirmPass } = req.body
 
   try {
-    const usuario = await User.findOne({email}).select('+ passwordResetToken passwordResetExpires')
+    const usuario = await User.findOne({email}).select('+ passwordResetToken passwordResetExpires password')
     if(!usuario) 
-      return res.status(400).send({error:'Usuário não existe'})
+      return res.status(400).send({Msg:'Usuário não existe'})
 
     if(token !== usuario.passwordResetToken)
-      return res.status(400).send({error:'Token Inválido'})
+      return res.status(400).send({Msg:'Token Inválido'})
+    if(!confirmPass)
+      return res.status(422).json({Msg: 'Confirmação de senha requerida'})
+    
+    if(password !== confirmPass)
+      return res.status(422).json({Msg: 'Confirmação de senha e Senha diferentes'})
 
     const now = new Date()
     if(now >= usuario.passwordResetExpires)
-      return res.status(400).send({error:'Token Expirou, favor gerar um novo'})
- 
+      return res.status(400).send({Msg:'Token Expirou, favor gerar um novo'})
+
+    const regex = /^(?=.*[@!#$%^&*()/\\])(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[@!#$%^&*()/\\a-zA-Z0-9]{8,20}$/
+    if (!regex.test(password)){
+      return res.status(422).json({Msg: 'Senha não segue as condições estabelecidas'})
+    }
+    let compararSenha = await bcrypt.compare(password, usuario.password)
+    if(compararSenha){
+      return res.status(422).json({Msg: 'Senha já usada anteriormente'})
+    }
     usuario.password = password
 
     await usuario.save()
-    res.send({msg: 'Senha alterada'})
+    res.send({Msg: 'Senha alterada'})
     
   } catch (error) {
-    return res.status(400).send({error: 'Não foi possível recuperar sua senha, tente novamente'})
+    
+    return res.status(400).send({Msg: 'Não foi possível recuperar sua senha, tente novamente'})
   }
 })
 router.get('/:id', async (req,res)=>{
