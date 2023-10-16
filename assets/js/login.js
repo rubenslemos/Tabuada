@@ -20,7 +20,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const usuario = document.querySelector('.usuario')
   const resultados = document.getElementById('resultados')
   const erroSenha = formAlterar.querySelector('.btnAlterarSenha')
-
+  const nav = document.querySelector('.nav-list')
+  const acompanhamento = document.getElementById('acompanhamento')
   cancelaEmail.addEventListener('click', ()=>{
     trocar.classList.remove('aberto')
     trocar.classList.add('fechado')
@@ -55,6 +56,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
       const { user, token } = await response.json()
       localStorage.setItem('token', token);
       localStorage.setItem('userId', user._id);
+      localStorage.setItem('tipoUsuario', user.tipo)
       const resAuth = await fetch ('/auth/login/token',{
         method: 'POST',
         headers:{
@@ -71,10 +73,21 @@ document.addEventListener('DOMContentLoaded', ()=>{
         trocar.close()
         resultados.close()
         const nome = user.name.replace(/(^\w{1})|(\s+\w{1})/g, letra => letra.toUpperCase())
-        console.log(nome, 'Logado com Sucesso');
         usuario.innerText = `${nome} fez:`
         cadastro.close()
         login.classList.add('fechado')
+        if (user.tipo === 'Professor'){
+          const li = document.createElement('li')
+          li.setAttribute('class', 'menu')
+          li.setAttribute('id', 'controle')
+          li.setAttribute('style',"animation: 0.3s ease 0.7s 1 normal forwards running navLinkFade")
+          const permissao = document.createElement('a')
+          permissao.setAttribute('href', '#')
+          permissao.setAttribute('id', 'permissao')
+          permissao.innerText = 'Permissão'
+          li.appendChild(permissao)
+          nav.insertBefore(li, acompanhamento)
+        }
       }
       } else {
         const errorExistente = form.querySelector('.erroLogin');
@@ -174,27 +187,7 @@ async function alterarSenha (e) {
       mensagemErro.remove()
     },5000)
   }
-  /* if (response.status === 200 ) {
-    const errorExistente = formAlterar.querySelector('.senhaError');
-    const okExistente = formAlterar.querySelector('.senhaOk');
-    if (errorExistente) errorExistente.remove();
-    if (okExistente) okExistente.remove();
-    trocarSenhaOk.innerText = 'Senha Alterada'
-    formAlterar.insertBefore(trocarSenhaOk, erroSenha)
 
-  } else if (response.status !== 200) {
-    const errorExistente = formAlterar.querySelector('.senhaError');
-    if (errorExistente) errorExistente.remove();
-    trocarSenhaError.innerText = 'Erro ao recuperar senha'
-    formAlterar.insertBefore(trocarSenhaError, erroSenha)
-    console.error('Erro ao recuperar senha')
-  } else if (password!==confirmPass) {
-    const errorExistente = formAlterar.querySelector('.senhaError');
-    if (errorExistente) errorExistente.remove();
-    trocarSenhaError.innerText = 'Senhas digitadas não são iguais'
-    formAlterar.insertBefore(trocarSenhaError, erroSenha)
-    console.error('Erro ao recuperar senha')
-  } */
 alterar.addEventListener('click', alterarSenha)
 confirmAlterar.addEventListener('keypress', (e)=>{
   if(e.key === 'Enter') alterarSenha(e)

@@ -1,5 +1,29 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
+
+const PermissoesSchema = new mongoose.Schema({
+  soma: {
+      type: Boolean,
+      default: false,
+  },
+  menos: {
+      type: Boolean,
+      default: false,
+  },
+  vezes: {
+      type: Boolean,
+      default: false,
+  },
+  dividir: {
+      type: Boolean,
+      default: false,
+  },
+  todas: {
+    type: Boolean,
+    default: false,
+},
+});
+
 const UserSchema = new mongoose.Schema({
   tipo:{
     type: String,
@@ -31,6 +55,16 @@ const UserSchema = new mongoose.Schema({
   passwordResetExpires:{
     type: Date,
     select: false,
+  },
+  permissoes: {
+    type: PermissoesSchema,
+    default: {
+        soma: false,
+        menos: false,
+        vezes: false,
+        dividir: false,
+        todas: false,
+    },
   },
   createdAt: {
     type:Date,

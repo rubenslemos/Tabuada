@@ -31,3 +31,6 @@ app.use('/auth/login', login)
 
 const round = require('./routes/round')
 app.use('/round', round)
+
+const acessos = require('./routes/permissoes')
+app.use('/acessos', acessos)
