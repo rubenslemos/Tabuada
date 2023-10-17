@@ -10,9 +10,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const resultados = document.getElementById('resultados')
   const fecharResultados = document.createElement('button')
   const erroCadastro = document.getElementById('cadastrar')
-  const permitir = document.getElementById('formPermissoes')
 
   resultados.open = false
+ 
   cancelar.addEventListener('click', ()=> {
     cadastro.classList.add('fechado')
     cadastro.close()
@@ -174,48 +174,4 @@ document.addEventListener("DOMContentLoaded", function () {
     fecharResultados.addEventListener('click', ()=>{
       resultados.close()
     })
-
-permitir.addEventListener('submit', acesso(e))
-
-async function acesso (e) {
-  e.preventDefault();
-
-  const soma = document.getElementById('soma').checked || false
-  const menos = document.getElementById('menos').checked || false
-  const vezes = document.getElementById('vezes').checked || false
-  const dividir = document.getElementById('dividir').checked || false
-  const todas = document.getElementById('todas').checked || false
-
-  const tipoUsuario = localStorage.getItem('tipoUsuario');
-  
-  const acessos = { soma, menos, vezes, dividir, todas };
-
-  try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-          console.error('Token de autenticação não encontrado.');
-          return;
-      }
-
-      const response = await fetch('/acessos', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`, // Adicione o token de autorização, se necessário
-          },
-          body: JSON.stringify({ tipoUsuario, acessos }),
-      });
-
-      // Processar a resposta do servidor, se necessário
-      if (response.status === 200) {
-          console.log('Permissões concedidas com sucesso');
-      } else {
-          const data = await response.json();
-          console.error('Erro ao conceder permissões:', data.message);
-      }
-  } catch (error) {
-      console.error('Erro ao enviar solicitação:', error);
-  }
-}
-  
 })

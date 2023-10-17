@@ -9,7 +9,6 @@ const pass = process.env.DB_PASS
 const port = process.env.PORT
 const host = process.env.HOST
 
-
 app.use(express.static(__dirname + "/assets"))
 app.use(bodyParser.json())
 app.get('/', (req, res) =>{

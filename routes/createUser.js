@@ -39,11 +39,30 @@ router.post('/', async (req,res)=>{
     }
 
     try {
+      let permissoes = {};
+      if (tipo === 'Professor') {
+          permissoes = {
+              soma: true,
+              menos: true,
+              vezes: true,
+              dividir: true,
+              todas: true,
+          };
+      } else if (tipo === 'Aluno') {
+          permissoes = {
+              soma: true,
+              menos: false,
+              vezes: false,
+              dividir: false,
+              todas: false,
+          };
+      }
       const user = await User.create({
         tipo,
         name: name.toLowerCase().trim(),
         email: email.toLowerCase().trim(),
-        password      
+        password,
+        permissoes      
       })
       await user.save()
       res.status(201).json({Msg: 'Cadastrado com sucesso'})
@@ -56,5 +75,18 @@ router.post('/', async (req,res)=>{
     }
   }
 })
+router.get('/', async (req, res) => {
+  try {
+    
+    const users = await User.find().populate('rounds')
+    if(!users){
+      res.status(422).json({error: 'Não há usuários cadastrados.'})
+      return
+    }
+    res.status(200).json(users)
 
+  } catch (error) {
+    res.status(500).json({error: error})
+  }
+})
 module.exports = router

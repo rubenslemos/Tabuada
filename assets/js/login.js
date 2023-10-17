@@ -22,6 +22,23 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const erroSenha = formAlterar.querySelector('.btnAlterarSenha')
   const nav = document.querySelector('.nav-list')
   const acompanhamento = document.getElementById('acompanhamento')
+  const gerirAcessos = document.getElementById('acessos')
+  const li = document.createElement('li')
+  const permissao = document.createElement('a')
+
+  li.setAttribute('class', 'menu')
+  li.setAttribute('id', 'controle')
+  li.setAttribute('style',"animation: 0.3s ease 0.7s 1 normal forwards running navLinkFade")
+  permissao.setAttribute('href', '#')
+  permissao.setAttribute('id', 'permissao')
+  permissao.innerText = 'Permissão'
+  li.appendChild(permissao)
+
+  permissao.addEventListener('click', (e)=>{
+    e.preventDefault()
+    listarUsers()
+    gerirAcessos.showModal()
+  })
   cancelaEmail.addEventListener('click', ()=>{
     trocar.classList.remove('aberto')
     trocar.classList.add('fechado')
@@ -43,6 +60,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const email = formData.get('email');
   const password = formData.get('password');
   const loginError = document.createElement('small')
+  const menuSoma = document.getElementById('menu-soma')
+  const menuMenos = document.getElementById('menu-menos')
+  const menuVezes = document.getElementById('menu-vezes')
+  const menuDividir = document.getElementById('menu-dividir')
+  const menuTodas = document.getElementById('menu-todas')
   loginError.classList.add('erroLogin')
   try {
     const response = await fetch('/auth/login', {
@@ -77,17 +99,18 @@ document.addEventListener('DOMContentLoaded', ()=>{
         cadastro.close()
         login.classList.add('fechado')
         if (user.tipo === 'Professor'){
-          const li = document.createElement('li')
-          li.setAttribute('class', 'menu')
-          li.setAttribute('id', 'controle')
-          li.setAttribute('style',"animation: 0.3s ease 0.7s 1 normal forwards running navLinkFade")
-          const permissao = document.createElement('a')
-          permissao.setAttribute('href', '#')
-          permissao.setAttribute('id', 'permissao')
-          permissao.innerText = 'Permissão'
-          li.appendChild(permissao)
           nav.insertBefore(li, acompanhamento)
+          user.permissoes.soma = true
+          user.permissoes.menos = true
+          user.permissoes.vezes = true
+          user.permissoes.dividir = true
+          user.permissoes.todas = true
         }
+        if (user.permissoes.soma === false) menuSoma.classList.add('fechado')
+        if (user.permissoes.menos === false) menuMenos.classList.add('fechado')
+        if (user.permissoes.vezes === false) menuVezes.classList.add('fechado')
+        if (user.permissoes.dividir === false) menuDividir.classList.add('fechado')
+        if (user.permissoes.todas === false) menuTodas.classList.add('fechado')
       }
       } else {
         const errorExistente = form.querySelector('.erroLogin');
@@ -192,7 +215,80 @@ alterar.addEventListener('click', alterarSenha)
 confirmAlterar.addEventListener('keypress', (e)=>{
   if(e.key === 'Enter') alterarSenha(e)
 })
+async function listarUsers() {
+  const alunosSelect = document.getElementById('alunos')
+  try {
+    const response = await fetch('/auth/register', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if (response.ok) {
+        const alunos = await response.json();
+
+        alunos.forEach(aluno => {
+          if (aluno.tipo === 'Aluno') {
+            const option = document.createElement('option');
+            option.value = aluno._id;
+            option.text = aluno.name; 
+            alunosSelect.appendChild(option);
+          }
+        });
+    } else {
+        console.error('Erro ao obter a lista de alunos');
+    }
+} catch (error) {
+    console.error('Erro ao enviar solicitação:', error);
+}
+}
+const permitir = document.getElementById('formPermissoes')
+  permitir.addEventListener('submit', async function acesso (e) {
+    e.preventDefault();
+   
+    const alunoId = document.getElementById('alunos').value;
+    const soma = document.getElementById('somaAcesso').checked || false
+    const menos = document.getElementById('menosAcesso').checked || false
+    const vezes = document.getElementById('vezesAcesso').checked || false
+    const dividir = document.getElementById('dividirAcesso').checked || false
+    const todas = document.getElementById('todasAcesso').checked || false
+  
+    const tipoUsuario = localStorage.getItem('tipoUsuario');
+    
+    const acessos = { soma, menos, vezes, dividir, todas };
+  
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.error('Token de autenticação não encontrado.');
+            return;
+        }
+  
+        const response = await fetch('/acessos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`, // Adicione o token de autorização, se necessário
+            },
+            body: JSON.stringify({ alunoId, tipoUsuario, acessos }),
+        });
+  
+        // Processar a resposta do servidor, se necessário
+        if (response.status === 200) {
+            gerirAcessos.close()
+            console.log('Permissões concedidas com sucesso');
+        } else {
+            const data = await response.json();
+            console.error('Erro ao conceder permissões:', data.message);
+        }
+    } catch (error) {
+        console.error('Erro ao enviar solicitação:', error);
+    }
+  })
 })
+
+
 
 
 
