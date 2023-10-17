@@ -629,7 +629,7 @@ nav{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 40px calc((100% - (255px * 5)) / 2);
+  padding: 40px calc((100% - (255px * 6)) / 2);
 }
 .rodada{
   width: 100%;
