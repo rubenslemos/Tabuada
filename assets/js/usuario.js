@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const resultados = document.getElementById('resultados')
   const fecharResultados = document.createElement('button')
   const erroCadastro = document.getElementById('cadastrar')
-
+  const divResultado = document.createElement('div');
   resultados.open = false
  
   cancelar.addEventListener('click', ()=> {
@@ -83,16 +83,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const containerSection = containerResultado.querySelector('.containerResultados')
     const resultadosSection = containerSection.querySelector('.resultados')
     let aproveitamento
-    resultadosSection.innerHTML = ''
+    containerSection.insertBefore(divResultado, resultadosSection);
+   resultadosSection.innerHTML = ''
 
-   const tituloExistente = containerSection.querySelector('h1');
-   if (tituloExistente) {
-     tituloExistente.remove();
-   }
+   const tituloPreenchido = containerSection.querySelector('h3')
 
-   const titulo = document.createElement('h1');
-   titulo.innerText = `Resultados: ${user.name.replace(/(^\w{1})|(\s+\w{1})/g, letra => letra.toUpperCase())}`;
-   containerSection.insertBefore(titulo, resultadosSection);
+    if (tituloPreenchido) {
+      tituloPreenchido.remove();
+    }
+   let titulo
+     titulo = document.createElement('h3')
+     titulo.setAttribute('id', 'titulo')
+     titulo.innerText = 'Resultados'
+     containerSection.insertBefore(titulo, divResultado);
+
 
    fecharResultados.classList.add('btn', 'btnFechar');
    fecharResultados.innerText = 'Fechar';
@@ -150,14 +154,51 @@ document.addEventListener("DOMContentLoaded", function () {
       if(response.status === 201){
         const userData = await response.json()
         const user = userData.user
+        console.log(user)
         preencherResultadosNoHTML(user);
-      } else {
-        console.error('Erro ao obter dados do usuário');
-      }
-      
-    } catch (error) { 
+        if (user.tipo === 'Professor') {
+          try {
+            const response = await fetch('/auth/register', {
+                method: 'GET',
+            });
+
+            if (response.status === 200) {
+                const usersData = await response.json();
+                const users = usersData;
+          const containerResultados = document.querySelector('.containerResultados');
+
+          // Cria a seção de resultados dinamicamente
+          
+          divResultado.className = 'resultadoDiv';
+          divResultado.innerHTML = `
+          <label for="alunos" class="labelResultado">Selecione um Usuario:</label>
+          <select id="alunos" name="alunos" class="listaResultados">
+          ${users.map(user => `<option value="${user._id}">${user.name}</option>`).join('')}
+          </select>
+          `;
+          const result = document.querySelector('.resultados')
+          containerResultados.insertBefore(divResultado, result);
+          const selectAlunos = document.getElementById('alunos')
+          selectAlunos.addEventListener('change', function() {
+            const selectedUserId = selectAlunos.value;
+            const selectedUser = users.find(user => user._id === selectedUserId)
+            console.log(selectedUser)
+            preencherResultadosNoHTML(selectedUser);
+        });
+        } else {
+          console.error('Erro ao obter dados do usuário');
+        }
+      }catch (error) { 
         console.error('Erro ao obter dados do usuário', error);
     }}
+  } else {
+      console.error('Erro ao obter dados do usuário');
+  }
+} catch (error) {
+  console.error('Erro ao obter dados do usuário', error);
+}
+}
+      
 
     desempenho.addEventListener('click', async (e) =>{
       e.preventDefault()
