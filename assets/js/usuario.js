@@ -50,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error('Erro ao enviar os dados do formulário', error)
     }
   };
+
   function mostrarMsgSucesso(mensagem) {
     const mensagemSucesso = document.createElement('small')
     mensagemSucesso.classList.add('senhaOk')
@@ -72,80 +73,92 @@ document.addEventListener("DOMContentLoaded", function () {
       mensagemErro.remove()
     },5000)
   }
+
   enviarBotao.addEventListener('click', criarUsuario)
+
   enviar.addEventListener('keypress', (e)=>{
     if(e.key === 'Enter'){
       criarUsuario(e)
     }
   })
+  
   function preencherResultadosNoHTML(user) {
     const containerResultado = document.querySelector('.containerResultado')
     const containerSection = containerResultado.querySelector('.containerResultados')
     const resultadosSection = containerSection.querySelector('.resultados')
     let aproveitamento
     containerSection.insertBefore(divResultado, resultadosSection);
-   resultadosSection.innerHTML = ''
+    resultadosSection.innerHTML = ''
 
-   const tituloPreenchido = containerSection.querySelector('h3')
+    const tituloPreenchido = containerSection.querySelector('h3')
 
     if (tituloPreenchido) {
       tituloPreenchido.remove();
     }
-   let titulo
-     titulo = document.createElement('h3')
-     titulo.setAttribute('id', 'titulo')
-     titulo.innerText = 'Resultados'
-     containerSection.insertBefore(titulo, divResultado);
+    let titulo
+    titulo = document.createElement('h3')
+    titulo.setAttribute('id', 'titulo')
+    titulo.innerText = 'Resultados'
+    containerSection.insertBefore(titulo, divResultado);
 
+    fecharResultados.classList.add('btn', 'btnFechar');
+    fecharResultados.innerText = 'Fechar';
+    containerSection.appendChild(fecharResultados);
 
-   fecharResultados.classList.add('btn', 'btnFechar');
-   fecharResultados.innerText = 'Fechar';
-   containerSection.appendChild(fecharResultados);
+    if(user.rounds.length === 0) {
+      const mensagemDiv = document.createElement('div')
+      mensagemDiv.classList.add('mensagemDiv')
+      const mensagem = document.createElement('p')
+      mensagem.classList.add('mensagem')
+      mensagem.innerText = 'Ainda não existem rodadas para este usuário'
+      mensagemDiv.appendChild(mensagem)
+      resultadosSection.appendChild(mensagemDiv)
+      return
+    }
 
     user.rounds.forEach((round, index) => {
-      if(round.jogou === undefined) round.jogou = 0
-      if(round.acerto === undefined) round.acerto = 0
-        if(round.errou === undefined) round.errou = 0
-        aproveitamento = ((100*round.acerto)/round.jogou).toFixed(0)
-        if (aproveitamento <= 0 || isNaN(aproveitamento)) aproveitamento = 0
-        const elemento1 = `Rodada ${index + 1}`
-        const elemento2 = `Jogou: ${round.jogou}`
-        const elemento3 = `Acertou: ${round.acerto}`
-        const elemento4 = `Errou: ${round.errou}`
-        const elemento5 = `Acertos (%): ${aproveitamento}`
+      if(round.jogou === undefined || round.jogou < 0) round.jogou = 0
+      if(round.acerto === undefined || round.acerto < 0) round.acerto = 0
+      if(round.errou === undefined || round.errou < 0) round.errou = 0
+      aproveitamento = ((100*round.acerto)/round.jogou).toFixed(0)
+      if (aproveitamento <= 0 || isNaN(aproveitamento)) aproveitamento = 0
+      const elemento1 = `Rodada ${index + 1}`
+      const elemento2 = `Jogou: ${round.jogou}`
+      const elemento3 = `Acertou: ${round.acerto}`
+      const elemento4 = `Errou: ${round.errou}`
+      const elemento5 = `Acertos (%): ${aproveitamento}`
 
-        const rodadaDiv = document.createElement('div')
-        rodadaDiv.classList.add('rodada')
+      const rodadaDiv = document.createElement('div')
+      rodadaDiv.classList.add('rodada')
 
-        const elemento1P = document.createElement('p')
-        elemento1P.classList.add('elemento')
-        elemento1P.textContent = elemento1
-        rodadaDiv.appendChild(elemento1P)
+      const elemento1P = document.createElement('p')
+      elemento1P.classList.add('elemento')
+      elemento1P.textContent = elemento1
+      rodadaDiv.appendChild(elemento1P)
 
-        const elemento2P = document.createElement('p')
-        elemento2P.classList.add('elemento')
-        elemento2P.textContent = elemento2
-        rodadaDiv.appendChild(elemento2P)
+      const elemento2P = document.createElement('p')
+      elemento2P.classList.add('elemento')
+      elemento2P.textContent = elemento2
+      rodadaDiv.appendChild(elemento2P)
 
-        const elemento3P = document.createElement('p')
-        elemento3P.classList.add('elemento')
-        elemento3P.textContent = elemento3
-        rodadaDiv.appendChild(elemento3P)
+      const elemento3P = document.createElement('p')
+      elemento3P.classList.add('elemento')
+      elemento3P.textContent = elemento3
+      rodadaDiv.appendChild(elemento3P)
         
-        const elemento4P = document.createElement('p')
-        elemento4P.classList.add('elemento')
-        elemento4P.textContent = elemento4
-        rodadaDiv.appendChild(elemento4P)
+      const elemento4P = document.createElement('p')
+      elemento4P.classList.add('elemento')
+      elemento4P.textContent = elemento4
+      rodadaDiv.appendChild(elemento4P)
         
-        const elemento5P = document.createElement('p')
-        elemento5P.classList.add('elemento')
-        elemento5P.textContent = elemento5
-        rodadaDiv.appendChild(elemento5P)
+      const elemento5P = document.createElement('p')
+      elemento5P.classList.add('elemento')
+      elemento5P.textContent = elemento5
+      rodadaDiv.appendChild(elemento5P)
         
-        resultadosSection.appendChild(rodadaDiv)
-      });
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-}
+      resultadosSection.appendChild(rodadaDiv)
+    });
+  }
   async function criaResultado (userId) {
     const response = await fetch (`/auth/login/${userId}`,{ 
       method: 'GET',
@@ -154,7 +167,6 @@ document.addEventListener("DOMContentLoaded", function () {
       if(response.status === 201){
         const userData = await response.json()
         const user = userData.user
-        console.log(user)
         preencherResultadosNoHTML(user);
         if (user.tipo === 'Professor') {
           try {
@@ -162,20 +174,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 method: 'GET',
             });
 
-            if (response.status === 200) {
-                const usersData = await response.json();
-                const users = usersData;
-          const containerResultados = document.querySelector('.containerResultados');
-
-          // Cria a seção de resultados dinamicamente
-          
-          divResultado.className = 'resultadoDiv';
-          divResultado.innerHTML = `
-          <label for="alunos" class="labelResultado">Selecione um Usuario:</label>
-          <select id="alunos" name="alunos" class="listaResultados">
-          ${users.map(user => `<option value="${user._id}">${user.name}</option>`).join('')}
-          </select>
-          `;
+          if (response.status === 200) {
+            const usersData = await response.json();
+            const users = usersData;
+            const containerResultados = document.querySelector('.containerResultados');
+        
+            divResultado.className = 'resultadoDiv';
+            divResultado.innerHTML = `
+              <label for="alunos" class="labelResultado">Selecione um Usuario:</label>
+              <select id="alunos" name="alunos" class="listaResultados">
+                ${users.map(user => `<option value="${user._id}">${user.name}</option>`).join('')}
+              </select>
+            `;
           const result = document.querySelector('.resultados')
           containerResultados.insertBefore(divResultado, result);
           const selectAlunos = document.getElementById('alunos')
@@ -184,35 +194,35 @@ document.addEventListener("DOMContentLoaded", function () {
             const selectedUser = users.find(user => user._id === selectedUserId)
             console.log(selectedUser)
             preencherResultadosNoHTML(selectedUser);
-        });
-        } else {
-          console.error('Erro ao obter dados do usuário');
-        }
-      }catch (error) { 
-        console.error('Erro ao obter dados do usuário', error);
+          });
+          } else {
+            console.error('Erro ao obter dados do usuário');
+          }
+    } catch (error) { 
+      console.error('Erro ao obter dados do usuário', error);
     }}
-  } else {
-      console.error('Erro ao obter dados do usuário');
+      } else {
+        console.error('Erro ao obter dados do usuário');
+      }
+    } catch (error) {
+        console.error('Erro ao obter dados do usuário', error);
+    }
   }
-} catch (error) {
-  console.error('Erro ao obter dados do usuário', error);
-}
-}
       
 
-    desempenho.addEventListener('click', async (e) =>{
-      e.preventDefault()
-      const userId = localStorage.getItem('userId')
+  desempenho.addEventListener('click', async (e) =>{
+    e.preventDefault()
+    const userId = localStorage.getItem('userId')
     
-      if(userId){
-        await criaResultado(userId)
-        resultados.showModal()
-      } else {
-        console.error('Usuário não encontrado')
-      }
-    })
+    if(userId){
+      await criaResultado(userId)
+      resultados.showModal()
+    } else {
+      console.error('Usuário não encontrado')
+    }
+  })
     
-    fecharResultados.addEventListener('click', ()=>{
-      resultados.close()
-    })
+  fecharResultados.addEventListener('click', ()=>{
+    resultados.close()
+  })
 })

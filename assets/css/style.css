@@ -761,10 +761,17 @@ nav{
   justify-content: end;
   display: flex;
   margin: 0 20px 0 20px;
+  color: var(--primary-color);
 }
 
 .listaAlunos {
   width: 50%;
+  font-size: 20px;
+  padding: 2px 4px;
+  background-color: #0000;
+  border-radius: 10px;
+  border: 1px solid;
+  color: var(--primary-color);
 }
 .checked {
   margin: 5px -85px;
@@ -777,14 +784,14 @@ nav{
   margin: 0px 115px 0px 10px;
 }
 
-.btnAcessos{
+.btnAcessos {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 30px;
+  font-size: 20px;
   padding: 10px 20px;
-  margin: auto;
-  width: 60%;
+  margin: 40px 15px 0 15px;
+  width: 100%;
 }
 
 .resultadoDiv {
@@ -814,4 +821,18 @@ nav{
   border-radius: 10px;
   box-shadow: 0 0 1em rgb(0 0 0 /.3);
   color: var(--primary-color);
+}
+
+.mensagem {
+  width: auto;
+  margin: 120px auto 270px auto;
+  padding: 20px;
+  font-size: 70px;
+}
+.btnDiv {
+  margin: 10px 0 0 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }

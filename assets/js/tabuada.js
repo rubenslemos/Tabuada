@@ -48,13 +48,22 @@ criarTabuada = ()=> {
     '09': 9,
     '10': 10,
   };
-  
+
   cociente = (valor) => {
-    const valorDenominador = denominadores[valor.slice(-2)] || getRandomNumber(1, 10);
-    numerador.innerHTML = getRandomNumber(0, 10);
+    let valorNumerador = getRandomNumber(0, 10);
+    let valorDenominador = denominadores[valor.slice(-2)] || getRandomNumber(1, 10);
+
+    if (valor.charAt(0) === "m") {
+        if (valorNumerador < valorDenominador) {
+            [valorNumerador, valorDenominador] = [valorDenominador, valorNumerador];
+        }
+    } else if (valor.charAt(0) === "d") {
+        valorNumerador = valorDenominador * getRandomNumber(1, 10);
+    }
+
+    numerador.innerHTML = valorNumerador;
     denominador.innerHTML = valorDenominador;
-  };
-  
+}
   
   criarSinal = (valor) => {
       const operador = document.createElement('i');
@@ -85,13 +94,13 @@ criarTabuada = ()=> {
     const operador = document.querySelector('.sinal i')
     let result
     if (valor.charAt(0)==="s") { result = num + den }
-    else if (valor.charAt(0)==="m") { result = num - den }
+    else if (valor.charAt(0)==="m") {result = num - den}
     else if (valor.charAt(0)==="v") { result = num * den }
     else if (valor.charAt(0)==="d") { result = num / den }
     else if (valor.charAt(0)==="t" && operador.classList.contains("fa-plus")) {result = num + den}
-    else if (valor.charAt(0)==="t" && operador.classList.contains("fa-minus")){ result = num - den}
+    else if (valor.charAt(0)==="t" && operador.classList.contains("fa-minus")){result = num - den}
     else if (valor.charAt(0)==="t" && operador.classList.contains("fa-times")) {result = num * den}
-    else if (valor.charAt(0) === "t" && operador.classList.contains("fa-divide")) { result = num / den }
+    else if (valor.charAt(0) === "t" && operador.classList.contains("fa-divide")) {result = num / den}
     return result
   }
   loopDeResultados = async() => {

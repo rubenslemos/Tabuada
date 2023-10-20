@@ -106,11 +106,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
           user.permissoes.dividir = true
           user.permissoes.todas = true
         }
-        if (user.permissoes.soma === false) menuSoma.classList.add('fechado')
-        if (user.permissoes.menos === false) menuMenos.classList.add('fechado')
-        if (user.permissoes.vezes === false) menuVezes.classList.add('fechado')
-        if (user.permissoes.dividir === false) menuDividir.classList.add('fechado')
-        if (user.permissoes.todas === false) menuTodas.classList.add('fechado')
+        if (user.permissoes.soma === false) menuSoma.remove()
+        if (user.permissoes.menos === false) menuMenos.remove()
+        if (user.permissoes.vezes === false) menuVezes.remove()
+        if (user.permissoes.dividir === false) menuDividir.remove()
+        if (user.permissoes.todas === false) menuTodas.remove()
       }
       } else {
         const errorExistente = form.querySelector('.erroLogin');
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
       }
   } catch (error) {
       console.error('Erro ao enviar os dados do formulário', error);
-    }
+ '' }
  }
  confirmLogin.addEventListener('click', fazerLogin)
  senha.addEventListener('keypress', (e)=>{
@@ -285,6 +285,11 @@ const permitir = document.getElementById('formPermissoes')
     } catch (error) {
         console.error('Erro ao enviar solicitação:', error);
     }
+  })
+
+  const fechar = document.getElementById('fecharAcessos')
+  fechar.addEventListener('click', ()=>{
+    gerirAcessos.close()
   })
 })
 
