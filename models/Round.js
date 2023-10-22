@@ -18,6 +18,10 @@ const RoundSchema = new mongoose.Schema({
     ref: 'User',
     require: true,
   },
+  contagemOperacoes: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Contagem',
+  },
   createdAt: {
     type:Date,
     default:Date.now,

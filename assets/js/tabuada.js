@@ -2,6 +2,12 @@ let jogou = -1
 let acerto = -1
 let errou = -1
 let resultados = null
+const contagemOperacoes = {
+  faPlus: 0,
+  faMinus: 0,
+  faTimes: 0,
+  faDivide: 0
+};
 criarTabuada = ()=> {
   const numerador = document.querySelector('.numerador')
   const denominador = document.querySelector('.denominador')
@@ -19,7 +25,7 @@ criarTabuada = ()=> {
   })
   navList.addEventListener('click', function (event) {
   const target = event.target;
-  if (target.classList.contains('somar') || target.classList.contains('menos') ||
+  if (target.classList.contains('soma') || target.classList.contains('menos') ||
     target.classList.contains('vezes') || target.classList.contains('dividir') ||
     target.classList.contains('todas')) {
     event.preventDefault();
@@ -93,15 +99,35 @@ criarTabuada = ()=> {
     const den = Number(denominador.outerText);
     const operador = document.querySelector('.sinal i')
     let result
-    if (valor.charAt(0)==="s") { result = num + den }
-    else if (valor.charAt(0)==="m") {result = num - den}
-    else if (valor.charAt(0)==="v") { result = num * den }
-    else if (valor.charAt(0)==="d") { result = num / den }
-    else if (valor.charAt(0)==="t" && operador.classList.contains("fa-plus")) {result = num + den}
-    else if (valor.charAt(0)==="t" && operador.classList.contains("fa-minus")){result = num - den}
-    else if (valor.charAt(0)==="t" && operador.classList.contains("fa-times")) {result = num * den}
-    else if (valor.charAt(0) === "t" && operador.classList.contains("fa-divide")) {result = num / den}
-    return result
+    if (valor.charAt(0) === "s") {
+      result = num + den;
+      contagemOperacoes.faPlus++;
+    } else if (valor.charAt(0) === "m") {
+      result = num - den;
+      contagemOperacoes.faMinus++;
+    } else if (valor.charAt(0) === "v") {
+      result = num * den;
+      contagemOperacoes.faTimes++;
+    } else if (valor.charAt(0) === "d") {
+      result = num / den;
+      contagemOperacoes.faDivide++;
+    } else if (valor.charAt(0) === "t" && operador.classList.contains("fa-plus")) {
+      result = num + den;
+      contagemOperacoes.faPlus++;
+    } else if (valor.charAt(0) === "t" && operador.classList.contains("fa-minus")) {
+      result = num - den;
+      contagemOperacoes.faMinus++;
+    } else if (valor.charAt(0) === "t" && operador.classList.contains("fa-times")) {
+      result = num * den;
+      contagemOperacoes.faTimes++;
+    } else if (valor.charAt(0) === "t" && operador.classList.contains("fa-divide")) {
+      result = num / den;
+      contagemOperacoes.faDivide++;
+    }
+    return {
+      result: result,
+      operacoes: contagemOperacoes
+    }
   }
   loopDeResultados = async() => {
     while (true) {
@@ -120,8 +146,8 @@ criarTabuada = ()=> {
     if (jogou < 0 ) jogou = 0
     if (acerto < 0 ) acerto = 0
     if (errou < 0 ) errou = 0
-    const tot = Number(resultado.value);
-    result = total()
+    const tot = Number(resultado.value)
+    const {result, operacoes} = total()
     const imagem = document.querySelector('.imagem')
     
     if (result === tot) {
@@ -158,13 +184,43 @@ criarTabuada = ()=> {
           },
           body: JSON.stringify({ acerto, errou, jogou , userId}),
         });
-        if(resposta.status === 201)
-        console.log('Resultados salvos com sucesso no servidor');
+        if(resposta.status === 201){
+          const roundData = await resposta.json();
+          const roundId = roundData.round._id; 
+          localStorage.setItem('roundId', roundId);
+          console.log('Resultados salvos com sucesso no servidor')
+        }
       } else {
         console.error('Erro ao obter dados do usuário');
+
       }
     } catch (error) {
       console.error('Erro ao enviar resultados para o servidor', error);
+    }
+  }
+  enviarResultadosOperacoesParaServidor = async ( contagemOperacoes ) => {
+    try {
+      const userId = localStorage.getItem('userId')
+      const roundId = localStorage.getItem('roundId')
+      const resposta = await fetch('/round/resultado-operacoes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          roundId,
+          userId,
+          contagemOperacoes
+        })
+      })
+      if(resposta.status === 200) {
+        console.log('Operações salvas com sucesso no servidor')
+      } else {
+        console.error('Erro ao obter dados do usuário')
+      }
+
+    }catch(error) {
+      console.error(error)
     }
   }
   criaTabuada = () => {

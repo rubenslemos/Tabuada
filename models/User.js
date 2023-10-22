@@ -66,6 +66,10 @@ const UserSchema = new mongoose.Schema({
         todas: false,
     },
   },
+  contagemOperacoes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Contagem',
+  }],
   createdAt: {
     type:Date,
     default:Date.now,
