@@ -53,75 +53,29 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
-
-/* router.post('/resultado-operacoes', async (req, res) => {
-  const { roundId, userId, contagemOperacoes } = req.body;
-
-  try {
-      let user = await User.findById(userId);
-      if (!user) {
-          return res.status(404).json({ msg: 'Usuário não encontrado' });
-      }
-      let operacoes = await Contagem.findOne({ user: userId });
-
-      if (!operacoes) {
-          operacoes = new Contagem({
-              user: userId,
-              contagemOperacoes: contagemOperacoes
-          });
-      } else {
-          operacoes.contagemOperacoes.faPlus += contagemOperacoes.faPlus;
-          operacoes.contagemOperacoes.faMinus += contagemOperacoes.faMinus;
-          operacoes.contagemOperacoes.faTimes += contagemOperacoes.faTimes;
-          operacoes.contagemOperacoes.faDivide += contagemOperacoes.faDivide;
-      }
-
-      await operacoes.save();
-
-      
-      let round = await Round.findById(roundId)
-      if(!round) {
-        return res.status(404).json({Msg: 'Rodada não encontrada'}) 
-      }
-      round.contagemOperacoes = operacoes._id
-      round.save()
-      operacoes.contagemOperacoes.rounds.push(round)
-      operacoes.save()
-      user.contagemOperacoes.push(operacoes);
-      await user.save();
-      res.status(200).send({ operacoes });
-  } catch (error) {
-      console.error(error);
-      res.status(500).json({ msg: 'Erro no servidor, tente novamente mais tarde' });
-  }
-}); */
 router.post('/resultado-operacoes', async (req, res) => {
   const { roundId, userId, contagemOperacoes } = req.body;
-
   try {
       const user = await User.findById(userId);
       if (!user) {
           return res.status(404).json({ msg: 'Usuário não encontrado' });
       }
-
       let operacoes = await Contagem.findOne({ user: userId });
       if (!operacoes) {
         operacoes = new Contagem({
           contagemOperacoes: contagemOperacoes
         });
       }
-
       const round = await Round.findById(roundId);
       if (!round) {
           return res.status(404).json({ msg: 'Rodada não encontrada' });
       }
-
       operacoes.contagemOperacoes.faPlus += contagemOperacoes.faPlus;
       operacoes.contagemOperacoes.faMinus += contagemOperacoes.faMinus;
       operacoes.contagemOperacoes.faTimes += contagemOperacoes.faTimes;
       operacoes.contagemOperacoes.faDivide += contagemOperacoes.faDivide;
-      operacoes.contagemOperacoes.user = userId
-      operacoes.contagemOperacoes.rounds = round
+      operacoes.user = userId
+      operacoes.rounds = round
       await operacoes.save();
       user.contagemOperacoes.push(operacoes);
       await user.save();
@@ -136,10 +90,16 @@ router.post('/resultado-operacoes', async (req, res) => {
   }
 });
 
-module.exports = router
+router.get('/resultado-operacoes', async (req, res) =>{
+  try {
+    
+    const contagem = await Contagem.find().populate('rounds user')
+    if(!contagem || contagem.length === 0) return res.status(422).json({Msg: 'ainda não há contagens salvas'})
+    res.status(201).json(contagem)
 
-/* 
-  653514fbd9d184dca375fcd5 round
-  653514fdd9d184dca375fcdd contagem
-  65350e45954d119a6f9e68e7 user
-*/
+  } catch (error) {
+    res.status(500).json({error: error})
+  }
+})
+
+module.exports = router

@@ -155,7 +155,12 @@ document.addEventListener("DOMContentLoaded", function () {
       elemento5P.classList.add('elemento')
       elemento5P.textContent = elemento5
       rodadaDiv.appendChild(elemento5P)
-        
+      
+      const elemento6P = document.createElement('button')
+      elemento6P.classList.add('btnContagem')
+      elemento6P.innerText = "Mais Detalhes"
+      rodadaDiv.appendChild(elemento6P)
+
       resultadosSection.appendChild(rodadaDiv)
     });
   }
@@ -208,7 +213,6 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error('Erro ao obter dados do usuário', error);
     }
   }
-      
 
   desempenho.addEventListener('click', async (e) =>{
     e.preventDefault()
@@ -221,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error('Usuário não encontrado')
     }
   })
-    
+
   fecharResultados.addEventListener('click', ()=>{
     resultados.close()
   })

@@ -17,18 +17,18 @@ const ContagemSchema = new mongoose.Schema({contagemOperacoes: {
     type: Number,
     default: 0
   },
-  user:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    createdAt: {
+      type:Date,
+      default:Date.now,
+    },
   },
-  rounds:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Round',
-  },
-  createdAt: {
-    type:Date,
-    default:Date.now,
-  },
+user:{
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'User',
+},
+rounds:{
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'Round',
 }
 })
 

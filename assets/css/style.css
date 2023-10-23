@@ -836,3 +836,8 @@ nav{
   align-items: center;
   width: 100%;
 }
+.btnContagem{
+  font-size: 20px;
+  margin: 5px;
+  padding: 5px;
+}
