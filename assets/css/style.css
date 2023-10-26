@@ -855,7 +855,7 @@ nav{
   background-color: #00000008;
   top: 0;
   left: 0;
-  border-radius: 0px;
+  border-radius: 20px;
 }
 #contagens::backdrop {
   background: rgba(0, 0, 0, 0.35);
@@ -865,7 +865,7 @@ nav{
 
 .containerContagens {
   width: 32%;
-  height: 52%;
+  height: 55%;
   margin: 200px auto;
   border: none;
   border-radius: 60px;
