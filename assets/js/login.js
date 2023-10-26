@@ -227,7 +227,6 @@ async function listarUsers() {
 
     if (response.ok) {
         const alunos = await response.json();
-
         alunos.forEach(aluno => {
           if (aluno.tipo === 'Aluno') {
             const option = document.createElement('option');

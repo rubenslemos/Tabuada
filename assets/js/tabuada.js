@@ -2,7 +2,7 @@ let jogou = -1
 let acerto = -1
 let errou = -1
 let resultados = null
-const contagemOperacoes = {
+let contagemOperacoes = {
   faPlus: 0,
   faMinus: 0,
   faTimes: 0,
@@ -126,7 +126,7 @@ criarTabuada = ()=> {
     }
     return {
       result: result,
-      operacoes: contagemOperacoes
+      contagemOperacoes: contagemOperacoes
     }
   }
   loopDeResultados = async() => {
@@ -135,6 +135,10 @@ criarTabuada = ()=> {
         const elementoFechar = document.querySelector('.fechar');
         elementoFechar.addEventListener('click', () => {
           resolve();
+          contagemOperacoes.faPlus = 0
+          contagemOperacoes.faMinus = 0
+          contagemOperacoes.faTimes = 0
+          contagemOperacoes.faDivide = 0
         });
       });
       acerto = 0;
@@ -147,7 +151,7 @@ criarTabuada = ()=> {
     if (acerto < 0 ) acerto = 0
     if (errou < 0 ) errou = 0
     const tot = Number(resultado.value)
-    const {result, operacoes} = total()
+    const {result, contagemOperacoes} = total()
     const imagem = document.querySelector('.imagem')
     
     if (result === tot) {
@@ -165,11 +169,13 @@ criarTabuada = ()=> {
     jogado.innerText = `Jogos: ${jogou}`
     acertado.innerText = `Acertos: ${acerto}`
     errado.innerText = `Erros: ${errou}`
+
     return{ acerto, errou, jogou }
   }
-  enviarResultadosParaServidor = async ( acerto, errou, jogou ) => {
+
+  enviarResultadosParaServidor = async (acerto, errou, jogou, {...contagemOperacoes}) => {
     try {
-      const userId = localStorage.getItem('userId') 
+      const userId = localStorage.getItem('userId');
       const response = await fetch(`/auth/login/${userId}`, {
         method: 'GET',
       });
@@ -177,52 +183,54 @@ criarTabuada = ()=> {
       if (response.status === 201) {
         const userData = await response.json();
         const userId = userData.user;
+  
         const resposta = await fetch('/round', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ acerto, errou, jogou , userId}),
+          body: JSON.stringify({ acerto, errou, jogou, userId }),
         });
-        if(resposta.status === 201){
+  
+        if (resposta.status === 201) {
           const roundData = await resposta.json();
-          const roundId = roundData.round._id; 
+          const roundId = roundData.round._id;
           localStorage.setItem('roundId', roundId);
-          console.log('Resultados salvos com sucesso no servidor')
+          console.log('Resultados salvos com sucesso no servidor');
+  
+          try {
+            const userId = localStorage.getItem('userId');
+            const roundId = localStorage.getItem('roundId');
+            const respostaOperacoes = await fetch('/round/resultado-operacoes', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                roundId,
+                userId,
+                contagemOperacoes,
+              }),
+            });
+  
+            if (respostaOperacoes.status === 200) {
+              console.log('Operações salvas com sucesso no servidor');
+            } else {
+              console.error('Erro ao salvar operações no servidor');
+            }
+          } catch (error) {
+            console.error('Erro ao enviar operações para o servidor', error);
+          }
+        } else {
+          console.error('Erro ao salvar resultados no servidor');
         }
       } else {
         console.error('Erro ao obter dados do usuário');
-
       }
     } catch (error) {
       console.error('Erro ao enviar resultados para o servidor', error);
     }
-  }
-  enviarResultadosOperacoesParaServidor = async ( contagemOperacoes ) => {
-    try {
-      const userId = localStorage.getItem('userId')
-      const roundId = localStorage.getItem('roundId')
-      const resposta = await fetch('/round/resultado-operacoes', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          roundId,
-          userId,
-          contagemOperacoes
-        })
-      })
-      if(resposta.status === 200) {
-        console.log('Operações salvas com sucesso no servidor')
-      } else {
-        console.error('Erro ao obter dados do usuário')
-      }
-
-    }catch(error) {
-      console.error(error)
-    }
-  }
+  };
   criaTabuada = () => {
     sinal.innerHTML=""
     criarSinal(valor)

@@ -116,7 +116,13 @@ router.post('/reset_password', async (req, res) => {
 })
 router.get('/:id', async (req,res)=>{
   try{
-    const user = await User.findById(req.params.id).populate('rounds')
+    const user = await User.findById(req.params.id).populate({
+      path: 'rounds',
+      populate: {
+        path: 'contagemOperacoes',
+        model: 'Contagem'
+      }
+    })
     if(!user) return res.status(400).send({error: 'Usuario não encontrado'})
     res.status(201).send({user})
   } catch (error) {

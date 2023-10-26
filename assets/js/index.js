@@ -87,11 +87,11 @@ elementos.button.onclick = function () {
 
 elementos.fechar.onclick = function () {
   elementos.modal.close();
-  enviarResultadosParaServidor(acerto, errou, jogou)
+  enviarResultadosParaServidor(acerto, errou, jogou, contagemOperacoes)
   elementos.fim.showModal()
+/*   enviarResultadosOperacoesParaServidor( contagemOperacoes ) */
 };
 elementos.ok.onclick = function () {
-  enviarResultadosOperacoesParaServidor( contagemOperacoes )
   p[i] = Number(numerador.outerText);
   s[i] = Number(denominador.outerText);
   i++;
@@ -100,6 +100,7 @@ elementos.ok.onclick = function () {
   acerto = 0;
   errou = 0;
   jogou = 0;
+  
 };
 
 let p = [];

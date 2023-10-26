@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const erroCadastro = document.getElementById('cadastrar')
   const divResultado = document.createElement('div');
   resultados.open = false
- 
+  
   cancelar.addEventListener('click', ()=> {
     cadastro.classList.add('fechado')
     cadastro.close()
@@ -86,10 +86,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const containerResultado = document.querySelector('.containerResultado')
     const containerSection = containerResultado.querySelector('.containerResultados')
     const resultadosSection = containerSection.querySelector('.resultados')
+    
     let aproveitamento
+    let erradas
     containerSection.insertBefore(divResultado, resultadosSection);
     resultadosSection.innerHTML = ''
-
+    
     const tituloPreenchido = containerSection.querySelector('h3')
 
     if (tituloPreenchido) {
@@ -101,10 +103,11 @@ document.addEventListener("DOMContentLoaded", function () {
     titulo.innerText = 'Resultados'
     containerSection.insertBefore(titulo, divResultado);
 
+    
     fecharResultados.classList.add('btn', 'btnFechar');
     fecharResultados.innerText = 'Fechar';
     containerSection.appendChild(fecharResultados);
-
+    
     if(user.rounds.length === 0) {
       const mensagemDiv = document.createElement('div')
       mensagemDiv.classList.add('mensagemDiv')
@@ -115,19 +118,22 @@ document.addEventListener("DOMContentLoaded", function () {
       resultadosSection.appendChild(mensagemDiv)
       return
     }
-
+    
     user.rounds.forEach((round, index) => {
       if(round.jogou === undefined || round.jogou < 0) round.jogou = 0
       if(round.acerto === undefined || round.acerto < 0) round.acerto = 0
       if(round.errou === undefined || round.errou < 0) round.errou = 0
       aproveitamento = ((100*round.acerto)/round.jogou).toFixed(0)
+      erradas = ((100*round.errou)/round.jogou).toFixed(0)
       if (aproveitamento <= 0 || isNaN(aproveitamento)) aproveitamento = 0
+      if (erradas <= 0 || isNaN(erradas)) erradas = 0
       const elemento1 = `Rodada ${index + 1}`
       const elemento2 = `Jogou: ${round.jogou}`
       const elemento3 = `Acertou: ${round.acerto}`
       const elemento4 = `Errou: ${round.errou}`
       const elemento5 = `Acertos (%): ${aproveitamento}`
-
+      const elemento7 = `Erros (%): ${erradas}`
+            
       const rodadaDiv = document.createElement('div')
       rodadaDiv.classList.add('rodada')
 
@@ -151,15 +157,15 @@ document.addEventListener("DOMContentLoaded", function () {
       elemento4P.textContent = elemento4
       rodadaDiv.appendChild(elemento4P)
         
-      const elemento5P = document.createElement('p')
-      elemento5P.classList.add('elemento')
-      elemento5P.textContent = elemento5
-      rodadaDiv.appendChild(elemento5P)
-      
       const elemento6P = document.createElement('button')
       elemento6P.classList.add('btnContagem')
       elemento6P.innerText = "Mais Detalhes"
+      elemento6P.value = round._id
+      elemento6P.addEventListener('click',async ()=>{
+        abrirModal(elemento5, elemento7, event, index)
+      })
       rodadaDiv.appendChild(elemento6P)
+
 
       resultadosSection.appendChild(rodadaDiv)
     });
@@ -188,6 +194,7 @@ document.addEventListener("DOMContentLoaded", function () {
             divResultado.innerHTML = `
               <label for="alunos" class="labelResultado">Selecione um Usuario:</label>
               <select id="alunos" name="alunos" class="listaResultados">
+                <option value="" disabled selected>${'Logado: ' + user.name}</option>
                 ${users.map(user => `<option value="${user._id}">${user.name}</option>`).join('')}
               </select>
             `;
@@ -197,7 +204,6 @@ document.addEventListener("DOMContentLoaded", function () {
           selectAlunos.addEventListener('change', function() {
             const selectedUserId = selectAlunos.value;
             const selectedUser = users.find(user => user._id === selectedUserId)
-            console.log(selectedUser)
             preencherResultadosNoHTML(selectedUser);
           });
           } else {
@@ -229,4 +235,44 @@ document.addEventListener("DOMContentLoaded", function () {
   fecharResultados.addEventListener('click', ()=>{
     resultados.close()
   })
+
+  async function abrirModal (acertos, erros, event, index ) {
+    const roundId = event.target.value;
+
+    try {
+      const response = await fetch(`/round/${roundId}`); // Fazendo a requisição com o round._id
+      const data= await response.json();
+      const contagemOperacoes = data.round.contagemOperacoes.contagemOperacoes
+      const modal = document.getElementById('contagens');
+      const adicao = contagemOperacoes.faPlus;
+      const subtracao = contagemOperacoes.faMinus;
+      const multiplicacao = contagemOperacoes.faTimes;
+      const divisao = contagemOperacoes.faDivide;
+      const tituloDetalhes = document.querySelector('.containerContagens h1')
+      const adicaoElement = document.querySelector('.eContagens:nth-child(1)');
+      const subtracaoElement = document.querySelector('.eContagens:nth-child(2)');
+      const multiplicacaoElement = document.querySelector('.eContagens:nth-child(3)');
+      const divisaoElement = document.querySelector('.eContagens:nth-child(4)');
+      const acertosElement = document.querySelector('.eContagens:nth-child(5)');
+      const errosElement = document.querySelector('.eContagens:nth-child(6)');
+  
+      adicaoElement.textContent = `Adição: ${adicao}`;
+      subtracaoElement.textContent = `Subtração: ${subtracao}`;
+      multiplicacaoElement.textContent = `Multiplicação: ${multiplicacao}`;
+      divisaoElement.textContent = `Divisão: ${divisao}`;
+      acertosElement.textContent = acertos
+      errosElement.textContent = erros
+      tituloDetalhes.innerText = `Detalhes Rodada ${index+1}`
+      modal.showModal();
+    } catch (error) {
+      console.error('Erro ao obter detalhes do round', error);
+    }
+}
+
+document.querySelector('.btnContagens').addEventListener('click', () => {
+    const modal = document.getElementById('contagens');
+    modal.close();
+});
+  
+
 })
