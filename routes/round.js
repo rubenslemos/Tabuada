@@ -5,11 +5,17 @@ const Contagem = require('../models/Contagem')
 
 router.post('/', async (req, res) => {
 try {
-  const {acerto, errou, jogou, userId} = req.body
+  const {acerto, errou, jogou, userId, totalJogos, totalAcertos, totalErros} = req.body
   const user = await User.findById(userId)
   if (!user) {
     return res.status(404).json({ msg: 'Usuário não encontrado' });
   }
+  if(isNaN(user.totalJogos)) user.totalJogos = 0
+  if(isNaN(user.totalAcertos)) user.totalAcertos = 0
+  if(isNaN(user.totalErros)) user.totalErros = 0
+  user.totalJogos += totalJogos
+  user.totalAcertos += totalAcertos
+  user.totalErros += totalErros
   const round = await Round.create({ acerto, errou, jogou, user: userId})
   await round.save()
   user.rounds.push(round)

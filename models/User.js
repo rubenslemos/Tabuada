@@ -70,6 +70,18 @@ const UserSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Contagem',
   }],
+  totalJogos: {
+    type: Number,
+    require: true,
+  }, 
+  totalAcertos: {
+    type: Number,
+    require: true,
+  }, 
+  totalErros: {
+    type: Number,
+    require: true,
+  },
   createdAt: {
     type:Date,
     default:Date.now,

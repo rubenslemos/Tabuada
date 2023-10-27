@@ -8,9 +8,9 @@ let contagemOperacoes = {
   faTimes: 0,
   faDivide: 0
 };
-let totalJogos = 0
-let totalAcertos = 0
-let totalErros = 0
+let totalJogos = 0;
+let totalAcertos = 0;
+let totalErros = 0;
 let estrela = 0
 let downThumb = 0
 let nivel = 0
@@ -166,6 +166,9 @@ criarTabuada = ()=> {
     if (jogou < 0 ) jogou = 0
     if (acerto < 0 ) acerto = 0
     if (errou < 0 ) errou = 0
+    if (isNaN(totalJogos)) totalJogos = 0
+    if (isNaN(totalAcertos)) totalAcertos = 0
+    if (isNaN(totalErros )) totalErros  = 0
     const tot = Number(resultado.value)
     const {result, contagemOperacoes} = total()
     const imagem = document.querySelector('.imagem')
@@ -190,7 +193,7 @@ criarTabuada = ()=> {
     acertado.innerText = `Acertos: ${acerto}`
     errado.innerText = `Erros: ${errou}`
 
-    return{ acerto, errou, jogou }
+    return{ acerto, errou, jogou, totalJogos, totalAcertos, totalErros }
   }
 
   enviarResultadosParaServidor = async (acerto, errou, jogou, {...contagemOperacoes}) => {
@@ -199,7 +202,9 @@ criarTabuada = ()=> {
       const response = await fetch(`/auth/login/${userId}`, {
         method: 'GET',
       });
-  
+      console.log(totalJogos)
+      console.log(totalAcertos)
+      console.log(totalErros)
       if (response.status === 201) {
         const userData = await response.json();
         const userId = userData.user;
@@ -209,7 +214,7 @@ criarTabuada = ()=> {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ acerto, errou, jogou, userId }),
+          body: JSON.stringify({ acerto, errou, jogou, userId, totalJogos, totalAcertos, totalErros }),
         });
   
         if (resposta.status === 201) {
