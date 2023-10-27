@@ -8,6 +8,12 @@ let contagemOperacoes = {
   faTimes: 0,
   faDivide: 0
 };
+let totalJogos = 0
+let totalAcertos = 0
+let totalErros = 0
+let estrela = 0
+let downThumb = 0
+let nivel = 0
 criarTabuada = ()=> {
   const numerador = document.querySelector('.numerador')
   const denominador = document.querySelector('.denominador')
@@ -56,6 +62,7 @@ criarTabuada = ()=> {
   };
 
   cociente = (valor) => {
+    const operador = document.querySelector('.sinal i')
     let valorNumerador = getRandomNumber(0, 10);
     let valorDenominador = denominadores[valor.slice(-2)] || getRandomNumber(1, 10);
 
@@ -65,8 +72,17 @@ criarTabuada = ()=> {
         }
     } else if (valor.charAt(0) === "d") {
         valorNumerador = valorDenominador * getRandomNumber(1, 10);
-    }
-
+    } else if (valor.charAt(0) === 't' && operador.classList.contains("fa-minus")){
+        let invert  = valorNumerador
+        if (valorNumerador < valorDenominador) {
+          valorNumerador = valorDenominador
+          valorDenominador = invert
+          console.log('caiu no if -')
+      }
+    } else if(valor.charAt(0) === 't' && operador.classList.contains("fa-divide")) {
+        valorNumerador = valorDenominador * getRandomNumber(1, 10)
+        console.log('caiu no if /')
+      }
     numerador.innerHTML = valorNumerador;
     denominador.innerHTML = valorDenominador;
 }
@@ -157,14 +173,18 @@ criarTabuada = ()=> {
     if (result === tot) {
       elementos.sucesso.innerHTML = "Parabéns você acertou!!!"
       imagem.setAttribute('src', '/img/check2.png')
-      acerto++;
-      jogou++;
+      acerto++
+      jogou++
+      totalJogos++
+      totalAcertos++
     }
     if (result !== tot) {
       elementos.sucesso.innerHTML = "Dessa vez você errou !!!"
       imagem.setAttribute('src', '/img/redCross2.png')
-      errou++;
-      jogou++;
+      errou++
+      jogou++
+      totalJogos++
+      totalErros++
     }
     jogado.innerText = `Jogos: ${jogou}`
     acertado.innerText = `Acertos: ${acerto}`
@@ -231,11 +251,67 @@ criarTabuada = ()=> {
       console.error('Erro ao enviar resultados para o servidor', error);
     }
   };
+
+
+  premios = () => {
+    let estrelaHTML = document.getElementById('estrela');
+    let downThumbHTML = document.getElementById('downThumb');
+    let nivelHTML = document.getElementById('nivel');
+    let resultados = document.querySelector('.premios');
+  
+    if (!estrelaHTML) {
+      estrelaHTML = document.createElement('small');
+      estrelaHTML.id = 'estrela';
+    }
+  
+    if (!downThumbHTML) {
+      downThumbHTML = document.createElement('small');
+      downThumbHTML.id = 'downThumb';
+    }
+  
+    if (!nivelHTML) {
+      nivelHTML = document.createElement('small');
+      nivelHTML.id = 'nivel';
+    }
+  
+    if (!resultados) {
+      resultados = document.createElement('div');
+      resultados.classList.add('premios');
+    } else {
+      resultados.innerHTML = '';
+    }
+    if (totalAcertos % 10){
+      estrela  = totalAcertos/10
+    }
+    
+    if (totalErros % 10){
+      downThumb = totalErros/10
+    }
+    
+    if (totalJogos % 10){
+      nivel = totalJogos/100
+    }
+    
+    estrelaHTML.innerHTML = `<i class="fa-solid fa-star"></i><i>${estrela.toFixed(0)}</i>`;
+    downThumbHTML.innerHTML = `<i class="fa-solid fa-thumbs-down"></i><i>${downThumb.toFixed(0)}</i>`;
+    nivelHTML.innerHTML = `<i class="fa-solid fa-calculator"></i><i>${nivel.toFixed(0)}</i>`;
+  
+    resultados.appendChild(estrelaHTML);
+    resultados.appendChild(downThumbHTML);
+    resultados.appendChild(nivelHTML);
+  
+    const logo = document.querySelector('.logo');
+    const topo = document.getElementById('topo');
+    topo.insertBefore(resultados, logo);
+  };
+  
+
   criaTabuada = () => {
     sinal.innerHTML=""
     criarSinal(valor)
     cociente(valor)
     resultado.value = null
+    premios()
   }
   criaTabuada();
 }

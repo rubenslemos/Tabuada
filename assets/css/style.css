@@ -907,3 +907,20 @@ nav{
   left: 0;
   display: table-cell;
 }
+.premios{
+  display: flex;
+  flex-direction: row;
+  margin: 30px 25px 20px 0;
+  justify-content: center;
+  width: 10%;
+  color: var(--primary-color);
+}
+
+.premios small{
+  justify-content: center;
+  align-items: center;
+}
+
+.premios i{
+  padding: 0 0 10px 5px;
+}
