@@ -91,7 +91,7 @@ elementos.fechar.onclick = function () {
   elementos.fim.showModal()
 /*   enviarResultadosOperacoesParaServidor( contagemOperacoes ) */
 };
-elementos.ok.onclick = function () {
+elementos.ok.onclick = function  () {
   p[i] = Number(numerador.outerText);
   s[i] = Number(denominador.outerText);
   i++;

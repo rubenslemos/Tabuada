@@ -75,10 +75,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
       body: JSON.stringify({ email, password }),
     });
     if (response.status === 200) {
-      const { user, token } = await response.json()
+      const { user, token, totalJogos, totalAcertos, totalErros } = await response.json()
       localStorage.setItem('token', token);
       localStorage.setItem('userId', user._id);
       localStorage.setItem('tipoUsuario', user.tipo)
+      localStorage.setItem('totalJogos', totalJogos);
+      localStorage.setItem('totalAcertos', totalAcertos);
+      localStorage.setItem('totalErros', totalErros);
       const resAuth = await fetch ('/auth/login/token',{
         method: 'POST',
         headers:{
@@ -87,6 +90,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         },
       })
       if (resAuth.status === 200) {
+      
         recuperar.classList.remove('aberto')
         recuperar.classList.add('fechado')
         trocar.classList.remove('aberto')
@@ -120,7 +124,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
       }
   } catch (error) {
       console.error('Erro ao enviar os dados do formulário', error);
- '' }
+  }
  }
  confirmLogin.addEventListener('click', fazerLogin)
  senha.addEventListener('keypress', (e)=>{

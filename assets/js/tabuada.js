@@ -8,12 +8,13 @@ let contagemOperacoes = {
   faTimes: 0,
   faDivide: 0
 };
-let totalJogos = 0;
-let totalAcertos = 0;
-let totalErros = 0;
-let estrela = 0
-let downThumb = 0
-let nivel = 0
+let totalJogos = parseInt(localStorage.getItem('totalJogos')) || 0
+let totalAcertos = parseInt(localStorage.getItem('totalAcertos')) || 0
+let totalErros = parseInt(localStorage.getItem('totalErros')) || 0
+
+let estrela = isNaN(totalAcertos) ? 0 : Math.floor(totalAcertos / 10);
+let downThumb = isNaN(totalErros) ? 0 : Math.floor(totalErros / 10);
+let nivel = isNaN(totalJogos) ? 0 : Math.floor(totalJogos / 100);
 criarTabuada = ()=> {
   const numerador = document.querySelector('.numerador')
   const denominador = document.querySelector('.denominador')
@@ -166,9 +167,9 @@ criarTabuada = ()=> {
     if (jogou < 0 ) jogou = 0
     if (acerto < 0 ) acerto = 0
     if (errou < 0 ) errou = 0
-    if (isNaN(totalJogos)) totalJogos = 0
-    if (isNaN(totalAcertos)) totalAcertos = 0
-    if (isNaN(totalErros )) totalErros  = 0
+    if (isNaN(totalJogos)) totalJogos = parseInt(localStorage.getItem('totalJogos'))
+    if (isNaN(totalAcertos)) totalAcertos = parseInt(localStorage.getItem('totalAcertos'))
+    if (isNaN(totalErros )) totalErros = parseInt(localStorage.getItem('totalErros'))
     const tot = Number(resultado.value)
     const {result, contagemOperacoes} = total()
     const imagem = document.querySelector('.imagem')
@@ -202,9 +203,9 @@ criarTabuada = ()=> {
       const response = await fetch(`/auth/login/${userId}`, {
         method: 'GET',
       });
-      console.log(totalJogos)
-      console.log(totalAcertos)
-      console.log(totalErros)
+      localStorage.setItem('totalJogos', totalJogos || 0);
+      localStorage.setItem('totalAcertos', totalAcertos || 0);
+      localStorage.setItem('totalErros', totalErros || 0)
       if (response.status === 201) {
         const userData = await response.json();
         const userId = userData.user;
@@ -257,13 +258,34 @@ criarTabuada = ()=> {
     }
   };
 
+  premios = async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      const response = await fetch(`/auth/login/${userId}`, {
+        method: 'GET',
+      });
+  
+      if (response.status === 201) {
 
-  premios = () => {
+        const userData = await response.json();
+        const { totalJogos, totalAcertos, totalErros } = userData;
+
+        localStorage.setItem('totalJogos', totalJogos);
+        localStorage.setItem('totalAcertos', totalAcertos);
+        localStorage.setItem('totalErros', totalErros);
+
+      } else {
+        console.error("Usuário não encontrado!");
+      }
+    } catch (error) {
+      console.error('Erro ao obter dados do usuário', error);
+    }}
+criaPremios = () =>{
     let estrelaHTML = document.getElementById('estrela');
     let downThumbHTML = document.getElementById('downThumb');
     let nivelHTML = document.getElementById('nivel');
     let resultados = document.querySelector('.premios');
-  
+
     if (!estrelaHTML) {
       estrelaHTML = document.createElement('small');
       estrelaHTML.id = 'estrela';
@@ -285,16 +307,16 @@ criarTabuada = ()=> {
     } else {
       resultados.innerHTML = '';
     }
-    if (totalAcertos % 10){
-      estrela  = totalAcertos/10
+    if (totalAcertos % 10 === 0 && totalAcertos !== 0){
+      estrela++
     }
     
-    if (totalErros % 10){
-      downThumb = totalErros/10
+    if (totalErros % 10 === 0 && totalErros !== 0){
+      downThumb++
     }
     
-    if (totalJogos % 10){
-      nivel = totalJogos/100
+    if (totalJogos % 100 === 0 && totalJogos !== 0){
+      nivel++
     }
     
     estrelaHTML.innerHTML = `<i class="fa-solid fa-star"></i><i>${estrela.toFixed(0)}</i>`;
@@ -308,16 +330,17 @@ criarTabuada = ()=> {
     const logo = document.querySelector('.logo');
     const topo = document.getElementById('topo');
     topo.insertBefore(resultados, logo);
-  };
+  }
   
-
-  criaTabuada = () => {
+  criaTabuada = async () => {
+    await premios()
     sinal.innerHTML=""
     criarSinal(valor)
     cociente(valor)
+    criaPremios()
     resultado.value = null
-    premios()
   }
   criaTabuada();
+
 }
 criarTabuada()

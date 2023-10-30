@@ -29,10 +29,15 @@ router.post('/', async (req,res)=>{
   if(!await bcrypt.compare(password, user.password)  ){
     return res.status(422).json({Msg: 'Senha Inválida'})
   }
-
+  let totalAcertos = user.totalAcertos || 0;
+  let totalJogos = user.totalJogos || 0;
+  let totalErros = user.totalErros || 0;
   res.send({
     user,
-    token: generateToken({id:user.id}), 
+    token: generateToken({id:user.id}),
+    totalAcertos: totalAcertos,
+    totalJogos: totalJogos,
+    totalErros: totalErros, 
   })
 })
 router.post ('/token', auth, (req, res) => {
