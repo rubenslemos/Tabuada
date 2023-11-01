@@ -8,14 +8,18 @@ let contagemOperacoes = {
   faTimes: 0,
   faDivide: 0
 };
-let totalJogos = parseInt(localStorage.getItem('totalJogos')) || 0
-let totalAcertos = parseInt(localStorage.getItem('totalAcertos')) || 0
-let totalErros = parseInt(localStorage.getItem('totalErros')) || 0
-
-let estrela = isNaN(totalAcertos) ? 0 : Math.floor(totalAcertos / 10);
-let downThumb = isNaN(totalErros) ? 0 : Math.floor(totalErros / 10);
-let nivel = isNaN(totalJogos) ? 0 : Math.floor(totalJogos / 100);
 criarTabuada = ()=> {
+  let totalJogos = parseInt(localStorage.getItem('totalJogos'))
+  let totalAcertos = parseInt(localStorage.getItem('totalAcertos')) 
+  let totalErros = parseInt(localStorage.getItem('totalErros'))
+  
+  if (isNaN(totalAcertos)) totalAcertos= 0
+  if (isNaN(totalErros)) totalErros= 0
+  if (isNaN(totalJogos)) totalJogos= 0
+  
+  let estrela = isNaN(totalAcertos) ? 0 : Math.floor(totalAcertos / 10);
+  let downThumb = isNaN(totalErros) ? 0 : Math.floor(totalErros / 10);
+  let nivel = isNaN(totalJogos) ? 0 : Math.floor(totalJogos / 100);
   const numerador = document.querySelector('.numerador')
   const denominador = document.querySelector('.denominador')
   const sinal = document.querySelector('.sinal')

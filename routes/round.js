@@ -13,9 +13,9 @@ try {
   if(isNaN(user.totalJogos)) user.totalJogos = 0
   if(isNaN(user.totalAcertos)) user.totalAcertos = 0
   if(isNaN(user.totalErros)) user.totalErros = 0
-  user.totalJogos = totalJogos
-  user.totalAcertos = totalAcertos
-  user.totalErros = totalErros
+  user.totalJogos += totalJogos
+  user.totalAcertos += totalAcertos
+  user.totalErros += totalErros
   const round = await Round.create({ acerto, errou, jogou, user: userId})
   await round.save()
   user.rounds.push(round)
