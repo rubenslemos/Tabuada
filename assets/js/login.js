@@ -79,6 +79,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
       localStorage.setItem('token', token);
       localStorage.setItem('userId', user._id);
       localStorage.setItem('tipoUsuario', user.tipo)
+
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
       localStorage.setItem('totalJogos', totalJogos);
       localStorage.setItem('totalAcertos', totalAcertos);
       localStorage.setItem('totalErros', totalErros);
