@@ -82,11 +82,11 @@ criarTabuada = ()=> {
         if (valorNumerador < valorDenominador) {
           valorNumerador = valorDenominador
           valorDenominador = invert
-          console.log('caiu no if -')
+
       }
     } else if(valor.charAt(0) === 't' && operador.classList.contains("fa-divide")) {
         valorNumerador = valorDenominador * getRandomNumber(1, 10)
-        console.log('caiu no if /')
+
       }
     numerador.innerHTML = valorNumerador;
     denominador.innerHTML = valorDenominador;
