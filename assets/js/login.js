@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     });
     if (response.status === 200) {
       const { user, token, totalJogos, totalAcertos, totalErros } = await response.json()
+
       localStorage.setItem('token', token);
       localStorage.setItem('userId', user._id);
       localStorage.setItem('tipoUsuario', user.tipo)
@@ -85,6 +86,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
       localStorage.setItem('totalJogos', totalJogos);
       localStorage.setItem('totalAcertos', totalAcertos);
       localStorage.setItem('totalErros', totalErros);
+
       const resAuth = await fetch ('/auth/login/token',{
         method: 'POST',
         headers:{
@@ -92,6 +94,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
           'Authorization': `Bearer ${token}`
         },
       })
+      
       if (resAuth.status === 200) {
       
         recuperar.classList.remove('aberto')
