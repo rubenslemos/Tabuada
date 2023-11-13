@@ -924,3 +924,16 @@ nav{
 .premios i{
   padding: 0 0 10px 5px;
 }
+
+.premiosDialog{
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000094;
+  top: auto;
+  left: auto;
+}
+
+.premiosContainer{
+  background-color: rgba(0, 0, 0, 0);
+}
