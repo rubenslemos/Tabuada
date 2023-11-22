@@ -27,6 +27,8 @@ criarTabuada = ()=> {
   const jogado = document.querySelector('.jogou')
   const acertado = document.querySelector('.acertou')
   const errado = document.querySelector('.errou')
+  const modalPremio = document.querySelector('.premiosDialog')
+  const premio = document.querySelector('.premiosContainer')
   let valor = 'soma' 
 
   document.addEventListener('keydown', (e)=>{
@@ -289,7 +291,9 @@ criaPremios = () =>{
     let downThumbHTML = document.getElementById('downThumb');
     let nivelHTML = document.getElementById('nivel');
     let resultados = document.querySelector('.premios');
-
+    let ImagemEstrela = "background: url('/img/estrela.png') no-repeat center center content-box"
+    let ImagemDownThumb = "background: url('/img/downthumb.png') no-repeat center center content-box"
+    let ImagemCalculadora = "background: url('/img/calculadora.png') no-repeat center center content-box"
     if (!estrelaHTML) {
       estrelaHTML = document.createElement('small');
       estrelaHTML.id = 'estrela';
@@ -313,14 +317,29 @@ criaPremios = () =>{
     }
     if (totalAcertos % 10 === 0 && totalAcertos !== 0){
       estrela++
+      premio.setAttribute("style", ImagemEstrela)
+      modalPremio.showModal()
+      setTimeout(()=>{
+        modalPremio.close()
+      },5000)
     }
     
     if (totalErros % 10 === 0 && totalErros !== 0){
       downThumb++
+      premio.setAttribute("style", ImagemDownThumb)
+      modalPremio.showModal()
+      setTimeout(()=>{
+        modalPremio.close()
+      },5000)
     }
     
     if (totalJogos % 100 === 0 && totalJogos !== 0){
       nivel++
+      premio.setAttribute("style", ImagemCalculadora)
+      modalPremio.showModal()
+      setTimeout(()=>{
+        modalPremio.close()
+      },5000)
     }
     
     estrelaHTML.innerHTML = `<i class="fa-solid fa-star"></i><i>${estrela.toFixed(0)}</i>`;
