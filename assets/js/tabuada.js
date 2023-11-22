@@ -321,7 +321,7 @@ criaPremios = () =>{
       modalPremio.showModal()
       setTimeout(()=>{
         modalPremio.close()
-      },5000)
+      },3000)
     }
     
     if (totalErros % 10 === 0 && totalErros !== 0){
@@ -330,7 +330,7 @@ criaPremios = () =>{
       modalPremio.showModal()
       setTimeout(()=>{
         modalPremio.close()
-      },5000)
+      },3000)
     }
     
     if (totalJogos % 100 === 0 && totalJogos !== 0){
@@ -339,7 +339,7 @@ criaPremios = () =>{
       modalPremio.showModal()
       setTimeout(()=>{
         modalPremio.close()
-      },5000)
+      },3000)
     }
     
     estrelaHTML.innerHTML = `<i class="fa-solid fa-star"></i><i>${estrela.toFixed(0)}</i>`;
