@@ -928,7 +928,7 @@ nav{
 .premiosDialog{
   width: 100vw;
   height: 100vh;
-  background-color: #0000003d;
+  background-color: #00000082;
   top: auto;
   left: auto;
 }
@@ -937,4 +937,14 @@ nav{
   width: 30vw;
   height: 50vh;
   margin: auto;
+}
+
+.msgPremios{
+  font-size: 35px;
+  display: flex;
+  position: absolute;
+  bottom: 472px;
+  right: 620px;
+  text-shadow: 4px 4px 25px rgb(0, 0, 0);
+  text-decoration-style: solid;
 }

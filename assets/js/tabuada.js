@@ -8,18 +8,17 @@ let contagemOperacoes = {
   faTimes: 0,
   faDivide: 0
 };
+let totalJogos
+let totalAcertos
+let totalErros
 criarTabuada = ()=> {
-  let totalJogos = parseInt(localStorage.getItem('totalJogos'))
-  let totalAcertos = parseInt(localStorage.getItem('totalAcertos')) 
-  let totalErros = parseInt(localStorage.getItem('totalErros'))
-  
-  if (isNaN(totalAcertos)) totalAcertos= 0
-  if (isNaN(totalErros)) totalErros= 0
-  if (isNaN(totalJogos)) totalJogos= 0
-  
-  let estrela = isNaN(totalAcertos) ? 0 : Math.floor(totalAcertos / 10);
-  let downThumb = isNaN(totalErros) ? 0 : Math.floor(totalErros / 10);
-  let nivel = isNaN(totalJogos) ? 0 : Math.floor(totalJogos / 100);
+  let totalJogos = parseInt(localStorage.getItem('totalJogos')) || 0;
+  let totalAcertos = parseInt(localStorage.getItem('totalAcertos')) || 0;
+  let totalErros = parseInt(localStorage.getItem('totalErros')) || 0;
+
+  let estrela = Math.floor(totalAcertos / 10);
+  let downThumb = Math.floor(totalErros / 10);
+  let nivel = Math.floor(totalJogos / 100);
   const numerador = document.querySelector('.numerador')
   const denominador = document.querySelector('.denominador')
   const sinal = document.querySelector('.sinal')
@@ -29,6 +28,8 @@ criarTabuada = ()=> {
   const errado = document.querySelector('.errou')
   const modalPremio = document.querySelector('.premiosDialog')
   const premio = document.querySelector('.premiosContainer')
+  const motivacional = document.createElement('p')
+  
   let valor = 'soma' 
 
   document.addEventListener('keydown', (e)=>{
@@ -51,9 +52,7 @@ criarTabuada = ()=> {
     return valor
   }})
   
-  function getRandomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
+  const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
   const denominadores = {
     '01': 1,
@@ -118,11 +117,53 @@ criarTabuada = ()=> {
   };
   
   total = () => {
-    const num = Number(numerador.outerText);
-    const den = Number(denominador.outerText);
+    const num = Number(numerador.textContent);
+    const den = Number(denominador.textContent);
     const operador = document.querySelector('.sinal i')
     let result
-    if (valor.charAt(0) === "s") {
+    switch (valor.charAt(0)) {
+      case '':
+        result = num + den;
+        contagemOperacoes.faPlus++;
+        break;
+      case '':
+        result = num - den;
+        contagemOperacoes.faMinus++;
+        break;
+      case 'v':
+        result = num * den;
+        contagemOperacoes.faTimes++;
+        break;
+      case 'd':
+        result = num / den;
+        contagemOperacoes.faDivide++;
+        break;
+      case 't':
+        switch (operador.classList.contains('fa-plus')) {
+          case true:
+            result = num + den;
+            contagemOperacoes.faPlus++;
+            break;
+          case false:
+            result = num - den;
+            contagemOperacoes.faMinus++;
+            break;
+        }
+        switch (operador.classList.contains('fa-times')) {
+          case true:
+            result = num * den;
+            contagemOperacoes.faTimes++;
+            break;
+          case false:
+            result = num / den;
+            contagemOperacoes.faDivide++;
+            break;
+        }
+        break;
+      default:
+        break;
+    }
+/*     if (valor.charAt(0) === "s") {
       result = num + den;
       contagemOperacoes.faPlus++;
     } else if (valor.charAt(0) === "m") {
@@ -146,13 +187,13 @@ criarTabuada = ()=> {
     } else if (valor.charAt(0) === "t" && operador.classList.contains("fa-divide")) {
       result = num / den;
       contagemOperacoes.faDivide++;
-    }
+    } */
     return {
       result: result,
       contagemOperacoes: contagemOperacoes
     }
   }
-  loopDeResultados = async() => {
+ /*  loopDeResultados = async() => {
     while (true) {
       await new Promise((resolve) => {
         const elementoFechar = document.querySelector('.fechar');
@@ -168,14 +209,32 @@ criarTabuada = ()=> {
       errou = 0;
       jogou = 0;
     }
-  }
+  } */
+  loopDeResultados = async () => {
+    while (true) {
+      const elementoFechar = document.querySelector('.fechar');
+      const resolverPromise = new Promise((resolve) => {
+        elementoFechar.addEventListener('click', () => {
+          resolve();
+          contagemOperacoes.faPlus = 0;
+          contagemOperacoes.faMinus = 0;
+          contagemOperacoes.faTimes = 0;
+          contagemOperacoes.faDivide = 0;
+        });
+      });
+      acerto = 0;
+      errou = 0;
+      jogou = 0;
+      await resolverPromise;
+    }
+  };
   checaResultado = () => {
     if (jogou < 0 ) jogou = 0
     if (acerto < 0 ) acerto = 0
     if (errou < 0 ) errou = 0
-    if (isNaN(totalJogos)) totalJogos = parseInt(localStorage.getItem('totalJogos'))
-    if (isNaN(totalAcertos)) totalAcertos = parseInt(localStorage.getItem('totalAcertos'))
-    if (isNaN(totalErros )) totalErros = parseInt(localStorage.getItem('totalErros'))
+    const totalJogos = parseInt(localStorage.getItem('totalJogos')) || 0;
+    const totalAcertos = parseInt(localStorage.getItem('totalAcertos')) || 0;
+    const totalErros = parseInt(localStorage.getItem('totalErros')) || 0;
     const tot = Number(resultado.value)
     const {result, contagemOperacoes} = total()
     const imagem = document.querySelector('.imagem')
@@ -187,8 +246,7 @@ criarTabuada = ()=> {
       jogou++
       totalJogos++
       totalAcertos++
-    }
-    if (result !== tot) {
+    } else {
       elementos.sucesso.innerHTML = "Dessa vez você errou !!!"
       imagem.setAttribute('src', '/img/redCross2.png')
       errou++
@@ -199,6 +257,10 @@ criarTabuada = ()=> {
     jogado.innerText = `Jogos: ${jogou}`
     acertado.innerText = `Acertos: ${acerto}`
     errado.innerText = `Erros: ${errou}`
+    
+    localStorage.setItem('totalJogos', totalJogos);
+    localStorage.setItem('totalAcertos', totalAcertos);
+    localStorage.setItem('totalErros', totalErros);
 
     return{ acerto, errou, jogou, totalJogos, totalAcertos, totalErros }
   }
@@ -318,28 +380,42 @@ criaPremios = () =>{
     if (totalAcertos % 10 === 0 && totalAcertos !== 0){
       estrela++
       premio.setAttribute("style", ImagemEstrela)
+      motivacional.classList.add('msgPremios')
+      const msgPremios = document.querySelector('.msgPremios')
+      msgPremios.setAttribute("color", "yellow")
+      motivacional.innerText = 'Parabéns você acertou 10 operações'
+      premio.appendChild(motivacional)
       modalPremio.showModal()
       setTimeout(()=>{
         modalPremio.close()
       },3000)
+      motivacional.innerText =''
     }
     
     if (totalErros % 10 === 0 && totalErros !== 0){
       downThumb++
       premio.setAttribute("style", ImagemDownThumb)
+      msgPremios.setAttribute("color", "maroon")
+      motivacional.innerText = 'Você cometeu seu decimo erro, estude mais'
+      premio.appendChild(motivacional)
       modalPremio.showModal()
       setTimeout(()=>{
         modalPremio.close()
       },3000)
+      motivacional.innerText =''
     }
     
     if (totalJogos % 100 === 0 && totalJogos !== 0){
       nivel++
       premio.setAttribute("style", ImagemCalculadora)
+      msgPremios.setAttribute("color", "chartreuse")
+      motivacional.innerText = 'Parabéns você completou 100 jogos'
+      premio.appendChild(motivacional)
       modalPremio.showModal()
       setTimeout(()=>{
         modalPremio.close()
       },3000)
+      motivacional.innerText =''
     }
     
     estrelaHTML.innerHTML = `<i class="fa-solid fa-star"></i><i>${estrela.toFixed(0)}</i>`;
