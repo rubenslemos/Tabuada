@@ -1,5 +1,7 @@
 class MobileNavbar {
+
   constructor(mobileMenu, navList, navLinks) {
+
     this.mobileMenu = document.querySelector(mobileMenu);
     this.navList = document.querySelector(navList);
     this.navLinks = document.querySelectorAll(navLinks);
@@ -18,6 +20,8 @@ class MobileNavbar {
     });
   }
 
+ 
+
   handleClick = () => {
     this.navList.classList.toggle(this.activeClass);
     this.mobileMenu.classList.toggle(this.activeClass);
@@ -27,11 +31,12 @@ class MobileNavbar {
   addClickEvent() {
     this.mobileMenu.addEventListener("click", this.handleClick);
   }
-
   init() {
     return this;
   }
 }
+
+ 
 
 const elementos = {
   button: document.querySelector('.resposta'),
@@ -61,6 +66,7 @@ const elementos = {
 const mobileNavbar = new MobileNavbar(".mobile-menu", ".nav-list", ".nav-list li");
 
 const elementosMenu = [elementos.soma, elementos.menos, elementos.vezes, elementos.dividir, elementos.todas];
+
 const elementosMostrados = [elementos.itensSoma, elementos.itensMenos, elementos.itensVezes, elementos.itensDividir, elementos.itensTodas];
 
 function toggleMostra(event) {
@@ -89,8 +95,8 @@ elementos.fechar.onclick = function () {
   elementos.modal.close();
   enviarResultadosParaServidor(acerto, errou, jogou, contagemOperacoes)
   elementos.fim.showModal()
-/*   enviarResultadosOperacoesParaServidor( contagemOperacoes ) */
 };
+
 elementos.ok.onclick = function  () {
   p[i] = Number(numerador.outerText);
   s[i] = Number(denominador.outerText);
@@ -100,7 +106,7 @@ elementos.ok.onclick = function  () {
   acerto = 0;
   errou = 0;
   jogou = 0;
-  
+
 };
 
 let p = [];
@@ -114,8 +120,8 @@ function proximaClick() {
   criaTabuada();
   elementos.modal.close();
 }
-
 function back() {
+
   numerador.innerText = p[i - 1];
   denominador.innerText = s[i - 1];
   i--;

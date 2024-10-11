@@ -16,7 +16,7 @@ app.get('/', (req, res) =>{
 })
 
 mongoose.connect(
-  `mongodb+srv://${user}:${pass}@login.urmtwxs.mongodb.net/`
+  `mongodb+srv://${user}:${pass}@tabuada.hz6j8rr.mongodb.net/`
   ).then(()=>{
     app.listen(port, host)
     console.log('Conectado')
