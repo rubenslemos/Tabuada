@@ -82,6 +82,12 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     require: true,
   },
+  turma: {
+    type: String, 
+    required: true,
+    trim: true,
+    uppercase: true, 
+  },
   createdAt: {
     type:Date,
     default:Date.now,

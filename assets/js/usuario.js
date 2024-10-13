@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const email = formData.get('email')
     const password = formData.get('password')
     const confirmPassword = formData.get('confirmPassword')
+    const turma = formData.get('turma')
     const cadastroError = document.createElement('small')
     cadastroError.classList.add('senhaError')
     const cadastroOk = document.createElement('small')
@@ -37,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ tipo, name, email, password, confirmPassword }),
+        body: JSON.stringify({ tipo, name, email, password, confirmPassword, turma }),
       })
       const data = await response.json()
       mensagem = data.Msg
@@ -61,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
       cadastro.close()
       login.classList.remove('fechado')
       mensagemSucesso.remove()
-    }, 5000);
+    }, 3000);
   }
   
   function mostrarMsgErro(mensagem) {
@@ -71,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
     form.insertBefore(mensagemErro, erroCadastro)
     setTimeout(()=>{
       mensagemErro.remove()
-    },5000)
+    },3000)
   }
 
   enviarBotao.addEventListener('click', criarUsuario)
@@ -83,6 +84,10 @@ document.addEventListener("DOMContentLoaded", function () {
   })
   
   function preencherResultadosNoHTML(user) {
+    if (!user) {
+      console.error('Usuário indefinido ao tentar preencher resultados');
+      return; // Sai da função se 'user' estiver indefinido
+    }
     const containerResultado = document.querySelector('.containerResultado')
     const containerSection = containerResultado.querySelector('.containerResultados')
     const resultadosSection = containerSection.querySelector('.resultados')
@@ -170,56 +175,91 @@ document.addEventListener("DOMContentLoaded", function () {
       resultadosSection.appendChild(rodadaDiv)
     });
   }
-  async function criaResultado (userId) {
-    const response = await fetch (`/auth/login/${userId}`,{ 
-      method: 'GET',
-    })
-    try {
-      if(response.status === 201){
-        const userData = await response.json()
-        const user = userData.user
-        preencherResultadosNoHTML(user);
-        if (user.tipo === 'Professor') {
-          try {
-            const response = await fetch('/auth/register', {
-                method: 'GET',
-            });
-
-          if (response.status === 200) {
-            const usersData = await response.json();
-            const users = usersData;
-            const containerResultados = document.querySelector('.containerResultados');
-        
-            divResultado.className = 'resultadoDiv';
-            divResultado.innerHTML = `
-              <label for="alunos" class="labelResultado">Selecione um Usuario:</label>
-              <select id="alunos" name="alunos" class="listaResultados">
-                <option value="" disabled selected>${'Logado: ' + user.name}</option>
-                ${users.map(user => `<option value="${user._id}">${user.name}</option>`).join('')}
-              </select>
-            `;
-          const result = document.querySelector('.resultados')
-          containerResultados.insertBefore(divResultado, result);
-          const selectAlunos = document.getElementById('alunos')
-          selectAlunos.addEventListener('change', function() {
-            const selectedUserId = selectAlunos.value;
-            const selectedUser = users.find(user => user._id === selectedUserId)
-            preencherResultadosNoHTML(selectedUser);
+      async function criaResultado(userId) {
+      try {
+          // Faz a requisição para obter os dados do usuário logado
+          const response = await fetch(`/auth/login/${userId}`, { 
+              method: 'GET',
           });
-          } else {
-            console.error('Erro ao obter dados do usuário');
-          }
-    } catch (error) { 
-      console.error('Erro ao obter dados do usuário', error);
-    }}
-      } else {
-        console.error('Erro ao obter dados do usuário');
-      }
-    } catch (error) {
-        console.error('Erro ao obter dados do usuário', error);
-    }
-  }
+    
+          if(response.ok){ // Alteração: Verifica se a resposta é bem-sucedida
+              const userData = await response.json();
+              const user = userData.user || userData; // Ajuste para garantir que 'user' esteja definido
+              const containerResultados = document.querySelector('.containerResultados');
+              //containerResultados.innerHTML = '';
+              preencherResultadosNoHTML(user);
+              if (user.tipo === 'Professor') {
+                  try {
+                      const token = localStorage.getItem('token'); // Obtém o token armazenado
+    
+                      const response = await fetch('/auth/register', {
+                          method: 'GET',
+                          headers: {
+                              'Content-Type': 'application/json',
+                              'Authorization': `Bearer ${token}`, // Inclui o token no cabeçalho
+                          },
+                      });
+    
+                      if (response.status === 200) {
+                          const usersData = await response.json();
+                          const users = usersData;
+    
+                          // Filtra os alunos da mesma turma
+                          const alunosDaMesmaTurma = users.filter(u => u.tipo === 'Aluno' && u.turma === user.turma);
+    
 
+                          const divResultadoAntigo = containerResultados.querySelector('.resultadoDiv');
+                          if (divResultadoAntigo) {
+                            divResultadoAntigo.remove();
+                          }
+                          const divResultado = document.createElement('div');
+    
+                          divResultado.className = 'resultadoDiv';
+                          divResultado.innerHTML = `
+                              <label for="alunos" class="labelResultado">Selecione um Usuário:</label>
+                              <select id="alunos" name="alunos" class="listaResultados">
+                                  <option value="${user._id}" selected>${'Logado: ' + user.name}</option>
+                                  ${alunosDaMesmaTurma.map(aluno => `<option value="${aluno._id}">${aluno.name}</option>`).join('')}
+                              </select>
+                          `;
+    
+                          const result = document.querySelector('.resultados');
+                          containerResultados.insertBefore(divResultado, result);
+    
+                          const selectAlunos = document.getElementById('alunos');
+                          selectAlunos.addEventListener('change', function() {
+                              const selectedUserId = selectAlunos.value;
+                              let selectedUser;
+                              if (selectedUserId === user._id) {
+                                  selectedUser = user;
+                              } else {
+                                  selectedUser = alunosDaMesmaTurma.find(aluno => aluno._id === selectedUserId); // Busca o aluno selecionado
+                              }
+                          
+                              if (selectedUser) {
+                                  preencherResultadosNoHTML(selectedUser);
+                              } else {
+                                  console.error('Usuário selecionado não encontrado');
+                              }
+                          });
+                      } else {
+                          console.error('Erro ao obter dados dos alunos:', response.status, response.statusText);
+                          alert('Erro ao obter a lista de alunos da sua turma.');
+                      }
+                  } catch (error) { 
+                      console.error('Erro ao obter dados dos alunos', error);
+                      alert('Erro ao obter a lista de alunos da sua turma.');
+                  }
+              }
+          } else {
+              console.error('Erro ao obter dados do usuário:', response.status, response.statusText);
+              alert('Erro ao obter seus dados. Tente novamente.');
+          }
+      } catch (error) {
+          console.error('Erro ao obter dados do usuário', error);
+          alert('Erro ao obter seus dados. Tente novamente.');
+      }
+    }
   desempenho.addEventListener('click', async (e) =>{
     e.preventDefault()
     const userId = localStorage.getItem('userId')

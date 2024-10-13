@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
+const auth = require('../middlewares/authenticator');
 require('dotenv').config()
 const hash = process.env.SECRET
 
@@ -10,7 +11,7 @@ function generateToken(params = { }){
   })
 }
 router.post('/', async (req,res)=>{
-  const {tipo, name, email, password, confirmPassword} = req.body
+  const {tipo, name, email, password, confirmPassword, turma} = req.body
   if(!tipo){
     return res.status(422).json({Msg: 'Tipo requerido'})
   }
@@ -24,6 +25,8 @@ router.post('/', async (req,res)=>{
     return res.status(422).json({Msg: 'Confirmação de senha requerida'})
   }else if(password !== confirmPassword){
     return res.status(422).json({Msg: 'Confirmação de senha e Senha diferentes'})
+  }else if (!turma) {
+    return res.status(422).json({ Msg: 'Turma requerida' });
   }else{
     const emailExists = await User.findOne({email: email.toLowerCase().trim()})
     if(emailExists){
@@ -62,7 +65,8 @@ router.post('/', async (req,res)=>{
         name: name.toLowerCase().trim(),
         email: email.toLowerCase().trim(),
         password,
-        permissoes      
+        permissoes,
+        turma: turma.toUpperCase().trim()      
       })
       await user.save()
       res.status(201).json({Msg: 'Cadastrado com sucesso'})
@@ -75,18 +79,36 @@ router.post('/', async (req,res)=>{
     }
   }
 })
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
-    
-    const users = await User.find().populate('rounds')
-    if(!users){
-      res.status(422).json({error: 'Não há usuários cadastrados.'})
-      return
-    }
-    res.status(200).json(users)
+    const loggedInUser = req.user; // Obtém o usuário logado
 
+    if (loggedInUser.tipo === 'Professor') {
+      // Se o usuário é um professor, buscar apenas os alunos da mesma turma
+      const alunosDaMesmaTurma = await User.find({
+        tipo: 'Aluno',
+        turma: loggedInUser.turma
+      }).populate('rounds');
+
+      if (!alunosDaMesmaTurma.length) {
+        return res.status(422).json({ error: 'Não há alunos cadastrados nessa turma.' });
+      }
+
+      return res.status(200).json(alunosDaMesmaTurma);
+    } else {
+      // Se não for professor, pode decidir o que retornar
+      // Por exemplo, retornar todos os alunos
+      const allAlunos = await User.find({ tipo: 'Aluno' }).populate('rounds');
+
+      if (!allAlunos.length) {
+        return res.status(422).json({ error: 'Não há alunos cadastrados.' });
+      }
+
+      return res.status(200).json(allAlunos);
+    }
   } catch (error) {
-    res.status(500).json({error: error})
+    console.error('Erro ao listar alunos:', error);
+    res.status(500).json({ error: 'Erro ao listar alunos' });
   }
 })
 module.exports = router
