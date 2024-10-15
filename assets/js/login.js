@@ -88,6 +88,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
       localStorage.setItem('totalAcertos', totalAcertos);
       localStorage.setItem('totalErros', totalErros);
 
+      criaPremios()
+
       const resAuth = await fetch ('/auth/login/token',{
         method: 'POST',
         headers:{

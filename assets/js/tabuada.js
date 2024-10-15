@@ -18,10 +18,6 @@ criarTabuada = ()=> {
   if (isNaN(totalErros)) totalErros= 0
   if (isNaN(totalJogos)) totalJogos= 0
 
-  let estrela = isNaN(totalAcertos) ? 0 : Math.floor(totalAcertos / 10);
-  let downThumb = isNaN(totalErros) ? 0 : Math.floor(totalErros / 10);
-  let nivel = isNaN(totalJogos) ? 0 : Math.floor(totalJogos / 100);
-
   const numerador = document.querySelector('.numerador')
   const denominador = document.querySelector('.denominador')
   const sinal = document.querySelector('.sinal')
@@ -213,13 +209,25 @@ criarTabuada = ()=> {
       const response = await fetch(`/auth/login/${userId}`, {
         method: 'GET',
       });
-      localStorage.setItem('totalJogos', totalJogos || 0);
-      localStorage.setItem('totalAcertos', totalAcertos || 0);
-      localStorage.setItem('totalErros', totalErros || 0)
+      let totalJogos = parseInt(localStorage.getItem('totalJogos')) || 0;
+      let totalAcertos = parseInt(localStorage.getItem('totalAcertos')) || 0;
+      let totalErros = parseInt(localStorage.getItem('totalErros')) || 0;
 
+      // Atualize os valores corretamente antes de enviar para o servidor
+      totalJogos += jogou;
+      totalAcertos += acerto;
+      totalErros += errou;
+      
+      localStorage.setItem('totalJogos', totalJogos);
+      localStorage.setItem('totalAcertos', totalAcertos);
+      localStorage.setItem('totalErros', totalErros)
+      
       if (response.status === 201) {
+
         const userData = await response.json();
         const userId = userData.user;
+
+        
         const resposta = await fetch('/round', {
           method: 'POST',
           headers: {
@@ -278,9 +286,9 @@ criarTabuada = ()=> {
       if (response.status === 201) {
         const userData = await response.json();
         const { totalJogos, totalAcertos, totalErros } = userData;
-        localStorage.setItem('totalJogos', totalJogos);
-        localStorage.setItem('totalAcertos', totalAcertos);
-        localStorage.setItem('totalErros', totalErros);
+        localStorage.setItem('totalJogos', totalJogos || 0);
+        localStorage.setItem('totalAcertos', totalAcertos || 0);
+        localStorage.setItem('totalErros', totalErros || 0);
       } else {
         console.error("Usuário não encontrado!");
       }
@@ -293,6 +301,10 @@ criaPremios = () =>{
     let downThumbHTML = document.getElementById('downThumb');
     let nivelHTML = document.getElementById('nivel');
     let resultados = document.querySelector('.premios');
+
+    let totalAcertos = parseInt(localStorage.getItem('totalAcertos') );
+    let totalErros = parseInt(localStorage.getItem('totalErros') );
+    let totalJogos = parseInt(localStorage.getItem('totalJogos') );
 
     if (!estrelaHTML) {
       estrelaHTML = document.createElement('small');
@@ -312,15 +324,9 @@ criaPremios = () =>{
     } else {
       resultados.innerHTML = '';
     }
-    if (totalAcertos % 10 === 0 && totalAcertos !== 0){
-      estrela++
-    }
-    if (totalErros % 10 === 0 && totalErros !== 0){
-      downThumb++
-    }
-    if (totalJogos % 100 === 0 && totalJogos !== 0){
-      nivel++
-    }
+    let estrela = isNaN(totalAcertos) ? 0 : Math.floor(totalAcertos / 10);
+    let downThumb = isNaN(totalErros) ? 0 : Math.floor(totalErros / 10);
+    let nivel = isNaN(totalJogos) ? 0 : Math.floor(totalJogos / 100);
 
     estrelaHTML.innerHTML = `<i class="fa-solid fa-star"></i><i>${estrela.toFixed(0)}</i>`;
     downThumbHTML.innerHTML = `<i class="fa-solid fa-thumbs-down"></i><i>${downThumb.toFixed(0)}</i>`;
