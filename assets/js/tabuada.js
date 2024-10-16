@@ -209,23 +209,25 @@ criarTabuada = ()=> {
       const response = await fetch(`/auth/login/${userId}`, {
         method: 'GET',
       });
-      let totalJogos = parseInt(localStorage.getItem('totalJogos')) || 0;
-      let totalAcertos = parseInt(localStorage.getItem('totalAcertos')) || 0;
-      let totalErros = parseInt(localStorage.getItem('totalErros')) || 0;
-
-      // Atualize os valores corretamente antes de enviar para o servidor
-      totalJogos += jogou;
-      totalAcertos += acerto;
-      totalErros += errou;
       
-      localStorage.setItem('totalJogos', totalJogos);
-      localStorage.setItem('totalAcertos', totalAcertos);
-      localStorage.setItem('totalErros', totalErros)
-      
-      if (response.status === 201) {
-
+      if (response.status === 200) {
+        
         const userData = await response.json();
         const userId = userData.user;
+
+        let totalJogos = parseInt(localStorage.getItem('totalJogos')) || 0;
+        let totalAcertos = parseInt(localStorage.getItem('totalAcertos')) || 0;
+        let totalErros = parseInt(localStorage.getItem('totalErros')) || 0;
+  
+        // Atualize os valores corretamente antes de enviar para o servidor
+        totalJogos += jogou;
+        totalAcertos += acerto;
+        totalErros += errou;
+        
+        localStorage.setItem('totalJogos', totalJogos);
+        localStorage.setItem('totalAcertos', totalAcertos);
+        localStorage.setItem('totalErros', totalErros)
+        
 
         
         const resposta = await fetch('/round', {
@@ -280,15 +282,20 @@ criarTabuada = ()=> {
   premios = async () => {
     try {
       const userId = localStorage.getItem('userId');
+      if (!userId) {
+        console.error("userId não encontrado no localStorage.");
+        return;
+    }
       const response = await fetch(`/auth/login/${userId}`, {
         method: 'GET',
       });
-      if (response.status === 201) {
+
+      localStorage.setItem('totalJogos', totalJogos || 0);
+      localStorage.setItem('totalAcertos', totalAcertos || 0);
+      localStorage.setItem('totalErros', totalErros || 0);
+      if (response.status === 200) {
         const userData = await response.json();
         const { totalJogos, totalAcertos, totalErros } = userData;
-        localStorage.setItem('totalJogos', totalJogos || 0);
-        localStorage.setItem('totalAcertos', totalAcertos || 0);
-        localStorage.setItem('totalErros', totalErros || 0);
       } else {
         console.error("Usuário não encontrado!");
       }
@@ -328,9 +335,9 @@ criaPremios = () =>{
     let downThumb = isNaN(totalErros) ? 0 : Math.floor(totalErros / 10);
     let nivel = isNaN(totalJogos) ? 0 : Math.floor(totalJogos / 100);
 
-    estrelaHTML.innerHTML = `<i class="fa-solid fa-star"></i><i>${estrela.toFixed(0)}</i>`;
-    downThumbHTML.innerHTML = `<i class="fa-solid fa-thumbs-down"></i><i>${downThumb.toFixed(0)}</i>`;
-    nivelHTML.innerHTML = `<i class="fa-solid fa-calculator"></i><i>${nivel.toFixed(0)}</i>`;
+    estrelaHTML.innerHTML = `<i class="fa-solid fa-star" title="A cada 10 acertos ganhe 1 estrelinha"></i><i>${estrela.toFixed(0)}</i>`;
+    downThumbHTML.innerHTML = `<i class="fa-solid fa-thumbs-down" title="A cada 10 erros ganhe 1 Falhou"></i><i>${downThumb.toFixed(0)}</i>`;
+    nivelHTML.innerHTML = `<i class="fa-solid fa-calculator" title="A cada 100 acertos ganhe 1 Calculadora"></i><i>${nivel.toFixed(0)}</i>`;
 
     resultados.appendChild(estrelaHTML);
     resultados.appendChild(downThumbHTML);
@@ -346,7 +353,7 @@ criaPremios = () =>{
     sinal.innerHTML=""
     criarSinal(valor)
     cociente(valor) 
-    criaPremios()
+    criaPremios()    
     resultado.value = null
   }
   criaTabuada();

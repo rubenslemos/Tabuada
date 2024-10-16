@@ -129,7 +129,7 @@ router.get('/:id', async (req,res)=>{
       }
     })
     if(!user) return res.status(400).send({error: 'Usuario não encontrado'})
-    res.status(201).send({user})
+    res.status(200).send({user})
   } catch (error) {
     return res.status(400).send({error: 'Erro ao listar usuario'})
   }
