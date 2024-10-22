@@ -93,7 +93,6 @@ elementos.button.onclick = function () {
 
 elementos.fechar.onclick = function () {
   elementos.modal.close();
-  enviarResultadosParaServidor(acerto, errou, jogou, contagemOperacoes)
   elementos.fim.showModal()
 };
 

@@ -54,6 +54,15 @@ document.addEventListener('DOMContentLoaded', ()=>{
   login.classList.add('fechado')
   cadastro.classList.remove('fechado')
  }) 
+ async function limparLocalStorage() {
+  if (!login.classList.contains('fechado')) {
+    localStorage.clear();
+    localStorage.removeItem('userId');
+  }
+}
+
+limparLocalStorage();
+
  async function fazerLogin (e) {
   e.preventDefault()
   const formData = new FormData(form)
@@ -135,6 +144,18 @@ document.addEventListener('DOMContentLoaded', ()=>{
       console.error('Erro ao enviar os dados do formulário', error);
   }
  }
+  let isLoginOpen = false
+  const observer = new MutationObserver(() => {
+    if (!isLoginOpen) {
+      limparLocalStorage();
+    }
+});
+observer.observe(login, {
+  subtree: true,
+  childList: true,
+  attributes: true
+});
+
  confirmLogin.addEventListener('click', fazerLogin)
  senha.addEventListener('keypress', (e)=>{
   if(e.key ==='Enter') fazerLogin(e)

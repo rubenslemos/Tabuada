@@ -8,6 +8,7 @@ let contagemOperacoes = {
   faTimes: 0,
   faDivide: 0
 };
+isLoginScreen = true;
 
 criarTabuada = ()=> {
   let totalJogos = parseInt(localStorage.getItem('totalJogos'))
@@ -172,9 +173,9 @@ criarTabuada = ()=> {
     if (jogou < 0 ) jogou = 0
     if (acerto < 0 ) acerto = 0
     if (errou < 0 ) errou = 0
-    if (isNaN(totalJogos)) totalJogos = parseInt(localStorage.getItem('totalJogos'))
+/*     if (isNaN(totalJogos)) totalJogos = parseInt(localStorage.getItem('totalJogos'))
     if (isNaN(totalAcertos)) totalAcertos = parseInt(localStorage.getItem('totalAcertos'))
-    if (isNaN(totalErros )) totalErros = parseInt(localStorage.getItem('totalErros'))
+    if (isNaN(totalErros )) totalErros = parseInt(localStorage.getItem('totalErros')) */
     const tot = Number(resultado.value)
     const {result, contagemOperacoes} = total()
     const imagem = document.querySelector('.imagem')
@@ -184,8 +185,12 @@ criarTabuada = ()=> {
       imagem.setAttribute('src', '/img/check2.png')
       acerto++
       jogou++
-      totalJogos++
-      totalAcertos++
+      /*totalJogos++
+      totalAcertos++*/
+      totalAcertos = (parseInt(localStorage.getItem('totalAcertos')) || 0) + 1
+      totalJogos = (parseInt(localStorage.getItem('totalJogos')) || 0) + 1
+      totalErros = parseInt(localStorage.getItem('totalErros')) || 0
+      
     }
 
     if (result !== tot) {
@@ -193,9 +198,16 @@ criarTabuada = ()=> {
       imagem.setAttribute('src', '/img/redCross2.png')
       errou++
       jogou++
-      totalJogos++
-      totalErros++
+     /*  totalJogos++
+      totalErros++ */
+      totalAcertos = parseInt(localStorage.getItem('totalAcertos')) || 0
+      totalJogos = (parseInt(localStorage.getItem('totalErros')) || 0) + 1
+      totalErros = (parseInt(localStorage.getItem('totalErros')) || 0) + 1 
     }
+
+    localStorage.setItem('totalAcertos', totalAcertos)
+    localStorage.setItem('totalErros', totalErros)
+    localStorage.setItem('totalJogos', totalJogos)
 
     jogado.innerText = `Jogos: ${jogou}`
     acertado.innerText = `Acertos: ${acerto}`
@@ -215,21 +227,6 @@ criarTabuada = ()=> {
         const userData = await response.json();
         const userId = userData.user;
 
-        let totalJogos = parseInt(localStorage.getItem('totalJogos')) || 0;
-        let totalAcertos = parseInt(localStorage.getItem('totalAcertos')) || 0;
-        let totalErros = parseInt(localStorage.getItem('totalErros')) || 0;
-  
-        // Atualize os valores corretamente antes de enviar para o servidor
-        totalJogos += jogou;
-        totalAcertos += acerto;
-        totalErros += errou;
-        
-        localStorage.setItem('totalJogos', totalJogos);
-        localStorage.setItem('totalAcertos', totalAcertos);
-        localStorage.setItem('totalErros', totalErros)
-        
-
-        
         const resposta = await fetch('/round', {
           method: 'POST',
           headers: {
@@ -283,12 +280,18 @@ criarTabuada = ()=> {
     try {
       const userId = localStorage.getItem('userId');
       if (!userId) {
-        console.error("userId não encontrado no localStorage.");
+        if (!isLoginScreen) {
+          console.error("userId não encontrado no localStorage.");
+        }
         return;
     }
       const response = await fetch(`/auth/login/${userId}`, {
         method: 'GET',
       });
+
+      let totalJogos = parseInt(localStorage.getItem('totalJogos')) || 0;
+      let totalAcertos = parseInt(localStorage.getItem('totalAcertos')) || 0;
+      let totalErros = parseInt(localStorage.getItem('totalErros')) || 0;
 
       localStorage.setItem('totalJogos', totalJogos || 0);
       localStorage.setItem('totalAcertos', totalAcertos || 0);
@@ -297,10 +300,14 @@ criarTabuada = ()=> {
         const userData = await response.json();
         const { totalJogos, totalAcertos, totalErros } = userData;
       } else {
-        console.error("Usuário não encontrado!");
+        if (!isLoginScreen) {
+          console.error("Usuário não encontrado!");
+        }
       }
     } catch (error) {
-      console.error('Erro ao obter dados do usuário', error);
+      if (!isLoginScreen) {
+        console.error('Erro ao obter dados do usuário', error);
+      }
     }}
 
 criaPremios = () =>{
