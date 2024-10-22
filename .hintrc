@@ -9,7 +9,8 @@
       {
         "label": "off"
       }
-    ]
+    ],
+    "highest-available-document-mode": "off"
   },
   "browserslist": [
     "defaults",
