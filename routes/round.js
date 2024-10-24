@@ -22,7 +22,7 @@ try {
   await user.save()
   res.status(201).send({round})
 } catch (error) {
-    console.log(error)
+    console.error(error)
     res.status(500).json({msg: 'Erro no servidor, tente em alguns minutos'})
   }
 })

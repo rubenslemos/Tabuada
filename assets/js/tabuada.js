@@ -173,9 +173,7 @@ criarTabuada = ()=> {
     if (jogou < 0 ) jogou = 0
     if (acerto < 0 ) acerto = 0
     if (errou < 0 ) errou = 0
-/*     if (isNaN(totalJogos)) totalJogos = parseInt(localStorage.getItem('totalJogos'))
-    if (isNaN(totalAcertos)) totalAcertos = parseInt(localStorage.getItem('totalAcertos'))
-    if (isNaN(totalErros )) totalErros = parseInt(localStorage.getItem('totalErros')) */
+
     const tot = Number(resultado.value)
     const {result, contagemOperacoes} = total()
     const imagem = document.querySelector('.imagem')
@@ -185,8 +183,7 @@ criarTabuada = ()=> {
       imagem.setAttribute('src', '/img/check2.png')
       acerto++
       jogou++
-      /*totalJogos++
-      totalAcertos++*/
+
       totalAcertos = (parseInt(localStorage.getItem('totalAcertos')) || 0) + 1
       totalJogos = (parseInt(localStorage.getItem('totalJogos')) || 0) + 1
       totalErros = parseInt(localStorage.getItem('totalErros')) || 0
@@ -198,8 +195,7 @@ criarTabuada = ()=> {
       imagem.setAttribute('src', '/img/redCross2.png')
       errou++
       jogou++
-     /*  totalJogos++
-      totalErros++ */
+
       totalAcertos = parseInt(localStorage.getItem('totalAcertos')) || 0
       totalJogos = (parseInt(localStorage.getItem('totalErros')) || 0) + 1
       totalErros = (parseInt(localStorage.getItem('totalErros')) || 0) + 1 
@@ -239,7 +235,7 @@ criarTabuada = ()=> {
           const roundData = await resposta.json();
           const roundId = roundData.round._id;
           localStorage.setItem('roundId', roundId);
-          console.log('Resultados salvos com sucesso no servidor');
+
           try {
             const userId = localStorage.getItem('userId');
             const roundId = localStorage.getItem('roundId');
@@ -256,7 +252,7 @@ criarTabuada = ()=> {
             });
 
             if (respostaOperacoes.status === 200) {
-              console.log('Operações salvas com sucesso no servidor');
+
             } else {
               console.error('Erro ao salvar operações no servidor');
             }
