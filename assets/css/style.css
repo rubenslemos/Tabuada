@@ -275,9 +275,13 @@ nav{
 
 .submenu{
   display: none;
+  z-index: 10;
   flex-direction: column;
   color: black;
   width: 100%;
+}
+.submenu li {
+  opacity: 1;
 }
 .submenu li a{
   width: 100%;

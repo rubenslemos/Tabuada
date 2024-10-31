@@ -13,7 +13,7 @@ class MobileNavbar {
   }
 
   animateLinks() {
-    this.navLinks.forEach((link, index) => {
+     this.navLinks.forEach((link, index) => {
       link.style.animation
         ? (link.style.animation = "")
         : (link.style.animation = `navLinkFade 0.3s ease forwards ${index / 100 + 0.1}s`);
@@ -71,14 +71,14 @@ const elementosMostrados = [elementos.itensSoma, elementos.itensMenos, elementos
 
 function toggleMostra(event) {
   const elementoClicado = event.target;
-
   elementosMenu.forEach((elemento, index) => {
     if (elemento === elementoClicado) {
-      elementosMostrados[index].classList.toggle("mostra");
+      elementosMostrados[index].classList.add("mostra");
     } else {
       elementosMostrados[index].classList.remove("mostra");
     }
   });
+  criaTabuada();
 }
 
 elementosMenu.forEach((elemento) => {

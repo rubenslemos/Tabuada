@@ -15,6 +15,10 @@ criarTabuada = ()=> {
   let totalAcertos = parseInt(localStorage.getItem('totalAcertos'))
   let totalErros = parseInt(localStorage.getItem('totalErros'))
 
+  let estrela = isNaN(totalAcertos) ? 0 : Math.floor(totalAcertos / 10);
+  let downThumb = isNaN(totalErros) ? 0 : Math.floor(totalErros / 10);
+  let nivel = isNaN(totalJogos) ? 0 : Math.floor(totalJogos / 100);
+
   if (isNaN(totalAcertos)) totalAcertos= 0
   if (isNaN(totalErros)) totalErros= 0
   if (isNaN(totalJogos)) totalJogos= 0
@@ -28,6 +32,88 @@ criarTabuada = ()=> {
   const errado = document.querySelector('.errou')
 
   let valor = 'soma'
+
+  let denominadores = {};
+
+  const getFimIntervalo = (nivel) => {
+    if (nivel <= 10) return 10;
+    if (nivel <= 20) return 20;
+    if (nivel <= 30) return 30;
+    if (nivel <= 40) return 40;
+    if (nivel <= 50) return 50;
+    if (nivel <= 60) return 60;
+    if (nivel <= 70) return 70;
+    if (nivel <= 80) return 80;
+    if (nivel <= 90) return 90;
+    return 100;
+  };
+
+  const preencherDenominadores = (nivel) => {
+    const fim = getFimIntervalo(nivel);
+    for (let i = 1; i <= fim; i++) {
+      denominadores[i.toString().padStart(2, '0')] = i;
+    }
+  };
+  
+  const liberarDenominadores = (nivel) => {
+    denominadores = {};
+    preencherDenominadores(nivel);
+  };
+
+  const getIntervaloAtual = (nivel) => {
+    return { inicio: 1, fim: getFimIntervalo(nivel) };
+  };
+
+const adicionarDenominadores = (nivel) => {
+  const intervaloAtual = getIntervaloAtual(nivel);
+    adicionarMenus(intervaloAtual.fim);
+ }
+
+
+
+const adicionarMenus = (fimIntervalo) => {
+  const menus = [
+    { id: 'soma', classe: 'somar' },
+    { id: 'menos', classe: 'menos' },
+    { id: 'vezes', classe: 'vezes' },
+    { id: 'dividir', classe: 'dividi' },
+    { id: 'todas', classe: 'todas' }
+  ];
+
+  menus.forEach((menu) => {
+    const elemento = document.querySelector(`ul#${menu.id}`);
+    if (!elemento) {
+      console.error(`Elemento submenu não encontrado para ${menu.id}. Verifique o HTML e o id.`);
+      return;
+    } 
+    elemento.innerHTML = ''; // Limpa o conteúdo antes de adicionar novos itens
+
+    for (let i = 1; i <= fimIntervalo; i++) {
+      const li = document.createElement('li');
+      const link = document.createElement('a');
+      link.className = menu.classe;
+      link.href = '#';
+      link.setAttribute('value', `${menu.classe}${i}`);
+      link.textContent = i;
+      li.appendChild(link);
+      elemento.appendChild(li); // Adiciona o item `li` diretamente ao submenu
+    }
+
+    // Adiciona o item extra com o ícone no final do menu
+    const linhaExtra = document.createElement('li');
+    const linkExtra = document.createElement('a');
+    linkExtra.className = `${menu.classe} fonte`;
+    linkExtra.href = '#';
+    linkExtra.setAttribute('value', `${menu.classe}${fimIntervalo + 1}`);
+    linkExtra.id = `${menu.classe}${fimIntervalo + 1}`;
+    linkExtra.innerHTML = '&#128472;'; // Ícone ou caractere especial
+    linhaExtra.appendChild(linkExtra);
+    elemento.appendChild(linhaExtra); // Adiciona o item extra diretamente
+  });
+};
+
+  liberarDenominadores(nivel);
+  adicionarDenominadores(nivel);
 
   document.addEventListener('keydown', (e)=>{
     if(e.key === 'Escape' || e.key === 'Esc'){
@@ -51,22 +137,9 @@ criarTabuada = ()=> {
     return valor
   }})
 
-  function getRandomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  const denominadores = {
-    '01': 1,
-    '02': 2,
-    '03': 3,
-    '04': 4,
-    '05': 5,
-    '06': 6,
-    '07': 7,
-    '08': 8,
-    '09': 9,
-    '10': 10,
-  };
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
   cociente = (valor) => {
     const operador = document.querySelector('.sinal i')
@@ -333,10 +406,16 @@ criaPremios = () =>{
       resultados.classList.add('premios');
     } else {
       resultados.innerHTML = '';
+    }if (!estrela) {
+      estrela = isNaN(totalAcertos) ? 0 : Math.floor(totalAcertos / 10);
     }
-    let estrela = isNaN(totalAcertos) ? 0 : Math.floor(totalAcertos / 10);
-    let downThumb = isNaN(totalErros) ? 0 : Math.floor(totalErros / 10);
-    let nivel = isNaN(totalJogos) ? 0 : Math.floor(totalJogos / 100);
+    if (!downThumb) {
+      downThumb = isNaN(totalErros) ? 0 : Math.floor(totalErros / 10);
+    }
+    if (!nivel){
+      nivel = isNaN(totalJogos) ? 0 : Math.floor(totalJogos / 100);
+    }
+    
 
     estrelaHTML.innerHTML = `<i class="fa-solid fa-star" title="A cada 10 acertos ganhe 1 estrelinha"></i><i>${estrela.toFixed(0)}</i>`;
     downThumbHTML.innerHTML = `<i class="fa-solid fa-thumbs-down" title="A cada 10 erros ganhe 1 Falhou"></i><i>${downThumb.toFixed(0)}</i>`;
@@ -349,6 +428,9 @@ criaPremios = () =>{
     const logo = document.querySelector('.logo');
     const topo = document.getElementById('topo');
     topo.insertBefore(resultados, logo);
+	
+	return nivel; 	
+	
   }
 
   criaTabuada = async () => {
@@ -356,7 +438,9 @@ criaPremios = () =>{
     sinal.innerHTML=""
     criarSinal(valor)
     cociente(valor) 
-    criaPremios()    
+    criaPremios()
+    liberarDenominadores(nivel);
+    adicionarDenominadores(nivel);    
     resultado.value = null
   }
   criaTabuada();
