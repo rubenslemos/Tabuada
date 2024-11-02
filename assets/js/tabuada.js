@@ -93,10 +93,17 @@ const adicionarMenus = (fimIntervalo) => {
       const link = document.createElement('a');
       link.className = menu.classe;
       link.href = '#';
-      link.setAttribute('value', `${menu.classe}${i}`);
-      link.textContent = i;
-      li.appendChild(link);
-      elemento.appendChild(li); // Adiciona o item `li` diretamente ao submenu
+      if(i<10){
+        link.setAttribute('value', `${menu.classe}${'0'+i}`);
+        link.textContent = '0'+i;
+        li.appendChild(link);
+        elemento.appendChild(li); // Adiciona o item `li` diretamente ao submenu
+      }else{
+        link.setAttribute('value', `${menu.classe}${i}`);
+        link.textContent = i;
+        li.appendChild(link);
+        elemento.appendChild(li); // Adiciona o item `li` diretamente ao submenu
+      }
     }
 
     // Adiciona o item extra com o ícone no final do menu
