@@ -95,6 +95,7 @@ const adicionarMenus = (fimIntervalo) => {
       link.href = '#';
       if(i<10){
         link.setAttribute('value', `${menu.classe}${'0'+i}`);
+        link.id = `${menu.classe}${'0'+i}`
         link.textContent = '0'+i;
         li.appendChild(link);
         elemento.appendChild(li); // Adiciona o item `li` diretamente ao submenu
@@ -130,11 +131,13 @@ const adicionarMenus = (fimIntervalo) => {
 
   navList.addEventListener('click', function (event) {
   const target = event.target;
-  if (target.classList.contains('soma') || target.classList.contains('menos') ||
+  console.log('Target', target)
+  if (target.classList.contains('somar') || target.classList.contains('menos') ||
     target.classList.contains('vezes') || target.classList.contains('dividir') ||
     target.classList.contains('todas')) {
     event.preventDefault();
     valor = target.getAttribute('value');
+    console.log('valor', valor )
     if (target.classList.contains('menu')) {
       const submenu = target.querySelector('.submenu');
       submenu.classList.toggle('mostra');
