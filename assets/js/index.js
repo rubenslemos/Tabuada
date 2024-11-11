@@ -78,7 +78,6 @@ function toggleMostra(event) {
       elementosMostrados[index].classList.remove("mostra");
     }
   });
-  criaTabuada();
 }
 
 elementosMenu.forEach((elemento) => {

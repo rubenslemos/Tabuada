@@ -295,6 +295,27 @@ nav{
 .submenu a:hover {
   color: rgb(255, 255, 255);
 }
+
+.intervalo-link{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intervalo-link:hover{
+  background: rgba(85, 85, 85, 0.568);
+  color: rgb(255, 255, 255);
+}
+
+.intervalo li{
+  display: none;
+}
+
+.intervalo.visivel li {
+  display: flex;
+}
+
 .menu{
   padding-bottom: 20px;
 }

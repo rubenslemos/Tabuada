@@ -8,16 +8,18 @@ let contagemOperacoes = {
   faTimes: 0,
   faDivide: 0
 };
+
 isLoginScreen = true;
-
+let ultimoIntervalo = null;
 criarTabuada = ()=> {
-  let totalJogos = parseInt(localStorage.getItem('totalJogos'))
-  let totalAcertos = parseInt(localStorage.getItem('totalAcertos'))
-  let totalErros = parseInt(localStorage.getItem('totalErros'))
+  
+  let totalAcertos = parseInt(localStorage.getItem('totalAcertos')) || 0
+  let totalErros = parseInt(localStorage.getItem('totalErros')) || 0
+  let totalJogos = parseInt(localStorage.getItem('totalJogos')) || 0
 
-  let estrela = isNaN(totalAcertos) ? 0 : Math.floor(totalAcertos / 10);
-  let downThumb = isNaN(totalErros) ? 0 : Math.floor(totalErros / 10);
-  let nivel = isNaN(totalJogos) ? 0 : Math.floor(totalJogos / 100);
+  estrela = isNaN(totalAcertos) ? 0 : Math.floor(totalAcertos / 10);
+  downThumb = isNaN(totalErros) ? 0 : Math.floor(totalErros / 10);
+  nivel = isNaN(totalJogos) ? 0 : Math.floor(totalJogos / 100);
 
   if (isNaN(totalAcertos)) totalAcertos= 0
   if (isNaN(totalErros)) totalErros= 0
@@ -73,7 +75,7 @@ const adicionarDenominadores = (nivel) => {
 
 const adicionarMenus = (fimIntervalo) => {
   const menus = [
-    { id: 'soma', classe: 'somar' },
+    { id: 'soma', classe: 'soma' },
     { id: 'menos', classe: 'menos' },
     { id: 'vezes', classe: 'vezes' },
     { id: 'dividir', classe: 'dividi' },
@@ -85,39 +87,49 @@ const adicionarMenus = (fimIntervalo) => {
     if (!elemento) {
       console.error(`Elemento submenu não encontrado para ${menu.id}. Verifique o HTML e o id.`);
       return;
-    } 
+    }
     elemento.innerHTML = ''; // Limpa o conteúdo antes de adicionar novos itens
 
-    for (let i = 1; i <= fimIntervalo; i++) {
-      const li = document.createElement('li');
-      const link = document.createElement('a');
-      link.className = menu.classe;
-      link.href = '#';
-      if(i<10){
-        link.setAttribute('value', `${menu.classe}${'0'+i}`);
-        link.id = `${menu.classe}${'0'+i}`
-        link.textContent = '0'+i;
+    // Loop pelos intervalos de 10 em 10
+    for (let inicio = 1; inicio <= fimIntervalo; inicio += 10) {
+      const fim = Math.min(inicio + 9, fimIntervalo); // Determina o fim do intervalo atual
+      const intervaloLink = document.createElement('a');
+      intervaloLink.className = `${menu.classe} intervalo-link menu`;
+      intervaloLink.href = '#';
+      intervaloLink.setAttribute('value', `${menu.classe}${fim}`);
+      intervaloLink.textContent = `${inicio} - ${fim} `;
+      const icon = document.createElement('i');
+      icon.className = 'fa-solid fa-angles-right';
+      icon.setAttribute('value', `${menu.classe}${fim}`); // Adiciona o valor ao ícone
+      intervaloLink.appendChild(icon);
+      const subUl = document.createElement('ul');
+      subUl.className = `${menu.classe}${fim} intervalo`;
+      subUl.id = `${menu.classe}${fim}`
+      let li = null;
+      for (let i = inicio; i <= fim; i++) {
+        li = document.createElement('li');
+        const link = document.createElement('a');
+        link.className = `${menu.classe}`;
+        link.href = '#';
+        link.setAttribute('value', `${menu.classe}${i.toString().padStart(2, '0')}`);
+        link.textContent = i.toString().padStart(2, '0'); // Adiciona o número com padding
+        li.className = `${menu.classe}${fim}`
         li.appendChild(link);
-        elemento.appendChild(li); // Adiciona o item `li` diretamente ao submenu
-      }else{
-        link.setAttribute('value', `${menu.classe}${i}`);
-        link.textContent = i;
-        li.appendChild(link);
-        elemento.appendChild(li); // Adiciona o item `li` diretamente ao submenu
+        subUl.appendChild(li);
       }
-    }
-
-    // Adiciona o item extra com o ícone no final do menu
-    const linhaExtra = document.createElement('li');
-    const linkExtra = document.createElement('a');
-    linkExtra.className = `${menu.classe} fonte`;
-    linkExtra.href = '#';
-    linkExtra.setAttribute('value', `${menu.classe}${fimIntervalo + 1}`);
-    linkExtra.id = `${menu.classe}${fimIntervalo + 1}`;
-    linkExtra.innerHTML = '&#128472;'; // Ícone ou caractere especial
-    linhaExtra.appendChild(linkExtra);
-    elemento.appendChild(linhaExtra); // Adiciona o item extra diretamente
-  });
+      const linhaExtra = document.createElement('li');
+      const linkExtra = document.createElement('a');
+      linkExtra.className = `${menu.classe} fonte`;
+      linhaExtra.className = `${menu.classe}${fim}`;
+      linkExtra.href = '#';
+      linkExtra.setAttribute('value', `${menu.classe}${fimIntervalo + 1}`);
+      linkExtra.id = `${menu.classe}${fimIntervalo + 1}`;
+      linkExtra.innerHTML = '&#128472;'; // Ícone ou caractere especial
+      linhaExtra.appendChild(linkExtra);
+      subUl.appendChild(linhaExtra);
+      elemento.appendChild(intervaloLink);
+      elemento.appendChild(subUl);
+    }});
 };
 
   liberarDenominadores(nivel);
@@ -131,21 +143,34 @@ const adicionarMenus = (fimIntervalo) => {
 
   navList.addEventListener('click', function (event) {
   const target = event.target;
-  console.log('Target', target)
-  if (target.classList.contains('somar') || target.classList.contains('menos') ||
+  let tipo = null;
+  let intervalo = null;
+  if (target.classList.contains('soma') || target.classList.contains('menos') ||
     target.classList.contains('vezes') || target.classList.contains('dividir') ||
     target.classList.contains('todas')) {
     event.preventDefault();
     valor = target.getAttribute('value');
-    console.log('valor', valor )
-    if (target.classList.contains('menu')) {
+    tipo = target.getAttribute('value').replace(/\d+$/, ''); 
+    intervalo = valor.match(/\d+$/) ? valor.match(/\d+$/)[0] : null;
+    if (intervalo && tipo) {
+      const submenuIntervalo = target.closest(`ul#${tipo}`).querySelector(`ul.${tipo}${intervalo}.intervalo`);
+      if (submenuIntervalo) {
+        submenuIntervalo.classList.toggle('visivel');
+      }
+    } else if (target.classList.contains('menu')) {
       const submenu = target.querySelector('.submenu');
-      submenu.classList.toggle('mostra');
+      if (submenu) {
+        submenu.classList.toggle('mostra');
+      }
     }
-
-    criaTabuada()
-    return valor
-  }})
+  }
+  //criaTabuada();
+  if (intervalo && tipo) {
+    criaTabuada();
+  }
+  return valor;
+}
+)
 
 function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -426,6 +451,9 @@ criaPremios = () =>{
       nivel = isNaN(totalJogos) ? 0 : Math.floor(totalJogos / 100);
     }
     
+    localStorage.setItem('estrela', parseInt(estrela))
+    localStorage.setItem('downThumb', parseInt(downThumb))
+    localStorage.setItem('Nivel', parseInt(nivel))
 
     estrelaHTML.innerHTML = `<i class="fa-solid fa-star" title="A cada 10 acertos ganhe 1 estrelinha"></i><i>${estrela.toFixed(0)}</i>`;
     downThumbHTML.innerHTML = `<i class="fa-solid fa-thumbs-down" title="A cada 10 erros ganhe 1 Falhou"></i><i>${downThumb.toFixed(0)}</i>`;
@@ -444,13 +472,18 @@ criaPremios = () =>{
   }
 
   criaTabuada = async () => {
+    const intervaloAtual = getIntervaloAtual(nivel);
     await premios()
     sinal.innerHTML=""
     criarSinal(valor)
     cociente(valor) 
     criaPremios()
-    liberarDenominadores(nivel);
-    adicionarDenominadores(nivel);    
+    liberarDenominadores(nivel); 
+    if (ultimoIntervalo !== intervaloAtual.fim) {
+      adicionarDenominadores(nivel);
+      ultimoIntervalo = intervaloAtual.fim;
+    }
+   // adicionarDenominadores(nivel);    
     resultado.value = null
   }
   criaTabuada();
