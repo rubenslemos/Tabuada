@@ -37,8 +37,8 @@ h1 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 700px;
   margin: 50px auto;
+  max-width: 700px;
   padding: 20px;
   border-radius: 10px;
   color: var(--primary-color);
@@ -48,8 +48,9 @@ h1 {
   display: flex;
   justify-content:center;
   align-items: center;
+  text-align: center;
+  line-height: 1.2;
   font-size: 80px;
-  padding-bottom: 60px;
   margin-bottom: 40px;
 }
 .tabuada{
@@ -138,6 +139,11 @@ button:active{
   box-shadow: 3px 3px 35px 2px rgb(177, 177, 177) inset;
 }
 .btn {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   font-size: 15px;
   font-weight: normal;
   padding: 10px;
@@ -192,6 +198,7 @@ nav{
   display: flex;
   justify-content: space-around;
   align-items: center;
+  top: 1rem;
   height: 6vh;
   border: solid 1px var(--primary-color-darker);
   border-left: none;
@@ -215,21 +222,16 @@ nav{
 .nav-list{
   list-style: none;
   display: flex;
-  position: absolute;
-  top: 6vh;
-  left: 0;
-  width: 20vw;
-  height: 94vh;
   flex-direction: column;
-  align-items: center;
-  transform: translateX(-100%);
-  transition: transform 0.8s ease-in;
-  border: solid 1px var(--primary-color-darker);
-  border-left: none;
-  border-top: none;
-  border-bottom: none;    
+
+  position: fixed;
+  top: 2rem;
+  left: 0rem;
+  padding-left: 1rem;
 }
+
 .nav-list li{
+  font-size: 18px;
   letter-spacing: 3px;
   margin-left: 32px;
   margin-left: 0;
@@ -239,6 +241,9 @@ nav{
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #33333350;
+  
+  padding: .3rem;
 }
 
 .mobile-menu{
