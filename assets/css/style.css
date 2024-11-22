@@ -23,7 +23,7 @@ body {
 }
 
 h1 {
-  text-shadow: 4px 4px 10px rgb(125, 135, 138);
+  text-shadow: 0.25rem 0.25rem 0.625rem rgb(125, 135, 138);
 }
 
 .bg-img{
@@ -223,9 +223,10 @@ nav{
   list-style: none;
   display: flex;
   flex-direction: column;
-
+  transform: translateX(-100%);
+  transition: transform 0.8s ease-in;
   position: fixed;
-  top: 2rem;
+  top: 5rem;
   left: 0rem;
   padding-left: 1rem;
 }
@@ -241,7 +242,7 @@ nav{
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #33333350;
+  background-color: #ffffff;
   
   padding: .3rem;
 }

@@ -7,7 +7,6 @@ require('dotenv').config()
 const user = process.env.DB_USER
 const pass = process.env.DB_PASS
 const port = process.env.PORT
-const host = process.env.HOST
 
 app.use(express.static(__dirname + "/assets"))
 app.use(bodyParser.json())
@@ -18,7 +17,7 @@ app.get('/', (req, res) =>{
 mongoose.connect(
   `mongodb+srv://${user}:${pass}@tabuada.hz6j8rr.mongodb.net/`
   ).then(()=>{
-    app.listen(port, host)
+    app.listen(port)
     console.log('Conectado')
   }).catch((err)=> console.log(err))
 
