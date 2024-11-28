@@ -120,7 +120,7 @@ limparLocalStorage();
         usuario.innerText = `${nome} fez:`
         cadastro.close()
         login.classList.add('fechado')
-        if (user.tipo === 'Professor'){
+        if (user.tipo === 'Professor' || user.tipo === 'Coordenador') {
           nav.insertBefore(li, acompanhamento)
           user.permissoes.soma = true
           user.permissoes.menos = true
@@ -355,9 +355,3 @@ const permitir = document.getElementById('formPermissoes')
     gerirAcessos.close()
   })
 })
-
-
-
-
-
-

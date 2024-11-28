@@ -184,11 +184,12 @@ document.addEventListener("DOMContentLoaded", function () {
     
           if(response.ok){ // Alteração: Verifica se a resposta é bem-sucedida
               const userData = await response.json();
-              const user = userData.user || userData; // Ajuste para garantir que 'user' esteja definido
+              const user = userData.user || userData;
+              // Ajuste para garantir que 'user' esteja definido
               const containerResultados = document.querySelector('.containerResultados');
               //containerResultados.innerHTML = '';
               preencherResultadosNoHTML(user);
-              if (user.tipo === 'Professor') {
+              if (user.tipo === 'Professor' || user.tipo === 'Coordenador') {
                   try {
                       const token = localStorage.getItem('token'); // Obtém o token armazenado
     
@@ -202,24 +203,39 @@ document.addEventListener("DOMContentLoaded", function () {
     
                       if (response.status === 200) {
                           const usersData = await response.json();
+                          console.log('usersData: ',usersData)
                           const users = usersData;
-    
-                          // Filtra os alunos da mesma turma
-                          const alunosDaMesmaTurma = users.filter(u => u.tipo === 'Aluno' && u.turma === user.turma);
-    
+                          console.log('users: ',users)
+                          let optionsHTML = '';
 
+                          if (user.tipo === 'Professor') {
+                              // Filtra os alunos da mesma turma
+                              const alunosDaMesmaTurma = users.filter(u => u.tipo === 'Aluno' && u.turma === user.turma);
+                              optionsHTML = `
+                                  <option value="${user._id}" selected>${'Logado: ' + user.name}</option>
+                                  ${alunosDaMesmaTurma.map(aluno => `<option value="${aluno._id}">${aluno.name}</option>`).join('')}
+                              `;
+                          } else if (user.tipo === 'Coordenador') {
+                              // Usa os próprios dados do usuário
+                              optionsHTML = `                                  
+                                  <option value="${user._id}" selected>${'Logado: ' + user.name}</option>
+                                  ${users.map(aluno => `<option value="${aluno._id}">${aluno.name}</option>`).join('')}
+                              `;
+                          }
+                      
+                          // Remove a antiga div de resultados, se existir
                           const divResultadoAntigo = containerResultados.querySelector('.resultadoDiv');
                           if (divResultadoAntigo) {
-                            divResultadoAntigo.remove();
+                              divResultadoAntigo.remove();
                           }
+                      
+                          // Cria a nova div com os resultados
                           const divResultado = document.createElement('div');
-    
                           divResultado.className = 'resultadoDiv';
                           divResultado.innerHTML = `
                               <label for="alunos" class="labelResultado">Selecione um Usuário:</label>
                               <select id="alunos" name="alunos" class="listaResultados">
-                                  <option value="${user._id}" selected>${'Logado: ' + user.name}</option>
-                                  ${alunosDaMesmaTurma.map(aluno => `<option value="${aluno._id}">${aluno.name}</option>`).join('')}
+                                  ${optionsHTML}
                               </select>
                           `;
     
@@ -232,8 +248,11 @@ document.addEventListener("DOMContentLoaded", function () {
                               let selectedUser;
                               if (selectedUserId === user._id) {
                                   selectedUser = user;
-                              } else {
+                              } else if (user.tipo === 'Professor') {
+                                const alunosDaMesmaTurma = users.filter(u => u.tipo === 'Aluno' && u.turma === user.turma);
                                   selectedUser = alunosDaMesmaTurma.find(aluno => aluno._id === selectedUserId); // Busca o aluno selecionado
+                              } else if (user.tipo === 'Coordenador') {
+                                  selectedUser = users.find(user => user._id === selectedUserId); // Busca o aluno selecionado
                               }
                           
                               if (selectedUser) {

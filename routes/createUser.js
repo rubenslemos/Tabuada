@@ -51,15 +51,23 @@ router.post('/', async (req,res)=>{
               dividir: true,
               todas: true,
           };
-      } else if (tipo === 'Aluno') {
+      } else if (tipo === 'Coordenador') {
           permissoes = {
               soma: true,
-              menos: false,
-              vezes: false,
-              dividir: false,
-              todas: false,
+              menos: true,
+              vezes: true,
+              dividir: true,
+              todas: true,
           };
-      }
+      } else if (tipo === 'Aluno') {
+        permissoes = {
+            soma: true,
+            menos: false,
+            vezes: false,
+            dividir: false,
+            todas: false,
+        };
+    }
       const user = await User.create({
         tipo,
         name: name.toLowerCase().trim(),
@@ -95,9 +103,15 @@ router.get('/', auth, async (req, res) => {
       }
 
       return res.status(200).json(alunosDaMesmaTurma);
+    } else if (loggedInUser.tipo === 'Coordenador') {
+      const allAlunos = await User.find({ tipo: { $ne: 'Coordenador' } }).populate('rounds');
+
+      if (!allAlunos.length) {
+        return res.status(422).json({ error: 'Não há alunos cadastrados.' });
+      }
+
+      return res.status(200).json(allAlunos);
     } else {
-      // Se não for professor, pode decidir o que retornar
-      // Por exemplo, retornar todos os alunos
       const allAlunos = await User.find({ tipo: 'Aluno' }).populate('rounds');
 
       if (!allAlunos.length) {
