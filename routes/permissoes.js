@@ -4,7 +4,7 @@ const auth = require('../middlewares/authenticator')
 
 router.post('/', auth, async (req, res) => {
   
-  const { alunoId, acessos } = req.body;
+  const { alunoId, tipoUsuario, acessos } = req.body;
 
   try {
     const aluno = await User.findById(alunoId);
