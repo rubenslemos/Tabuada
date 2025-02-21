@@ -20,5 +20,6 @@
     "urmtwxs",
     "usuario",
     "visivel"
-  ]
+  ],
+  "DockerRun.DisableDockerrc": true
 }
