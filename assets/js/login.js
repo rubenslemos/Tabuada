@@ -1,25 +1,11 @@
 document.addEventListener('DOMContentLoaded', ()=>{
   const form = document.getElementById('formLogin')
-  const formVerificar = document.getElementById('formVerificar')
-  const formAlterar = document.getElementById('formAlterar')
   const confirmLogin = document.getElementById('confirmLogin')
   const registrar = document.getElementById('registrar')
   const esqueceu = document.getElementById('esqueceu')
-  const cadastro = document.getElementById('cadastro')
-  const login = document.getElementById('login')
   const senha = document.getElementById('passwordLogin')
-  const recuperar = document.getElementById('recuperar')
-  const trocar = document.getElementById('trocar')
-  const verificar = document.getElementById('verifyEmail')
-  const email = document.getElementById('emailCheck')
-  const confirmAlterar = document.getElementById('ConfirmPasswordAlterar')
-  const alterar = document.getElementById('alterarSenha')
-  const tokenSenha = document.getElementById('token')
-  const voltarSenha = document.getElementById('voltarSenha')
-  const cancelaEmail = document.getElementById('cancelaEmail')
   const usuario = document.querySelector('.usuario')
   const resultados = document.getElementById('resultados')
-  const erroSenha = formAlterar.querySelector('.btnAlterarSenha')
   const nav = document.querySelector('.nav-list')
   const acompanhamento = document.getElementById('acompanhamento')
   const gerirAcessos = document.getElementById('acessos')
@@ -38,133 +24,99 @@ document.addEventListener('DOMContentLoaded', ()=>{
     e.preventDefault()
     listarUsers()
     gerirAcessos.showModal()
-  })
-  cancelaEmail.addEventListener('click', ()=>{
-    trocar.classList.remove('aberto')
-    trocar.classList.add('fechado')
-    trocar.close()
-  })
-  voltarSenha.addEventListener('click', ()=>{
-    recuperar.classList.remove('aberto')
-    recuperar.classList.add('fechado')
-    recuperar.close()
-  })
- registrar.addEventListener('click', ()=>{
-  login.close()
-  login.classList.add('fechado')
-  cadastro.classList.remove('fechado')
- }) 
- async function limparLocalStorage() {
-  if (!login.classList.contains('fechado')) {
-    localStorage.clear();
-    localStorage.removeItem('userId');
-  }
-}
-
-limparLocalStorage();
-
- async function fazerLogin (e) {
-  e.preventDefault()
-  const formData = new FormData(form)
-  const email = formData.get('email');
-  const password = formData.get('password');
-  const loginError = document.createElement('small')
-  const menuSoma = document.getElementById('menu-soma')
-  const menuMenos = document.getElementById('menu-menos')
-  const menuVezes = document.getElementById('menu-vezes')
-  const menuDividir = document.getElementById('menu-dividir')
-  const menuTodas = document.getElementById('menu-todas')
-  loginError.classList.add('erroLogin')
-  try {
-    const response = await fetch('/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
-    if (response.status === 200) {
-      const { user, token, totalJogos, totalAcertos, totalErros } = await response.json()
-
-      localStorage.setItem('token', token);
-      localStorage.setItem('userId', user._id);
-      localStorage.setItem('tipoUsuario', user.tipo)
-      localStorage.setItem('turma', user.turma);
-
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      localStorage.setItem('totalJogos', totalJogos);
-      localStorage.setItem('totalAcertos', totalAcertos);
-      localStorage.setItem('totalErros', totalErros);
-
-      criaPremios()
-
-      const resAuth = await fetch ('/auth/login/token',{
-        method: 'POST',
-        headers:{
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-      })
-      
-      if (resAuth.status === 200) {
-      
-        recuperar.classList.remove('aberto')
-        recuperar.classList.add('fechado')
-        trocar.classList.remove('aberto')
-        trocar.classList.add('fechado')
-        recuperar.close()
-        trocar.close()
-        resultados.close()
-        const nome = user.name.replace(/(^\w{1})|(\s+\w{1})/g, letra => letra.toUpperCase())
-        usuario.innerText = `${nome} fez:`
-        cadastro.close()
-        login.classList.add('fechado')
-        if (user.tipo === 'Professor' || user.tipo === 'Coordenador') {
-          nav.insertBefore(li, acompanhamento)
-          user.permissoes.soma = true
-          user.permissoes.menos = true
-          user.permissoes.vezes = true
-          user.permissoes.dividir = true
-          user.permissoes.todas = true
-        }
-        if (user.permissoes.soma === false) menuSoma.remove()
-        if (user.permissoes.menos === false) menuMenos.remove()
-        if (user.permissoes.vezes === false) menuVezes.remove()
-        if (user.permissoes.dividir === false) menuDividir.remove()
-        if (user.permissoes.todas === false) menuTodas.remove()
-      }
-      } else {
-        const errorExistente = form.querySelector('.erroLogin');
-        if (errorExistente) errorExistente.remove();
-        loginError.innerText = 'E-mail e/ou senha Errados, tente novamente'
-        form.insertBefore(loginError, esqueceu)
-      }
-  } catch (error) {
-      console.error('Erro ao enviar os dados do formulário', error);
-  }
- }
-  let isLoginOpen = false
-  const observer = new MutationObserver(() => {
-    if (!isLoginOpen) {
-      limparLocalStorage();
+  })  
+  async function limparLocalStorage() {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      localStorage.clear();
+      localStorage.removeItem('userId');
     }
-});
-observer.observe(login, {
-  subtree: true,
-  childList: true,
-  attributes: true
-});
+  }
 
- confirmLogin.addEventListener('click', fazerLogin)
- senha.addEventListener('keypress', (e)=>{
-  if(e.key ==='Enter') fazerLogin(e)
- })
- esqueceu.addEventListener('click', ()=> {
-  trocar.classList.remove('fechado')
-  trocar.classList.add('aberto')
-  trocar.showModal()
- })
+  limparLocalStorage();
+
+  async function fazerLogin (e) {
+    if (form) {
+      e.preventDefault()
+      const formData = new FormData(form)
+      const email = formData.get('email');
+      const password = formData.get('password');
+      const loginError = document.createElement('small')
+      const menuSoma = document.getElementById('menu-soma')
+      const menuMenos = document.getElementById('menu-menos')
+      const menuVezes = document.getElementById('menu-vezes')
+      const menuDividir = document.getElementById('menu-dividir')
+      const menuTodas = document.getElementById('menu-todas')
+      loginError.classList.add('erroLogin')
+      try {
+        const response = await fetch('/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+        });
+        if (response.status === 200) {
+          const { user, token, totalJogos, totalAcertos, totalErros } = await response.json()
+
+          localStorage.setItem('token', token);
+          localStorage.setItem('userId', user._id);
+          localStorage.setItem('tipoUsuario', user.tipo)
+          localStorage.setItem('turma', user.turma);
+
+          await new Promise(resolve => setTimeout(resolve, 1000));
+
+          localStorage.setItem('totalJogos', totalJogos);
+          localStorage.setItem('totalAcertos', totalAcertos);
+          localStorage.setItem('totalErros', totalErros);
+
+          criaPremios()
+
+          const resAuth = await fetch ('/auth/login/token',{
+            method: 'POST',
+            headers:{
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+          })
+          
+          if (resAuth.status === 200) {
+            // Redirecionar para a página de tabuada
+            if (user.tipo === 'Professor' || user.tipo === 'Coordenador') {
+              user.permissoes.soma = true
+              user.permissoes.menos = true
+              user.permissoes.vezes = true
+              user.permissoes.dividir = true
+              user.permissoes.todas = true
+            }
+            window.location.href = '/tabuada'
+          }
+        } else {
+          const errorExistente = form.querySelector('.erroLogin');
+          if (errorExistente) errorExistente.remove();
+          loginError.innerText = 'E-mail e/ou senha Errados, tente novamente'
+          form.insertBefore(loginError, esqueceu)
+        }
+      } catch (error) {
+        console.error('Erro ao enviar os dados do formulário', error);
+      }
+    }
+  }
+
+  if (confirmLogin) {
+    confirmLogin.addEventListener('click', fazerLogin)
+  }
+  if (senha) {
+    senha.addEventListener('keypress', (e)=>{
+      if(e.key ==='Enter') fazerLogin(e)
+    })
+  }
+  if (esqueceu) {
+    esqueceu.addEventListener('click', (e)=>{
+      e.preventDefault()
+      window.location.href = '/forgot-password'
+    })
+  }
  async function verificarEmail (e) {
   e.preventDefault()
   const formData = new FormData(formVerificar)

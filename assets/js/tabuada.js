@@ -463,9 +463,15 @@ criaPremios = () =>{
     resultados.appendChild(downThumbHTML);
     resultados.appendChild(nivelHTML);
 
-    const logo = document.querySelector('.logo');
-    const topo = document.getElementById('topo');
-    topo.insertBefore(resultados, logo);
+    const premiosHeader = document.querySelector('.premios-header');
+    if (premiosHeader) {
+      premiosHeader.appendChild(resultados);
+    } else {
+      // Fallback: inserir antes da logo se .premios-header não existir
+      const logo = document.querySelector('.logo');
+      const topo = document.getElementById('topo');
+      topo.insertBefore(resultados, logo);
+    }
 	
 	return nivel; 	
 	

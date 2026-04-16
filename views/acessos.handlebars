@@ -1,0 +1,52 @@
+<header>
+	<nav id="topo">
+		<div class="mobile-menu">
+			<div class="line1"></div>
+			<div class="line2"></div>
+			<div class="line3"></div>
+		</div>
+
+		<a class="logo" href="/tabuada">Tabuada</a>
+		<ul class="nav-list">
+			<li class="menu">
+				<a href="/tabuada">Voltar</a>
+			</li>
+		</ul>
+	</nav>
+</header>
+
+<section class="container">
+	<div class="acessos-container">
+		<form id="formPermissoes" class="largura">
+			<h1>Permissões as Tabuadas</h1>
+			<div class="formDiv">
+				<label for="alunos" class="labelForm">Selecione um Aluno:</label>
+				<select id="alunos" name="alunos" class="listaAlunos"></select>
+			</div>
+			<div class="formDiv checked">
+				<label for="somaAcesso" class="labelForm">Adição:</label>
+				<input type="checkbox" id="somaAcesso" name="soma" class="listaAlunos check">
+			</div>
+			<div class="formDiv checked">
+				<label for="menosAcesso" class="labelForm">Subtração:</label>
+				<input type="checkbox" id="menosAcesso" name="menos" class="listaAlunos check">
+			</div>
+			<div class="formDiv checked">
+				<label for="vezesAcesso" class="labelForm">Multiplicação:</label>
+				<input type="checkbox" id="vezesAcesso" name="vezes" class="listaAlunos check">
+			</div>
+			<div class="formDiv checked">
+				<label for="dividirAcesso" class="labelForm">Divisão:</label>
+				<input type="checkbox" id="dividirAcesso" name="dividir" class="listaAlunos check">
+			</div>
+			<div class="formDiv checked">
+				<label for="todasAcesso" class="labelForm">Todas:</label>
+				<input type="checkbox" id="todasAcesso" name="todas" class="listaAlunos check">
+			</div>
+			<div class="btnDiv">
+				<a href="/tabuada" class="btn btn-secondary">Cancelar</a>
+				<button type="submit" class="btn btn-primary">Salvar Permissões</button>
+			</div>
+		</form>
+	</div>
+</section>

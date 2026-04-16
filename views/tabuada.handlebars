@@ -1,0 +1,125 @@
+<header>
+	<nav id="topo">
+		<div class="mobile-menu">
+			<div class="line1"></div>
+			<div class="line2"></div>
+			<div class="line3"></div>
+		</div>
+
+		<ul class="nav-list">
+			<li class="menu" id="acompanhamento">
+				<a href="/performance" id="desempenho">Desempenho</a>
+			</li>
+			<li class="menu" id="menu-soma">
+				<a href="#" class="soma" value="soma" >Adição <i class="fa-solid fa-angles-right"></i></a>
+				<ul class="submenu itensSoma soma" id="soma">
+				</ul>
+			</li>
+			<li class="menu" id="menu-menos">
+				<a href="#" class="menos" value="menos">Subtração <i class="fa-solid fa-angles-right"></i></a>
+				<ul class="submenu itensMenos menos" id="menos">
+				</ul>
+			</li>
+			<li class="menu" id="menu-vezes">
+				<a href="#" class="vezes" value="vezes">Multiplicação <i class="fa-solid fa-angles-right"></i></a>
+				<ul class="submenu itensVezes vezes" id="vezes">
+				</ul>
+			</li>
+			<li class="menu" id="menu-dividir">
+				<a href="#" class="dividir" value="dividir">Divisão <i class="fa-solid fa-angles-right"></i></a>
+				<ul class="submenu itensDividir dividir" id="dividir">
+				</ul>
+			</li>
+			<li class="menu" id="menu-todas">
+				<a href="#" class="todas" value="todas">Todas <i class="fa-solid fa-angles-right"></i></a>
+				<ul class="submenu itensTodas todas" id="todas">
+				</ul>
+			</li>
+			<li class="menu" id="permissao-menu">
+				<a href="/acessos" id="permissao-link">Permissões</a>
+			</li>
+			<li class="menu" id="logout-menu">
+				<a href="/logout" id="logout-btn">Sair</a>
+			</li>
+		</ul>
+
+		<a class="logo" href="/tabuada">Tabuada</a>
+
+		<div class="premios-header">
+			<!-- Espaço para elementos de prêmios no header -->
+		</div>
+	</nav>
+</header>
+
+<section class="container">
+	<h1>Qual o valor?</h1>
+	<section class="tabuada">
+		<div class="conta">
+			<div class="conta" id="numerador"><span> &nbsp </span><p class="numerador"></p></div>
+			<div class="conta" id="denominador"><span class="sinal"><i></i></span><p class="denominador"></p></div>
+			<div class="resultado conta"><span> &nbsp </span><input type="number" id="resultado"></div>
+		</div>
+	</section>
+	<section class="btn">
+		<button class="anterior">Anterior</button>
+		<button class="resposta">Resultado</button>
+	</section>
+</section>
+
+<!-- Modais para resultados -->
+<dialog class="dialog">
+	<img class="imagem"/><h2 class="sucess"></h2>
+	<small>O que você quer fazer agora?</small>
+	<div class="modal">
+		<button class="btn voltar">Refazer</button>
+		<button class="btn proxima">Próxima</button>
+		<button class="btn fechar">Finalizar</button>
+	</div>
+</dialog>
+
+<dialog class="fim">
+	<p class="usuario"></p>
+	<div class="fimdiv">
+		<img src="/img/enquete.png" alt="resultado">
+		<div>
+			<p class="jogou"></p>
+			<p class="acertou"></p>
+			<p class="errou"></p>
+		</div>
+	</div>
+	<button class="btn ok">OK</button>
+</dialog>
+
+<!-- Modal de prêmios (desempenho) -->
+<dialog class="premiosDialog" id="premios">
+	<section class="premiosContainer">
+	</section>
+</dialog>
+
+<!-- Modal de contagens -->
+<dialog class="containerContagem" id="contagens">
+	<section class="containerContagens">
+		<h1></h1>
+		<section class="contagem">
+			<div class="detalhes">
+				<p class="eContagens"></p>
+				<p class="eContagens"></p>
+				<p class="eContagens"></p>
+				<p class="eContagens"></p>
+				<p class="eContagens"></p>
+				<p class="eContagens"></p>
+			</div>						
+		</section>
+		<button class="btn btnContagens">Voltar</button>
+	</section>
+</dialog>
+
+<!-- Modal de resultados -->
+<dialog class="containerResultado" id="resultados" open="false">
+	<section class="containerResultados">
+		<section class="resultados">
+		</section>
+	</section>
+</dialog>
+
+

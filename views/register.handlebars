@@ -1,0 +1,27 @@
+<section class="container">
+	<div class="cadastro-container">
+		<h1>Cadastro de Usuários</h1>
+		<form id="usuario" class="tabuada largura" enctype="application/x-www-form-urlencoded">
+			<p id="cadastrar">Você é?</p>
+			<select name="tipo" id="tipo">
+				<option value="Coordenador">Coordenador</option>
+				<option value="Professor">Professor</option>
+				<option value="Aluno">Aluno</option>
+			</select>
+			<p>Turma</p>
+			<input type="text" name="turma" id="turma" placeholder="Qual sua Turma?" value="">	
+			<p>Nome</p>
+			<input type="text" name="name" id="name" placeholder="Digite seu nome" value="">	
+			<p>E-mail</p>
+			<input type="email" name="email" id="email" placeholder="Digite seu e-mail" value="">
+			<p>Senha</p>
+			<input type="password" name="password" id="password" placeholder="Senha" value="" title="A senha deve ter de 8 a 20 caracteres, pelo menos 1 Letra maiúscula, 1 letra minúscula, 1 nº e 1 caractere especial">
+			<p>Confirmar Senha</p>
+			<input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirme sua senha" value="" title="A senha deve ter de 8 a 20 caracteres, pelo menos 1 Letra maiúscula, 1 letra minúscula, 1 nº e 1 caractere especial">
+			<div class="cadastrar">
+				<a href="/login" class="btn">CANCELAR</a>
+				<button type="button" id="enviarFormulario" class="btn">CADASTRAR</button>
+			</div>
+		</form>
+	</div>
+</section>
