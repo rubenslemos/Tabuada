@@ -15,7 +15,7 @@
 
 body {
   margin: 0;
-  padding: 0;
+  padding: 6vh 0 0 0;
   background-size: cover;
   font-size: 1.3em;
   line-height: 1.5em;
@@ -210,11 +210,11 @@ a:hover{
 }
 nav{
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
+  gap: 1rem;
   top: 0;
   left: 0;
-  right: 0;
   height: 6vh;
   border: solid 1px var(--primary-color-darker);
   border-left: none;
@@ -222,32 +222,47 @@ nav{
   border-right: none;
   opacity: 0.9;
   position: fixed;
-  width: 100vw;
+  width: calc(100vw - 40px);
+  left: 0;
+  right: 0;
   z-index: 1000;
   background: rgba(255, 255, 255, 0.95);
   padding: 0 20px;
   box-sizing: border-box;
+  flex-wrap: wrap;
 }
 
 .mobile-menu {
+  cursor: pointer;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   order: 1;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  background: rgba(255, 0, 0, 0.3);
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
 
-.nav-list {
-  order: 2;
-  list-style: none;
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-  position: static;
-  transform: none;
-  transition: none;
-  width: auto;
-  height: auto;
-  padding-left: 0;
-  margin: 0;
-  background: transparent;
-  box-shadow: none;
+.mobile-menu:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.mobile-menu div {
+  opacity: 1;
+  position: relative;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 2px;
+  background: var(--primary-color-darker);
+  margin: 5px 0;
+  padding: 0;
+  transition: 0.3s;
 }
 
 .logo {
@@ -255,7 +270,7 @@ nav{
   font-size: 24px;
   text-transform: uppercase;
   letter-spacing: 4px;
-  margin: 0 30px;
+  margin: 0 15px 0 auto;
 }
 
 .premios-header {
@@ -263,66 +278,73 @@ nav{
   /* Estilos para o elemento de prêmios no header */
 }
 
-/* Forçar nav-list vertical em dispositivos móveis e tablets */
-@media (max-width: 1024px) {
-  .nav-list {
-    flex-direction: column !important;
-    position: fixed !important;
-    top: 6vh !important;
-    left: 0 !important;
-    width: 250px !important;
-    height: calc(100vh - 6vh) !important;
-    padding: 1rem !important;
-    background: rgba(255, 255, 255, 0.95) !important;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2) !important;
-    z-index: 200 !important;
-    transform: translateX(0) !important; /* Mostrar sempre */
-    transition: transform 0.8s ease-in !important;
-    display: flex !important; /* Mostrar sempre */
-    order: 2 !important;
+@media (max-width: 900px) {
+  body {
+    padding-top: 0;
   }
 
-  .nav-list.active {
-    transform: translateX(0) !important;
-  }
-
-  .nav-list li {
-    margin: 0.5rem 0 !important;
-    width: 100% !important;
-    text-align: left !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
-    padding: 0.5rem 0 !important;
-    font-size: 18px !important;
-  }
-
-  .nav-list li:last-child {
-    border-bottom: none !important;
+  nav {
+    position: relative;
+    height: auto;
+    min-height: 6vh;
   }
 
   .mobile-menu {
-    display: none !important; /* Esconder hamburger já que o menu está sempre visível */
-    order: 1 !important;
+    order: 1;
+  }
+
+  .nav-list {
+    order: 2;
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100vw;
+    height: auto;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 200;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: all 0.3s ease;
+    border-top: 1px solid var(--primary-color-darker);
+  }
+
+  .nav-list.active {
+    display: flex;
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .nav-list li {
+    font-size: 16px;
+    margin: 0.5rem 0;
+    width: 100%;
+    text-align: left;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 0;
+  }
+
+  .nav-list li:last-child {
+    border-bottom: none;
   }
 
   .logo {
-    order: 3 !important;
-    font-size: 20px !important;
-    margin: 0 15px !important;
+    order: 3;
+    font-size: 20px;
+    margin: 0 15px;
   }
 
   .premios-header {
-    order: 4 !important;
+    order: 4;
   }
 
   .premios {
-    margin: 0 10px !important;
-    font-size: 14px !important;
+    margin: 0 10px;
+    font-size: 14px;
   }
-}
-
-@media (max-width: 900px) {
-
-@keyframes navLinkFade {
   from {
     opacity: 0;
     transform: translateX(-100%);
@@ -563,9 +585,6 @@ nav{
   font-size: 16px !important;
   width: calc(100% - 60px);
   margin: 10px 20px 0 30px;
-}
-  padding: 15px 0 15px 0;
-  margin: 0;
 }
 
 .cadastro input[type=submit], input[type=button]{
