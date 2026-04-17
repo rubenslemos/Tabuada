@@ -192,6 +192,64 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const formPermissoes = document.getElementById('formPermissoes')
 
   if (formPermissoes) {
+    async function listarUsers() { 
+      const token = localStorage.getItem('token'); // Obtém o token armazenado
+      const turma = localStorage.getItem('turma'); 
+      const alunosSelect = document.getElementById('alunos'); 
+      
+      // Verifique se o elemento existe
+      if (!alunosSelect) { 
+        console.error('Elemento alunosSelect não encontrado no DOM'); 
+        return; 
+      } 
+
+      try { 
+        const response = await fetch('/auth/register', { 
+          method: 'GET', 
+          headers: { 
+            'Content-Type': 'application/json', 
+            'Authorization': `Bearer ${token}`, // Inclui o token no cabeçalho 
+          }, 
+        });
+
+        if (response.ok) { 
+          const alunos = await response.json(); 
+          // Limpa as opções anteriores para evitar duplicação
+          alunosSelect.innerHTML = '';
+
+          const alunosDaMesmaTurma = alunos.filter(aluno => aluno.tipo === 'Aluno' && aluno.turma === turma);
+          // **Adicionado: Adiciona uma opção placeholder**
+          const placeholderOption = document.createElement('option');
+          placeholderOption.value = '';
+          placeholderOption.disabled = true;
+          placeholderOption.selected = true;
+          placeholderOption.text = 'Selecione um aluno';
+          alunosSelect.appendChild(placeholderOption);
+
+          // Verifica se existem alunos na turma
+          if (alunosDaMesmaTurma.length > 0) {
+          // Adiciona as opções dos alunos no select
+            alunosDaMesmaTurma.forEach(aluno => { 
+              const option = document.createElement('option'); 
+              option.value = aluno._id; 
+              option.text = aluno.name; 
+              alunosSelect.appendChild(option); 
+            });
+          } else {
+              console.warn('Nenhum aluno encontrado para a turma especificada.');
+            }
+        } else { 
+          // Tente obter a mensagem de erro do backend
+          const errorData = await response.json(); 
+          console.error('Erro ao obter a lista de alunos:', errorData.error || response.statusText); 
+          alert(errorData.error || 'Erro ao obter a lista de alunos'); 
+        } 
+      } catch (error) { 
+        console.error('Erro ao enviar solicitação:', error); 
+        alert('Erro ao enviar solicitação para listar alunos'); 
+      } 
+    }
+
     // Carregar alunos quando a página carrega
     listarUsers()
     
@@ -238,5 +296,63 @@ document.addEventListener('DOMContentLoaded', ()=>{
         alert('Erro ao enviar solicitação');
       }
     })
+  }
+
+  async function listarUsers() { 
+    const token = localStorage.getItem('token'); // Obtém o token armazenado
+    const turma = localStorage.getItem('turma'); 
+    const alunosSelect = document.getElementById('alunos'); 
+    
+    // Verifique se o elemento existe
+    if (!alunosSelect) { 
+      console.error('Elemento alunosSelect não encontrado no DOM'); 
+      return; 
+    } 
+
+    try { 
+      const response = await fetch('/auth/register', { 
+        method: 'GET', 
+        headers: { 
+          'Content-Type': 'application/json', 
+          'Authorization': `Bearer ${token}`, // Inclui o token no cabeçalho 
+        }, 
+      });
+
+      if (response.ok) { 
+        const alunos = await response.json(); 
+        // Limpa as opções anteriores para evitar duplicação
+        alunosSelect.innerHTML = '';
+
+        const alunosDaMesmaTurma = alunos.filter(aluno => aluno.tipo === 'Aluno' && aluno.turma === turma);
+        // **Adicionado: Adiciona uma opção placeholder**
+        const placeholderOption = document.createElement('option');
+        placeholderOption.value = '';
+        placeholderOption.disabled = true;
+        placeholderOption.selected = true;
+        placeholderOption.text = 'Selecione um aluno';
+        alunosSelect.appendChild(placeholderOption);
+
+        // Verifica se existem alunos na turma
+        if (alunosDaMesmaTurma.length > 0) {
+        // Adiciona as opções dos alunos no select
+          alunosDaMesmaTurma.forEach(aluno => { 
+            const option = document.createElement('option'); 
+            option.value = aluno._id; 
+            option.text = aluno.name; 
+            alunosSelect.appendChild(option); 
+          });
+        } else {
+            console.warn('Nenhum aluno encontrado para a turma especificada.');
+          }
+      } else { 
+        // Tente obter a mensagem de erro do backend
+        const errorData = await response.json(); 
+        console.error('Erro ao obter a lista de alunos:', errorData.error || response.statusText); 
+        alert(errorData.error || 'Erro ao obter a lista de alunos'); 
+      } 
+    } catch (error) { 
+      console.error('Erro ao enviar solicitação:', error); 
+      alert('Erro ao enviar solicitação para listar alunos'); 
+    } 
   }
 })
