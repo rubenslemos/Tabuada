@@ -3,7 +3,9 @@ const express = require('express')
 const app = express()
 const path = require("path")
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 const exphbs = require('express-handlebars')
+const webAuth = require('./middlewares/authenticator')
 require('dotenv').config()
 const user = process.env.DB_USER
 const pass = process.env.DB_PASS
@@ -19,6 +21,7 @@ if (!user || !pass) {
 // Configurar express-handlebars
 const hbs = exphbs.create({
   layoutsDir: path.join(__dirname, 'views/layouts'),
+  partialsDir: path.join(__dirname, 'views/partials'),
   defaultLayout: 'main',
   extname: '.handlebars',
   helpers: {
@@ -38,6 +41,7 @@ app.get('/', (req, res) => {
 })
 
 app.use(express.static(__dirname + "/assets"))
+app.use(cookieParser())
 app.use(bodyParser.json())
 
 app.get('/login', (req, res) => {
@@ -56,16 +60,27 @@ app.get('/reset-password', (req, res) => {
   res.render('reset-password', { title: 'Alterar Senha - Tabuada' })
 })
 
-app.get('/tabuada', (req, res) => {
-  res.render('tabuada', { title: 'Tabuada' })
+app.get('/tabuada', webAuth, (req, res) => {
+  res.render('tabuada', { title: 'Tabuada', user: req.user, showNavLeft: false, showLogo: false, showNavRight: true, navItems: [
+    { text: 'Desempenho', href: '/performance' },
+    { text: 'Adição', href: '#', class: 'soma' },
+    { text: 'Subtração', href: '#', class: 'menos' },
+    { text: 'Multiplicação', href: '#', class: 'vezes' },
+    { text: 'Divisão', href: '#', class: 'dividir' },
+    { text: 'Todas', href: '#', class: 'todas' }
+  ] })
 })
 
-app.get('/performance', (req, res) => {
-  res.render('performance', { title: 'Desempenho - Tabuada' })
+app.get('/performance', webAuth, (req, res) => {
+  res.render('performance', { title: 'Desempenho - Tabuada', user: req.user, showNavLeft: true, showLogo: true, showNavRight: false, navItems: [
+    { text: 'Voltar', href: '/tabuada' }
+  ] })
 })
 
-app.get('/acessos', (req, res) => {
-  res.render('acessos', { title: 'Permissões - Tabuada' })
+app.get('/acessos', webAuth, (req, res) => {
+  res.render('acessos', { title: 'Permissões - Tabuada', user: req.user, showNavLeft: true, showLogo: true, showNavRight: false, navItems: [
+    { text: 'Voltar', href: '/tabuada' }
+  ] })
 })
 
 app.get('/logout', (req, res) => {

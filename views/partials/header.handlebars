@@ -1,0 +1,38 @@
+<header>
+	<nav id="topo">
+		{{#if showNavLeft}}
+		<div class="nav-left">
+			<div class="mobile-menu">
+				<div class="line1"></div>
+				<div class="line2"></div>
+				<div class="line3"></div>
+			</div>
+			{{#if showLogo}}
+			<a class="logo" href="/tabuada">Tabuada</a>
+			{{/if}}
+		</div>
+		{{else}}
+		<div class="mobile-menu">
+			<div class="line1"></div>
+			<div class="line2"></div>
+			<div class="line3"></div>
+		</div>
+		{{#if showLogo}}
+		<a class="logo" href="/tabuada">Tabuada</a>
+		{{/if}}
+		{{/if}}
+		<ul class="nav-list">
+			{{#each navItems}}
+			<li class="menu">
+				<a href="{{href}}">{{text}}</a>
+			</li>
+			{{/each}}
+		</ul>
+		{{#if showNavRight}}
+		<div class="nav-right">
+			<span class="user-name">Olá, {{user.name}}</span>
+			<div class="premios-header"></div>
+		</div>
+		{{/if}}
+	</nav>
+</header>

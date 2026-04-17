@@ -32,9 +32,10 @@ router.post('/', async (req,res)=>{
   let totalAcertos = user.totalAcertos || 0;
   let totalJogos = user.totalJogos || 0;
   let totalErros = user.totalErros || 0;
-  res.send({
+  const token = generateToken({id:user.id})
+  res.cookie('token', token).send({
     user,
-    token: generateToken({id:user.id}),
+    token,
     totalAcertos: totalAcertos,
     totalJogos: totalJogos,
     totalErros: totalErros, 
