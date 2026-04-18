@@ -305,6 +305,10 @@ nav{
   /* Estilos para o elemento de prêmios no header */
 }
 
+.user-name{
+  font-size: 22px;
+  color: var(--primary-color-darker);
+}
 @media (max-width: 900px) {
   body {
     padding-top: 0;
@@ -793,7 +797,6 @@ nav{
 .resultados{
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   padding: 20px calc((100% - (255px * 6)) / 3);
 }
 .rodada{
@@ -810,13 +813,9 @@ nav{
   margin: 5px;
 }
 .containerResultado{
-  margin: auto;
   border-radius: 25px;
   color: var(--primary-color);
   width: 100vw;
-  height:100vh;
-  top: 0;
-  left: 0;
   padding: 0;
 }
 .containerResultado h1{
@@ -1095,8 +1094,6 @@ nav{
 }
 
 .premiosContainer{
-  width: 30vw;
-  height: 50vh;
   margin: auto;
 }
 

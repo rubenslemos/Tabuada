@@ -27,6 +27,10 @@ const hbs = exphbs.create({
   helpers: {
     eq: (a, b) => a === b,
     or: (...args) => args.slice(0, -1).some(arg => arg)
+  },
+  runtimeOptions: {
+    allowProtoPropertiesByDefault: true,
+    allowProtoMethodsByDefault: true,
   }
 })
 
@@ -72,15 +76,18 @@ app.get('/tabuada', webAuth, (req, res) => {
 })
 
 app.get('/performance', webAuth, (req, res) => {
-  res.render('performance', { title: 'Desempenho - Tabuada', user: req.user, showNavLeft: true, showLogo: true, showNavRight: false, navItems: [
+  const user = req.user && req.user.toObject ? req.user.toObject() : req.user;
+  res.render('performance', { title: 'Desempenho - Tabuada', user, showNavLeft: true, showLogo: true, showNavRight: true, navItems: [
     { text: 'Voltar', href: '/tabuada' }
   ] })
 })
 
 app.get('/acessos', webAuth, (req, res) => {
-  res.render('acessos', { title: 'Permissões - Tabuada', user: req.user, showNavLeft: true, showLogo: true, showNavRight: false, navItems: [
+  res.render('acessos', { title: 'Permissões - Tabuada', user: req.user, showNavLeft: true, showLogo: true, showNavRight: true, navItems: [
     { text: 'Voltar', href: '/tabuada' }
-  ] })
+  ]
+  })
+  console.log (req.user)
 })
 
 app.get('/logout', (req, res) => {
@@ -116,4 +123,5 @@ const round = require('./routes/round')
 app.use('/round', round)
 
 const acessos = require('./routes/permissoes')
+const console = require('console')
 app.use('/acessos', acessos)

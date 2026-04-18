@@ -1,5 +1,23 @@
-{{> header}}
+{{> header showNavLeft=true showLogo=true showNavRight=true navItems=navItems user=user}}
 
-<section class="premiosContainer" id="premios-main">
-	<!-- Conteúdo dos prêmios será carregado aqui -->
+<section  id="premios-main">
+	<div id="resultados">
+		<div class="containerResultado">
+			<section class="containerResultados containerResultado">
+				<div class="resultados-lista resultados"></div>
+			</section>
+		</div>
+	</div>
+	<dialog id="contagens" class="contagens">
+		<div class="containerContagens">
+			<h1>Detalhes</h1>
+			<div class="eContagens"></div>
+			<div class="eContagens"></div>
+			<div class="eContagens"></div>
+			<div class="eContagens"></div>
+			<div class="eContagens"></div>
+			<div class="eContagens"></div>
+			<button class="btnContagens">Fechar</button>
+		</div>
+	</dialog>
 </section>

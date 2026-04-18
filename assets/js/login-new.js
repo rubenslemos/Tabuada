@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
           localStorage.setItem('token', token);
           localStorage.setItem('userId', user._id);
+          localStorage.setItem('userName', user.name);
           localStorage.setItem('tipoUsuario', user.tipo)
           localStorage.setItem('turma', user.turma);
           localStorage.setItem('totalJogos', totalJogos);
@@ -298,61 +299,67 @@ document.addEventListener('DOMContentLoaded', ()=>{
     })
   }
 
-  async function listarUsers() { 
-    const token = localStorage.getItem('token'); // Obtém o token armazenado
-    const turma = localStorage.getItem('turma'); 
-    const alunosSelect = document.getElementById('alunos'); 
+  // ============= PRÊMIOS NO HEADER =============
+  const premiosHeader = document.querySelector('.premios-header');
+  if (premiosHeader) {
+    criaPremios();
+  }
+
+  // Preencher nome do usuário se ele não aparecer do Handlebars
+  const userName = document.querySelector('.user-name');
+  if (userName) {
+    const nameFromStorage = localStorage.getItem('userName');
+    if (nameFromStorage) {
+      userName.textContent = `Olá, ${nameFromStorage}`;
+    }
+  }
+
+  function criaPremios() {
+    let estrelaHTML = document.getElementById('estrela');
+    let downThumbHTML = document.getElementById('downThumb');
+    let nivelHTML = document.getElementById('nivel');
+    let resultados = document.querySelector('.premios');
+
+    let totalAcertos = parseInt(localStorage.getItem('totalAcertos') );
+    let totalErros = parseInt(localStorage.getItem('totalErros') );
+    let totalJogos = parseInt(localStorage.getItem('totalJogos') );
+
+    if (!estrelaHTML) {
+      estrelaHTML = document.createElement('small');
+      estrelaHTML.id = 'estrela';
+    }
+    if (!downThumbHTML) {
+      downThumbHTML = document.createElement('small');
+      downThumbHTML.id = 'downThumb';
+    }
+    if (!nivelHTML) {
+      nivelHTML = document.createElement('small');
+      nivelHTML.id = 'nivel';
+    }
+    if (!resultados) {
+      resultados = document.createElement('div');
+      resultados.classList.add('premios');
+    } else {
+      resultados.innerHTML = '';
+    }
+    let estrela = isNaN(totalAcertos) ? 0 : Math.floor(totalAcertos / 10);
+    let downThumb = isNaN(totalErros) ? 0 : Math.floor(totalErros / 10);
+    let nivel = isNaN(totalJogos) ? 0 : Math.floor(totalJogos / 100);
     
-    // Verifique se o elemento existe
-    if (!alunosSelect) { 
-      console.error('Elemento alunosSelect não encontrado no DOM'); 
-      return; 
-    } 
+    localStorage.setItem('estrela', parseInt(estrela))
+    localStorage.setItem('downThumb', parseInt(downThumb))
+    localStorage.setItem('Nivel', parseInt(nivel))
 
-    try { 
-      const response = await fetch('/auth/register', { 
-        method: 'GET', 
-        headers: { 
-          'Content-Type': 'application/json', 
-          'Authorization': `Bearer ${token}`, // Inclui o token no cabeçalho 
-        }, 
-      });
+    estrelaHTML.innerHTML = `<i class="fa-solid fa-star" title="A cada 10 acertos ganhe 1 estrelinha"></i><i>${estrela.toFixed(0)}</i>`;
+    downThumbHTML.innerHTML = `<i class="fa-solid fa-thumbs-down" title="A cada 10 erros ganhe 1 Falhou"></i><i>${downThumb.toFixed(0)}</i>`;
+    nivelHTML.innerHTML = `<i class="fa-solid fa-calculator" title="A cada 100 acertos ganhe 1 Calculadora"></i><i>${nivel.toFixed(0)}</i>`;
 
-      if (response.ok) { 
-        const alunos = await response.json(); 
-        // Limpa as opções anteriores para evitar duplicação
-        alunosSelect.innerHTML = '';
+    resultados.appendChild(estrelaHTML);
+    resultados.appendChild(downThumbHTML);
+    resultados.appendChild(nivelHTML);
 
-        const alunosDaMesmaTurma = alunos.filter(aluno => aluno.tipo === 'Aluno' && aluno.turma === turma);
-        // **Adicionado: Adiciona uma opção placeholder**
-        const placeholderOption = document.createElement('option');
-        placeholderOption.value = '';
-        placeholderOption.disabled = true;
-        placeholderOption.selected = true;
-        placeholderOption.text = 'Selecione um aluno';
-        alunosSelect.appendChild(placeholderOption);
-
-        // Verifica se existem alunos na turma
-        if (alunosDaMesmaTurma.length > 0) {
-        // Adiciona as opções dos alunos no select
-          alunosDaMesmaTurma.forEach(aluno => { 
-            const option = document.createElement('option'); 
-            option.value = aluno._id; 
-            option.text = aluno.name; 
-            alunosSelect.appendChild(option); 
-          });
-        } else {
-            console.warn('Nenhum aluno encontrado para a turma especificada.');
-          }
-      } else { 
-        // Tente obter a mensagem de erro do backend
-        const errorData = await response.json(); 
-        console.error('Erro ao obter a lista de alunos:', errorData.error || response.statusText); 
-        alert(errorData.error || 'Erro ao obter a lista de alunos'); 
-      } 
-    } catch (error) { 
-      console.error('Erro ao enviar solicitação:', error); 
-      alert('Erro ao enviar solicitação para listar alunos'); 
-    } 
+    premiosHeader.appendChild(resultados);
+  
+    return nivel; 	
   }
 })
