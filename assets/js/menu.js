@@ -45,3 +45,6 @@ class MobileNavbar {
     return this;
   }
 }
+document.addEventListener("DOMContentLoaded", function () {
+  const mobileNavbar = new MobileNavbar(".mobile-menu", ".nav-list", ".nav-list li");
+});
