@@ -64,30 +64,14 @@ app.get('/reset-password', (req, res) => {
   res.render('reset-password', { title: 'Alterar Senha - Tabuada' })
 })
 
-app.get('/tabuada', webAuth, (req, res) => {
-  res.render('tabuada', { title: 'Tabuada', user: req.user, showNavLeft: false, showLogo: false, showNavRight: true, navItems: [
-    { text: 'Desempenho', href: '/performance' },
-    { text: 'Adição', href: '#', class: 'soma' },
-    { text: 'Subtração', href: '#', class: 'menos' },
-    { text: 'Multiplicação', href: '#', class: 'vezes' },
-    { text: 'Divisão', href: '#', class: 'dividir' },
-    { text: 'Todas', href: '#', class: 'todas' }
-  ] })
+app.get('/tabuada', webAuth, (req, res) => {res.render('tabuada', { title: 'Tabuada'})
 })
 
-app.get('/performance', webAuth, (req, res) => {
-  const user = req.user && req.user.toObject ? req.user.toObject() : req.user;
-  res.render('performance', { title: 'Desempenho - Tabuada', user, showNavLeft: true, showLogo: true, showNavRight: true, navItems: [
-    { text: 'Voltar', href: '/tabuada' }
-  ] })
+app.get('/performance', webAuth, (req, res) => {res.render('performance', { title: 'Desempenho - Tabuada'})
 })
 
 app.get('/acessos', webAuth, (req, res) => {
-  res.render('acessos', { title: 'Permissões - Tabuada', user: req.user, showNavLeft: true, showLogo: true, showNavRight: true, navItems: [
-    { text: 'Voltar', href: '/tabuada' }
-  ]
-  })
-  console.log (req.user)
+  res.render('acessos', { title: 'Permissões - Tabuada'})
 })
 
 app.get('/logout', (req, res) => {
