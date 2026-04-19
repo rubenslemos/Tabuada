@@ -1,4 +1,24 @@
-{{> header showNavLeft=true showLogo=true showNavRight=true navItems=navItems user=user}}
+<header>
+	<nav id="topo">
+		<div class="mobile-menu">
+			<div class="line1"></div>
+			<div class="line2"></div>
+			<div class="line3"></div>
+		</div>
+
+		<ul class="nav-list">
+			<li class="menu" id="acompanhamento">
+				<a href="/tabuada" id="desempenho">Voltar</a>
+			</li>
+		</ul>
+
+		<a class="logo" href="/tabuada">Tabuada</a>
+		<span class="user-name">Olá, {{user.name}}</span>
+		<div class="premios-header">
+			<!-- Espaço para elementos de prêmios no header -->
+		</div>
+	</nav>
+</header>
 
 <section  id="premios-main">
 	<div id="resultados">

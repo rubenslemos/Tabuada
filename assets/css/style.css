@@ -308,6 +308,7 @@ nav{
 .user-name{
   font-size: 22px;
   color: var(--primary-color-darker);
+  width: 200px;
 }
 @media (max-width: 900px) {
   body {
