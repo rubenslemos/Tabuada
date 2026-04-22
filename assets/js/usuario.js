@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById('usuario');
   const enviarBotao = document.getElementById('enviarFormulario');
@@ -6,17 +5,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const login = document.getElementById('login')
   const cancelar = document.getElementById('cancelar')
   const enviar = document.getElementById('confirmPassword')
-  const desempenho = document.getElementById('desempenho')
-  const resultados = document.getElementById('resultados')
-  const fecharResultados = document.createElement('button')
   const erroCadastro = document.getElementById('cadastrar')
-  const divResultado = document.createElement('div');
-  resultados.open = false
   
   cancelar.addEventListener('click', ()=> {
-    cadastro.classList.add('fechado')
-    cadastro.close()
-    login.classList.remove('fechado')
+    window.location.href = '/login';
   })
   async function criarUsuario (e) {
     e.preventDefault()
@@ -32,25 +24,28 @@ document.addEventListener("DOMContentLoaded", function () {
     const cadastroOk = document.createElement('small')
     cadastroOk.classList.add('senhaOk')
    
-    try {
-      const response = await fetch('/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ tipo, name, email, password, confirmPassword, turma }),
-      })
-      const data = await response.json()
-      mensagem = data.Msg
-      if (response.status === 201) {
-        mostrarMsgSucesso(mensagem)
-      }else {
-        mostrarMsgErro(mensagem)
-      }
-    } catch (error) {
-      console.error('Erro ao enviar os dados do formulário', error)
+try {
+    const response = await fetch('/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ tipo, name, email, password, confirmPassword, turma }),
+    });
+    const data = await response.json();
+    if (response.status === 201) {
+      mostrarMsgSucesso(data.Msg);
+      setTimeout(() => {
+        window.location.href = '/login';
+      }, 3000);
+    } else {
+      mostrarMsgErro(data.Msg || 'Erro ao cadastrar usuário');
     }
-  };
+  } catch (error) {
+    console.error('Erro ao enviar os dados do formulário', error);
+    mostrarMsgErro('Erro ao conectar ao servidor');
+  }
+}
 
   function mostrarMsgSucesso(mensagem) {
     const mensagemSucesso = document.createElement('small')

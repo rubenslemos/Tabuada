@@ -12,36 +12,32 @@ function generateToken(params = { }){
 }
 router.post('/', async (req,res)=>{
   const {tipo, name, email, password, confirmPassword, turma} = req.body
-  if(!tipo){
-    return res.status(422).json({Msg: 'Tipo requerido'})
+  if (!tipo || !name || !email || !password || !confirmPassword || !turma) {
+    return res.status(422).json({ Msg: 'Todos os campos são obrigatórios' });
   }
-  if(!name){
-    return res.status(422).json({Msg: 'Nome requerido'})
-  }else if(!email){
-    return res.status(422).json({Msg: 'E-mail requerido'})
-  }else if(!password){
-    return res.status(422).json({Msg: 'Senha requerida'})
-  }else if(!confirmPassword){
-    return res.status(422).json({Msg: 'Confirmação de senha requerida'})
-  }else if(password !== confirmPassword){
-    return res.status(422).json({Msg: 'Confirmação de senha e Senha diferentes'})
-  }else if (!turma) {
-    return res.status(422).json({ Msg: 'Turma requerida' });
-  }else{
-    const emailExists = await User.findOne({email: email.toLowerCase().trim()})
+
+  if (password !== confirmPassword) {
+    return res.status(422).json({ Msg: 'Senha e confirmação não coincidem' });
+  }
+
+  // Validação de senha (regex ajustado)
+  const regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[0-9]).{8,20}$/;
+  if (!regex.test(password)) {
+    return res.status(422).json({ 
+      Msg: 'Senha deve ter 8-20 caracteres, incluindo maiúsculas, números e símbolos (!@#$%^&*)' 
+    });
+  }
+
+
+  try {
+  const emailExists = await User.findOne({email: email.toLowerCase().trim()})
     if(emailExists){
       return res.status(422).json({Msg: 'E-mail já existe'})
     }
-    const userExists = await User.findOne({name: name.toLowerCase().trim()})
+  const userExists = await User.findOne({name: name.toLowerCase().trim()})
     if(userExists){
       return res.status(422).json({Msg: 'Usuário já existe'})
     }
-    const regex = /^(?=.*[@!#$%^&*()/\\])(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[@!#$%^&*()/\\a-zA-Z0-9]{8,20}$/
-    if (!regex.test(password)){
-      return res.status(422).json({Msg: 'Senha não segue as condições estabelecidas'})
-    }
-
-    try {
       let permissoes = {};
       if (tipo === 'Professor') {
           permissoes = {
@@ -77,16 +73,16 @@ router.post('/', async (req,res)=>{
         turma: turma.toUpperCase().trim()      
       })
       await user.save()
-      res.status(201).json({Msg: 'Cadastrado com sucesso'})
-      res.status(201).send({
-        user,
-        token: generateToken({id:user.id}), 
-      })
+es.status(201).json({
+    Msg: 'Cadastrado com sucesso',
+    user,
+    token: generateToken({id: user.id}),
+  });
     } catch (error) {
-        res.status(500).json({msg: 'Erro no servidor, tente em alguns minutos'})
+      console.error('Erro ao criar usuário:', error);
+      res.status(500).json({msg: 'Erro no servidor, tente em alguns minutos'})
     }
-  }
-})
+  })
 router.get('/', auth, async (req, res) => {
   try {
     const loggedInUser = req.user; // Obtém o usuário logado
