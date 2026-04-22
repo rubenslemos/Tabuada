@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  async function criaResultado(userId) {
+/*   async function criaResultado(userId) {
     try {
       const response = await fetch(`/auth/login/${userId}`, { method: 'GET' });
       if (response.ok) {
@@ -86,8 +86,112 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error('Erro ao obter dados do usuário', error);
       alert('Erro ao obter seus dados. Tente novamente.');
     }
+  } */
+// ... código anterior ...
+
+  async function criaResultado(userId) {
+    try {
+      // Faz a requisição para obter os dados do usuário logado
+      const response = await fetch(`/auth/login/${userId}`, { 
+        method: 'GET',
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        const user = userData.user || userData;
+        // Garante que 'user' esteja definido
+        const containerResultados = document.querySelector('.containerResultados');
+        preencherResultadosNoHTML(user);
+
+        if (user.tipo === 'Professor' || user.tipo === 'Coordenador') {
+          try {
+            const token = localStorage.getItem('token'); // Obtém o token armazenado
+
+            const response = await fetch('/auth/register', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`, // Inclui o token no cabeçalho
+              },
+            });
+
+            if (response.status === 200) {
+              const usersData = await response.json();
+              const users = usersData;
+              let optionsHTML = '';
+
+              if (user.tipo === 'Professor') {
+                // Filtra os alunos da mesma turma
+                const alunosDaMesmaTurma = users.filter(u => u.tipo === 'Aluno' && u.turma === user.turma);
+                optionsHTML = `
+                  <option value="${user._id}" selected>${'Logado: ' + user.name}</option>
+                  ${alunosDaMesmaTurma.map(aluno => `<option value="${aluno._id}">${aluno.name}</option>`).join('')}
+                `;
+              } else if (user.tipo === 'Coordenador') {
+                // Usa os próprios dados do usuário
+                optionsHTML = `                                  
+                  <option value="${user._id}" selected>${'Logado: ' + user.name}</option>
+                  ${users.map(aluno => `<option value="${aluno._id}">${aluno.name}</option>`).join('')}
+                `;
+              }
+            
+              // Remove a antiga div de resultados, se existir
+              const divResultadoAntigo = containerResultados.querySelector('.resultadoDiv');
+              if (divResultadoAntigo) {
+                divResultadoAntigo.remove();
+              }
+            
+              // Cria a nova div com os resultados
+              const divResultado = document.createElement('div');
+              divResultado.className = 'resultadoDiv';
+              divResultado.innerHTML = `
+                <label for="alunos" class="labelResultado">Selecione um Usuário:</label>
+                <select id="alunos" name="alunos" class="listaResultados">
+                  ${optionsHTML}
+                </select>
+              `;
+
+              const result = document.querySelector('.resultados');
+              containerResultados.insertBefore(divResultado, result);
+
+              const selectAlunos = document.getElementById('alunos');
+              selectAlunos.addEventListener('change', function() {
+                const selectedUserId = selectAlunos.value;
+                let selectedUser;
+                if (selectedUserId === user._id) {
+                  selectedUser = user;
+                } else if (user.tipo === 'Professor') {
+                  const alunosDaMesmaTurma = users.filter(u => u.tipo === 'Aluno' && u.turma === user.turma);
+                  selectedUser = alunosDaMesmaTurma.find(aluno => aluno._id === selectedUserId);
+                } else if (user.tipo === 'Coordenador') {
+                  selectedUser = users.find(user => user._id === selectedUserId);
+                }
+                if (selectedUser) {
+                  preencherResultadosNoHTML(selectedUser);
+                } else {
+                  console.error('Usuário selecionado não encontrado');
+                }
+              });
+            } else {
+              console.error('Erro ao obter dados dos alunos:', response.status, response.statusText);
+              alert('Erro ao obter a lista de alunos da sua turma.');
+            }
+          } catch (error) { 
+            console.error('Erro ao obter dados dos alunos', error);
+            alert('Erro ao obter a lista de alunos da sua turma.');
+          }
+        }
+      } else {
+        console.error('Erro ao obter dados do usuário:', response.status, response.statusText);
+        alert('Erro ao obter seus dados. Tente novamente.');
+      }
+    } catch (error) {
+      console.error('Erro ao obter dados do usuário', error);
+      alert('Erro ao obter seus dados. Tente novamente.');
+    }
   }
 
+// ... código posterior ...
   async function abrirModal(acertos, erros, event, index) {
     const roundId = event.target.value;
     try {

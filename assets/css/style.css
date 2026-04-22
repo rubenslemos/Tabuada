@@ -1133,6 +1133,7 @@ input {
   display: inline;
   margin: 5px;
   padding-left: 5px;
+  border-radius: 10px;
 }
 
 .login-container button {
@@ -1159,6 +1160,7 @@ input {
   display: inline;
   margin: 5px;
   padding-left: 5px;
+  border-radius: 10px;
 }
 
 .cadastro-container button {
