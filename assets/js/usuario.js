@@ -32,13 +32,15 @@ try {
       },
       body: JSON.stringify({ tipo, name, email, password, confirmPassword, turma }),
     });
-    const data = await response.json();
+  const data = await response.json();
+  console.log('Resposta do servidor:', response.status, data);
     if (response.status === 201) {
       mostrarMsgSucesso(data.Msg);
       setTimeout(() => {
         window.location.href = '/login';
       }, 3000);
     } else {
+        console.log('Resposta do servidor:', response.status, data);
       mostrarMsgErro(data.Msg || 'Erro ao cadastrar usuário');
     }
   } catch (error) {
@@ -53,9 +55,7 @@ try {
     mensagemSucesso.innerHTML = mensagem
     form.insertBefore(mensagemSucesso, erroCadastro)
     setTimeout(() => {
-      cadastro.classList.add('fechado')
-      cadastro.close()
-      login.classList.remove('fechado')
+      window.location.href = '/login';
       mensagemSucesso.remove()
     }, 3000);
   }

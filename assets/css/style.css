@@ -57,7 +57,11 @@ h1 {
   position: relative;
   z-index: 10;
 }
-
+.largura small{
+  font-size: 13.5px;
+  margin: 0 15px 15px 15px;
+  color: lightcoral;
+}
 .container h1{
   display: flex;
   justify-content:center;

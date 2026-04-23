@@ -72,8 +72,8 @@ router.post('/', async (req,res)=>{
         permissoes,
         turma: turma.toUpperCase().trim()      
       })
-      await user.save()
-es.status(201).json({
+    await user.save()
+    res.status(201).json({
     Msg: 'Cadastrado com sucesso',
     user,
     token: generateToken({id: user.id}),
