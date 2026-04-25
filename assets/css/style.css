@@ -1138,6 +1138,7 @@ input {
   margin: 5px;
   padding-left: 5px;
   border-radius: 10px;
+  width: 90%;
 }
 
 .login-container button {
@@ -1165,8 +1166,22 @@ input {
   margin: 5px;
   padding-left: 5px;
   border-radius: 10px;
+  width: 90%;
+}
+.input-password-container .fa-eye,
+.input-password-container .fa-eye-slash {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
 }
 
+.input-password-container .fa-eye:hover,
+.input-password-container .fa-eye-slash:hover {
+  color: #333;
+}
 .cadastro-container button {
   display: flex;
   flex-direction: row;

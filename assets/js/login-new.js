@@ -1,4 +1,43 @@
-document.addEventListener('DOMContentLoaded', ()=>{
+function setupPasswordToggle(passwordInputId, confirmPasswordInputId = null) {
+  // Configura o toggle para o campo de senha principal
+  const passwordInput = document.getElementById(passwordInputId);
+  if (passwordInput) {
+    const passwordToggle = passwordInput.nextElementSibling;
+    if (passwordToggle && passwordToggle.classList.contains('fa-eye')) {
+      passwordToggle.addEventListener('click', () => {
+        togglePasswordVisibility(passwordInput, passwordToggle);
+      });
+    }
+  }
+
+  // Configura o toggle para o campo de confirmação de senha (se existir)
+  if (confirmPasswordInputId) {
+    const confirmPasswordInput = document.getElementById(confirmPasswordInputId);
+    if (confirmPasswordInput) {
+      const confirmToggle = confirmPasswordInput.nextElementSibling;
+      if (confirmToggle && confirmToggle.classList.contains('fa-eye')) {
+        confirmToggle.addEventListener('click', () => {
+          togglePasswordVisibility(confirmPasswordInput, confirmToggle);
+        });
+      }
+    }
+  }
+}
+
+// Função auxiliar para alternar a visibilidade
+function togglePasswordVisibility(inputElement, toggleElement) {
+  if (inputElement.type === 'password') {
+    inputElement.type = 'text';
+    toggleElement.classList.replace('fa-eye', 'fa-eye-slash');
+    toggleElement.title = "Ocultar senha";
+  } else {
+    inputElement.type = 'password';
+    toggleElement.classList.replace('fa-eye-slash', 'fa-eye');
+    toggleElement.title = "Mostrar senha";
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
   // ============= PÁGINA DE LOGIN =============
   const formLogin = document.getElementById('formLogin')
   const confirmLogin = document.getElementById('confirmLogin')
@@ -362,4 +401,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
   
     return nivel; 	
   }
+
+  setupPasswordToggle('passwordLogin', 'togglePasswordLogin');
+
+// Para a tela de recuperação de senha (se aplicável)
+  setupPasswordToggle('passwordAlterar', 'togglePasswordAlterar')
+  setupPasswordToggle('ConfirmPasswordAlterar', 'toggleConfirmPasswordAlterar');
+  //setupPasswordFields('passwordAlterar', 'ConfirmPasswordAlterar');
 })
