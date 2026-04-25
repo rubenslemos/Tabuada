@@ -10,7 +10,15 @@
         "label": "off"
       }
     ],
-    "highest-available-document-mode": "off"
+    "highest-available-document-mode": "off",
+    "compat-api/css": [
+      "default",
+      {
+        "ignore": [
+          "backdrop-filter"
+        ]
+      }
+    ]
   },
   "browserslist": [
     "defaults",
