@@ -130,7 +130,6 @@ h1 {
 }
 
 .tabuada {
-  width: 70%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -141,27 +140,6 @@ h1 {
   padding: 20px;
   padding-bottom: 30px;
   background: rgba(255, 255, 255, 0.452);
-}
-
-/* Responsividade para tabuada */
-@media (max-width: 1200px) {
-  .tabuada {
-    width: 80%;
-  }
-}
-
-@media (max-width: 768px) {
-  .tabuada {
-    width: 90%;
-    padding: 15px;
-  }
-}
-
-@media (max-width: 480px) {
-  .tabuada {
-    width: 95%;
-    padding: 10px;
-  }
 }
 
 .conta div {
@@ -410,7 +388,7 @@ input[type=number] {
       align-items: center;
       gap: 1rem;
       top: 0;
-      height: 6vh;
+      height: 5vh;
       border: solid 1px var(--primary-color-darker);
       border-left: none;
       border-top: none;
@@ -432,7 +410,7 @@ input[type=number] {
         justify-content: space-between;
         padding: 0 15px;
         height: auto;
-        min-height: 6vh;
+        min-height: 5vh;
       }
   
       .logo {
@@ -483,7 +461,7 @@ input[type=number] {
     .mobile-menu {
       cursor: pointer;
       display: block;
-      width: 100%;
+      width: auto;
     }
   
     .nav-list.active {
@@ -523,7 +501,6 @@ input[type=number] {
       order: 3;
       font-size: 24px;
       text-transform: uppercase;
-      letter-spacing: 4px;
       margin: 0 15px 0 auto;
     }
   
@@ -544,13 +521,12 @@ input[type=number] {
       }
   
       nav {
-        position: relative;
         height: auto;
-        min-height: 6vh;
+        min-height: 5vh;
       }
   
       .mobile-menu {
-        order: 1;
+        order: 0;
       }
   
       .nav-list {
@@ -595,6 +571,8 @@ input[type=number] {
         order: 3;
         font-size: 20px;
         margin: 0 15px;
+        align-items: center;
+        display: flex;
       }
   
       /* Ajustes adicionais para mobile */
@@ -640,7 +618,9 @@ input[type=number] {
   
       .logo {
         font-size: 18px;
-        margin: 0 10px;
+        margin: 0 auto;
+        align-items: center;
+        display: flex;
       }
   
       .premios {
@@ -1115,7 +1095,7 @@ input[type=number] {
         /* Responsividade para cadastrar */
         @media (max-width: 768px) {
           .cadastrar {
-            flex-direction: column;
+            flex-direction: row;
           }
         }
 
@@ -1632,7 +1612,7 @@ input[type=number] {
           justify-content: center;
           align-items: center;
           width: 100%;
-          margin-left: -105px;
+          margin-left: auto;
         }
     
         .labelResultado {
@@ -1963,7 +1943,7 @@ input[type=number] {
         
                 @media (max-width: 768px) {
                   .premios {
-                    flex-direction: column;
+                    flex-direction: row;
                     margin: 0 10px;
                   }
         
@@ -2044,7 +2024,7 @@ input[type=number] {
                   .login-container input,
                   .cadastro-container input {
                     font-size: 1em;
-                    width: 95%;
+                    width: 85%;
                   }
         
                   .login-container button,
@@ -2090,7 +2070,7 @@ input[type=number] {
                   margin: 5px;
                   padding-left: 5px;
                   border-radius: 10px;
-                  width: 90%;
+                  width: 87%;
                 }
         
                 .input-password-container .fa-eye,
@@ -2180,7 +2160,7 @@ input[type=number] {
         
                 /* Ajustar botões de formulário */
                 .btn {
-                  flex-direction: column;
+                  flex-direction: row;
                   gap: 10px;
                 }
         
@@ -2201,7 +2181,7 @@ input[type=number] {
         
                   /* Ajustes adicionais para telas muito pequenas */
                   body {
-                    font-size: 1em;
+                    font-size: 1.5em;
                   }
         
                   h1,
@@ -2272,13 +2252,6 @@ input[type=number] {
                                     min-width: 44px;
                                   }
         
-                input[type="number"],
-                input[type="text"],
-                input[type="password"],
-                select {
-                  font-size: 16px !important;
-                  /* Previne zoom automático no iOS */
-                }
                 }
         
                 /* Adicionar suporte para telas de alta resolução */
