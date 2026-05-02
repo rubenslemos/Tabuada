@@ -141,37 +141,96 @@ const adicionarMenus = (fimIntervalo) => {
     }
   })
 
-  navList.addEventListener('click', function (event) {
+/* navList.addEventListener('click', function (event) {
+const target = event.target;
+let tipo = null;
+let intervalo = null;
+if (target.classList.contains('soma') || target.classList.contains('menos') ||
+target.classList.contains('vezes') || target.classList.contains('dividir') ||
+target.classList.contains('todas')) {
+event.preventDefault();
+valor = target.getAttribute('value');
+tipo = target.getAttribute('value').replace(/\d+$/, '');
+intervalo = valor.match(/\d+$/) ? valor.match(/\d+$/)[0] : null;
+if (intervalo && tipo) {
+const submenuIntervalo = target.closest(`ul#${tipo}`).querySelector(`ul.${tipo}${intervalo}.intervalo`);
+if (submenuIntervalo) {
+submenuIntervalo.classList.toggle('visivel');
+}
+} else if (target.classList.contains('menu')) {
+const submenu = target.querySelector('.submenu');
+if (submenu) {
+submenu.classList.toggle('mostra');
+}
+}
+}
+
+
+if (intervalo && tipo) {
+criaTabuada();
+navListElement = document.querySelector('.nav-list');
+const mobileMenuButton = document.querySelector('.mobile-menu');
+if (navListElement && mobileMenuButton) {
+navListElement.classList.remove('active');
+mobileMenuButton.classList.remove('active');
+}
+}
+return valor;
+}
+) */
+navList.addEventListener('click', function (event) {
   const target = event.target;
   let tipo = null;
   let intervalo = null;
+
+  // Verifica se o clique foi em um dos elementos específicos (soma, menos, etc)
   if (target.classList.contains('soma') || target.classList.contains('menos') ||
-    target.classList.contains('vezes') || target.classList.contains('dividir') ||
-    target.classList.contains('todas')) {
+      target.classList.contains('vezes') || target.classList.contains('dividir') ||
+      target.classList.contains('todas')) {
     event.preventDefault();
     valor = target.getAttribute('value');
-    tipo = target.getAttribute('value').replace(/\d+$/, ''); 
+    tipo = target.getAttribute('value').replace(/\d+$/, '');
     intervalo = valor.match(/\d+$/) ? valor.match(/\d+$/)[0] : null;
-    if (intervalo && tipo) {
+
+    // Verifica se o clique foi em um link de intervalo (menu principal)
+    if (target.classList.contains('intervalo-link') && target.classList.contains('menu')) {
       const submenuIntervalo = target.closest(`ul#${tipo}`).querySelector(`ul.${tipo}${intervalo}.intervalo`);
       if (submenuIntervalo) {
         submenuIntervalo.classList.toggle('visivel');
       }
-    } else if (target.classList.contains('menu')) {
-      const submenu = target.querySelector('.submenu');
-      if (submenu) {
-        submenu.classList.toggle('mostra');
+    }
+    // Verifica se o clique foi em um item específico dentro do submenu (li)
+    else if (!target.classList.contains('intervalo-link') && !target.classList.contains('menu')) {
+      criaTabuada();
+      
+      // Fechar menus apenas se tipo e intervalo forem diferentes de null
+      if (tipo !== null && intervalo !== null) {
+        const navListElement = document.querySelector('.nav-list');
+        const mobileMenuButton = document.querySelector('.mobile-menu');
+        if (navListElement && mobileMenuButton) {
+          navListElement.classList.remove('active');
+          mobileMenuButton.classList.remove('active');
+        }
+
+        // Fechar submenu específico
+        const submenuIntervalo = target.closest(`ul#${tipo}`).querySelector(`ul.${tipo}${intervalo}.intervalo`);
+        if (submenuIntervalo) {
+          submenuIntervalo.classList.remove('visivel');
+        }
       }
     }
   }
-  //criaTabuada();
-  if (intervalo && tipo) {
-    criaTabuada();
-  }
-  return valor;
-}
-)
 
+  // Verifica se o clique foi em um item de menu geral
+  else if (target.classList.contains('menu')) {
+    const submenu = target.querySelector('.submenu');
+    if (submenu) {
+      submenu.classList.toggle('mostra');
+    }
+  }
+
+  return valor;
+});
 function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }

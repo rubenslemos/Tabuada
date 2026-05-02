@@ -441,6 +441,7 @@ input[type=number] {
       position: fixed;
       top: 3.6rem;
       left: 0rem;
+      overflow-y: auto;
     }
   
     .nav-list li {
@@ -546,8 +547,9 @@ input[type=number] {
         opacity: 0;
         transition: all 0.3s ease;
         border-top: 1px solid var(--primary-color-darker);
+        overflow-y: auto;
       }
-  
+
       .nav-list.active {
         display: flex;
         transform: translateY(0);
