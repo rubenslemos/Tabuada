@@ -29,6 +29,9 @@ class MobileNavbar {
       setTimeout(() => {
         this.navList.classList.remove(this.activeClass);
         this.mobileMenu.classList.remove(this.activeClass);
+        document.querySelectorAll('.intervalo').forEach(submenu => {
+          submenu.style.maxHeight = null;
+        });
       }, 300); // Após animação dos links, deslizar menu de volta
     } else {
       // Abrindo: adicionar classe, depois animar

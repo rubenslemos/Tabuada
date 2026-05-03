@@ -142,86 +142,133 @@ const adicionarMenus = (fimIntervalo) => {
   })
 
 /* navList.addEventListener('click', function (event) {
-const target = event.target;
-let tipo = null;
-let intervalo = null;
-if (target.classList.contains('soma') || target.classList.contains('menos') ||
-target.classList.contains('vezes') || target.classList.contains('dividir') ||
-target.classList.contains('todas')) {
-event.preventDefault();
-valor = target.getAttribute('value');
-tipo = target.getAttribute('value').replace(/\d+$/, '');
-intervalo = valor.match(/\d+$/) ? valor.match(/\d+$/)[0] : null;
-if (intervalo && tipo) {
-const submenuIntervalo = target.closest(`ul#${tipo}`).querySelector(`ul.${tipo}${intervalo}.intervalo`);
-if (submenuIntervalo) {
-submenuIntervalo.classList.toggle('visivel');
-}
-} else if (target.classList.contains('menu')) {
-const submenu = target.querySelector('.submenu');
-if (submenu) {
-submenu.classList.toggle('mostra');
-}
-}
-}
-
-
-if (intervalo && tipo) {
-criaTabuada();
-navListElement = document.querySelector('.nav-list');
-const mobileMenuButton = document.querySelector('.mobile-menu');
-if (navListElement && mobileMenuButton) {
-navListElement.classList.remove('active');
-mobileMenuButton.classList.remove('active');
-}
-}
-return valor;
-}
-) */
-navList.addEventListener('click', function (event) {
   const target = event.target;
   let tipo = null;
   let intervalo = null;
 
-  // Verifica se o clique foi em um dos elementos específicos (soma, menos, etc)
-  if (target.classList.contains('soma') || target.classList.contains('menos') ||
-      target.classList.contains('vezes') || target.classList.contains('dividir') ||
-      target.classList.contains('todas')) {
+  // Verifica se o clique foi em um link ou ícone dentro de um menu
+  if (target.closest('a') || target.closest('i')) {
     event.preventDefault();
-    valor = target.getAttribute('value');
-    tipo = target.getAttribute('value').replace(/\d+$/, '');
-    intervalo = valor.match(/\d+$/) ? valor.match(/\d+$/)[0] : null;
-
-    // Verifica se o clique foi em um link de intervalo (menu principal)
-    if (target.classList.contains('intervalo-link') && target.classList.contains('menu')) {
-      const submenuIntervalo = target.closest(`ul#${tipo}`).querySelector(`ul.${tipo}${intervalo}.intervalo`);
-      if (submenuIntervalo) {
-        submenuIntervalo.classList.toggle('visivel');
-      }
-    }
-    // Verifica se o clique foi em um item específico dentro do submenu (li)
-    else if (!target.classList.contains('intervalo-link') && !target.classList.contains('menu')) {
-      criaTabuada();
+    
+    // Encontra o elemento pai 'a' se o clique foi no ícone
+    const linkElement = target.closest('a') || target.closest('i').parentElement;
+    
+    // Verifica se é um menu de operação (soma, menos, etc)
+    if (linkElement.classList.contains('soma') || 
+        linkElement.classList.contains('menos') ||
+        linkElement.classList.contains('vezes') || 
+        linkElement.classList.contains('dividir') ||
+        linkElement.classList.contains('todas')) {
       
-      // Fechar menus apenas se tipo e intervalo forem diferentes de null
-      if (tipo !== null && intervalo !== null) {
-        const navListElement = document.querySelector('.nav-list');
-        const mobileMenuButton = document.querySelector('.mobile-menu');
-        if (navListElement && mobileMenuButton) {
-          navListElement.classList.remove('active');
-          mobileMenuButton.classList.remove('active');
-        }
+      valor = linkElement.getAttribute('value');
+      tipo = valor.replace(/\d+$/, '');
+      intervalo = valor.match(/\d+$/) ? valor.match(/\d+$/)[0] : null;
 
-        // Fechar submenu específico
-        const submenuIntervalo = target.closest(`ul#${tipo}`).querySelector(`ul.${tipo}${intervalo}.intervalo`);
+      // Verifica se o clique foi em um link de intervalo (menu principal)
+      if (linkElement.classList.contains('intervalo-link') && linkElement.classList.contains('menu')) {
+        const submenuIntervalo = linkElement.closest(`ul#${tipo}`).querySelector(`ul.${tipo}${intervalo}.intervalo`);
         if (submenuIntervalo) {
-          submenuIntervalo.classList.remove('visivel');
+          submenuIntervalo.classList.toggle('visivel');
+          // Alterna a rotação do ícone
+          const icon = linkElement.querySelector('i');
+          if (icon) {
+            icon.classList.toggle('rotated');
+          }
+        }
+      }
+      // Verifica se o clique foi em um item específico dentro do submenu (li)
+      else if (!linkElement.classList.contains('intervalo-link') && !linkElement.classList.contains('menu')) {
+        criaTabuada();
+        
+        // Fechar menus apenas se tipo e intervalo forem diferentes de null
+        if (tipo !== null && intervalo !== null) {
+          const navListElement = document.querySelector('.nav-list');
+          const mobileMenuButton = document.querySelector('.mobile-menu');
+          if (navListElement && mobileMenuButton) {
+            navListElement.classList.remove('active');
+            mobileMenuButton.classList.remove('active');
+          }
+
+          // Fechar submenu específico
+          const submenuIntervalo = linkElement.closest(`ul#${tipo}`).querySelector(`ul.${tipo}${intervalo}.intervalo`);
+          if (submenuIntervalo) {
+            submenuIntervalo.classList.remove('visivel');
+            // Reseta a rotação do ícone
+            const icon = linkElement.querySelector('i');
+            if (icon) {
+              icon.classList.remove('rotated');
+            }
+          }
         }
       }
     }
   }
 
   // Verifica se o clique foi em um item de menu geral
+  else if (target.classList.contains('menu')) {
+    const submenu = target.querySelector('.submenu');
+    if (submenu) {
+      submenu.classList.toggle('mostra');
+    }
+  }
+
+  return valor;
+});  */
+  navList.addEventListener('click', function (event) {
+  const target = event.target;
+  let tipo = null;
+  let intervalo = null;
+
+  // Verifica se o clique foi em um link ou ícone dentro de um menu
+  if (target.closest('a') || target.closest('i')) {
+    event.preventDefault();
+
+    // Encontra o elemento pai 'a' se o clique foi no ícone
+    const linkElement = target.closest('a') || target.closest('i').parentElement;
+
+    // Verifica se é um menu de operação (soma, menos, etc)
+    if (linkElement.classList.contains('soma') || 
+        linkElement.classList.contains('menos') ||
+        linkElement.classList.contains('vezes') || 
+        linkElement.classList.contains('dividir') ||
+        linkElement.classList.contains('todas')) {
+
+      valor = linkElement.getAttribute('value');
+      tipo = valor.replace(/\d+$/, '');
+      intervalo = valor.match(/\d+$/) ? valor.match(/\d+$/)[0] : null;
+
+      // Verifica se o clique foi em um item de menu principal (top-level)
+      const isTopLevel =
+        !linkElement.closest('li.menu') &&
+        linkElement.closest('ul.submenu') ||
+        linkElement.closest('ul.intervalo');
+      if (isTopLevel) {
+        criaTabuada();
+
+        // Fechar menus se necessário
+        const navListElement = document.querySelector('.nav-list');
+        const mobileMenuButton = document.querySelector('.mobile-menu');
+        if (navListElement && mobileMenuButton) {
+          navListElement.classList.remove('active');
+          mobileMenuButton.classList.remove('active');
+        }
+      }
+
+      // Verifica se o clique foi em um link de intervalo (submenu)
+      else if (linkElement.classList.contains('intervalo-link') && linkElement.classList.contains('menu')) {
+        const submenuIntervalo = linkElement.closest(`ul#${tipo}`).querySelector(`ul.${tipo}${intervalo}.intervalo`);
+        if (submenuIntervalo) {
+          submenuIntervalo.classList.toggle('visivel');
+          const icon = linkElement.querySelector('i');
+          if (icon) {
+            icon.classList.toggle('rotated');
+          }
+        }
+      }
+    }
+  }
+
+  // Verifica se o clique foi em um item de menu geral (top-level)
   else if (target.classList.contains('menu')) {
     const submenu = target.querySelector('.submenu');
     if (submenu) {

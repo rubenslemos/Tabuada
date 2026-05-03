@@ -30,17 +30,104 @@ body {
 html {
   font-size: 16px;
 }
+.nav-list::-webkit-scrollbar {
+  width: 8px;
+}
 
+.nav-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.nav-list::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+.nav-list::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color-darker);
+}
+.nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.8s ease-in;
+  position: fixed;
+  top: 5vh;
+  left: 0;
+  width: 100%;
+  height: 95vh;
+  overflow-y: auto;
+  background-color: #ffffff;
+  z-index: 999;
+  padding: 0;
+  margin: 0;
+}
+.nav-list>ul {
+  height: 100%;
+  overflow-y: auto;
+  padding: 1rem;
+}
+.nav-list .intervalo {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+.nav-list .intervalo.visivel {
+  max-height: 300px;
+  /* Ajuste conforme necessário */
+  overflow-y: auto;
+}
+.nav-list li {
+  font-size: 18px;
+  padding: 0.5rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border-bottom: 1px solid #eee;
+}
+/* Estilo para o ícone de seta */
+.nav-list i.fa-angles-right {
+  transition: transform 0.3s ease;
+  margin-left: 0.5rem;
+}
+
+/* Rotação do ícone quando o submenu está visível */
+.nav-list i.fa-angles-right.rotated {
+  transform: rotate(90deg);
+}
 @media (max-width: 768px) {
   html {
     font-size: 14px;
   }
+        .nav-list {
+          width: 100vw;
+          /* Ocupa toda a largura em mobile */
+          height: 95vh;
+          /* Altura total menos a altura do header */
+          top: 5vh;
+        }
+    
+        .nav-list li {
+          padding: 1rem 1.5rem;
+          font-size: 1.1rem;
+        }
 }
 
 @media (max-width: 480px) {
   html {
     font-size: 12px;
   }
+        .nav-list {
+          top: 5vh;
+          height: 95vh;
+        }
+    
+        .nav-list li {
+          padding: 0.8rem 1.2rem;
+          font-size: 1rem;
+        }
 }
 
 h1 {
@@ -441,7 +528,10 @@ input[type=number] {
       position: fixed;
       top: 3.6rem;
       left: 0rem;
-      overflow-y: auto;
+      overflow-y: auto;z-index: 999;
+      padding: 0;
+      width: 280px;
+      height: calc(100vh - 3.6rem);
     }
   
     .nav-list li {
@@ -457,6 +547,8 @@ input[type=number] {
       justify-content: center;
       background-color: #ffffff;
       padding: .3rem;
+      border-bottom: 1px solid #eee;
+      transition: all 0.3s ease;
     }
   
     .mobile-menu {
