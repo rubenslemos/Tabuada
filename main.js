@@ -10,7 +10,17 @@ require('dotenv').config()
 const user = process.env.DB_USER
 const pass = process.env.DB_PASS
 const port = process.env.PORT || 3000
-
+// Validação das variáveis de ambiente do Groq
+if (!process.env.GROQ_API_KEY) {
+  console.warn(
+    'GROQ_API_KEY não definida. As dicas usarão fallback do banco ou estático.\n' +
+    'Defina GROQ_API_KEY em seu ambiente ou no arquivo .env para habilitar a geração por IA (Groq).'
+  )
+}
+if (!process.env.GROQ_MODEL) {
+  console.warn('GROQ_MODEL não definida. Usando modelo padrão "llama-3.3-70b-versatile".')
+  process.env.GROQ_MODEL = 'llama-3.3-70b-versatile'
+}
 // Verificar se as variáveis de ambiente estão definidas
 if (!user || !pass) {
   console.error('Erro: Variáveis de ambiente DB_USER e DB_PASS são obrigatórias')
@@ -78,7 +88,8 @@ app.get('/logout', (req, res) => {
   // O logout será feito no frontend limpando o localStorage
   res.render('login', { title: 'Login - Tabuada' })
 })
-
+const tipsRouter = require('./routes/tips')
+app.use('/tips', tipsRouter)
 mongoose.connect(
   `mongodb+srv://${user}:${pass}@tabuada.hz6j8rr.mongodb.net`,
   {
