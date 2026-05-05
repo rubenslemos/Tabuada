@@ -78,7 +78,7 @@ const adicionarMenus = (fimIntervalo) => {
     { id: 'soma', classe: 'soma' },
     { id: 'menos', classe: 'menos' },
     { id: 'vezes', classe: 'vezes' },
-    { id: 'dividir', classe: 'dividi' },
+    { id: 'dividir', classe: 'dividir' },
     { id: 'todas', classe: 'todas' }
   ];
 
