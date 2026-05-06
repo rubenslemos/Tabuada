@@ -115,6 +115,7 @@ if (!process.env.GROQ_API_KEY) {
     'GROQ_API_KEY não definida. As dicas usarão fallback do banco ou estático.\n' +
     'Defina GROQ_API_KEY em seu ambiente ou no arquivo .env para habilitar a geração por IA (Groq).'
   )
+  process.env.GROQ_API_KEY
 }
 if (!process.env.GROQ_MODEL) {
   console.warn('GROQ_MODEL não definida. Usando modelo padrão "llama-3.3-70b-versatile".')
