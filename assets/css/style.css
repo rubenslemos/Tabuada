@@ -97,6 +97,21 @@ html {
 .nav-list i.fa-angles-right.rotated {
   transform: rotate(90deg);
 }
+.fa-star {
+  --fa: "\f005";
+  color: gold;
+  text-shadow: 0 0 8px rgba(255, 223, 90, 0.7);
+}
+.fa-thumbs-down {
+  --fa: "\f165";
+  color: #df2525;
+  text-shadow: 0 0 8px #df25258c;
+}
+.fa-calculator {
+  --fa: "\f1ec";
+  color: #0000ad;
+  text-shadow: 0 0 8px #0000ad8c;
+}
 @media (max-width: 768px) {
   html {
     font-size: 14px;
@@ -673,12 +688,14 @@ input[type=number] {
   
       /* Ajustes adicionais para mobile */
       .user-name {
-        font-size: 18px;
-        width: auto;
-        max-width: 150px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+font-size: 18px;
+  width: auto;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 0px;
+  margin-left: -45px;
       }
   
       .premios-header {
@@ -2381,7 +2398,8 @@ input[type=number] {
 }
 
 .dicas-btn i.fa-lightbulb {
-  color: #f59e0b;
+color: rgb(255, 223, 90);
+  text-shadow: 0 0 8px rgba(255, 223, 90, 0.7);
   /* amarelo */
 }
 
