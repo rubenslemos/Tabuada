@@ -112,7 +112,28 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault()
       const formData = new FormData(formVerificar)
       const emailValue = formData.get('emailCheck');
+          console.log('Email a ser enviado:', emailValue)
+    console.log('URL da requisição:', '/auth/login/forgot_password')
+    
+    // Teste de conectividade (CORS)
+    fetch('/auth/login/forgot_password', {
+      method: 'OPTIONS',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    .then(response => {
+      console.log('Headers de resposta:', response.headers)
+      console.log('CORS headers presentes:')
+      console.log('Access-Control-Allow-Origin:', response.headers.get('Access-Control-Allow-Origin'))
+      console.log('Access-Control-Allow-Methods:', response.headers.get('Access-Control-Allow-Methods'))
+    })
+      .catch(err => console.error('Erro de CORS:', err))
       
+      if (!emailValue || !emailValue.includes('@')) {
+        alert('Por favor, insira um email válido')
+        return
+      }
       try {
         const response = await fetch('/auth/login/forgot_password', {
           method: 'POST',
@@ -120,21 +141,28 @@ document.addEventListener('DOMContentLoaded', () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ email: emailValue }),
+          signal: AbortSignal.timeout(10000) // 10 segundos de timeout
         });
-        console.log('Resposta do servidor:', response.status, response.statusText);
-        if (response.status === 200) {
-          const data = await response.json()
-          localStorage.setItem('resetToken', data.token)
-          localStorage.setItem('resetEmail', emailValue)
-          window.location.href = '/reset-password'
-        } else {
-          alert( 'Erro ao verificar o e-mail');
-          console.error('Erro ao enviar e-mail', error)  
-        }
-      } catch (error) {
-        console.error('Erro ao enviar os dados do formulário', error);
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`)
       }
-    }
+      if (data.token) {
+        localStorage.setItem('resetToken', data.token)
+        localStorage.setItem('resetEmail', emailValue) // Corrigido: use emailValue
+        window.location.href = '/reset-password'
+      } else {
+        throw new Error('Token não recebido do servidor')
+      }
+        } catch (error) {
+          if (error.name === 'AbortError') {
+            console.error('Requisição excedeu o tempo limite');
+            throw new Error('Tempo limite excedido. Tente novamente.');
+          }
+            console.error('Erro ao verificar email:', error);
+            throw new Error('Falha na comunicação com o servidor');
+          }
+        }
     
     verifyEmail.addEventListener('click', verificarEmail)
     if (emailCheck) {
