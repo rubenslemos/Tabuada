@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
           window.location.href = '/reset-password'
         } else {
           console.log('Resposta do servidor:', response);
-          const errorData = await response.json();
+          const errorData = response.json();
           alert(errorData.error || 'Erro ao verificar o e-mail');
           console.error('Erro ao enviar e-mail', error)  
         }
