@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('URL da requisição:', '/auth/login/forgot_password')
     
     // Teste de conectividade (CORS)
-    fetch('/auth/login/forgot_password', {
+    fetch('/api/auth/login/forgot_password', {
       method: 'OPTIONS',
       headers: {
         'Content-Type': 'application/json',
