@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const emailCheck = document.getElementById('emailCheck')
 
   if (formVerificar && verifyEmail) {
-/*     async function verificarEmail (e) {
+    async function verificarEmail (e) {
       e.preventDefault()
       const formData = new FormData(formVerificar)
       const emailValue = formData.get('emailCheck');
@@ -128,82 +128,15 @@ document.addEventListener('DOMContentLoaded', () => {
           localStorage.setItem('resetEmail', emailValue)
           window.location.href = '/reset-password'
         } else {
-          console.log('Resposta do servidor:', response);
-          const errorData = response.json();
-          alert(errorData.error || 'Erro ao verificar o e-mail');
+          console.log('Resposta do servidor:', response.json());
+          alert( 'Erro ao verificar o e-mail');
           console.error('Erro ao enviar e-mail', error)  
         }
       } catch (error) {
         console.error('Erro ao enviar os dados do formulário', error);
       }
     }
- */
-      if (formVerificar && verifyEmail) {
-    async function verificarEmail(e) {
-      e.preventDefault();
-      
-      // Mostrar loader (feedback visual)
-      verifyEmail.disabled = true;
-      verifyEmail.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-
-      try {
-        const emailValue = emailCheck.value.trim();
-        
-        // Validação básica do e-mail
-        if (!emailValue || !emailValue.includes('@')) {
-          throw new Error('Por favor, insira um e-mail válido');
-        }
-
-        const response = await fetch('/auth/login/forgot_password', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email: emailValue }),
-        });
-
-        // Resetar o botão
-        verifyEmail.disabled = false;
-        verifyEmail.innerHTML = 'Verificar E-mail';
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || 'Erro ao enviar e-mail');
-        }
-
-        const data = await response.json();
-        localStorage.setItem('resetToken', data.token);
-        localStorage.setItem('resetEmail', emailValue);
-        window.location.href = '/reset-password';
-
-      } catch (error) {
-        // Resetar o botão
-        verifyEmail.disabled = false;
-        verifyEmail.innerHTML = 'Verificar E-mail';
-
-        // Mostrar mensagem de erro
-        const errorElement = formVerificar.querySelector('.erroEmail') || document.createElement('small');
-        errorElement.className = 'erroEmail';
-        
-        if (error.message.includes('Failed to fetch')) {
-          errorElement.textContent = 'Erro de conexão. Verifique sua internet e tente novamente.';
-        } else {
-          errorElement.textContent = error.message;
-        }
-
-        formVerificar.insertBefore(errorElement, emailCheck.nextElementSibling);
-        console.error('Erro ao verificar e-mail:', error);
-      }
-    }
-
-    verifyEmail.addEventListener('click', verificarEmail);
     
-    if (emailCheck) {
-      emailCheck.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') verificarEmail(e);
-      });
-    }
-  }
     verifyEmail.addEventListener('click', verificarEmail)
     if (emailCheck) {
       emailCheck.addEventListener('keypress', (e)=>{
