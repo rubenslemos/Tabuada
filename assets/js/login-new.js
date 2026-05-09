@@ -128,11 +128,13 @@ document.addEventListener('DOMContentLoaded', () => {
           localStorage.setItem('resetEmail', emailValue)
           window.location.href = '/reset-password'
         } else {
-          alert('Erro ao enviar e-mail')
-          console.error('Erro ao enviar e-mail', error)
+          const errorData = await response.json(); // Get error details if available
+          alert(errorData.message || 'Erro ao enviar e-mail');
+          console.error('Erro ao enviar e-mail:', errorData);
         }
       } catch (error) {
-        console.error('Erro ao enviar os dados do formulário', error);
+        alert('Erro de conexão. Por favor, tente novamente.');
+        console.error('Erro ao enviar os dados do formulário:', error);
       }
     }
     
