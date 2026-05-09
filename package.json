@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/rubenslemos/Tabuada#readme",
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "bcryptjs": "^3.0.3",
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.7",
