@@ -74,7 +74,7 @@ router.post('/forgot_password', async (req, res)=>{
       context: { token },
     }, (err)=> {
       if (err)
-        return res.status(400).send({error: 'Não foi possível enviar o email de recuperação, tente novamente'})
+        return res.status(400).send(err,{error: 'Não foi possível enviar o email de recuperação, tente novamente'})
       return res.status(200).json({ token })
     })
   } catch (error) {
