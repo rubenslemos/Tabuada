@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
           },
           body: JSON.stringify({ email: emailValue }),
         });
-        
+        console.log('Resposta do servidor:', response.status, response.statusText);
         if (response.status === 200) {
           const data = await response.json()
           localStorage.setItem('resetToken', data.token)
