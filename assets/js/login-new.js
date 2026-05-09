@@ -128,7 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
           localStorage.setItem('resetEmail', emailValue)
           window.location.href = '/reset-password'
         } else {
-          console.log('Resposta do servidor:', response.json());
           alert( 'Erro ao verificar o e-mail');
           console.error('Erro ao enviar e-mail', error)  
         }
