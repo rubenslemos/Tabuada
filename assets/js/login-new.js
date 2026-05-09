@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
           window.location.href = '/reset-password'
         } else {
           alert('Erro ao enviar e-mail')
-          console.error('Erro ao enviar e-mail')
+          console.error('Erro ao enviar e-mail', error)
         }
       } catch (error) {
         console.error('Erro ao enviar os dados do formulário', error);
