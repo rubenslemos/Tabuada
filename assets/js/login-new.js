@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return
       }
       try {
-        const response = await fetch('/auth/login/forgot_password', {
+        const response = await fetch('/api/auth/login/forgot_password', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
