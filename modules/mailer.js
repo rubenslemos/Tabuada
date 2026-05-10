@@ -16,11 +16,11 @@ const transport = nodemailer.createTransport({
 transport.use('compile', hbs({
   viewEngine: {
     extName: '.html',
-    partialsDir: path.resolve(__dirname, '../resources/mail/'), // Ajuste o nível se necessário
-    layoutsDir: path.resolve(__dirname, '../resources/mail/'),
+    partialsDir: path.resolve(__dirname, '../resources/mail/auth'), // Ajuste o nível se necessário
+    layoutsDir: path.resolve(__dirname, '../resources/mail/auth'),
     defaultLayout: false, // Defina como false se não tiver um layout específico para o e-mail
   },
-  viewPath: path.resolve(__dirname, '../resources/mail/'),
+  viewPath: path.resolve(__dirname, '../resources/mail/auth'), // Ajuste o nível se necessário
   extName: '.html',
 }))
 module.exports = transport

@@ -112,7 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault()
       const formData = new FormData(formVerificar)
       const emailValue = formData.get('emailCheck');
-      console.log('Email a ser enviado:', emailValue)
       if (!emailValue || !emailValue.includes('@')) {
         alert('Por favor, insira um email válido')
         return
@@ -126,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify({ email: emailValue }),
           signal: AbortSignal.timeout(10000) // 10 segundos de timeout
         });
+      const data = await response.json();
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))
         throw new Error(errorData.error || `HTTP error! status: ${response.status}`)
