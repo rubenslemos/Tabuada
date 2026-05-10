@@ -2,10 +2,6 @@
   "version": 2,
   "rewrites": [
     {
-      "source": "/auth/(.*)",
-      "destination": "/api/auth/$1"
-    },
-    {
       "source": "/api/auth/login/forgot_password",
       "destination": "/api/auth/login/forgot_password.js"
     }

@@ -1,7 +1,7 @@
 const crypto = require('crypto')
 const mongoose = require('mongoose')
 // Ajuste o caminho conforme onde seu arquivo User.js está salvo
-const User = require('/../models/User') 
+const User = require('../../../models/User') 
 // A string de conexão do seu MongoDB Atlas
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://Tabuada:12345@cluster0.5en0ryl.mongodb.net/Tabuada?retryWrites=true&w=majority&appName=Cluster0'
 module.exports = async function handler(req, res) {
