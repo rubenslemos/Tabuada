@@ -2166,7 +2166,7 @@ font-size: 18px;
                 }
 
                 .cadastro-container p {
-                  font-size: 1.3em;
+                  font-size: 1em;
                   line-height: 1.5em;
                   display: inline;
                   margin: 5px;
@@ -2205,9 +2205,9 @@ font-size: 18px;
                   flex-wrap: wrap;
                   align-items: center;
                   justify-content: center;
-                  font-size: 35px;
-                  padding: 10px 20px;
-                  margin: 20px auto;
+                  font-size: 20px;
+                  padding: 10px 10px;
+                  margin: 24px auto;
                 }
         
                 .cadastro-container a {
@@ -2234,9 +2234,9 @@ font-size: 18px;
         
                 @media (max-width: 480px) {
                   .cadastro-container a {
-                    font-size: 22px;
-                    padding: 12px;
-                    margin: 15px auto;
+                    font-size: 20px;
+                    padding: 10px;
+                    margin: 25px auto;
                   }
                 }
 
