@@ -112,24 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault()
       const formData = new FormData(formVerificar)
       const emailValue = formData.get('emailCheck');
-          console.log('Email a ser enviado:', emailValue)
-    console.log('URL da requisição:', '/auth/login/forgot_password')
-    
-    // Teste de conectividade (CORS)
-    fetch('/auth/login/forgot_password', {
-      method: 'OPTIONS',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(response => {
-      console.log('Headers de resposta:', response.headers)
-      console.log('CORS headers presentes:')
-      console.log('Access-Control-Allow-Origin:', response.headers.get('Access-Control-Allow-Origin'))
-      console.log('Access-Control-Allow-Methods:', response.headers.get('Access-Control-Allow-Methods'))
-    })
-      .catch(err => console.error('Erro de CORS:', err))
-      
+      console.log('Email a ser enviado:', emailValue)
       if (!emailValue || !emailValue.includes('@')) {
         alert('Por favor, insira um email válido')
         return

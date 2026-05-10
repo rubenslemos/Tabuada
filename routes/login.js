@@ -99,16 +99,18 @@ try {
       
     } catch (emailError) {
       console.error('Erro ao enviar email:', emailError)
-      return res.status(400).json({ 
+/*       return res.status(400).json({ 
         error: 'Não foi possível enviar o email de recuperação, tente novamente' 
-      })
+      }) */
+      return res.status(400).send({Msg: 'Não foi possível enviar o email...'})
     }
     
   } catch (error) {
     console.error('Erro no forgot_password:', error)
-    return res.status(400).json({ 
+/*     return res.status(400).json({ 
       error: 'Não foi possível recuperar sua senha, tente novamente' 
-    })
+    }) */
+    return res.status(400).send({Msg: 'Erro no forgot_password: tente novamente'})
   }
 })
 router.post('/reset_password', async (req, res) => {
