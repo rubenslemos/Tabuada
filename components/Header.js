@@ -20,6 +20,7 @@ export default function Header({ onSelectOperation }) {
   const [estrelaCount, setEstrelaCount] = useState(0);
   const [downThumbCount, setDownThumbCount] = useState(0);
   const [nivelCount, setNivelCount] = useState(0);
+  const [openOp, setOpenOp] = useState(null);
 
   useEffect(() => {
     (async () => {
