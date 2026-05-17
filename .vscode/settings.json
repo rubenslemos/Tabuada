@@ -26,5 +26,6 @@
     "usuario",
     "visivel"
   ],
-  "DockerRun.DisableDockerrc": true
+  "DockerRun.DisableDockerrc": true,
+  "github.copilot.chat.copilotMemory.enabled": true
 }
