@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Modal, StyleSheet, FlatList, Image, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, StyleSheet, FlatList, Image, Alert, LayoutAnimation, UIManager, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import API_BASE_URL from '../config/api';
@@ -51,6 +51,18 @@ export default function Header({ onSelectOperation }) {
     } catch (err) {
       // ignore
     }
+  };
+
+  // enable LayoutAnimation on Android
+  useEffect(() => {
+    if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+      UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+  }, []);
+
+  const toggleOp = (opKey) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setOpenOp(prev => (prev === opKey ? null : opKey));
   };
 
   const fetchTip = async () => {
@@ -108,47 +120,50 @@ export default function Header({ onSelectOperation }) {
           {/* Lista de operações com intervalos como no web */}
           {operations.map((op) => (
             <View key={op.key} style={styles.opBlock}>
-              <TouchableOpacity style={styles.opHeader} onPress={() => { /* expand/collapse handled below */ }}>
+              <TouchableOpacity style={styles.opHeader} onPress={() => toggleOp(op.key)}>
                 <Text style={styles.opHeaderText}>{op.label}</Text>
               </TouchableOpacity>
 
-              <View style={styles.intervalList}>
-                {/* gerar intervalos de 10 até 100 (1-10,11-20,..) */}
-                {(() => {
-                  const totalIntervals = 10;
-                  const unlockedIntervals = Math.min(1 + (nivelCount || 0), totalIntervals); // 1..10
-                  return Array.from({ length: unlockedIntervals }).map((_, idx) => {
-                    const inicio = idx * 10 + 1;
-                    const fim = Math.min((idx + 1) * 10, 100);
-                    return (
-                      <View key={`${op.key}-${fim}`} style={styles.intervalBlock}>
-                        <TouchableOpacity
-                          style={styles.intervalButton}
-                          onPress={() => {
-                            // escolher um número aleatório dentro do intervalo
-                            const n = Math.floor(Math.random() * (fim - inicio + 1)) + inicio;
-                            setMenuVisible(false);
-                            onSelectOperation && onSelectOperation(`${op.key}${String(n).padStart(2,'0')}`);
-                          }}
-                        >
-                          <Text style={styles.intervalText}>{`${inicio} - ${fim}`}</Text>
-                        </TouchableOpacity>
-                        {/* Também permitir navegar para cada número do intervalo */}
-                        <View style={styles.intervalNumbers}>
-                          {Array.from({ length: fim - inicio + 1 }).map((__, j) => {
-                            const num = inicio + j;
-                            return (
-                              <TouchableOpacity key={`num-${op.key}-${num}`} style={styles.numberBtn} onPress={() => { setMenuVisible(false); onSelectOperation && onSelectOperation(`${op.key}${String(num).padStart(2,'0')}`); }}>
-                                <Text style={styles.numberText}>{String(num).padStart(2,'0')}</Text>
-                              </TouchableOpacity>
-                            )
-                          })}
+              {openOp === op.key && (
+                <View style={styles.intervalList}>
+                  {/* gerar intervalos de 10 até 100 (1-10,11-20,..) */}
+                  {(() => {
+                    const totalIntervals = 10;
+                    const unlockedIntervals = Math.min(1 + (nivelCount || 0), totalIntervals); // 1..10
+                    return Array.from({ length: unlockedIntervals }).map((_, idx) => {
+                      const inicio = idx * 10 + 1;
+                      const fim = Math.min((idx + 1) * 10, 100);
+                      return (
+                        <View key={`${op.key}-${fim}`} style={styles.intervalBlock}>
+                          <TouchableOpacity
+                            style={styles.intervalButton}
+                            onPress={() => {
+                              // escolher um número aleatório dentro do intervalo
+                              const n = Math.floor(Math.random() * (fim - inicio + 1)) + inicio;
+                              setMenuVisible(false);
+                              setOpenOp(null);
+                              onSelectOperation && onSelectOperation(`${op.key}${String(n).padStart(2,'0')}`);
+                            }}
+                          >
+                            <Text style={styles.intervalText}>{`${inicio} - ${fim}`}</Text>
+                          </TouchableOpacity>
+                          {/* Também permitir navegar para cada número do intervalo */}
+                          <View style={styles.intervalNumbers}>
+                            {Array.from({ length: fim - inicio + 1 }).map((__, j) => {
+                              const num = inicio + j;
+                              return (
+                                <TouchableOpacity key={`num-${op.key}-${num}`} style={styles.numberBtn} onPress={() => { setMenuVisible(false); setOpenOp(null); onSelectOperation && onSelectOperation(`${op.key}${String(num).padStart(2,'0')}`); }}>
+                                  <Text style={styles.numberText}>{String(num).padStart(2,'0')}</Text>
+                                </TouchableOpacity>
+                              )
+                            })}
+                          </View>
                         </View>
-                      </View>
-                    )
-                  })
-                })()}
-              </View>
+                      )
+                    })
+                  })()}
+                </View>
+              )}
             </View>
           ))}
 
