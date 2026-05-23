@@ -15,6 +15,7 @@ function generateToken(params = { }){
 }
 router.post('/', async (req,res)=>{
   const {email, password} = req.body
+  console.log('Tentativa de login:', {email, password})
   if(!email){
     return res.status(422).json({Msg: 'E-mail requerido'})
   }
@@ -22,11 +23,14 @@ router.post('/', async (req,res)=>{
     return res.status(422).json({Msg: 'Senha requerida'})
   }
   const user = await User.findOne({email: email.toLowerCase().trim()}).select('+password')
+  console.log('Usuário encontrado:', user ? 'Sim' : 'Não')
   if(!user){
     return res.status(404).json({Msg: 'Usuário não cadastrado'})
   }
   
-  if(!await bcrypt.compare(password, user.password)  ){
+  const isPasswordValid = await bcrypt.compare(password, user.password)
+  console.log('Senha válida:', isPasswordValid)
+  if(!isPasswordValid){
     return res.status(422).json({Msg: 'Senha Inválida'})
   }
   let totalAcertos = user.totalAcertos || 0;

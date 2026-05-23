@@ -8,24 +8,18 @@
     "Dyna",
     "fimdiv",
     "Formulario",
-    "groq",
-    "Groq",
-    "GROQ",
     "icone",
-    "labelledby",
     "multiplicacao",
     "nivel",
     "operacoes",
     "Operacoes",
     "permissoes",
     "premios",
-    "ssenha",
     "subtracao",
     "sucess",
     "urmtwxs",
     "usuario",
     "visivel"
   ],
-  "DockerRun.DisableDockerrc": true,
-  "github.copilot.chat.copilotMemory.enabled": true
+  "DockerRun.DisableDockerrc": true
 }

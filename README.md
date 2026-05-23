@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Tabuada - Aplicação Web
 
 Uma aplicação web para prática de tabuadas matemáticas com sistema de permissões e acompanhamento de desempenho.
@@ -129,3 +130,23 @@ Se aparecer a mensagem sobre variáveis de ambiente:
 ## 📄 Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+=======
+TabuadaMobile (Mobile app)
+
+This repository contains an Expo React Native mobile app and a Node/Express backend.
+
+Quick start
+
+1. Copy .env.example to .env and set API_BASE_URL to your backend (e.g., http://192.168.0.153:8081).
+2. Install deps: npm install
+3. Start backend (if running here): npm run server
+4. Start Expo: npm run start (or expo start)
+5. Open Expo Go on your device or simulator. Restart Metro after changing .env.
+
+Configuration
+
+- app.config.js reads process.env.API_BASE_URL (via dotenv). Use .env to set API_BASE_URL for local development.
+- The app reads the value at runtime via Constants.expoConfig.extra.API_BASE_URL (see config/api.js).
+
+If you need CI/production guidance or want this README expanded with troubleshooting steps, ask and Copilot will add them.
+>>>>>>> d3a027c (tabuada reaCT)

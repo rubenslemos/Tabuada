@@ -1,25 +1,24 @@
 {
-  "name": "tabuada",
+  "name": "tabuadamobile",
   "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vercel dev",
     "start": "nodemon main.js"
+=======
+    "start": "expo start",
+    "server": "node server.js",
+    "client": "export EDGE_PATH=/snap/bin/chromium && npx expo start --web --port 19006",
+    "dev": "export EDGE_PATH=/snap/bin/chromium && concurrently \"node server.js\" \"npx expo start --web --port 19006\"",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+>>>>>>> d3a027c (tabuada reaCT)
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rubenslemos/Tabuada.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/rubenslemos/Tabuada/issues"
-  },
-  "homepage": "https://github.com/rubenslemos/Tabuada#readme",
   "dependencies": {
+<<<<<<< HEAD
     "@vercel/analytics": "^2.0.1",
     "bcryptjs": "^3.0.3",
     "body-parser": "^1.20.2",
@@ -38,9 +37,37 @@
     "path": "^0.12.7",
     "style-loader": "^3.3.3",
     "webpack": "^5.88.2"
+=======
+    "@expo-google-fonts/dynapuff": "^0.4.3",
+    "@expo-google-fonts/expletus-sans": "^0.4.2",
+    "@react-native-async-storage/async-storage": "^2.2.0",
+    "@react-navigation/native": "^7.1.26",
+    "@react-navigation/stack": "^7.6.13",
+    "axios": "^1.13.2",
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "expo": "~54.0.31",
+    "expo-font": "^55.0.7",
+    "expo-status-bar": "~3.0.9",
+    "express": "^5.2.1",
+    "express-handlebars": "^8.0.4",
+    "handlebars": "^4.7.8",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.1.2",
+    "nodemailer": "^7.0.12",
+    "nodemailer-express-handlebars": "^7.0.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-native": "^0.81.5",
+    "react-native-safe-area-context": "^5.6.2",
+    "react-native-screens": "~4.16.0",
+    "react-native-web": "^0.21.0"
+>>>>>>> d3a027c (tabuada reaCT)
   },
+  "private": true,
   "devDependencies": {
-    "nodemon": "^3.0.1",
-    "webpack-cli": "^5.1.4"
+    "concurrently": "^9.2.1"
   }
 }

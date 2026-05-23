@@ -3,14 +3,19 @@ const express = require('express')
 const app = express()
 const path = require("path")
 const bodyParser = require('body-parser')
+<<<<<<< HEAD:main.js
 const cookieParser = require('cookie-parser')
 const exphbs = require('express-handlebars')
 const webAuth = require('./middlewares/authenticator')
+=======
+const cors = require('cors')
+>>>>>>> d3a027c (tabuada reaCT):server.js
 require('dotenv').config()
 const user = process.env.DB_USER
 const pass = process.env.DB_PASS
 const port = process.env.PORT || 3000
 
+<<<<<<< HEAD:main.js
 // Verificar se as variáveis de ambiente estão definidas
 if (!user || !pass) {
   console.error('Erro: Variáveis de ambiente DB_USER e DB_PASS são obrigatórias')
@@ -32,6 +37,13 @@ const hbs = exphbs.create({
     allowProtoPropertiesByDefault: true,
     allowProtoMethodsByDefault: true,
   }
+=======
+app.use(cors())
+app.use(express.static(__dirname + "/assets"))
+app.use(bodyParser.json())
+app.get('/', (req, res) =>{
+  res.sendFile(path.join(__dirname + "/assets/index.html"))
+>>>>>>> d3a027c (tabuada reaCT):server.js
 })
 
 app.engine('handlebars', hbs.engine)
