@@ -3,108 +3,108 @@ const bcrypt = require('bcryptjs')
 
 const PermissoesSchema = new mongoose.Schema({
   soma: {
-      type: Boolean,
-      default: false,
+    type: Boolean,
+    default: false,
   },
   menos: {
-      type: Boolean,
-      default: false,
+    type: Boolean,
+    default: false,
   },
   vezes: {
-      type: Boolean,
-      default: false,
+    type: Boolean,
+    default: false,
   },
   dividir: {
-      type: Boolean,
-      default: false,
+    type: Boolean,
+    default: false,
   },
   todas: {
     type: Boolean,
     default: false,
-},
-});
+  },
+})
 
 const UserSchema = new mongoose.Schema({
-  tipo:{
+  tipo: {
     type: String,
-    require: true,
+    required: true,
   },
-  name:{
+  name: {
     type: String,
-    require: true,
+    required: true,
   },
-  email:{
+  email: {
     type: String,
     unique: true,
-    require: true,
+    required: true,
     lowerCase: true,
   },
-  password:{
+  password: {
     type: String,
-    require: true,
+    required: true,
     select: false,
   },
-  rounds:[{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Round',
-  }],
-  passwordResetToken:{
+  rounds: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Round',
+    },
+  ],
+  passwordResetToken: {
     type: String,
     select: false,
   },
-  passwordResetExpires:{
+  passwordResetExpires: {
     type: Date,
     select: false,
   },
   permissoes: {
     type: PermissoesSchema,
     default: {
-        soma: false,
-        menos: false,
-        vezes: false,
-        dividir: false,
-        todas: false,
+      soma: false,
+      menos: false,
+      vezes: false,
+      dividir: false,
+      todas: false,
     },
   },
-  contagemOperacoes: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Contagem',
-  }],
+  contagemOperacoes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Contagem',
+    },
+  ],
   totalJogos: {
     type: Number,
-    require: true,
-  }, 
+    required: true,
+    default: 0,
+  },
   totalAcertos: {
     type: Number,
-    require: true,
-  }, 
+    required: true,
+    default: 0,
+  },
   totalErros: {
     type: Number,
-    require: true,
+    required: true,
+    default: 0,
   },
   turma: {
-    type: String, 
+    type: String,
     required: true,
     trim: true,
-    uppercase: true, 
+    uppercase: true,
   },
   createdAt: {
-    type:Date,
-    default:Date.now,
+    type: Date,
+    default: Date.now,
   },
 })
-UserSchema.pre('save', async function (next){
-  try {
-    if (!this.isModified('password')) {
-      return next();
-    }
-    
-    const hash = await bcrypt.hash(this.password, 12);
-    this.password = hash;
-    next();
-  } catch (error) {
-    next(error);
-  }
+UserSchema.pre('save', async function () {
+  if (!this.isModified('password')) return
+
+  const hash = await bcrypt.hash(this.password, 12)
+  this.password = hash
 })
 const User = mongoose.model('User', UserSchema)
 module.exports = User

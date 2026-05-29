@@ -13,11 +13,11 @@ Purpose: quick reference for Copilot sessions to understand how to build, run, a
   - npm run server
   - (runs node server.js — server reads .env for DB credentials and PORT)
 - Full dev (server + web client):
-  - npm run dev  (uses concurrently: runs server.js and `npx expo start --web`)
+  - npm run dev (uses concurrently: runs server.js and `npx expo start --web`)
 - Run client on emulators / platforms:
-  - npm run android  (opens Expo on Android emulator)
-  - npm run ios      (opens Expo on iOS simulator)
-  - npm run web      (opens web build via Expo)
+  - npm run android (opens Expo on Android emulator)
+  - npm run ios (opens Expo on iOS simulator)
+  - npm run web (opens web build via Expo)
 
 Notes: There are no test or lint scripts configured in package.json. No test runner is present; "single test" instructions are not applicable.
 
@@ -38,7 +38,7 @@ Notes: There are no test or lint scripts configured in package.json. No test run
 
 - Frontend
   - Entry: App.js (React Navigation stack)
-  - Screens: screens/*.js (LoginScreen, RegisterScreen, HomeScreen, TabuadaScreen)
+  - Screens: screens/\*.js (LoginScreen, RegisterScreen, HomeScreen, TabuadaScreen)
   - HTTP client: axios used inside screens; by default development URL uses `http://10.0.2.2:3000` (Android emulator loopback).
   - Token storage: AsyncStorage, token key used is 'token'.
 
@@ -92,11 +92,13 @@ Notes: There are no test or lint scripts configured in package.json. No test run
 ## 4) Other AI / assistant config checked
 
 Checked for common AI assistant configs and project-specific assistant docs; none found:
+
 - CLAUDE.md, AGENTS.md, CONVENTIONS.md, .cursorrules, .windsurfrules, .clinerules, etc. — no files present in repo root.
 
 ---
 
 ## 5) Where to look for specific tasks (quick pointers)
+
 - Add/change API routes: routes/
 - Change DB schemas: models/
 - Adjust auth behavior: middlewares/authenticator.js and login/createUser routes
@@ -110,6 +112,7 @@ Expanded additions
 Below are ready-to-use curl examples, a recommended .env.example and suggested test/lint scripts to add to package.json. Paste or adapt these into your local workflow.
 
 ### Example curl commands (development)
+
 - Register (create user):
   curl -X POST http://localhost:3000/auth/register -H "Content-Type: application/json" -d '{"tipo":"Aluno","name":"joao","email":"joao@example.com","password":"P@ssw0rd1","confirmPassword":"P@ssw0rd1","turma":"A1"}'
 
@@ -117,9 +120,9 @@ Below are ready-to-use curl examples, a recommended .env.example and suggested t
   curl -X POST http://localhost:3000/auth/login -H "Content-Type: application/json" -d '{"email":"joao@example.com","password":"P@ssw0rd1"}'
 
 - Login and use token for an authenticated request (example: list users)
-  1) Save token:
+  1. Save token:
      TOKEN=$(curl -s -X POST http://localhost:3000/auth/login -H "Content-Type: application/json" -d '{"email":"joao@example.com","password":"P@ssw0rd1"}' | jq -r '.token')
-  2) Use token:
+  2. Use token:
      curl -H "Authorization: Bearer $TOKEN" http://localhost:3000/auth/register
 
 - Create a round (POST /round):
@@ -137,6 +140,7 @@ Below are ready-to-use curl examples, a recommended .env.example and suggested t
 Note: Android emulator loopback uses http://10.0.2.2:3000; on iOS simulator use http://localhost:3000 or your machine IP for physical devices.
 
 ### Recommended .env.example
+
 Create a .env (not checked in) using the following keys:
 
 DB_USER=your_mongo_user
@@ -152,7 +156,9 @@ MAIL_PORT=587
 Place .env at repo root. Keep credentials out of git.
 
 ### Suggested test & lint scripts to add to package.json
+
 Add devDependencies (suggested):
+
 - jest
 - supertest
 - eslint
@@ -161,16 +167,19 @@ Add devDependencies (suggested):
 - prettier (optional)
 
 Suggested package.json scripts to add under "scripts":
+
 - "test": "jest --runInBand",
 - "test:watch": "jest --watch",
 - "lint": "eslint . --ext .js --ignore-path .gitignore",
 - "lint:fix": "eslint . --ext .js --fix"
 
 How to run a single test (after adding jest):
+
 - npx jest path/to/test/file.test.js
 - or npm run test -- path/to/test/file.test.js
 
 How to lint a single file:
+
 - npx eslint src/someFile.js
 - or npm run lint -- src/someFile.js
 
@@ -180,15 +189,16 @@ const request = require('supertest');
 const app = require('../server'); // export app from server.js for testing
 
 describe('Auth', () => {
-  test('register endpoint returns 201', async () => {
-    const res = await request(app)
-      .post('/auth/register')
-      .send({ /* user payload */ });
-    expect([200,201]).toContain(res.statusCode);
-  });
+test('register endpoint returns 201', async () => {
+const res = await request(app)
+.post('/auth/register')
+.send({ /_ user payload _/ });
+expect([200,201]).toContain(res.statusCode);
+});
 });
 
 Notes when adding tests:
+
 - Export the Express app instance from server.js (e.g., module.exports = app) and call app.listen() only in a separate startup file or conditionally when not in test.
 - Use a test MongoDB database or in-memory MongoDB (mongodb-memory-server) to avoid polluting production/dev data.
 
@@ -200,9 +210,9 @@ Using .env with Expo (app.config.js)
 
 - Files added: app.config.js and .env.example. app.config.js uses dotenv to load .env and expose process.env.API_BASE_URL to Expo via `extra.API_BASE_URL`.
 - How to use:
-  1) Copy .env.example -> .env in repo root and set API_BASE_URL (e.g., API_BASE_URL=http://192.168.0.153:8081).
-  2) Restart Metro/Expo: `expo start` (Expo reads app.config.js at startup).
-  3) In app code config/api.js reads Constants.expoConfig.extra.API_BASE_URL (or manifest.extra fallback) so the app picks the value automatically.
+  1. Copy .env.example -> .env in repo root and set API_BASE_URL (e.g., API_BASE_URL=http://192.168.0.153:8081).
+  2. Restart Metro/Expo: `expo start` (Expo reads app.config.js at startup).
+  3. In app code config/api.js reads Constants.expoConfig.extra.API_BASE_URL (or manifest.extra fallback) so the app picks the value automatically.
 - Notes:
   - For Expo Go, the value in app.config.js (or .env when using app.config.js) is bundled at runtime; restart the bundler after changes.
   - For CI or production, set environment variables in your build pipeline or use `expo build`/EAS with secrets.

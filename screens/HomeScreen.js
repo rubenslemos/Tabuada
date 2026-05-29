@@ -1,42 +1,56 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
-import Header from '../components/Header';
+import React from 'react'
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native'
+import Header from '../components/Header'
+import ClassroomBackground from '../components/ClassroomBackground'
+import ChalkPanel from '../components/ChalkPanel'
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <ImageBackground source={require('../assets/images/math2.jpg')} style={{flex:1}} resizeMode="cover">
+    <ClassroomBackground stripeTop={120}>
       <Header />
-      <View style={styles.container}>
+      <ChalkPanel style={styles.container}>
         <Text style={styles.title}>Bem-vindo à Tabuada!</Text>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Tabuada')}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Tabuada')}
+        >
           <Text style={styles.buttonText}>Jogar Tabuada</Text>
         </TouchableOpacity>
-      </View>
-    </ImageBackground>
-  );
-};
+      </ChalkPanel>
+    </ClassroomBackground>
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    alignSelf: 'center',
+    width: '90%',
+    marginTop: 40,
     justifyContent: 'center',
     padding: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     marginBottom: 20,
     textAlign: 'center',
+    color: '#f8f8f8',
   },
   button: {
-    backgroundColor: '#007BFF',
-    padding: 10,
+    backgroundColor: '#66bb6a',
+    padding: 12,
     alignItems: 'center',
     marginBottom: 10,
+    borderRadius: 10,
   },
   buttonText: {
     color: 'white',
     fontSize: 16,
   },
-});
+})
 
-export default HomeScreen;
+export default HomeScreen

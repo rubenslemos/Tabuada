@@ -1,9 +1,10 @@
 # Code Citations
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -20,13 +21,13 @@ Vou substituir o arquivo atual pela versão reorganizada e otimizada:
 :root {
   --primary-color: rgb(60, 72, 75);
   --primary
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -43,13 +44,13 @@ Vou substituir o arquivo atual pela versão reorganizada e otimizada:
 :root {
   --primary-color: rgb(60, 72, 75);
   --primary
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -66,13 +67,13 @@ Vou substituir o arquivo atual pela versão reorganizada e otimizada:
 :root {
   --primary-color: rgb(60, 72, 75);
   --primary
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -89,13 +90,13 @@ Vou substituir o arquivo atual pela versão reorganizada e otimizada:
 :root {
   --primary-color: rgb(60, 72, 75);
   --primary
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -116,13 +117,13 @@ Vou substituir o arquivo atual pela versão reorganizada e otimizada:
 
 /* ========================================
    RESET
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -352,13 +353,13 @@ nav {
 }
 
 .
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -588,13 +589,13 @@ nav {
 }
 
 .
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -877,13 +878,13 @@ a:hover {
    ÍCONES
    ======================================== */
 .fa-star
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -1166,13 +1167,13 @@ a:hover {
    ÍCONES
    ======================================== */
 .fa-star
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -1455,13 +1456,13 @@ a:hover {
    ÍCONES
    ======================================== */
 .fa-star
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -1845,13 +1846,13 @@ small {
   padding: 20px;
   padding-bottom: 30px;
   background: rgba(255, 255,
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -2235,13 +2236,13 @@ small {
   padding: 20px;
   padding-bottom: 30px;
   background: rgba(255, 255,
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -2632,13 +2633,13 @@ small {
   justify-content: center;
   padding: 20px;
 }
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -3035,13 +3036,13 @@ p {
   width: 80%;
   display: flex;
   justify-content
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -3451,13 +3452,13 @@ span {
 }
 
 .resultado
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -3878,13 +3879,13 @@ input[type=number] {
   width: 88%;
   cursor: pointer;
   text
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -4307,13 +4308,13 @@ input[type=number] {
   text-align: right;
   border: solid 5px var(--primary-color);
   border
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -4740,13 +4741,13 @@ input[type=number] {
   border-bottom: none;
   border-radius: 3px;
   margin
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -5175,13 +5176,13 @@ input[type=number] {
   margin-right: 25px;
   padding-right: 20px;
   color: var(--primary-color);
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -5615,13 +5616,13 @@ input[type=number] {
 
 input[type=number]::-webkit-inner-spin-button {
   -webkit-appearance: none
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -6086,13 +6087,13 @@ button:active {
   color: white;
   border-color: var(--primary-color);
   box-shadow: 3px 3px 35px 2px rgb(177, 177, 177) inset;
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -6557,13 +6558,13 @@ button:active {
   color: white;
   border-color: var(--primary-color);
   box-shadow: 3px 3px 35px 2px rgb(177, 177, 177) inset;
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -7028,13 +7029,13 @@ button:active {
   color: white;
   border-color: var(--primary-color);
   box-shadow: 3px 3px 35px 2px rgb(177, 177, 177) inset;
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -7506,13 +7507,13 @@ button:active {
   flex-direction: row;
   flex-wrap: wrap;
   align
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -8022,13 +8023,13 @@ dialog {
   border: none;
   border-radius: 0.5rem;
   padding: 15
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -8538,13 +8539,13 @@ dialog {
   border: none;
   border-radius: 0.5rem;
   padding: 15
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -9060,13 +9061,13 @@ dialog {
 
 .fim::backdrop {
   background-
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -9595,13 +9596,13 @@ dialog {
   padding: 15px;
   box-shadow: 0 0 1em rgb(0 0 0 /.5);
   transition: 1
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -10130,13 +10131,13 @@ dialog {
   padding: 15px;
   box-shadow: 0 0 1em rgb(0 0 0 /.5);
   transition: 1
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -10671,13 +10672,13 @@ dialog {
   display: flex;
   flex-direction: row;
   margin: 20px auto
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -11220,13 +11221,13 @@ dialog {
 .fimdiv img {
   padding-right: 35px;
   width: 200
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -11775,13 +11776,13 @@ dialog {
 .fimdiv p {
   font-size: 30px;
   width: 80
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -12477,13 +12478,13 @@ dialog {
 }
 
 .msg
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -13179,13 +13180,13 @@ dialog {
 }
 
 .msg
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -13881,13 +13882,13 @@ dialog {
 }
 
 .msg
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -14616,13 +14617,13 @@ dialog {
   font-size: 50px;
   padding: 20px 0;
   margin
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -15351,13 +15352,13 @@ dialog {
   font-size: 50px;
   padding: 20px 0;
   margin
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -16086,13 +16087,13 @@ dialog {
   font-size: 50px;
   padding: 20px 0;
   margin
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -16821,13 +16822,13 @@ dialog {
   font-size: 50px;
   padding: 20px 0;
   margin
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -17562,13 +17563,13 @@ dialog {
 .cadastro p {
   font-size: 25px;
   justify
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -18305,13 +18306,13 @@ dialog {
   justify-content: flex-start;
   align-items: end;
   margin: 0 10px 0 10
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -19077,13 +19078,13 @@ dialog {
   font-weight: bold;
   width: 200px;
   height: 80
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -19849,13 +19850,13 @@ dialog {
   font-weight: bold;
   width: 200px;
   height: 80
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -20641,13 +20642,13 @@ dialog {
 
 .senha {
   display
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -21433,13 +21434,13 @@ dialog {
 
 .senha {
   display
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -22225,13 +22226,13 @@ dialog {
 
 .senha {
   display
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -23020,13 +23021,13 @@ dialog {
   font-size: 15px;
   justify-content: flex-end;
   padding-right: 25
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -23820,13 +23821,13 @@ dialog {
 }
 
 .s
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -24653,13 +24654,13 @@ input[type=button] {
   background: #ffffff88;
   color: var(--primary-color);
   border: 2px solid var(--
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -25511,13 +25512,13 @@ input[type=button]:active {
 }
 
 .cadastro select
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -26369,13 +26370,13 @@ input[type=button]:active {
 }
 
 .cadastro select
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -27233,13 +27234,13 @@ option {
   width: 490px;
   height: 40px;
   background
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -28100,13 +28101,13 @@ option {
   border: 2px solid var(--primary-color-darker);
   border-radius: 8px;
   font-size: 18
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -29004,13 +29005,13 @@ option {
   border-radius: 0.5rem;
   box-shadow: 0 0 1em rgba(0, 0, 0, 0);
   transition: 1
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -29908,13 +29909,13 @@ option {
   border-radius: 0.5rem;
   box-shadow: 0 0 1em rgba(0, 0, 0, 0);
   transition: 1
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -30825,14 +30826,14 @@ option {
 }
 
 .recuperar input {
-  font-size: 
-```
-
+  font-size:
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -31749,13 +31750,13 @@ option {
   margin: 0 20px 25px 30px;
   border: none;
   border-bottom: solid var(--primary
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -32679,13 +32680,13 @@ option {
   justify-content: center;
   cursor: pointer;
   margin: auto
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -33614,13 +33615,13 @@ option {
   background: #ffffff88;
   color: var(--primary-color);
   border: 2px solid var(--
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -34569,13 +34570,13 @@ option {
   color: white;
   border-color: var(--primary-color);
   box-shadow: 3px 3px 35px 2
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -35524,13 +35525,13 @@ option {
   color: white;
   border-color: var(--primary-color);
   box-shadow: 3px 3px 35px 2
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -36496,13 +36497,13 @@ option {
   border-radius: 10px;
   color: var(--primary-color);
 }
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -37473,13 +37474,13 @@ option {
   font-size: 50px;
   padding-bottom: 20px;
   margin-bottom: 10
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -38460,1007 +38461,13 @@ option {
   align-content: center;
   border-color: var(--primary-color);
   border-style: solid;
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
-# Aplicando as reorganizações ao seu CSS
-
-Vou substituir o arquivo atual pela versão reorganizada e otimizada:
-
-````css
-// filepath: /home/rubens/Documentos/GitHub/Tabuada-1/assets/css/style.css
-
-/* ========================================
-   IMPORTAÇÕES E VARIÁVEIS GLOBAIS
-   ======================================== */
-@import url('https://fonts.googleapis.com/css2?family=Expletus+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DynaPuff&family=Expletus+Sans&display=swap');
-
-:root {
-  --primary-color: rgb(60, 72, 75);
-  --primary-color-darker: rgb(43, 43, 43);
-}
-
-/* ========================================
-   RESET E ESTILOS BASE
-   ======================================== */
-* {
-  box-sizing: border-box;
-  outline: 0;
-  font-family: 'DynaPuff', cursive;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  font-size: 16px;
-}
-
-body {
-  margin: 0;
-  padding: 6vh 0 0 0;
-  background-size: cover;
-  font-size: 1.3em;
-  line-height: 1.5em;
-  overflow-x: hidden;
-  min-height: 100vh;
-  width: 100%;
-  position: relative;
-}
-
-/* ========================================
-   NAVEGAÇÃO
-   ======================================== */
-nav {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  gap: 1rem;
-  top: 0;
-  height: 5vh;
-  border: solid 1px var(--primary-color-darker);
-  border-left: none;
-  border-top: none;
-  border-right: none;
-  opacity: 0.9;
-  position: fixed;
-  width: 100vw;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 0 20px;
-  box-sizing: border-box;
-}
-
-.logo {
-  order: 3;
-  font-size: 24px;
-  text-transform: uppercase;
-  letter-spacing: 4px;
-  margin: 0 15px 0 auto;
-}
-
-.user-name {
-  font-size: 22px;
-  color: var(--primary-color-darker);
-  width: 200px;
-}
-
-.mobile-menu {
-  cursor: pointer;
-  display: block;
-  width: auto;
-  order: 0;
-}
-
-.mobile-menu div {
-  opacity: 1;
-  position: relative;
-  left: 0;
-  top: 0;
-  width: 24px;
-  height: 2px;
-  background: var(--primary-color-darker);
-  margin: 5px 0;
-  padding: 0;
-  transition: 0.3s;
-}
-
-.mobile-menu:hover {
-  background: rgba(255, 255, 255, 0.9);
-}
-
-.mobile-menu.active .line1 {
-  transform: rotate(-45deg) translate(-3px, 5px);
-}
-
-.mobile-menu.active .line2 {
-  opacity: 0;
-}
-
-.mobile-menu.active .line3 {
-  transform: rotate(45deg) translate(-5px, -7px);
-}
-
-/* Menu Principal */
-.nav-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  transform: translateX(-100%);
-  transition: transform 0.8s ease-in;
-  position: fixed;
-  top: 3.6rem;
-  left: 0rem;
-  overflow-y: auto;
-  z-index: 999;
-  padding: 0;
-  width: 280px;
-  height: calc(100vh - 3.6rem);
-}
-
-.nav-list > ul {
-  height: 100%;
-  overflow-y: auto;
-  padding: 1rem;
-}
-
-.nav-list li {
-  font-size: 18px;
-  letter-spacing: 3px;
-  opacity: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #ffffff;
-  padding: 0.3rem;
-  border-bottom: 1px solid #eee;
-  transition: all 0.3s ease;
-}
-
-.nav-list.active {
-  transform: translateX(0);
-}
-
-/* Scrollbar Customizado */
-.nav-list::-webkit-scrollbar {
-  width: 8px;
-}
-
-.nav-list::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.nav-list::-webkit-scrollbar-thumb {
-  background: var(--primary-color);
-  border-radius: 4px;
-}
-
-.nav-list::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-color-darker);
-}
-
-/* Submenus */
-.nav-list .intervalo {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-out;
-}
-
-.nav-list .intervalo.visivel {
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.nav-list i.fa-angles-right {
-  transition: transform 0.3s ease;
-  margin-left: 0.5rem;
-}
-
-.nav-list i.fa-angles-right.rotated {
-  transform: rotate(90deg);
-}
-
-.submenu {
-  display: none;
-  z-index: 10;
-  flex-direction: column;
-  color: black;
-  width: 100%;
-}
-
-.submenu li {
-  opacity: 1;
-}
-
-.submenu li a {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.submenu li:hover {
-  background: rgba(85, 85, 85, 0.568);
-}
-
-.submenu a:hover {
-  color: rgb(255, 255, 255);
-}
-
-.intervalo-link {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.intervalo-link:hover {
-  background: rgba(85, 85, 85, 0.568);
-  color: rgb(255, 255, 255);
-}
-
-.intervalo li {
-  display: none;
-}
-
-.intervalo.visivel li {
-  display: flex;
-}
-
-.menu {
-  padding-bottom: 20px;
-}
-
-@keyframes navLinkFade {
-  from {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* ========================================
-   LINKS E ÂNCORAS
-   ======================================== */
-a {
-  color: var(--primary-color-darker);
-  font-weight: bolder;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-a:hover {
-  color: rgba(85, 85, 85, 0.568);
-  opacity: 0.8;
-}
-
-/* ========================================
-   ÍCONES
-   ======================================== */
-.fa-star {
-  color: gold;
-  text-shadow: 0 0 8px rgba(255, 223, 90, 0.7);
-}
-
-.fa-thumbs-down {
-  color: #df2525;
-  text-shadow: 0 0 8px #df25258c;
-}
-
-.fa-calculator {
-  color: #0000ad;
-  text-shadow: 0 0 8px #0000ad8c;
-}
-
-.fonte {
-  font-size: 35px;
-}
-
-.imagem {
-  width: 70px;
-  height: 70px;
-  position: absolute;
-}
-
-/* ========================================
-   CONTAINER PRINCIPAL
-   ======================================== */
-.bg-img {
-  background: url(/img/math2.jpg) no-repeat center center;
-  background-size: cover;
-  opacity: 1;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 80px 20px 20px 20px;
-  box-sizing: border-box;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  max-width: 700px;
-  padding: 20px;
-  border-radius: 10px;
-  color: var(--primary-color);
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin: 20px auto;
-  position: relative;
-  z-index: 10;
-}
-
-.container h1 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  line-height: 1.2;
-  font-size: 80px;
-  margin-bottom: 40px;
-  text-shadow: 0.25rem 0.25rem 0.625rem rgb(125, 135, 138);
-}
-
-h1 {
-  text-shadow: 0.25rem 0.25rem 0.625rem rgb(125, 135, 138);
-}
-
-h2 {
-  padding: 20px;
-  padding-left: 65px;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-}
-
-small {
-  margin: auto;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-/* ========================================
-   TABUADA - COMPONENTE PRINCIPAL
-   ======================================== */
-.tabuada {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  border-color: var(--primary-color);
-  border-style: solid;
-  border-radius: 10px;
-  padding: 20px;
-  padding-bottom: 30px;
-  background: rgba(255, 255, 255, 0.452);
-}
-
-.conta div {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
-
-p {
-  font-size: 80px;
-  width: 80%;
-  display: flex;
-  justify-content: flex-end;
-  margin: 20px;
-}
-
-span {
-  font-size: 80px;
-  width: 22px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin: 0px;
-}
-
-.resultado {
-  margin: -15px;
-  cursor: pointer;
-}
-
-input[type=number] {
-  border: none;
-  appearance: textfield;
-  font-size: 80px;
-  width: 88%;
-  cursor: pointer;
-  text-align: right;
-  border: solid 5px var(--primary-color);
-  border-left: none;
-  border-right: none;
-  border-bottom: none;
-  border-radius: 3px;
-  margin-right: 25px;
-  padding-right: 20px;
-  color: var(--primary-color);
-  background: rgba(255, 255, 255, 0);
-}
-
-input[type=number]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-}
-
-/* ========================================
-   BOTÕES
-   ======================================== */
-button {
-  cursor: pointer;
-  margin: 20px;
-  padding: 8px 12px;
-  font-size: 34px;
-  background: #ffffff88;
-  color: var(--primary-color);
-  border: 2px solid var(--primary-color-darker);
-  border-radius: 8px;
-  font-weight: bold;
-  transition: 0.3s ease-in-out;
-}
-
-button:hover {
-  background: var(--primary-color);
-  color: #fff;
-  border-color: grey;
-  box-shadow: 3px 3px 35px 2px rgb(136, 131, 131) inset;
-}
-
-button:active {
-  outline: none;
-  background-color: gray;
-  color: white;
-  border-color: var(--primary-color);
-  box-shadow: 3px 3px 35px 2px rgb(177, 177, 177) inset;
-}
-
-.btn {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-  font-weight: normal;
-  padding: 10px;
-}
-
-.btnDiv {
-  margin: 10px 0 0 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-.btnContagem {
-  font-size: 20px;
-  margin: 5px;
-  padding: 5px;
-}
-
-/* ========================================
-   DIÁLOGOS E MODAIS
-   ======================================== */
-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: 1s;
-}
-
-dialog {
-  top: 35%;
-  left: 38.7%;
-  border: none;
-  border-radius: 0.5rem;
-  padding: 15px;
-  box-shadow: 0 0 1em rgb(0 0 0 /.5);
-  transition: 1s;
-}
-
-.fim::backdrop {
-  background-color: rgba(0 0 0 / .4);
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  transition: 1s;
-}
-
-.fim {
-  border: none;
-  border-radius: 0.5rem;
-  padding: 15px;
-  box-shadow: 0 0 1em rgb(0 0 0 /.5);
-  transition: 1s;
-}
-
-.fimdiv {
-  display: flex;
-  flex-direction: row;
-  margin: 20px auto 20px auto;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-}
-
-.fimdiv img {
-  padding-right: 35px;
-  width: 200px;
-  height: 180px;
-}
-
-.fimdiv p {
-  font-size: 30px;
-  width: 80%;
-  display: flex;
-  justify-content: flex-end;
-  margin: 20px;
-}
-
-.ok {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 35px;
-  padding: 10px 20px;
-  margin: auto;
-  width: 40%;
-}
-
-/* Modal de Dicas */
-.dica-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  z-index: 10000;
-  padding: 16px;
-  box-sizing: border-box;
-}
-
-.dica-modal.open {
-  display: block;
-}
-
-.dica-modal-content {
-  max-width: 560px;
-  margin: 40px auto;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
-  overflow: hidden;
-}
-
-.dica-modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  border-bottom: 1px solid #eee;
-  background: #f9fafb;
-  height: 7vh;
-}
-
-.dica-modal-header h3 {
-  margin: 25px;
-  font-size: 2rem;
-}
-
-.dica-fechar {
-  border: none;
-  background: transparent;
-  font-size: 1.5rem;
-  cursor: pointer;
-  line-height: 1;
-}
-
-.dica-modal-body {
-  padding: 16px;
-}
-
-.dica-loading {
-  display: none;
-  color: #555;
-  font-style: italic;
-}
-
-.dica-text {
-  margin: 0;
-  min-height: 48px;
-  font-size: 1em;
-  width: 100%;
-  justify-content: center;
-  display: flex;
-}
-
-.dica-modal-footer {
-  padding: 12px 16px;
-  border-top: 1px solid #eee;
-  text-align: center;
-}
-
-.dicas-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  color: #111827;
-  font-weight: 600;
-  padding: 6px 0px;
-}
-
-.dicas-btn i.fa-lightbulb {
-  color: rgb(255, 223, 90);
-  text-shadow: 0 0 8px rgba(255, 223, 90, 0.7);
-}
-
-.dicas-btn:hover {
-  opacity: 0.85;
-}
-
-/* ========================================
-   PRÊMIOS
-   ======================================== */
-.premios-header {
-  order: 4;
-}
-
-.premios {
-  display: flex;
-  flex-direction: row;
-  margin: 0 15px;
-  justify-content: center;
-  width: auto;
-  color: var(--primary-color);
-  align-items: center;
-}
-
-.premios small {
-  justify-content: center;
-  align-items: center;
-}
-
-.premios i {
-  padding: 0 0 10px 5px;
-}
-
-.premiosDialog {
-  width: 100vw;
-  height: 100vh;
-  background-color: #00000082;
-  top: auto;
-  left: auto;
-}
-
-.premiosContainer {
-  margin: auto;
-}
-
-.msgPremios {
-  font-size: 35px;
-  display: flex;
-  position: absolute;
-  bottom: 472px;
-  right: 620px;
-  text-shadow: 4px 4px 25px rgb(0, 0, 0);
-  text-decoration-style: solid;
-}
-
-/* ========================================
-   LOGIN E CADASTRO
-   ======================================== */
-.login,
-.cadastro {
-  background: url(/img/7778924.jpg) no-repeat center center;
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  top: 0px;
-  left: 0px;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-.login h1,
-.cadastro h1 {
-  justify-content: center;
-  font-size: 50px;
-  padding: 20px 0;
-  margin: 20px auto;
-}
-
-.login p,
-.cadastro p {
-  font-size: 25px;
-  justify-content: flex-start;
-  align-items: end;
-  margin: 0 10px 0 10px;
-  padding: 0 0 0 25px;
-}
-
-.login input,
-.cadastro input {
-  font-size: 16px !important;
-  height: 45px;
-  padding-left: 10px;
-  margin: 0 20px 25px 30px;
-  border: none;
-  border-bottom: solid var(--primary-color) 2px;
-  width: calc(100% - 60px);
-  box-sizing: border-box;
-}
-
-.login input[type=submit] {
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
-  margin: 20px auto;
-  padding: 20px;
-  font-size: 34px;
-  background: #ffffff88;
-  color: var(--primary-color);
-  border: 2px solid var(--primary-color-darker);
-  border-radius: 8px;
-  font-weight: bold;
-  width: 200px;
-  height: 80px;
-  transition: 0.3s ease-in-out;
-}
-
-.login input[type=submit]:hover {
-  background: var(--primary-color);
-  color: #fff;
-  border-color: grey;
-  box-shadow: 3px 3px 35px 2px rgb(136, 131, 131) inset;
-}
-
-.login input[type=submit]:active {
-  outline: none;
-  background-color: gray;
-  color: white;
-  border-color: var(--primary-color);
-  box-shadow: 3px 3px 35px 2px rgb(177, 177, 177) inset;
-}
-
-.senha {
-  display: flex;
-  font-size: 15px;
-  justify-content: flex-end;
-  padding-right: 25px;
-  padding-bottom: 20px;
-  text-decoration: underline;
-}
-
-.ssenha {
-  font-size: 13.5px;
-  margin: 0 15px 15px 15px;
-  color: lightcoral;
-}
-
-.registrar {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  color: var(--primary-color);
-  width: calc(100% - 60px);
-  margin-left: 30px;
-  margin-right: 20px;
-}
-
-.alerta {
-  display: flex;
-  justify-content: center;
-  font-size: 16px !important;
-  width: calc(100% - 60px);
-  margin: 10px 20px 0 30px;
-}
-
-.cadastro input[type=submit],
-input[type=button] {
-  cursor: pointer;
-  margin: auto;
-  padding: auto;
-  padding-right: 10px;
-  font-size: 25px;
-  background: #ffffff88;
-  color: var(--primary-color);
-  border: 2px solid var(--primary-color-darker);
-  border-radius: 8px;
-  font-weight: bold;
-  width: 190px;
-  height: 70px;
-  transition: 0.3s ease-in-out;
-}
-
-.cadastro input[type=submit]:hover,
-input[type=button]:hover {
-  background: var(--primary-color);
-  color: #fff;
-  border-color: grey;
-  box-shadow: 3px 3px 35px 2px rgb(136, 131, 131) inset;
-}
-
-.cadastro input[type=submit]:active,
-input[type=button]:active {
-  outline: none;
-  background-color: gray;
-  color: white;
-  border-color: var(--primary-color);
-  box-shadow: 3px 3px 35px 2px rgb(177, 177, 177) inset;
-}
-
-.cadastro select,
-option {
-  margin: 15px auto;
-  padding: 7px 0px 7px 15px;
-  width: 490px;
-  height: 40px;
-  background-color: #ffffff00;
-  border: 2px solid var(--primary-color-darker);
-  border-radius: 8px;
-  font-size: 18px;
-  color: var(--primary-color);
-}
-
-.cadastrar {
-  display: flex;
-  flex-direction: row;
-}
-
-.cadastrar div {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-.largura {
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* ========================================
-   RECUPERAÇÃO DE SENHA
-   ======================================== */
-.recuperar {
-  background-color: rgba(64, 64, 64, 0);
-  flex-direction: column;
-  margin: 0 auto;
-  padding: 0;
-  top: 0;
-  left: 0;
-  border: none;
-  border-radius: 0.5rem;
-  box-shadow: 0 0 1em rgba(0, 0, 0, 0);
-  transition: 1s;
-  width: 100vw;
-  height: 100vh;
-}
-
-.recuperar p {
-  font-size: 25px;
-  justify-content: flex-start;
-  align-items: end;
-  margin: 0 10px 0 10px;
-  padding: 0 0 0 25px;
-}
-
-.recuperar input {
-  font-size: 20px;
-  height: 45px;
-  padding-left: 10px;
-  margin: 0 20px 25px 30px;
-  border: none;
-  border-bottom: solid var(--primary-color) 2px;
-}
-
-.recuperar input[type=button] {
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
-  margin: auto;
-  padding: 10px;
-  font-size: 25px;
-  background: #ffffff88;
-  color: var(--primary-color);
-  border: 2px solid var(--primary-color-darker);
-  border-radius: 8px;
-  font-weight: bold;
-  width: 200px;
-  height: 50px;
-  transition: 0.3s ease-in-out;
-}
-
-.recuperar input[type=button]:hover {
-  background: var(--primary-color);
-  color: #fff;
-  border-color: grey;
-  box-shadow: 3px 3px 35px 2px rgb(136, 131, 131) inset;
-}
-
-.recuperar input[type=button]:active {
-  outline: none;
-  background-color: gray;
-  color: white;
-  border-color: var(--primary-color);
-  box-shadow: 3px 3px 35px 2px rgb(177, 177, 177) inset;
-}
-
-/* ========================================
-   ALTERAÇÃO DE SENHA
-   ======================================== */
-.containerPass {
-  background: url(/img/7778924.jpg) no-repeat center center;
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-  padding: 20px;
-  border-radius: 10px;
-  color: var(--primary-color);
-}
-
-.containerPass h1 {
-  font-size: 50px;
-  padding-bottom: 20px;
-  margin-bottom: 10px;
-}
-
-.tabuadaPass {
-  width: 70%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  border-color: var(--primary-color);
-  border-style: solid;
-  border-radius: 10px;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.452);
-}
-
-.tabuadaPass div {
-  display: flex;
-```
-
-
-## License: unknown
-https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
-
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -40448,40 +39455,13 @@ option {
 
 .tabuadaPass div {
   display: flex;
-}
-
-.larguraPass {
-  padding-top: 15px;
-  width: 700px;
-  height: 350px;
-}
-
-.larguraConfirm {
-  padding-top: 15px;
-  width: 700px;
-}
-
-/* ========================================
-   ACESSOS E PERMISSÕES
-   ======================================== */
-#formPermissoes {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  border-color: var(--primary-color);
-  border-style: solid;
-  border-radius: 10px;
-  padding: 20px;
-  padding-bottom: 30px;
-  background: rgba(255, 
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -41495,14 +40475,1035 @@ option {
   border-radius: 10px;
   padding: 20px;
   padding-bottom: 30px;
-  background: rgba(255, 
-```
-
+  background: rgba(255,
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
+# Aplicando as reorganizações ao seu CSS
+
+Vou substituir o arquivo atual pela versão reorganizada e otimizada:
+
+````css
+// filepath: /home/rubens/Documentos/GitHub/Tabuada-1/assets/css/style.css
+
+/* ========================================
+   IMPORTAÇÕES E VARIÁVEIS GLOBAIS
+   ======================================== */
+@import url('https://fonts.googleapis.com/css2?family=Expletus+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff&family=Expletus+Sans&display=swap');
+
+:root {
+  --primary-color: rgb(60, 72, 75);
+  --primary-color-darker: rgb(43, 43, 43);
+}
+
+/* ========================================
+   RESET E ESTILOS BASE
+   ======================================== */
+* {
+  box-sizing: border-box;
+  outline: 0;
+  font-family: 'DynaPuff', cursive;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  padding: 6vh 0 0 0;
+  background-size: cover;
+  font-size: 1.3em;
+  line-height: 1.5em;
+  overflow-x: hidden;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+/* ========================================
+   NAVEGAÇÃO
+   ======================================== */
+nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1rem;
+  top: 0;
+  height: 5vh;
+  border: solid 1px var(--primary-color-darker);
+  border-left: none;
+  border-top: none;
+  border-right: none;
+  opacity: 0.9;
+  position: fixed;
+  width: 100vw;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.logo {
+  order: 3;
+  font-size: 24px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  margin: 0 15px 0 auto;
+}
+
+.user-name {
+  font-size: 22px;
+  color: var(--primary-color-darker);
+  width: 200px;
+}
+
+.mobile-menu {
+  cursor: pointer;
+  display: block;
+  width: auto;
+  order: 0;
+}
+
+.mobile-menu div {
+  opacity: 1;
+  position: relative;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 2px;
+  background: var(--primary-color-darker);
+  margin: 5px 0;
+  padding: 0;
+  transition: 0.3s;
+}
+
+.mobile-menu:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.mobile-menu.active .line1 {
+  transform: rotate(-45deg) translate(-3px, 5px);
+}
+
+.mobile-menu.active .line2 {
+  opacity: 0;
+}
+
+.mobile-menu.active .line3 {
+  transform: rotate(45deg) translate(-5px, -7px);
+}
+
+/* Menu Principal */
+.nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.8s ease-in;
+  position: fixed;
+  top: 3.6rem;
+  left: 0rem;
+  overflow-y: auto;
+  z-index: 999;
+  padding: 0;
+  width: 280px;
+  height: calc(100vh - 3.6rem);
+}
+
+.nav-list > ul {
+  height: 100%;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.nav-list li {
+  font-size: 18px;
+  letter-spacing: 3px;
+  opacity: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  padding: 0.3rem;
+  border-bottom: 1px solid #eee;
+  transition: all 0.3s ease;
+}
+
+.nav-list.active {
+  transform: translateX(0);
+}
+
+/* Scrollbar Customizado */
+.nav-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.nav-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.nav-list::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+.nav-list::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color-darker);
+}
+
+/* Submenus */
+.nav-list .intervalo {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.nav-list .intervalo.visivel {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.nav-list i.fa-angles-right {
+  transition: transform 0.3s ease;
+  margin-left: 0.5rem;
+}
+
+.nav-list i.fa-angles-right.rotated {
+  transform: rotate(90deg);
+}
+
+.submenu {
+  display: none;
+  z-index: 10;
+  flex-direction: column;
+  color: black;
+  width: 100%;
+}
+
+.submenu li {
+  opacity: 1;
+}
+
+.submenu li a {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submenu li:hover {
+  background: rgba(85, 85, 85, 0.568);
+}
+
+.submenu a:hover {
+  color: rgb(255, 255, 255);
+}
+
+.intervalo-link {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intervalo-link:hover {
+  background: rgba(85, 85, 85, 0.568);
+  color: rgb(255, 255, 255);
+}
+
+.intervalo li {
+  display: none;
+}
+
+.intervalo.visivel li {
+  display: flex;
+}
+
+.menu {
+  padding-bottom: 20px;
+}
+
+@keyframes navLinkFade {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ========================================
+   LINKS E ÂNCORAS
+   ======================================== */
+a {
+  color: var(--primary-color-darker);
+  font-weight: bolder;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+a:hover {
+  color: rgba(85, 85, 85, 0.568);
+  opacity: 0.8;
+}
+
+/* ========================================
+   ÍCONES
+   ======================================== */
+.fa-star {
+  color: gold;
+  text-shadow: 0 0 8px rgba(255, 223, 90, 0.7);
+}
+
+.fa-thumbs-down {
+  color: #df2525;
+  text-shadow: 0 0 8px #df25258c;
+}
+
+.fa-calculator {
+  color: #0000ad;
+  text-shadow: 0 0 8px #0000ad8c;
+}
+
+.fonte {
+  font-size: 35px;
+}
+
+.imagem {
+  width: 70px;
+  height: 70px;
+  position: absolute;
+}
+
+/* ========================================
+   CONTAINER PRINCIPAL
+   ======================================== */
+.bg-img {
+  background: url(/img/math2.jpg) no-repeat center center;
+  background-size: cover;
+  opacity: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 80px 20px 20px 20px;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 700px;
+  padding: 20px;
+  border-radius: 10px;
+  color: var(--primary-color);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  position: relative;
+  z-index: 10;
+}
+
+.container h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  line-height: 1.2;
+  font-size: 80px;
+  margin-bottom: 40px;
+  text-shadow: 0.25rem 0.25rem 0.625rem rgb(125, 135, 138);
+}
+
+h1 {
+  text-shadow: 0.25rem 0.25rem 0.625rem rgb(125, 135, 138);
+}
+
+h2 {
+  padding: 20px;
+  padding-left: 65px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+small {
+  margin: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* ========================================
+   TABUADA - COMPONENTE PRINCIPAL
+   ======================================== */
+.tabuada {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  border-color: var(--primary-color);
+  border-style: solid;
+  border-radius: 10px;
+  padding: 20px;
+  padding-bottom: 30px;
+  background: rgba(255, 255, 255, 0.452);
+}
+
+.conta div {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+p {
+  font-size: 80px;
+  width: 80%;
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px;
+}
+
+span {
+  font-size: 80px;
+  width: 22px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0px;
+}
+
+.resultado {
+  margin: -15px;
+  cursor: pointer;
+}
+
+input[type=number] {
+  border: none;
+  appearance: textfield;
+  font-size: 80px;
+  width: 88%;
+  cursor: pointer;
+  text-align: right;
+  border: solid 5px var(--primary-color);
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 3px;
+  margin-right: 25px;
+  padding-right: 20px;
+  color: var(--primary-color);
+  background: rgba(255, 255, 255, 0);
+}
+
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+/* ========================================
+   BOTÕES
+   ======================================== */
+button {
+  cursor: pointer;
+  margin: 20px;
+  padding: 8px 12px;
+  font-size: 34px;
+  background: #ffffff88;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color-darker);
+  border-radius: 8px;
+  font-weight: bold;
+  transition: 0.3s ease-in-out;
+}
+
+button:hover {
+  background: var(--primary-color);
+  color: #fff;
+  border-color: grey;
+  box-shadow: 3px 3px 35px 2px rgb(136, 131, 131) inset;
+}
+
+button:active {
+  outline: none;
+  background-color: gray;
+  color: white;
+  border-color: var(--primary-color);
+  box-shadow: 3px 3px 35px 2px rgb(177, 177, 177) inset;
+}
+
+.btn {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: normal;
+  padding: 10px;
+}
+
+.btnDiv {
+  margin: 10px 0 0 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.btnContagem {
+  font-size: 20px;
+  margin: 5px;
+  padding: 5px;
+}
+
+/* ========================================
+   DIÁLOGOS E MODAIS
+   ======================================== */
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: 1s;
+}
+
+dialog {
+  top: 35%;
+  left: 38.7%;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 15px;
+  box-shadow: 0 0 1em rgb(0 0 0 /.5);
+  transition: 1s;
+}
+
+.fim::backdrop {
+  background-color: rgba(0 0 0 / .4);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  transition: 1s;
+}
+
+.fim {
+  border: none;
+  border-radius: 0.5rem;
+  padding: 15px;
+  box-shadow: 0 0 1em rgb(0 0 0 /.5);
+  transition: 1s;
+}
+
+.fimdiv {
+  display: flex;
+  flex-direction: row;
+  margin: 20px auto 20px auto;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.fimdiv img {
+  padding-right: 35px;
+  width: 200px;
+  height: 180px;
+}
+
+.fimdiv p {
+  font-size: 30px;
+  width: 80%;
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px;
+}
+
+.ok {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 35px;
+  padding: 10px 20px;
+  margin: auto;
+  width: 40%;
+}
+
+/* Modal de Dicas */
+.dica-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 10000;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.dica-modal.open {
+  display: block;
+}
+
+.dica-modal-content {
+  max-width: 560px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+
+.dica-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  background: #f9fafb;
+  height: 7vh;
+}
+
+.dica-modal-header h3 {
+  margin: 25px;
+  font-size: 2rem;
+}
+
+.dica-fechar {
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.dica-modal-body {
+  padding: 16px;
+}
+
+.dica-loading {
+  display: none;
+  color: #555;
+  font-style: italic;
+}
+
+.dica-text {
+  margin: 0;
+  min-height: 48px;
+  font-size: 1em;
+  width: 100%;
+  justify-content: center;
+  display: flex;
+}
+
+.dica-modal-footer {
+  padding: 12px 16px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.dicas-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #111827;
+  font-weight: 600;
+  padding: 6px 0px;
+}
+
+.dicas-btn i.fa-lightbulb {
+  color: rgb(255, 223, 90);
+  text-shadow: 0 0 8px rgba(255, 223, 90, 0.7);
+}
+
+.dicas-btn:hover {
+  opacity: 0.85;
+}
+
+/* ========================================
+   PRÊMIOS
+   ======================================== */
+.premios-header {
+  order: 4;
+}
+
+.premios {
+  display: flex;
+  flex-direction: row;
+  margin: 0 15px;
+  justify-content: center;
+  width: auto;
+  color: var(--primary-color);
+  align-items: center;
+}
+
+.premios small {
+  justify-content: center;
+  align-items: center;
+}
+
+.premios i {
+  padding: 0 0 10px 5px;
+}
+
+.premiosDialog {
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000082;
+  top: auto;
+  left: auto;
+}
+
+.premiosContainer {
+  margin: auto;
+}
+
+.msgPremios {
+  font-size: 35px;
+  display: flex;
+  position: absolute;
+  bottom: 472px;
+  right: 620px;
+  text-shadow: 4px 4px 25px rgb(0, 0, 0);
+  text-decoration-style: solid;
+}
+
+/* ========================================
+   LOGIN E CADASTRO
+   ======================================== */
+.login,
+.cadastro {
+  background: url(/img/7778924.jpg) no-repeat center center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  top: 0px;
+  left: 0px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.login h1,
+.cadastro h1 {
+  justify-content: center;
+  font-size: 50px;
+  padding: 20px 0;
+  margin: 20px auto;
+}
+
+.login p,
+.cadastro p {
+  font-size: 25px;
+  justify-content: flex-start;
+  align-items: end;
+  margin: 0 10px 0 10px;
+  padding: 0 0 0 25px;
+}
+
+.login input,
+.cadastro input {
+  font-size: 16px !important;
+  height: 45px;
+  padding-left: 10px;
+  margin: 0 20px 25px 30px;
+  border: none;
+  border-bottom: solid var(--primary-color) 2px;
+  width: calc(100% - 60px);
+  box-sizing: border-box;
+}
+
+.login input[type=submit] {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  margin: 20px auto;
+  padding: 20px;
+  font-size: 34px;
+  background: #ffffff88;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color-darker);
+  border-radius: 8px;
+  font-weight: bold;
+  width: 200px;
+  height: 80px;
+  transition: 0.3s ease-in-out;
+}
+
+.login input[type=submit]:hover {
+  background: var(--primary-color);
+  color: #fff;
+  border-color: grey;
+  box-shadow: 3px 3px 35px 2px rgb(136, 131, 131) inset;
+}
+
+.login input[type=submit]:active {
+  outline: none;
+  background-color: gray;
+  color: white;
+  border-color: var(--primary-color);
+  box-shadow: 3px 3px 35px 2px rgb(177, 177, 177) inset;
+}
+
+.senha {
+  display: flex;
+  font-size: 15px;
+  justify-content: flex-end;
+  padding-right: 25px;
+  padding-bottom: 20px;
+  text-decoration: underline;
+}
+
+.ssenha {
+  font-size: 13.5px;
+  margin: 0 15px 15px 15px;
+  color: lightcoral;
+}
+
+.registrar {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  color: var(--primary-color);
+  width: calc(100% - 60px);
+  margin-left: 30px;
+  margin-right: 20px;
+}
+
+.alerta {
+  display: flex;
+  justify-content: center;
+  font-size: 16px !important;
+  width: calc(100% - 60px);
+  margin: 10px 20px 0 30px;
+}
+
+.cadastro input[type=submit],
+input[type=button] {
+  cursor: pointer;
+  margin: auto;
+  padding: auto;
+  padding-right: 10px;
+  font-size: 25px;
+  background: #ffffff88;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color-darker);
+  border-radius: 8px;
+  font-weight: bold;
+  width: 190px;
+  height: 70px;
+  transition: 0.3s ease-in-out;
+}
+
+.cadastro input[type=submit]:hover,
+input[type=button]:hover {
+  background: var(--primary-color);
+  color: #fff;
+  border-color: grey;
+  box-shadow: 3px 3px 35px 2px rgb(136, 131, 131) inset;
+}
+
+.cadastro input[type=submit]:active,
+input[type=button]:active {
+  outline: none;
+  background-color: gray;
+  color: white;
+  border-color: var(--primary-color);
+  box-shadow: 3px 3px 35px 2px rgb(177, 177, 177) inset;
+}
+
+.cadastro select,
+option {
+  margin: 15px auto;
+  padding: 7px 0px 7px 15px;
+  width: 490px;
+  height: 40px;
+  background-color: #ffffff00;
+  border: 2px solid var(--primary-color-darker);
+  border-radius: 8px;
+  font-size: 18px;
+  color: var(--primary-color);
+}
+
+.cadastrar {
+  display: flex;
+  flex-direction: row;
+}
+
+.cadastrar div {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.largura {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
+   RECUPERAÇÃO DE SENHA
+   ======================================== */
+.recuperar {
+  background-color: rgba(64, 64, 64, 0);
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 0;
+  top: 0;
+  left: 0;
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 1em rgba(0, 0, 0, 0);
+  transition: 1s;
+  width: 100vw;
+  height: 100vh;
+}
+
+.recuperar p {
+  font-size: 25px;
+  justify-content: flex-start;
+  align-items: end;
+  margin: 0 10px 0 10px;
+  padding: 0 0 0 25px;
+}
+
+.recuperar input {
+  font-size: 20px;
+  height: 45px;
+  padding-left: 10px;
+  margin: 0 20px 25px 30px;
+  border: none;
+  border-bottom: solid var(--primary-color) 2px;
+}
+
+.recuperar input[type=button] {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  margin: auto;
+  padding: 10px;
+  font-size: 25px;
+  background: #ffffff88;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color-darker);
+  border-radius: 8px;
+  font-weight: bold;
+  width: 200px;
+  height: 50px;
+  transition: 0.3s ease-in-out;
+}
+
+.recuperar input[type=button]:hover {
+  background: var(--primary-color);
+  color: #fff;
+  border-color: grey;
+  box-shadow: 3px 3px 35px 2px rgb(136, 131, 131) inset;
+}
+
+.recuperar input[type=button]:active {
+  outline: none;
+  background-color: gray;
+  color: white;
+  border-color: var(--primary-color);
+  box-shadow: 3px 3px 35px 2px rgb(177, 177, 177) inset;
+}
+
+/* ========================================
+   ALTERAÇÃO DE SENHA
+   ======================================== */
+.containerPass {
+  background: url(/img/7778924.jpg) no-repeat center center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  padding: 20px;
+  border-radius: 10px;
+  color: var(--primary-color);
+}
+
+.containerPass h1 {
+  font-size: 50px;
+  padding-bottom: 20px;
+  margin-bottom: 10px;
+}
+
+.tabuadaPass {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  border-color: var(--primary-color);
+  border-style: solid;
+  border-radius: 10px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.452);
+}
+
+.tabuadaPass div {
+  display: flex;
+}
+
+.larguraPass {
+  padding-top: 15px;
+  width: 700px;
+  height: 350px;
+}
+
+.larguraConfirm {
+  padding-top: 15px;
+  width: 700px;
+}
+
+/* ========================================
+   ACESSOS E PERMISSÕES
+   ======================================== */
+#formPermissoes {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  border-color: var(--primary-color);
+  border-style: solid;
+  border-radius: 10px;
+  padding: 20px;
+  padding-bottom: 30px;
+  background: rgba(255,
+`````
+
+## License: unknown
+
+https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
+
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -42526,13 +42527,13 @@ option {
   padding-bottom: 20px;
   font-size: 40px;
   color: var(--primary-color);
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -43566,13 +43567,13 @@ option {
   align-items: center;
   width: 100%;
 }
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -44611,13 +44612,13 @@ option {
   width: 40%;
   justify-content: end;
   display
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -45661,13 +45662,13 @@ option {
 }
 
 .li
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -46714,13 +46715,13 @@ option {
   width: 50%;
   font-size: 20px;
   padding
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -47770,13 +47771,13 @@ option {
   background-color: #0000;
   border-radius: 10px;
   border
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -48831,13 +48832,13 @@ option {
 
 .checked {
   margin:
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -49894,13 +49895,13 @@ option {
   margin: 5px -85px;
   accent-color: var(--primary-color);
   border
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -50963,13 +50964,13 @@ option {
   width: 20px;
   height: 20px;
   margin
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -52040,13 +52041,13 @@ option {
   align-items: center;
   font-size: 20px;
   padding: 10px 20px;
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -53127,13 +53128,13 @@ option {
   align-items: center;
   width: 100%;
   margin-
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -54231,13 +54232,13 @@ option {
   background-color: #ffffff00;
   font-size: 20px;
   padding: 3
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -55335,13 +55336,13 @@ option {
   background-color: #ffffff00;
   font-size: 20px;
   padding: 3
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -56439,13 +56440,13 @@ option {
   background-color: #ffffff00;
   font-size: 20px;
   padding: 3
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -57543,13 +57544,13 @@ option {
   background-color: #ffffff00;
   font-size: 20px;
   padding: 3
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -58650,13 +58651,13 @@ option {
   border: 1px solid black;
   border-radius: 10px;
   box-shadow: 0 0 1
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -59762,13 +59763,13 @@ option {
 
 /* ========================================
    RESULT
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -60896,13 +60897,13 @@ option {
 }
 
 .containerResultado::backdrop
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -62030,13 +62031,13 @@ option {
 }
 
 .containerResultado::backdrop
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -63164,13 +63165,13 @@ option {
 }
 
 .containerResultado::backdrop
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -64310,13 +64311,13 @@ option {
 
 .containerResultados,
 .containerAcess
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -65456,13 +65457,13 @@ option {
 
 .containerResultados,
 .containerAcess
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -66602,13 +66603,13 @@ option {
 
 .containerResultados,
 .containerAcess
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -67753,13 +67754,13 @@ option {
   margin: auto;
   height: 100%;
   background
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -68913,13 +68914,13 @@ option {
 }
 
 .sen
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -70079,13 +70080,13 @@ option {
 
 .containerAcesso {
   border
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -71248,13 +71249,13 @@ option {
   border-radius: 0.5rem;
   padding: 3px;
   box
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -72420,13 +72421,13 @@ option {
   transition: 1s;
   width: 100%;
   height
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -73604,13 +73605,13 @@ option {
 .elemento {
   font-size: 20px;
   margin
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -74800,13 +74801,13 @@ option {
   font-size: 30px;
   padding: 10px 20px;
   margin: 10
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -75996,13 +75997,13 @@ option {
   font-size: 30px;
   padding: 10px 20px;
   margin: 10
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -77217,13 +77218,13 @@ option {
   border-style: solid;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.452);
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -78438,13 +78439,13 @@ option {
   border-style: solid;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.452);
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -79659,1255 +79660,13 @@ option {
   border-style: solid;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.452);
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
-# Aplicando as reorganizações ao seu CSS
-
-Vou substituir o arquivo atual pela versão reorganizada e otimizada:
-
-````css
-// filepath: /home/rubens/Documentos/GitHub/Tabuada-1/assets/css/style.css
-
-/* ========================================
-   IMPORTAÇÕES E VARIÁVEIS GLOBAIS
-   ======================================== */
-@import url('https://fonts.googleapis.com/css2?family=Expletus+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DynaPuff&family=Expletus+Sans&display=swap');
-
-:root {
-  --primary-color: rgb(60, 72, 75);
-  --primary-color-darker: rgb(43, 43, 43);
-}
-
-/* ========================================
-   RESET E ESTILOS BASE
-   ======================================== */
-* {
-  box-sizing: border-box;
-  outline: 0;
-  font-family: 'DynaPuff', cursive;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  font-size: 16px;
-}
-
-body {
-  margin: 0;
-  padding: 6vh 0 0 0;
-  background-size: cover;
-  font-size: 1.3em;
-  line-height: 1.5em;
-  overflow-x: hidden;
-  min-height: 100vh;
-  width: 100%;
-  position: relative;
-}
-
-/* ========================================
-   NAVEGAÇÃO
-   ======================================== */
-nav {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  gap: 1rem;
-  top: 0;
-  height: 5vh;
-  border: solid 1px var(--primary-color-darker);
-  border-left: none;
-  border-top: none;
-  border-right: none;
-  opacity: 0.9;
-  position: fixed;
-  width: 100vw;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 0 20px;
-  box-sizing: border-box;
-}
-
-.logo {
-  order: 3;
-  font-size: 24px;
-  text-transform: uppercase;
-  letter-spacing: 4px;
-  margin: 0 15px 0 auto;
-}
-
-.user-name {
-  font-size: 22px;
-  color: var(--primary-color-darker);
-  width: 200px;
-}
-
-.mobile-menu {
-  cursor: pointer;
-  display: block;
-  width: auto;
-  order: 0;
-}
-
-.mobile-menu div {
-  opacity: 1;
-  position: relative;
-  left: 0;
-  top: 0;
-  width: 24px;
-  height: 2px;
-  background: var(--primary-color-darker);
-  margin: 5px 0;
-  padding: 0;
-  transition: 0.3s;
-}
-
-.mobile-menu:hover {
-  background: rgba(255, 255, 255, 0.9);
-}
-
-.mobile-menu.active .line1 {
-  transform: rotate(-45deg) translate(-3px, 5px);
-}
-
-.mobile-menu.active .line2 {
-  opacity: 0;
-}
-
-.mobile-menu.active .line3 {
-  transform: rotate(45deg) translate(-5px, -7px);
-}
-
-/* Menu Principal */
-.nav-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  transform: translateX(-100%);
-  transition: transform 0.8s ease-in;
-  position: fixed;
-  top: 3.6rem;
-  left: 0rem;
-  overflow-y: auto;
-  z-index: 999;
-  padding: 0;
-  width: 280px;
-  height: calc(100vh - 3.6rem);
-}
-
-.nav-list > ul {
-  height: 100%;
-  overflow-y: auto;
-  padding: 1rem;
-}
-
-.nav-list li {
-  font-size: 18px;
-  letter-spacing: 3px;
-  opacity: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #ffffff;
-  padding: 0.3rem;
-  border-bottom: 1px solid #eee;
-  transition: all 0.3s ease;
-}
-
-.nav-list.active {
-  transform: translateX(0);
-}
-
-/* Scrollbar Customizado */
-.nav-list::-webkit-scrollbar {
-  width: 8px;
-}
-
-.nav-list::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.nav-list::-webkit-scrollbar-thumb {
-  background: var(--primary-color);
-  border-radius: 4px;
-}
-
-.nav-list::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-color-darker);
-}
-
-/* Submenus */
-.nav-list .intervalo {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-out;
-}
-
-.nav-list .intervalo.visivel {
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.nav-list i.fa-angles-right {
-  transition: transform 0.3s ease;
-  margin-left: 0.5rem;
-}
-
-.nav-list i.fa-angles-right.rotated {
-  transform: rotate(90deg);
-}
-
-.submenu {
-  display: none;
-  z-index: 10;
-  flex-direction: column;
-  color: black;
-  width: 100%;
-}
-
-.submenu li {
-  opacity: 1;
-}
-
-.submenu li a {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.submenu li:hover {
-  background: rgba(85, 85, 85, 0.568);
-}
-
-.submenu a:hover {
-  color: rgb(255, 255, 255);
-}
-
-.intervalo-link {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.intervalo-link:hover {
-  background: rgba(85, 85, 85, 0.568);
-  color: rgb(255, 255, 255);
-}
-
-.intervalo li {
-  display: none;
-}
-
-.intervalo.visivel li {
-  display: flex;
-}
-
-.menu {
-  padding-bottom: 20px;
-}
-
-@keyframes navLinkFade {
-  from {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* ========================================
-   LINKS E ÂNCORAS
-   ======================================== */
-a {
-  color: var(--primary-color-darker);
-  font-weight: bolder;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-a:hover {
-  color: rgba(85, 85, 85, 0.568);
-  opacity: 0.8;
-}
-
-/* ========================================
-   ÍCONES
-   ======================================== */
-.fa-star {
-  color: gold;
-  text-shadow: 0 0 8px rgba(255, 223, 90, 0.7);
-}
-
-.fa-thumbs-down {
-  color: #df2525;
-  text-shadow: 0 0 8px #df25258c;
-}
-
-.fa-calculator {
-  color: #0000ad;
-  text-shadow: 0 0 8px #0000ad8c;
-}
-
-.fonte {
-  font-size: 35px;
-}
-
-.imagem {
-  width: 70px;
-  height: 70px;
-  position: absolute;
-}
-
-/* ========================================
-   CONTAINER PRINCIPAL
-   ======================================== */
-.bg-img {
-  background: url(/img/math2.jpg) no-repeat center center;
-  background-size: cover;
-  opacity: 1;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 80px 20px 20px 20px;
-  box-sizing: border-box;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  max-width: 700px;
-  padding: 20px;
-  border-radius: 10px;
-  color: var(--primary-color);
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin: 20px auto;
-  position: relative;
-  z-index: 10;
-}
-
-.container h1 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  line-height: 1.2;
-  font-size: 80px;
-  margin-bottom: 40px;
-  text-shadow: 0.25rem 0.25rem 0.625rem rgb(125, 135, 138);
-}
-
-h1 {
-  text-shadow: 0.25rem 0.25rem 0.625rem rgb(125, 135, 138);
-}
-
-h2 {
-  padding: 20px;
-  padding-left: 65px;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-}
-
-small {
-  margin: auto;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-/* ========================================
-   TABUADA - COMPONENTE PRINCIPAL
-   ======================================== */
-.tabuada {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  border-color: var(--primary-color);
-  border-style: solid;
-  border-radius: 10px;
-  padding: 20px;
-  padding-bottom: 30px;
-  background: rgba(255, 255, 255, 0.452);
-}
-
-.conta div {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
-
-p {
-  font-size: 80px;
-  width: 80%;
-  display: flex;
-  justify-content: flex-end;
-  margin: 20px;
-}
-
-span {
-  font-size: 80px;
-  width: 22px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin: 0px;
-}
-
-.resultado {
-  margin: -15px;
-  cursor: pointer;
-}
-
-input[type=number] {
-  border: none;
-  appearance: textfield;
-  font-size: 80px;
-  width: 88%;
-  cursor: pointer;
-  text-align: right;
-  border: solid 5px var(--primary-color);
-  border-left: none;
-  border-right: none;
-  border-bottom: none;
-  border-radius: 3px;
-  margin-right: 25px;
-  padding-right: 20px;
-  color: var(--primary-color);
-  background: rgba(255, 255, 255, 0);
-}
-
-input[type=number]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-}
-
-/* ========================================
-   BOTÕES
-   ======================================== */
-button {
-  cursor: pointer;
-  margin: 20px;
-  padding: 8px 12px;
-  font-size: 34px;
-  background: #ffffff88;
-  color: var(--primary-color);
-  border: 2px solid var(--primary-color-darker);
-  border-radius: 8px;
-  font-weight: bold;
-  transition: 0.3s ease-in-out;
-}
-
-button:hover {
-  background: var(--primary-color);
-  color: #fff;
-  border-color: grey;
-  box-shadow: 3px 3px 35px 2px rgb(136, 131, 131) inset;
-}
-
-button:active {
-  outline: none;
-  background-color: gray;
-  color: white;
-  border-color: var(--primary-color);
-  box-shadow: 3px 3px 35px 2px rgb(177, 177, 177) inset;
-}
-
-.btn {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-  font-weight: normal;
-  padding: 10px;
-}
-
-.btnDiv {
-  margin: 10px 0 0 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-.btnContagem {
-  font-size: 20px;
-  margin: 5px;
-  padding: 5px;
-}
-
-/* ========================================
-   DIÁLOGOS E MODAIS
-   ======================================== */
-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: 1s;
-}
-
-dialog {
-  top: 35%;
-  left: 38.7%;
-  border: none;
-  border-radius: 0.5rem;
-  padding: 15px;
-  box-shadow: 0 0 1em rgb(0 0 0 /.5);
-  transition: 1s;
-}
-
-.fim::backdrop {
-  background-color: rgba(0 0 0 / .4);
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  transition: 1s;
-}
-
-.fim {
-  border: none;
-  border-radius: 0.5rem;
-  padding: 15px;
-  box-shadow: 0 0 1em rgb(0 0 0 /.5);
-  transition: 1s;
-}
-
-.fimdiv {
-  display: flex;
-  flex-direction: row;
-  margin: 20px auto 20px auto;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-}
-
-.fimdiv img {
-  padding-right: 35px;
-  width: 200px;
-  height: 180px;
-}
-
-.fimdiv p {
-  font-size: 30px;
-  width: 80%;
-  display: flex;
-  justify-content: flex-end;
-  margin: 20px;
-}
-
-.ok {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 35px;
-  padding: 10px 20px;
-  margin: auto;
-  width: 40%;
-}
-
-/* Modal de Dicas */
-.dica-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  z-index: 10000;
-  padding: 16px;
-  box-sizing: border-box;
-}
-
-.dica-modal.open {
-  display: block;
-}
-
-.dica-modal-content {
-  max-width: 560px;
-  margin: 40px auto;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
-  overflow: hidden;
-}
-
-.dica-modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  border-bottom: 1px solid #eee;
-  background: #f9fafb;
-  height: 7vh;
-}
-
-.dica-modal-header h3 {
-  margin: 25px;
-  font-size: 2rem;
-}
-
-.dica-fechar {
-  border: none;
-  background: transparent;
-  font-size: 1.5rem;
-  cursor: pointer;
-  line-height: 1;
-}
-
-.dica-modal-body {
-  padding: 16px;
-}
-
-.dica-loading {
-  display: none;
-  color: #555;
-  font-style: italic;
-}
-
-.dica-text {
-  margin: 0;
-  min-height: 48px;
-  font-size: 1em;
-  width: 100%;
-  justify-content: center;
-  display: flex;
-}
-
-.dica-modal-footer {
-  padding: 12px 16px;
-  border-top: 1px solid #eee;
-  text-align: center;
-}
-
-.dicas-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  color: #111827;
-  font-weight: 600;
-  padding: 6px 0px;
-}
-
-.dicas-btn i.fa-lightbulb {
-  color: rgb(255, 223, 90);
-  text-shadow: 0 0 8px rgba(255, 223, 90, 0.7);
-}
-
-.dicas-btn:hover {
-  opacity: 0.85;
-}
-
-/* ========================================
-   PRÊMIOS
-   ======================================== */
-.premios-header {
-  order: 4;
-}
-
-.premios {
-  display: flex;
-  flex-direction: row;
-  margin: 0 15px;
-  justify-content: center;
-  width: auto;
-  color: var(--primary-color);
-  align-items: center;
-}
-
-.premios small {
-  justify-content: center;
-  align-items: center;
-}
-
-.premios i {
-  padding: 0 0 10px 5px;
-}
-
-.premiosDialog {
-  width: 100vw;
-  height: 100vh;
-  background-color: #00000082;
-  top: auto;
-  left: auto;
-}
-
-.premiosContainer {
-  margin: auto;
-}
-
-.msgPremios {
-  font-size: 35px;
-  display: flex;
-  position: absolute;
-  bottom: 472px;
-  right: 620px;
-  text-shadow: 4px 4px 25px rgb(0, 0, 0);
-  text-decoration-style: solid;
-}
-
-/* ========================================
-   LOGIN E CADASTRO
-   ======================================== */
-.login,
-.cadastro {
-  background: url(/img/7778924.jpg) no-repeat center center;
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  top: 0px;
-  left: 0px;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-.login h1,
-.cadastro h1 {
-  justify-content: center;
-  font-size: 50px;
-  padding: 20px 0;
-  margin: 20px auto;
-}
-
-.login p,
-.cadastro p {
-  font-size: 25px;
-  justify-content: flex-start;
-  align-items: end;
-  margin: 0 10px 0 10px;
-  padding: 0 0 0 25px;
-}
-
-.login input,
-.cadastro input {
-  font-size: 16px !important;
-  height: 45px;
-  padding-left: 10px;
-  margin: 0 20px 25px 30px;
-  border: none;
-  border-bottom: solid var(--primary-color) 2px;
-  width: calc(100% - 60px);
-  box-sizing: border-box;
-}
-
-.login input[type=submit] {
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
-  margin: 20px auto;
-  padding: 20px;
-  font-size: 34px;
-  background: #ffffff88;
-  color: var(--primary-color);
-  border: 2px solid var(--primary-color-darker);
-  border-radius: 8px;
-  font-weight: bold;
-  width: 200px;
-  height: 80px;
-  transition: 0.3s ease-in-out;
-}
-
-.login input[type=submit]:hover {
-  background: var(--primary-color);
-  color: #fff;
-  border-color: grey;
-  box-shadow: 3px 3px 35px 2px rgb(136, 131, 131) inset;
-}
-
-.login input[type=submit]:active {
-  outline: none;
-  background-color: gray;
-  color: white;
-  border-color: var(--primary-color);
-  box-shadow: 3px 3px 35px 2px rgb(177, 177, 177) inset;
-}
-
-.senha {
-  display: flex;
-  font-size: 15px;
-  justify-content: flex-end;
-  padding-right: 25px;
-  padding-bottom: 20px;
-  text-decoration: underline;
-}
-
-.ssenha {
-  font-size: 13.5px;
-  margin: 0 15px 15px 15px;
-  color: lightcoral;
-}
-
-.registrar {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  color: var(--primary-color);
-  width: calc(100% - 60px);
-  margin-left: 30px;
-  margin-right: 20px;
-}
-
-.alerta {
-  display: flex;
-  justify-content: center;
-  font-size: 16px !important;
-  width: calc(100% - 60px);
-  margin: 10px 20px 0 30px;
-}
-
-.cadastro input[type=submit],
-input[type=button] {
-  cursor: pointer;
-  margin: auto;
-  padding: auto;
-  padding-right: 10px;
-  font-size: 25px;
-  background: #ffffff88;
-  color: var(--primary-color);
-  border: 2px solid var(--primary-color-darker);
-  border-radius: 8px;
-  font-weight: bold;
-  width: 190px;
-  height: 70px;
-  transition: 0.3s ease-in-out;
-}
-
-.cadastro input[type=submit]:hover,
-input[type=button]:hover {
-  background: var(--primary-color);
-  color: #fff;
-  border-color: grey;
-  box-shadow: 3px 3px 35px 2px rgb(136, 131, 131) inset;
-}
-
-.cadastro input[type=submit]:active,
-input[type=button]:active {
-  outline: none;
-  background-color: gray;
-  color: white;
-  border-color: var(--primary-color);
-  box-shadow: 3px 3px 35px 2px rgb(177, 177, 177) inset;
-}
-
-.cadastro select,
-option {
-  margin: 15px auto;
-  padding: 7px 0px 7px 15px;
-  width: 490px;
-  height: 40px;
-  background-color: #ffffff00;
-  border: 2px solid var(--primary-color-darker);
-  border-radius: 8px;
-  font-size: 18px;
-  color: var(--primary-color);
-}
-
-.cadastrar {
-  display: flex;
-  flex-direction: row;
-}
-
-.cadastrar div {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-.largura {
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* ========================================
-   RECUPERAÇÃO DE SENHA
-   ======================================== */
-.recuperar {
-  background-color: rgba(64, 64, 64, 0);
-  flex-direction: column;
-  margin: 0 auto;
-  padding: 0;
-  top: 0;
-  left: 0;
-  border: none;
-  border-radius: 0.5rem;
-  box-shadow: 0 0 1em rgba(0, 0, 0, 0);
-  transition: 1s;
-  width: 100vw;
-  height: 100vh;
-}
-
-.recuperar p {
-  font-size: 25px;
-  justify-content: flex-start;
-  align-items: end;
-  margin: 0 10px 0 10px;
-  padding: 0 0 0 25px;
-}
-
-.recuperar input {
-  font-size: 20px;
-  height: 45px;
-  padding-left: 10px;
-  margin: 0 20px 25px 30px;
-  border: none;
-  border-bottom: solid var(--primary-color) 2px;
-}
-
-.recuperar input[type=button] {
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
-  margin: auto;
-  padding: 10px;
-  font-size: 25px;
-  background: #ffffff88;
-  color: var(--primary-color);
-  border: 2px solid var(--primary-color-darker);
-  border-radius: 8px;
-  font-weight: bold;
-  width: 200px;
-  height: 50px;
-  transition: 0.3s ease-in-out;
-}
-
-.recuperar input[type=button]:hover {
-  background: var(--primary-color);
-  color: #fff;
-  border-color: grey;
-  box-shadow: 3px 3px 35px 2px rgb(136, 131, 131) inset;
-}
-
-.recuperar input[type=button]:active {
-  outline: none;
-  background-color: gray;
-  color: white;
-  border-color: var(--primary-color);
-  box-shadow: 3px 3px 35px 2px rgb(177, 177, 177) inset;
-}
-
-/* ========================================
-   ALTERAÇÃO DE SENHA
-   ======================================== */
-.containerPass {
-  background: url(/img/7778924.jpg) no-repeat center center;
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-  padding: 20px;
-  border-radius: 10px;
-  color: var(--primary-color);
-}
-
-.containerPass h1 {
-  font-size: 50px;
-  padding-bottom: 20px;
-  margin-bottom: 10px;
-}
-
-.tabuadaPass {
-  width: 70%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  border-color: var(--primary-color);
-  border-style: solid;
-  border-radius: 10px;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.452);
-}
-
-.tabuadaPass div {
-  display: flex;
-}
-
-.larguraPass {
-  padding-top: 15px;
-  width: 700px;
-  height: 350px;
-}
-
-.larguraConfirm {
-  padding-top: 15px;
-  width: 700px;
-}
-
-/* ========================================
-   ACESSOS E PERMISSÕES
-   ======================================== */
-#formPermissoes {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  border-color: var(--primary-color);
-  border-style: solid;
-  border-radius: 10px;
-  padding: 20px;
-  padding-bottom: 30px;
-  background: rgba(255, 255, 255, 0.452);
-  height: 500px;
-}
-
-#formPermissoes h1 {
-  justify-content: center;
-  display: flex;
-  padding-bottom: 20px;
-  font-size: 40px;
-  color: var(--primary-color);
-  padding-top: 20px;
-}
-
-.formDiv {
-  margin: 10px 0 0 -20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-.labelForm {
-  width: 40%;
-  justify-content: end;
-  display: flex;
-  margin: 0 20px 0 20px;
-  color: var(--primary-color);
-}
-
-.listaAlunos {
-  width: 50%;
-  font-size: 20px;
-  padding: 2px 4px;
-  background-color: #0000;
-  border-radius: 10px;
-  border: 1px solid;
-  color: var(--primary-color);
-}
-
-.checked {
-  margin: 5px -85px;
-  accent-color: var(--primary-color);
-  border-radius: 2px;
-}
-
-.check {
-  width: 20px;
-  height: 20px;
-  margin: 0px 115px 0px 10px;
-}
-
-.btnAcessos {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-  padding: 10px 20px;
-  margin: 40px 15px 0 15px;
-  width: 100%;
-}
-
-.resultadoDiv {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  margin-left: auto;
-}
-
-.labelResultado {
-  width: 45%;
-  justify-content: end;
-  display: flex;
-  margin: 30px 16px 10px 0;
-  font-size: 25px;
-}
-
-.listaResultados {
-  width: 20%;
-  margin-right: 385px;
-  margin-top: 20px;
-  background-color: #ffffff00;
-  font-size: 20px;
-  padding: 3px 10px;
-  border: 1px solid black;
-  border-radius: 10px;
-  box-shadow: 0 0 1em rgb(0 0 0 /.3);
-  color: var(--primary-color);
-}
-
-/* ========================================
-   RESULTADOS E CONTAGENS
-   ======================================== */
-.containerResultado {
-  border-radius: 25px;
-  color: var(--primary-color);
-  width: 100vw;
-  padding: 0;
-}
-
-.containerResultado h1 {
-  margin: 30px auto 15px auto;
-  font-size: 50px;
-  justify-content: center;
-  display: flex;
-}
-
-.containerResultado h3 {
-  margin: 30px auto -10px auto;
-  justify-content: center;
-  display: flex;
-}
-
-.containerResultado::backdrop,
-.containerAcesso::backdrop {
-  background: url(/img/math2.jpg) no-repeat center center;
-  display: flex;
-  flex-direction: column;
-  margin: 0px auto 0px auto;
-  padding: 10px;
-  color: var(--primary-color);
-  height: 100vh;
-}
-
-.containerResultados,
-.containerAcessos {
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  height: 100%;
-  background: url(/img/math2.jpg) no-repeat center center;
-}
-
-.erroLogin,
-.senhaError {
-  color: red;
-  margin: 0;
-}
-
-.senhaOk {
-  color: green;
-  margin: 0;
-}
-
-.containerAcesso {
-  border: none;
-  border-radius: 0.5rem;
-  padding: 3px;
-  box-shadow: 0 0 1em rgb(0 0 0 /.5);
-  transition: 1s;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  margin: auto;
-}
-
-.acessos {
-  margin: auto;
-}
-
-.elemento {
-  font-size: 20px;
-  margin: 5px;
-  display: flex;
-  justify-content: flex-start;
-  padding-left: 10px;
-}
-
-.btnFechar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 30px;
-  padding: 10px 20px;
-  margin: 10px auto 20px auto;
-  width: 11%;
-}
-
-.modal {
-  margin: auto;
-  display: flex;
-}
-
-.resultados {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 20px calc((100% - (255px * 6)) / 3);
-}
-
-.rodada {
-  width: 100%;
-  flex: 0 0 215px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  border-color: var(--primary-color);
-  border-style: solid;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.452);
-  margin: 5px;
-}
-
-/* ========================================
-   CONTAGENS
-   ======================================== */
-#contagens {
-  margin: auto;
-  width: 100%;
-  height: 100%;
-  box-shadow: 0 0 1em rgb(0 0 0 /.5);
-  padding: 20px;
-  background-color: #00000008;
-  top: 0;
-  left: 0;
-  border-radius: 20px;
-}
-
-#contagens::backdrop {
-  background: rgba(0, 0, 0, 0.35);
-  
-```
-
-
-## License: unknown
-https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
-
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -82142,14 +80901,14 @@ option {
 
 #contagens::backdrop {
   background: rgba(0, 0, 0, 0.35);
-  
-```
 
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -83384,14 +82143,1256 @@ option {
 
 #contagens::backdrop {
   background: rgba(0, 0, 0, 0.35);
-  
-```
 
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
+# Aplicando as reorganizações ao seu CSS
+
+Vou substituir o arquivo atual pela versão reorganizada e otimizada:
+
+````css
+// filepath: /home/rubens/Documentos/GitHub/Tabuada-1/assets/css/style.css
+
+/* ========================================
+   IMPORTAÇÕES E VARIÁVEIS GLOBAIS
+   ======================================== */
+@import url('https://fonts.googleapis.com/css2?family=Expletus+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff&family=Expletus+Sans&display=swap');
+
+:root {
+  --primary-color: rgb(60, 72, 75);
+  --primary-color-darker: rgb(43, 43, 43);
+}
+
+/* ========================================
+   RESET E ESTILOS BASE
+   ======================================== */
+* {
+  box-sizing: border-box;
+  outline: 0;
+  font-family: 'DynaPuff', cursive;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  padding: 6vh 0 0 0;
+  background-size: cover;
+  font-size: 1.3em;
+  line-height: 1.5em;
+  overflow-x: hidden;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+/* ========================================
+   NAVEGAÇÃO
+   ======================================== */
+nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1rem;
+  top: 0;
+  height: 5vh;
+  border: solid 1px var(--primary-color-darker);
+  border-left: none;
+  border-top: none;
+  border-right: none;
+  opacity: 0.9;
+  position: fixed;
+  width: 100vw;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.logo {
+  order: 3;
+  font-size: 24px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  margin: 0 15px 0 auto;
+}
+
+.user-name {
+  font-size: 22px;
+  color: var(--primary-color-darker);
+  width: 200px;
+}
+
+.mobile-menu {
+  cursor: pointer;
+  display: block;
+  width: auto;
+  order: 0;
+}
+
+.mobile-menu div {
+  opacity: 1;
+  position: relative;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 2px;
+  background: var(--primary-color-darker);
+  margin: 5px 0;
+  padding: 0;
+  transition: 0.3s;
+}
+
+.mobile-menu:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.mobile-menu.active .line1 {
+  transform: rotate(-45deg) translate(-3px, 5px);
+}
+
+.mobile-menu.active .line2 {
+  opacity: 0;
+}
+
+.mobile-menu.active .line3 {
+  transform: rotate(45deg) translate(-5px, -7px);
+}
+
+/* Menu Principal */
+.nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.8s ease-in;
+  position: fixed;
+  top: 3.6rem;
+  left: 0rem;
+  overflow-y: auto;
+  z-index: 999;
+  padding: 0;
+  width: 280px;
+  height: calc(100vh - 3.6rem);
+}
+
+.nav-list > ul {
+  height: 100%;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.nav-list li {
+  font-size: 18px;
+  letter-spacing: 3px;
+  opacity: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  padding: 0.3rem;
+  border-bottom: 1px solid #eee;
+  transition: all 0.3s ease;
+}
+
+.nav-list.active {
+  transform: translateX(0);
+}
+
+/* Scrollbar Customizado */
+.nav-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.nav-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.nav-list::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+.nav-list::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color-darker);
+}
+
+/* Submenus */
+.nav-list .intervalo {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.nav-list .intervalo.visivel {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.nav-list i.fa-angles-right {
+  transition: transform 0.3s ease;
+  margin-left: 0.5rem;
+}
+
+.nav-list i.fa-angles-right.rotated {
+  transform: rotate(90deg);
+}
+
+.submenu {
+  display: none;
+  z-index: 10;
+  flex-direction: column;
+  color: black;
+  width: 100%;
+}
+
+.submenu li {
+  opacity: 1;
+}
+
+.submenu li a {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submenu li:hover {
+  background: rgba(85, 85, 85, 0.568);
+}
+
+.submenu a:hover {
+  color: rgb(255, 255, 255);
+}
+
+.intervalo-link {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intervalo-link:hover {
+  background: rgba(85, 85, 85, 0.568);
+  color: rgb(255, 255, 255);
+}
+
+.intervalo li {
+  display: none;
+}
+
+.intervalo.visivel li {
+  display: flex;
+}
+
+.menu {
+  padding-bottom: 20px;
+}
+
+@keyframes navLinkFade {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ========================================
+   LINKS E ÂNCORAS
+   ======================================== */
+a {
+  color: var(--primary-color-darker);
+  font-weight: bolder;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+a:hover {
+  color: rgba(85, 85, 85, 0.568);
+  opacity: 0.8;
+}
+
+/* ========================================
+   ÍCONES
+   ======================================== */
+.fa-star {
+  color: gold;
+  text-shadow: 0 0 8px rgba(255, 223, 90, 0.7);
+}
+
+.fa-thumbs-down {
+  color: #df2525;
+  text-shadow: 0 0 8px #df25258c;
+}
+
+.fa-calculator {
+  color: #0000ad;
+  text-shadow: 0 0 8px #0000ad8c;
+}
+
+.fonte {
+  font-size: 35px;
+}
+
+.imagem {
+  width: 70px;
+  height: 70px;
+  position: absolute;
+}
+
+/* ========================================
+   CONTAINER PRINCIPAL
+   ======================================== */
+.bg-img {
+  background: url(/img/math2.jpg) no-repeat center center;
+  background-size: cover;
+  opacity: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 80px 20px 20px 20px;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 700px;
+  padding: 20px;
+  border-radius: 10px;
+  color: var(--primary-color);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  position: relative;
+  z-index: 10;
+}
+
+.container h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  line-height: 1.2;
+  font-size: 80px;
+  margin-bottom: 40px;
+  text-shadow: 0.25rem 0.25rem 0.625rem rgb(125, 135, 138);
+}
+
+h1 {
+  text-shadow: 0.25rem 0.25rem 0.625rem rgb(125, 135, 138);
+}
+
+h2 {
+  padding: 20px;
+  padding-left: 65px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+small {
+  margin: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* ========================================
+   TABUADA - COMPONENTE PRINCIPAL
+   ======================================== */
+.tabuada {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  border-color: var(--primary-color);
+  border-style: solid;
+  border-radius: 10px;
+  padding: 20px;
+  padding-bottom: 30px;
+  background: rgba(255, 255, 255, 0.452);
+}
+
+.conta div {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+p {
+  font-size: 80px;
+  width: 80%;
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px;
+}
+
+span {
+  font-size: 80px;
+  width: 22px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0px;
+}
+
+.resultado {
+  margin: -15px;
+  cursor: pointer;
+}
+
+input[type=number] {
+  border: none;
+  appearance: textfield;
+  font-size: 80px;
+  width: 88%;
+  cursor: pointer;
+  text-align: right;
+  border: solid 5px var(--primary-color);
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 3px;
+  margin-right: 25px;
+  padding-right: 20px;
+  color: var(--primary-color);
+  background: rgba(255, 255, 255, 0);
+}
+
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+/* ========================================
+   BOTÕES
+   ======================================== */
+button {
+  cursor: pointer;
+  margin: 20px;
+  padding: 8px 12px;
+  font-size: 34px;
+  background: #ffffff88;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color-darker);
+  border-radius: 8px;
+  font-weight: bold;
+  transition: 0.3s ease-in-out;
+}
+
+button:hover {
+  background: var(--primary-color);
+  color: #fff;
+  border-color: grey;
+  box-shadow: 3px 3px 35px 2px rgb(136, 131, 131) inset;
+}
+
+button:active {
+  outline: none;
+  background-color: gray;
+  color: white;
+  border-color: var(--primary-color);
+  box-shadow: 3px 3px 35px 2px rgb(177, 177, 177) inset;
+}
+
+.btn {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: normal;
+  padding: 10px;
+}
+
+.btnDiv {
+  margin: 10px 0 0 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.btnContagem {
+  font-size: 20px;
+  margin: 5px;
+  padding: 5px;
+}
+
+/* ========================================
+   DIÁLOGOS E MODAIS
+   ======================================== */
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: 1s;
+}
+
+dialog {
+  top: 35%;
+  left: 38.7%;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 15px;
+  box-shadow: 0 0 1em rgb(0 0 0 /.5);
+  transition: 1s;
+}
+
+.fim::backdrop {
+  background-color: rgba(0 0 0 / .4);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  transition: 1s;
+}
+
+.fim {
+  border: none;
+  border-radius: 0.5rem;
+  padding: 15px;
+  box-shadow: 0 0 1em rgb(0 0 0 /.5);
+  transition: 1s;
+}
+
+.fimdiv {
+  display: flex;
+  flex-direction: row;
+  margin: 20px auto 20px auto;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.fimdiv img {
+  padding-right: 35px;
+  width: 200px;
+  height: 180px;
+}
+
+.fimdiv p {
+  font-size: 30px;
+  width: 80%;
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px;
+}
+
+.ok {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 35px;
+  padding: 10px 20px;
+  margin: auto;
+  width: 40%;
+}
+
+/* Modal de Dicas */
+.dica-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 10000;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.dica-modal.open {
+  display: block;
+}
+
+.dica-modal-content {
+  max-width: 560px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+
+.dica-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  background: #f9fafb;
+  height: 7vh;
+}
+
+.dica-modal-header h3 {
+  margin: 25px;
+  font-size: 2rem;
+}
+
+.dica-fechar {
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.dica-modal-body {
+  padding: 16px;
+}
+
+.dica-loading {
+  display: none;
+  color: #555;
+  font-style: italic;
+}
+
+.dica-text {
+  margin: 0;
+  min-height: 48px;
+  font-size: 1em;
+  width: 100%;
+  justify-content: center;
+  display: flex;
+}
+
+.dica-modal-footer {
+  padding: 12px 16px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.dicas-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #111827;
+  font-weight: 600;
+  padding: 6px 0px;
+}
+
+.dicas-btn i.fa-lightbulb {
+  color: rgb(255, 223, 90);
+  text-shadow: 0 0 8px rgba(255, 223, 90, 0.7);
+}
+
+.dicas-btn:hover {
+  opacity: 0.85;
+}
+
+/* ========================================
+   PRÊMIOS
+   ======================================== */
+.premios-header {
+  order: 4;
+}
+
+.premios {
+  display: flex;
+  flex-direction: row;
+  margin: 0 15px;
+  justify-content: center;
+  width: auto;
+  color: var(--primary-color);
+  align-items: center;
+}
+
+.premios small {
+  justify-content: center;
+  align-items: center;
+}
+
+.premios i {
+  padding: 0 0 10px 5px;
+}
+
+.premiosDialog {
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000082;
+  top: auto;
+  left: auto;
+}
+
+.premiosContainer {
+  margin: auto;
+}
+
+.msgPremios {
+  font-size: 35px;
+  display: flex;
+  position: absolute;
+  bottom: 472px;
+  right: 620px;
+  text-shadow: 4px 4px 25px rgb(0, 0, 0);
+  text-decoration-style: solid;
+}
+
+/* ========================================
+   LOGIN E CADASTRO
+   ======================================== */
+.login,
+.cadastro {
+  background: url(/img/7778924.jpg) no-repeat center center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  top: 0px;
+  left: 0px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.login h1,
+.cadastro h1 {
+  justify-content: center;
+  font-size: 50px;
+  padding: 20px 0;
+  margin: 20px auto;
+}
+
+.login p,
+.cadastro p {
+  font-size: 25px;
+  justify-content: flex-start;
+  align-items: end;
+  margin: 0 10px 0 10px;
+  padding: 0 0 0 25px;
+}
+
+.login input,
+.cadastro input {
+  font-size: 16px !important;
+  height: 45px;
+  padding-left: 10px;
+  margin: 0 20px 25px 30px;
+  border: none;
+  border-bottom: solid var(--primary-color) 2px;
+  width: calc(100% - 60px);
+  box-sizing: border-box;
+}
+
+.login input[type=submit] {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  margin: 20px auto;
+  padding: 20px;
+  font-size: 34px;
+  background: #ffffff88;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color-darker);
+  border-radius: 8px;
+  font-weight: bold;
+  width: 200px;
+  height: 80px;
+  transition: 0.3s ease-in-out;
+}
+
+.login input[type=submit]:hover {
+  background: var(--primary-color);
+  color: #fff;
+  border-color: grey;
+  box-shadow: 3px 3px 35px 2px rgb(136, 131, 131) inset;
+}
+
+.login input[type=submit]:active {
+  outline: none;
+  background-color: gray;
+  color: white;
+  border-color: var(--primary-color);
+  box-shadow: 3px 3px 35px 2px rgb(177, 177, 177) inset;
+}
+
+.senha {
+  display: flex;
+  font-size: 15px;
+  justify-content: flex-end;
+  padding-right: 25px;
+  padding-bottom: 20px;
+  text-decoration: underline;
+}
+
+.ssenha {
+  font-size: 13.5px;
+  margin: 0 15px 15px 15px;
+  color: lightcoral;
+}
+
+.registrar {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  color: var(--primary-color);
+  width: calc(100% - 60px);
+  margin-left: 30px;
+  margin-right: 20px;
+}
+
+.alerta {
+  display: flex;
+  justify-content: center;
+  font-size: 16px !important;
+  width: calc(100% - 60px);
+  margin: 10px 20px 0 30px;
+}
+
+.cadastro input[type=submit],
+input[type=button] {
+  cursor: pointer;
+  margin: auto;
+  padding: auto;
+  padding-right: 10px;
+  font-size: 25px;
+  background: #ffffff88;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color-darker);
+  border-radius: 8px;
+  font-weight: bold;
+  width: 190px;
+  height: 70px;
+  transition: 0.3s ease-in-out;
+}
+
+.cadastro input[type=submit]:hover,
+input[type=button]:hover {
+  background: var(--primary-color);
+  color: #fff;
+  border-color: grey;
+  box-shadow: 3px 3px 35px 2px rgb(136, 131, 131) inset;
+}
+
+.cadastro input[type=submit]:active,
+input[type=button]:active {
+  outline: none;
+  background-color: gray;
+  color: white;
+  border-color: var(--primary-color);
+  box-shadow: 3px 3px 35px 2px rgb(177, 177, 177) inset;
+}
+
+.cadastro select,
+option {
+  margin: 15px auto;
+  padding: 7px 0px 7px 15px;
+  width: 490px;
+  height: 40px;
+  background-color: #ffffff00;
+  border: 2px solid var(--primary-color-darker);
+  border-radius: 8px;
+  font-size: 18px;
+  color: var(--primary-color);
+}
+
+.cadastrar {
+  display: flex;
+  flex-direction: row;
+}
+
+.cadastrar div {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.largura {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
+   RECUPERAÇÃO DE SENHA
+   ======================================== */
+.recuperar {
+  background-color: rgba(64, 64, 64, 0);
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 0;
+  top: 0;
+  left: 0;
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 1em rgba(0, 0, 0, 0);
+  transition: 1s;
+  width: 100vw;
+  height: 100vh;
+}
+
+.recuperar p {
+  font-size: 25px;
+  justify-content: flex-start;
+  align-items: end;
+  margin: 0 10px 0 10px;
+  padding: 0 0 0 25px;
+}
+
+.recuperar input {
+  font-size: 20px;
+  height: 45px;
+  padding-left: 10px;
+  margin: 0 20px 25px 30px;
+  border: none;
+  border-bottom: solid var(--primary-color) 2px;
+}
+
+.recuperar input[type=button] {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  margin: auto;
+  padding: 10px;
+  font-size: 25px;
+  background: #ffffff88;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color-darker);
+  border-radius: 8px;
+  font-weight: bold;
+  width: 200px;
+  height: 50px;
+  transition: 0.3s ease-in-out;
+}
+
+.recuperar input[type=button]:hover {
+  background: var(--primary-color);
+  color: #fff;
+  border-color: grey;
+  box-shadow: 3px 3px 35px 2px rgb(136, 131, 131) inset;
+}
+
+.recuperar input[type=button]:active {
+  outline: none;
+  background-color: gray;
+  color: white;
+  border-color: var(--primary-color);
+  box-shadow: 3px 3px 35px 2px rgb(177, 177, 177) inset;
+}
+
+/* ========================================
+   ALTERAÇÃO DE SENHA
+   ======================================== */
+.containerPass {
+  background: url(/img/7778924.jpg) no-repeat center center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  padding: 20px;
+  border-radius: 10px;
+  color: var(--primary-color);
+}
+
+.containerPass h1 {
+  font-size: 50px;
+  padding-bottom: 20px;
+  margin-bottom: 10px;
+}
+
+.tabuadaPass {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  border-color: var(--primary-color);
+  border-style: solid;
+  border-radius: 10px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.452);
+}
+
+.tabuadaPass div {
+  display: flex;
+}
+
+.larguraPass {
+  padding-top: 15px;
+  width: 700px;
+  height: 350px;
+}
+
+.larguraConfirm {
+  padding-top: 15px;
+  width: 700px;
+}
+
+/* ========================================
+   ACESSOS E PERMISSÕES
+   ======================================== */
+#formPermissoes {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  border-color: var(--primary-color);
+  border-style: solid;
+  border-radius: 10px;
+  padding: 20px;
+  padding-bottom: 30px;
+  background: rgba(255, 255, 255, 0.452);
+  height: 500px;
+}
+
+#formPermissoes h1 {
+  justify-content: center;
+  display: flex;
+  padding-bottom: 20px;
+  font-size: 40px;
+  color: var(--primary-color);
+  padding-top: 20px;
+}
+
+.formDiv {
+  margin: 10px 0 0 -20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.labelForm {
+  width: 40%;
+  justify-content: end;
+  display: flex;
+  margin: 0 20px 0 20px;
+  color: var(--primary-color);
+}
+
+.listaAlunos {
+  width: 50%;
+  font-size: 20px;
+  padding: 2px 4px;
+  background-color: #0000;
+  border-radius: 10px;
+  border: 1px solid;
+  color: var(--primary-color);
+}
+
+.checked {
+  margin: 5px -85px;
+  accent-color: var(--primary-color);
+  border-radius: 2px;
+}
+
+.check {
+  width: 20px;
+  height: 20px;
+  margin: 0px 115px 0px 10px;
+}
+
+.btnAcessos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  padding: 10px 20px;
+  margin: 40px 15px 0 15px;
+  width: 100%;
+}
+
+.resultadoDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-left: auto;
+}
+
+.labelResultado {
+  width: 45%;
+  justify-content: end;
+  display: flex;
+  margin: 30px 16px 10px 0;
+  font-size: 25px;
+}
+
+.listaResultados {
+  width: 20%;
+  margin-right: 385px;
+  margin-top: 20px;
+  background-color: #ffffff00;
+  font-size: 20px;
+  padding: 3px 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  box-shadow: 0 0 1em rgb(0 0 0 /.3);
+  color: var(--primary-color);
+}
+
+/* ========================================
+   RESULTADOS E CONTAGENS
+   ======================================== */
+.containerResultado {
+  border-radius: 25px;
+  color: var(--primary-color);
+  width: 100vw;
+  padding: 0;
+}
+
+.containerResultado h1 {
+  margin: 30px auto 15px auto;
+  font-size: 50px;
+  justify-content: center;
+  display: flex;
+}
+
+.containerResultado h3 {
+  margin: 30px auto -10px auto;
+  justify-content: center;
+  display: flex;
+}
+
+.containerResultado::backdrop,
+.containerAcesso::backdrop {
+  background: url(/img/math2.jpg) no-repeat center center;
+  display: flex;
+  flex-direction: column;
+  margin: 0px auto 0px auto;
+  padding: 10px;
+  color: var(--primary-color);
+  height: 100vh;
+}
+
+.containerResultados,
+.containerAcessos {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  height: 100%;
+  background: url(/img/math2.jpg) no-repeat center center;
+}
+
+.erroLogin,
+.senhaError {
+  color: red;
+  margin: 0;
+}
+
+.senhaOk {
+  color: green;
+  margin: 0;
+}
+
+.containerAcesso {
+  border: none;
+  border-radius: 0.5rem;
+  padding: 3px;
+  box-shadow: 0 0 1em rgb(0 0 0 /.5);
+  transition: 1s;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  margin: auto;
+}
+
+.acessos {
+  margin: auto;
+}
+
+.elemento {
+  font-size: 20px;
+  margin: 5px;
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 10px;
+}
+
+.btnFechar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  padding: 10px 20px;
+  margin: 10px auto 20px auto;
+  width: 11%;
+}
+
+.modal {
+  margin: auto;
+  display: flex;
+}
+
+.resultados {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px calc((100% - (255px * 6)) / 3);
+}
+
+.rodada {
+  width: 100%;
+  flex: 0 0 215px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  border-color: var(--primary-color);
+  border-style: solid;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.452);
+  margin: 5px;
+}
+
+/* ========================================
+   CONTAGENS
+   ======================================== */
+#contagens {
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 1em rgb(0 0 0 /.5);
+  padding: 20px;
+  background-color: #00000008;
+  top: 0;
+  left: 0;
+  border-radius: 20px;
+}
+
+#contagens::backdrop {
+  background: rgba(0, 0, 0, 0.35);
+
+`````
+
+## License: unknown
+
+https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
+
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -84633,13 +84634,13 @@ option {
 .containerContagens {
   width: 45%;
   height
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -85894,13 +85895,13 @@ option {
   justify-content: center;
   padding: 10px 0 20px 0;
   font-size: 47
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -87155,13 +87156,13 @@ option {
   justify-content: center;
   padding: 10px 0 20px 0;
   font-size: 47
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -88416,13 +88417,13 @@ option {
   justify-content: center;
   padding: 10px 0 20px 0;
   font-size: 47
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -89684,13 +89685,13 @@ option {
 .btnContagens {
   display: flex;
   margin: 5
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -90962,13 +90963,13 @@ option {
   display: flex;
   justify-content: flex-end;
   width
-```
-
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -92243,14 +92244,14 @@ option {
   text-shadow: 4px 4px 20px rgb(77, 75, 64);
   text-decoration-style: solid;
   color: var(--primary-color-darker);
-  
-```
 
+`````
 
 ## License: unknown
+
 https://github.com/rubenslemos/Tabuada/blob/758b3da564ea6a177a1a179cb32e92a34718aac6/assets/css/style.css
 
-```
+`````
 # Aplicando as reorganizações ao seu CSS
 
 Vou substituir o arquivo atual pela versão reorganizada e otimizada:
@@ -93532,5 +93533,4 @@ option {
    UTILIDADES
    ======================================== */
 .det
-```
-
+`````

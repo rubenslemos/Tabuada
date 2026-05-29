@@ -5,7 +5,8 @@ require('dotenv').config()
 // Polyfill de fetch para Node < 18
 let fetchFn = global.fetch
 if (!fetchFn) {
-  fetchFn = (...args) => import('node-fetch').then(({ default: f }) => f(...args))
+  fetchFn = (...args) =>
+    import('node-fetch').then(({ default: f }) => f(...args))
 }
 
 const STATIC_FALLBACK = [
@@ -71,21 +72,31 @@ async function getTipFromGroq(prompt) {
 
   const model = resolveGroqModel()
 
-  const resp = await fetchFn('https://api.groq.com/openai/v1/chat/completions', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
-    body: JSON.stringify({
-      model,
-      messages: [
-        { role: 'system', content: 'Você é um assistente que gera dicas curtas e práticas de matemática.' },
-        { role: 'user', content: prompt }
-      ],
-      temperature: 0.7,
-      max_tokens: 64,
-      n: 1,
-      stream: false
-    }),
-  })
+  const resp = await fetchFn(
+    'https://api.groq.com/openai/v1/chat/completions',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${key}`,
+      },
+      body: JSON.stringify({
+        model,
+        messages: [
+          {
+            role: 'system',
+            content:
+              'Você é um assistente que gera dicas curtas e práticas de matemática.',
+          },
+          { role: 'user', content: prompt },
+        ],
+        temperature: 0.7,
+        max_tokens: 64,
+        n: 1,
+        stream: false,
+      }),
+    }
+  )
 
   if (!resp.ok) {
     const detail = await getGroqErrorDetail(resp)
@@ -116,24 +127,29 @@ Não use formatação especial, apenas texto.
 
     // Finaliza com prioridade Groq -> DB -> estático
     const dbFallback = await getRandomTipFromDB()
-    const finalTip = tip || dbFallback || STATIC_FALLBACK[Math.floor(Math.random() * STATIC_FALLBACK.length)]
+    const finalTip =
+      tip ||
+      dbFallback ||
+      STATIC_FALLBACK[Math.floor(Math.random() * STATIC_FALLBACK.length)]
 
     return res.json({
       tip: finalTip,
-      source: tip ? 'groq' : (dbFallback ? 'db' : 'static'),
-      model: resolveGroqModel()
+      source: tip ? 'groq' : dbFallback ? 'db' : 'static',
+      model: resolveGroqModel(),
     })
   } catch (err) {
     console.error('Tip provider failed:', err.message)
 
     const dbTip = await getRandomTipFromDB()
-    const finalTip = dbTip || STATIC_FALLBACK[Math.floor(Math.random() * STATIC_FALLBACK.length)]
+    const finalTip =
+      dbTip ||
+      STATIC_FALLBACK[Math.floor(Math.random() * STATIC_FALLBACK.length)]
 
     return res.json({
       tip: finalTip,
       source: dbTip ? 'db' : 'static',
       error: err.message,
-      model: resolveGroqModel()
+      model: resolveGroqModel(),
     })
   }
 })
@@ -142,11 +158,13 @@ Não use formatação especial, apenas texto.
 router.get('/random', async (_req, res) => {
   try {
     const tip = await getRandomTipFromDB()
-    const finalTip = tip || STATIC_FALLBACK[Math.floor(Math.random() * STATIC_FALLBACK.length)]
+    const finalTip =
+      tip || STATIC_FALLBACK[Math.floor(Math.random() * STATIC_FALLBACK.length)]
     res.json({ tip: finalTip, source: tip ? 'db' : 'static' })
   } catch (err) {
     console.error('Erro ao obter dica aleatória:', err.message)
-    const finalTip = STATIC_FALLBACK[Math.floor(Math.random() * STATIC_FALLBACK.length)]
+    const finalTip =
+      STATIC_FALLBACK[Math.floor(Math.random() * STATIC_FALLBACK.length)]
     res.json({ tip: finalTip, source: 'static' })
   }
 })
@@ -159,7 +177,7 @@ router.get('/models', async (_req, res) => {
       return res.status(200).json({ models: [], warn: 'GROQ_API_KEY ausente' })
     }
     const resp = await fetchFn('https://api.groq.com/openai/v1/models', {
-      headers: { 'Authorization': `Bearer ${key}` }
+      headers: { Authorization: `Bearer ${key}` },
     })
     const data = await resp.json().catch(() => ({}))
     res.status(resp.ok ? 200 : 500).json(data)

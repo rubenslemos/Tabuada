@@ -1,29 +1,28 @@
 const mongoose = require('mongoose')
 const express = require('express')
 const app = express()
-const path = require("path")
+const path = require('path')
 const bodyParser = require('body-parser')
-<<<<<<< HEAD:main.js
 const cookieParser = require('cookie-parser')
 const exphbs = require('express-handlebars')
-const webAuth = require('./middlewares/authenticator')
-=======
 const cors = require('cors')
->>>>>>> d3a027c (tabuada reaCT):server.js
+const webAuth = require('./middlewares/authenticator')
 require('dotenv').config()
+
 const user = process.env.DB_USER
 const pass = process.env.DB_PASS
 const port = process.env.PORT || 3000
+const dbName = process.env.DB_NAME || 'tabuada'
+const mongoUriFromEnv = process.env.MONGODB_URI
 
-<<<<<<< HEAD:main.js
-// Verificar se as variáveis de ambiente estão definidas
 if (!user || !pass) {
-  console.error('Erro: Variáveis de ambiente DB_USER e DB_PASS são obrigatórias')
+  console.error(
+    'Erro: Variaveis de ambiente DB_USER e DB_PASS sao obrigatorias'
+  )
   console.error('Crie um arquivo .env baseado no .env.example')
   process.exit(1)
 }
 
-// Configurar express-handlebars
 const hbs = exphbs.create({
   layoutsDir: path.join(__dirname, 'views/layouts'),
   partialsDir: path.join(__dirname, 'views/partials'),
@@ -31,34 +30,46 @@ const hbs = exphbs.create({
   extname: '.handlebars',
   helpers: {
     eq: (a, b) => a === b,
-    or: (...args) => args.slice(0, -1).some(arg => arg)
+    or: (...args) => args.slice(0, -1).some((arg) => arg),
   },
   runtimeOptions: {
     allowProtoPropertiesByDefault: true,
     allowProtoMethodsByDefault: true,
-  }
-=======
-app.use(cors())
-app.use(express.static(__dirname + "/assets"))
-app.use(bodyParser.json())
-app.get('/', (req, res) =>{
-  res.sendFile(path.join(__dirname + "/assets/index.html"))
->>>>>>> d3a027c (tabuada reaCT):server.js
+  },
 })
 
 app.engine('handlebars', hbs.engine)
 app.set('view engine', 'handlebars')
 app.set('views', path.join(__dirname, 'views'))
 
-// Rotas de páginas (antes dos middlewares estáticos)
-app.get('/', (req, res) => {
-  // Sempre redirecionar para login diretamente
-  res.redirect('/login')
-})
+const allowedOrigins = [
+  'http://localhost:8081',
+  'http://127.0.0.1:8081',
+  'http://localhost:19006',
+  'http://127.0.0.1:19006',
+  'http://192.168.0.153:8081',
+  'http://192.168.0.153:19006',
+]
 
-app.use(express.static(__dirname + "/assets"))
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) return callback(null, true)
+      return callback(new Error('Not allowed by CORS'))
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+)
+app.options(/.*/, cors())
+app.use(express.static(__dirname + '/assets'))
 app.use(cookieParser())
 app.use(bodyParser.json())
+
+app.get('/', (req, res) => {
+  res.redirect('/login')
+})
 
 app.get('/login', (req, res) => {
   res.render('login', { title: 'Login - Tabuada' })
@@ -76,39 +87,24 @@ app.get('/reset-password', (req, res) => {
   res.render('reset-password', { title: 'Alterar Senha - Tabuada' })
 })
 
-app.get('/tabuada', webAuth, (req, res) => {res.render('tabuada', { title: 'Tabuada'})
+app.get('/tabuada', webAuth, (req, res) => {
+  res.render('tabuada', { title: 'Tabuada' })
 })
 
-app.get('/performance', webAuth, (req, res) => {res.render('performance', { title: 'Desempenho - Tabuada'})
+app.get('/performance', webAuth, (req, res) => {
+  res.render('performance', { title: 'Desempenho - Tabuada' })
 })
 
 app.get('/acessos', webAuth, (req, res) => {
-  res.render('acessos', { title: 'Permissões - Tabuada'})
+  res.render('acessos', { title: 'Permissoes - Tabuada' })
 })
 
 app.get('/logout', (req, res) => {
-  // O logout será feito no frontend limpando o localStorage
   res.render('login', { title: 'Login - Tabuada' })
 })
+
 const tipsRouter = require('./routes/tips')
 app.use('/tips', tipsRouter)
-mongoose.connect(
-  `mongodb+srv://${user}:${pass}@tabuada.hz6j8rr.mongodb.net`,
-  {
-    serverApi: {
-      version: '1',
-      strict: true,
-      deprecationErrors: true,
-    }
-  }
-).then(()=>{
-  app.listen(port)
-  console.log('Conectado ao MongoDB Atlas')
-}).catch((err) => {
-  console.error('Erro ao conectar ao MongoDB:', err.message)
-  console.error('Verifique suas credenciais (DB_USER e DB_PASS) no arquivo .env')
-  process.exit(1)
-})
 
 const userRoutes = require('./routes/createUser')
 app.use('/auth/register', userRoutes)
@@ -120,16 +116,43 @@ const round = require('./routes/round')
 app.use('/round', round)
 
 const acessos = require('./routes/permissoes')
-const console = require('console')
 app.use('/acessos', acessos)
+
 if (!process.env.GROQ_API_KEY) {
   console.warn(
-    'GROQ_API_KEY não definida. As dicas usarão fallback do banco ou estático.\n' +
-    'Defina GROQ_API_KEY em seu ambiente ou no arquivo .env para habilitar a geração por IA (Groq).'
+    'GROQ_API_KEY nao definida. As dicas usarao fallback do banco ou estatico.\n' +
+      'Defina GROQ_API_KEY em seu ambiente ou no arquivo .env para habilitar a geracao por IA (Groq).'
   )
-  process.env.GROQ_API_KEY
 }
+
 if (!process.env.GROQ_MODEL) {
-  console.warn('GROQ_MODEL não definida. Usando modelo padrão "llama-3.3-70b-versatile".')
+  console.warn(
+    'GROQ_MODEL nao definida. Usando modelo padrao "llama-3.3-70b-versatile".'
+  )
   process.env.GROQ_MODEL = 'llama-3.3-70b-versatile'
 }
+
+const mongoUri =
+  mongoUriFromEnv ||
+  `mongodb+srv://${encodeURIComponent(user)}:${encodeURIComponent(pass)}` +
+    `@tabuada.hz6j8rr.mongodb.net/${dbName}?retryWrites=true&w=majority&authSource=admin&appName=TabuadaMobile`
+
+mongoose
+  .connect(mongoUri, {
+    serverApi: {
+      version: '1',
+      strict: true,
+      deprecationErrors: true,
+    },
+  })
+  .then(() => {
+    app.listen(port)
+    console.log('Conectado ao MongoDB Atlas')
+  })
+  .catch((err) => {
+    console.error('Erro ao conectar ao MongoDB:', err.message)
+    console.error(
+      'Verifique suas credenciais (DB_USER e DB_PASS) no arquivo .env'
+    )
+    process.exit(1)
+  })

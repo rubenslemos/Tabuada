@@ -1,19 +1,19 @@
 const mongoose = require('mongoose')
 
 const RoundSchema = new mongoose.Schema({
-  jogou:{
-    type: Number,
-    require: true,
-  },  
-  acerto:{
+  jogou: {
     type: Number,
     require: true,
   },
-  errou:{
+  acerto: {
     type: Number,
     require: true,
   },
-  user:{
+  errou: {
+    type: Number,
+    require: true,
+  },
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     require: true,
@@ -23,8 +23,8 @@ const RoundSchema = new mongoose.Schema({
     ref: 'Contagem',
   },
   createdAt: {
-    type:Date,
-    default:Date.now,
+    type: Date,
+    default: Date.now,
   },
 })
 

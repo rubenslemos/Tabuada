@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', ()=>{
+document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('formLogin')
   const confirmLogin = document.getElementById('confirmLogin')
   const registrar = document.getElementById('registrar')
@@ -14,33 +14,36 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   li.setAttribute('class', 'menu')
   li.setAttribute('id', 'controle')
-  li.setAttribute('style',"animation: 0.3s ease 0.7s 1 normal forwards running navLinkFade")
+  li.setAttribute(
+    'style',
+    'animation: 0.3s ease 0.7s 1 normal forwards running navLinkFade'
+  )
   permissao.setAttribute('href', '#')
   permissao.setAttribute('id', 'permissao')
   permissao.innerText = 'Permissão'
   li.appendChild(permissao)
 
-  permissao.addEventListener('click', (e)=>{
+  permissao.addEventListener('click', (e) => {
     e.preventDefault()
     listarUsers()
     gerirAcessos.showModal()
-  })  
+  })
   async function limparLocalStorage() {
     const token = localStorage.getItem('token')
     if (!token) {
-      localStorage.clear();
-      localStorage.removeItem('userId');
+      localStorage.clear()
+      localStorage.removeItem('userId')
     }
   }
 
-  limparLocalStorage();
+  limparLocalStorage()
 
-  async function fazerLogin (e) {
+  async function fazerLogin(e) {
     if (form) {
       e.preventDefault()
       const formData = new FormData(form)
-      const email = formData.get('email');
-      const password = formData.get('password');
+      const email = formData.get('email')
+      const password = formData.get('password')
       const loginError = document.createElement('small')
       const menuSoma = document.getElementById('menu-soma')
       const menuMenos = document.getElementById('menu-menos')
@@ -55,31 +58,32 @@ document.addEventListener('DOMContentLoaded', ()=>{
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ email, password }),
-        });
+        })
         if (response.status === 200) {
-          const { user, token, totalJogos, totalAcertos, totalErros } = await response.json()
+          const { user, token, totalJogos, totalAcertos, totalErros } =
+            await response.json()
 
-          localStorage.setItem('token', token);
-          localStorage.setItem('userId', user._id);
+          localStorage.setItem('token', token)
+          localStorage.setItem('userId', user._id)
           localStorage.setItem('tipoUsuario', user.tipo)
-          localStorage.setItem('turma', user.turma);
+          localStorage.setItem('turma', user.turma)
 
-          await new Promise(resolve => setTimeout(resolve, 1000));
+          await new Promise((resolve) => setTimeout(resolve, 1000))
 
-          localStorage.setItem('totalJogos', totalJogos);
-          localStorage.setItem('totalAcertos', totalAcertos);
-          localStorage.setItem('totalErros', totalErros);
+          localStorage.setItem('totalJogos', totalJogos)
+          localStorage.setItem('totalAcertos', totalAcertos)
+          localStorage.setItem('totalErros', totalErros)
 
           criaPremios()
 
-          const resAuth = await fetch ('/auth/login/token',{
+          const resAuth = await fetch('/auth/login/token', {
             method: 'POST',
-            headers:{
+            headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
+              Authorization: `Bearer ${token}`,
             },
           })
-          
+
           if (resAuth.status === 200) {
             // Redirecionar para a página de tabuada
             if (user.tipo === 'Professor' || user.tipo === 'Coordenador') {
@@ -92,13 +96,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
             window.location.href = '/tabuada'
           }
         } else {
-          const errorExistente = form.querySelector('.erroLogin');
-          if (errorExistente) errorExistente.remove();
+          const errorExistente = form.querySelector('.erroLogin')
+          if (errorExistente) errorExistente.remove()
           loginError.innerText = 'E-mail e/ou senha Errados, tente novamente'
           form.insertBefore(loginError, esqueceu)
         }
       } catch (error) {
-        console.error('Erro ao enviar os dados do formulário', error);
+        console.error('Erro ao enviar os dados do formulário', error)
       }
     }
   }
@@ -107,55 +111,55 @@ document.addEventListener('DOMContentLoaded', ()=>{
     confirmLogin.addEventListener('click', fazerLogin)
   }
   if (senha) {
-    senha.addEventListener('keypress', (e)=>{
-      if(e.key ==='Enter') fazerLogin(e)
+    senha.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') fazerLogin(e)
     })
   }
   if (esqueceu) {
-    esqueceu.addEventListener('click', (e)=>{
+    esqueceu.addEventListener('click', (e) => {
       e.preventDefault()
       window.location.href = '/forgot-password'
     })
   }
- async function verificarEmail (e) {
-  e.preventDefault()
-  const formData = new FormData(formVerificar)
-  const email = formData.get('emailCheck');
-  try {
-    const response = await fetch('/auth/login/forgot_password', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email }),
-    });
-    response.statusCode
-    if (response.status === 200) {
-      const data = await response.json()
-      tokenSenha.value = data.token
-      recuperar.classList.remove('fechado')
-      recuperar.classList.add('aberto')
-      trocar.close()
-      recuperar.showModal()
-    } else {
-      alert('Erro ao enviar e-mail')
-      console.error('Erro ao enviar e-mail')
+  async function verificarEmail(e) {
+    e.preventDefault()
+    const formData = new FormData(formVerificar)
+    const email = formData.get('emailCheck')
+    try {
+      const response = await fetch('/auth/login/forgot_password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      })
+      response.statusCode
+      if (response.status === 200) {
+        const data = await response.json()
+        tokenSenha.value = data.token
+        recuperar.classList.remove('fechado')
+        recuperar.classList.add('aberto')
+        trocar.close()
+        recuperar.showModal()
+      } else {
+        alert('Erro ao enviar e-mail')
+        console.error('Erro ao enviar e-mail')
+      }
+    } catch (error) {
+      console.error('Erro ao enviar os dados do formulário', error)
     }
-  } catch (error) {
-    console.error('Erro ao enviar os dados do formulário', error);
   }
- }
-verificar.addEventListener('click', verificarEmail)
-email.addEventListener('keypress', (e)=>{
-  if(e.key === 'Enter') verificarEmail(e)
-})
-async function alterarSenha (e) {
-  e.preventDefault()
-  const formData = new FormData(formAlterar)
-  const email = formData.get('emailAlterar')
-  const token = formData.get('token')
-  const password = formData.get('passwordAlterar')
-  const confirmPass = formData.get('ConfirmPasswordAlterar')
+  verificar.addEventListener('click', verificarEmail)
+  email.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') verificarEmail(e)
+  })
+  async function alterarSenha(e) {
+    e.preventDefault()
+    const formData = new FormData(formAlterar)
+    const email = formData.get('emailAlterar')
+    const token = formData.get('token')
+    const password = formData.get('passwordAlterar')
+    const confirmPass = formData.get('ConfirmPasswordAlterar')
 
     try {
       const response = await fetch('/auth/login/reset_password', {
@@ -164,16 +168,16 @@ async function alterarSenha (e) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, token, password, confirmPass }),
-      });
+      })
       const data = await response.json()
       const mensagem = data.Msg
       if (response.status === 200) {
         mostrarMsgSucesso(mensagem)
-      }else {
+      } else {
         mostrarMsgErro(mensagem)
       }
     } catch (error) {
-      console.error('Erro ao enviar os dados do formulário', error);
+      console.error('Erro ao enviar os dados do formulário', error)
     }
   }
   function mostrarMsgSucesso(mensagem) {
@@ -182,128 +186,133 @@ async function alterarSenha (e) {
     mensagemSucesso.innerHTML = mensagem
     formAlterar.insertBefore(mensagemSucesso, erroSenha)
     setTimeout(() => {
-      mensagemSucesso.remove();
+      mensagemSucesso.remove()
       recuperar.close()
-    }, 5000);
+    }, 5000)
   }
-  
+
   function mostrarMsgErro(mensagem) {
     const mensagemErro = document.createElement('small')
     mensagemErro.classList.add('senhaError')
     mensagemErro.innerHTML = mensagem
     formAlterar.insertBefore(mensagemErro, erroSenha)
-    setTimeout(()=>{
+    setTimeout(() => {
       mensagemErro.remove()
-    },5000)
+    }, 5000)
   }
 
-alterar.addEventListener('click', alterarSenha)
-confirmAlterar.addEventListener('keypress', (e)=>{
-  if(e.key === 'Enter') alterarSenha(e)
-})
-async function listarUsers() { 
-  const token = localStorage.getItem('token'); // Obtém o token armazenado
-  const turma = localStorage.getItem('turma'); 
-  const alunosSelect = document.getElementById('alunos'); 
-  
-  // Verifique se o elemento existe
-  if (!alunosSelect) { 
-    console.error('Elemento alunosSelect não encontrado no DOM'); 
-    return; 
-  } 
+  alterar.addEventListener('click', alterarSenha)
+  confirmAlterar.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') alterarSenha(e)
+  })
+  async function listarUsers() {
+    const token = localStorage.getItem('token') // Obtém o token armazenado
+    const turma = localStorage.getItem('turma')
+    const alunosSelect = document.getElementById('alunos')
 
-  try { 
-    const response = await fetch('/auth/register', { 
-      method: 'GET', 
-      headers: { 
-        'Content-Type': 'application/json', 
-        'Authorization': `Bearer ${token}`, // Inclui o token no cabeçalho 
-      }, 
-    });
+    // Verifique se o elemento existe
+    if (!alunosSelect) {
+      console.error('Elemento alunosSelect não encontrado no DOM')
+      return
+    }
 
-    if (response.ok) { 
-      const alunos = await response.json(); 
-      // Limpa as opções anteriores para evitar duplicação
-      alunosSelect.innerHTML = '';
+    try {
+      const response = await fetch('/auth/register', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Inclui o token no cabeçalho
+        },
+      })
 
-      const alunosDaMesmaTurma = alunos.filter(aluno => aluno.tipo === 'Aluno' && aluno.turma === turma);
-      // **Adicionado: Adiciona uma opção placeholder**
-      const placeholderOption = document.createElement('option');
-      placeholderOption.value = '';
-      placeholderOption.disabled = true;
-      placeholderOption.selected = true;
-      placeholderOption.text = 'Selecione um aluno';
-      alunosSelect.appendChild(placeholderOption);
+      if (response.ok) {
+        const alunos = await response.json()
+        // Limpa as opções anteriores para evitar duplicação
+        alunosSelect.innerHTML = ''
 
-      // Verifica se existem alunos na turma
-      if (alunosDaMesmaTurma.length > 0) {
-      // Adiciona as opções dos alunos no select
-        alunosDaMesmaTurma.forEach(aluno => { 
-          const option = document.createElement('option'); 
-          option.value = aluno._id; 
-          option.text = aluno.name; 
-          alunosSelect.appendChild(option); 
-        });
-      } else {
-          console.warn('Nenhum aluno encontrado para a turma especificada.');
+        const alunosDaMesmaTurma = alunos.filter(
+          (aluno) => aluno.tipo === 'Aluno' && aluno.turma === turma
+        )
+        // **Adicionado: Adiciona uma opção placeholder**
+        const placeholderOption = document.createElement('option')
+        placeholderOption.value = ''
+        placeholderOption.disabled = true
+        placeholderOption.selected = true
+        placeholderOption.text = 'Selecione um aluno'
+        alunosSelect.appendChild(placeholderOption)
+
+        // Verifica se existem alunos na turma
+        if (alunosDaMesmaTurma.length > 0) {
+          // Adiciona as opções dos alunos no select
+          alunosDaMesmaTurma.forEach((aluno) => {
+            const option = document.createElement('option')
+            option.value = aluno._id
+            option.text = aluno.name
+            alunosSelect.appendChild(option)
+          })
+        } else {
+          console.warn('Nenhum aluno encontrado para a turma especificada.')
         }
-    } else { 
-      // Tente obter a mensagem de erro do backend
-      const errorData = await response.json(); 
-      console.error('Erro ao obter a lista de alunos:', errorData.error || response.statusText); 
-      alert(errorData.error || 'Erro ao obter a lista de alunos'); 
-    } 
-  } catch (error) { 
-    console.error('Erro ao enviar solicitação:', error); 
-    alert('Erro ao enviar solicitação para listar alunos'); 
-  } 
-}
-const permitir = document.getElementById('formPermissoes')
-  permitir.addEventListener('submit', async function acesso (e) {
-    e.preventDefault();
-   
-    const alunoId = document.getElementById('alunos').value;
+      } else {
+        // Tente obter a mensagem de erro do backend
+        const errorData = await response.json()
+        console.error(
+          'Erro ao obter a lista de alunos:',
+          errorData.error || response.statusText
+        )
+        alert(errorData.error || 'Erro ao obter a lista de alunos')
+      }
+    } catch (error) {
+      console.error('Erro ao enviar solicitação:', error)
+      alert('Erro ao enviar solicitação para listar alunos')
+    }
+  }
+  const permitir = document.getElementById('formPermissoes')
+  permitir.addEventListener('submit', async function acesso(e) {
+    e.preventDefault()
+
+    const alunoId = document.getElementById('alunos').value
     const soma = document.getElementById('somaAcesso').checked || false
     const menos = document.getElementById('menosAcesso').checked || false
     const vezes = document.getElementById('vezesAcesso').checked || false
     const dividir = document.getElementById('dividirAcesso').checked || false
     const todas = document.getElementById('todasAcesso').checked || false
-  
-    const tipoUsuario = localStorage.getItem('tipoUsuario');
-    
-    const acessos = { soma, menos, vezes, dividir, todas };
-  
+
+    const tipoUsuario = localStorage.getItem('tipoUsuario')
+
+    const acessos = { soma, menos, vezes, dividir, todas }
+
     try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            console.error('Token de autenticação não encontrado.');
-            return;
-        }
-  
-        const response = await fetch('/acessos', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`, // Adicione o token de autorização, se necessário
-            },
-            body: JSON.stringify({ alunoId, tipoUsuario, acessos }),
-        });
-  
-        // Processar a resposta do servidor, se necessário
-        if (response.status === 200) {
-            gerirAcessos.close()
-            console.log('Permissões concedidas com sucesso');
-        } else {
-            const data = await response.json();
-            console.error('Erro ao conceder permissões:', data.message);
-        }
+      const token = localStorage.getItem('token')
+      if (!token) {
+        console.error('Token de autenticação não encontrado.')
+        return
+      }
+
+      const response = await fetch('/acessos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Adicione o token de autorização, se necessário
+        },
+        body: JSON.stringify({ alunoId, tipoUsuario, acessos }),
+      })
+
+      // Processar a resposta do servidor, se necessário
+      if (response.status === 200) {
+        gerirAcessos.close()
+        console.log('Permissões concedidas com sucesso')
+      } else {
+        const data = await response.json()
+        console.error('Erro ao conceder permissões:', data.message)
+      }
     } catch (error) {
-        console.error('Erro ao enviar solicitação:', error);
+      console.error('Erro ao enviar solicitação:', error)
     }
   })
 
   const fechar = document.getElementById('fecharAcessos')
-  fechar.addEventListener('click', ()=>{
+  fechar.addEventListener('click', () => {
     gerirAcessos.close()
   })
 })

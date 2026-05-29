@@ -8,73 +8,71 @@ const mailer = require('../modules/mailer')
 require('dotenv').config()
 const hash = process.env.SECRET
 
-function generateToken(params = { }){
+function generateToken(params = {}) {
   return jwt.sign(params, hash, {
-    expiresIn:86400,
+    expiresIn: 86400,
   })
 }
-router.post('/', async (req,res)=>{
-  const {email, password} = req.body
-  console.log('Tentativa de login:', {email, password})
-  if(!email){
-    return res.status(422).json({Msg: 'E-mail requerido'})
+router.post('/', async (req, res) => {
+  const { email, password } = req.body
+  if (!email) {
+    return res.status(422).json({ Msg: 'E-mail requerido' })
   }
-  if(!password){
-    return res.status(422).json({Msg: 'Senha requerida'})
+  if (!password) {
+    return res.status(422).json({ Msg: 'Senha requerida' })
   }
-  const user = await User.findOne({email: email.toLowerCase().trim()}).select('+password')
-  console.log('Usuário encontrado:', user ? 'Sim' : 'Não')
-  if(!user){
-    return res.status(404).json({Msg: 'Usuário não cadastrado'})
+  const user = await User.findOne({ email: email.toLowerCase().trim() }).select(
+    '+password'
+  )
+  if (!user) {
+    return res.status(404).json({ Msg: 'Usuário não cadastrado' })
   }
-  
+
   const isPasswordValid = await bcrypt.compare(password, user.password)
-  console.log('Senha válida:', isPasswordValid)
-  if(!isPasswordValid){
-    return res.status(422).json({Msg: 'Senha Inválida'})
+  if (!isPasswordValid) {
+    return res.status(422).json({ Msg: 'Senha Inválida' })
   }
-  let totalAcertos = user.totalAcertos || 0;
-  let totalJogos = user.totalJogos || 0;
-  let totalErros = user.totalErros || 0;
-  const token = generateToken({id:user.id})
+  let totalAcertos = user.totalAcertos || 0
+  let totalJogos = user.totalJogos || 0
+  let totalErros = user.totalErros || 0
+  const token = generateToken({ id: user.id })
   res.cookie('token', token).send({
     user,
     token,
     totalAcertos: totalAcertos,
     totalJogos: totalJogos,
-    totalErros: totalErros, 
+    totalErros: totalErros,
   })
 })
-router.post ('/token', auth, (req, res) => {
+router.post('/token', auth, (req, res) => {
   if (auth) {
-    res.status(200).json({ message: 'Operação bem-sucedida' });
+    res.status(200).json({ message: 'Operação bem-sucedida' })
   } else {
-    res.status(500).json({ error: 'Erro na operação' });
+    res.status(500).json({ error: 'Erro na operação' })
   }
 })
-router.post('/forgot_password', async (req, res)=>{
+router.post('/forgot_password', async (req, res) => {
   const { email } = req.body
-    if (!email) {
+  if (!email) {
     return res.status(400).json({ error: 'Email é obrigatório' })
   }
   try {
-    
-    const usuario = await User.findOne({email})
-    if(!usuario) 
-      return res.status(400).send({error:'Usuário não existe'})
+    const normalizedEmail = email.toLowerCase().trim()
+    const usuario = await User.findOne({ email: normalizedEmail })
+    if (!usuario) return res.status(400).send({ error: 'Usuário não existe' })
 
     const token = crypto.randomBytes(20).toString('hex')
 
     const now = new Date()
-    now.setHours(now.getHours()+1)
+    now.setHours(now.getHours() + 1)
 
     await User.findByIdAndUpdate(usuario.id, {
-      '$set':{
+      $set: {
         passwordResetToken: token,
         passwordResetExpires: now,
-      }
+      },
     })
-/*     await mailer.sendMail({
+    /*     await mailer.sendMail({
       to: email,
       from:'rubenslemos@gmail.com',
       template:'auth/forgot_password',
@@ -88,86 +86,94 @@ router.post('/forgot_password', async (req, res)=>{
     return res.status(400).send({error: 'Não foi possível recuperar sua senha, tente novamente'})
   }
 }) */
-try {
+    try {
       await mailer.sendMail({
-        to: email,
+        to: normalizedEmail,
         from: 'rubenslemos@gmail.com',
         template: 'auth/forgot_password',
         context: { token },
       })
-      
-      return res.status(200).json({ 
+
+      return res.status(200).json({
         token,
-        message: 'Email de recuperação enviado com sucesso' 
+        message: 'Email de recuperação enviado com sucesso',
       })
-      
     } catch (emailError) {
       console.error('Erro ao enviar email:', emailError)
-/*       return res.status(400).json({ 
-        error: 'Não foi possível enviar o email de recuperação, tente novamente' 
-      }) */
-      return res.status(400).send({Msg: 'Não foi possível enviar o email...'})
+      return res.status(200).json({
+        token,
+        message:
+          'Token gerado com sucesso. Não foi possível enviar o e-mail, prossiga com o token.',
+      })
     }
-    
   } catch (error) {
     console.error('Erro no forgot_password:', error)
-/*     return res.status(400).json({ 
+    /*     return res.status(400).json({ 
       error: 'Não foi possível recuperar sua senha, tente novamente' 
     }) */
-    return res.status(400).send({Msg: 'Erro no forgot_password: tente novamente'})
+    return res
+      .status(400)
+      .send({ Msg: 'Erro no forgot_password: tente novamente' })
   }
 })
 router.post('/reset_password', async (req, res) => {
   const { email, token, password, confirmPass } = req.body
 
   try {
-    const usuario = await User.findOne({email}).select('+ passwordResetToken passwordResetExpires password')
-    if(!usuario) 
-      return res.status(400).send({Msg:'Usuário não existe'})
+    const normalizedEmail = email.toLowerCase().trim()
+    const usuario = await User.findOne({ email: normalizedEmail }).select(
+      '+ passwordResetToken passwordResetExpires password'
+    )
+    if (!usuario) return res.status(400).send({ Msg: 'Usuário não existe' })
 
-    if(token !== usuario.passwordResetToken)
-      return res.status(400).send({Msg:'Token Inválido'})
-    if(!confirmPass)
-      return res.status(422).json({Msg: 'Confirmação de senha requerida'})
-    
-    if(password !== confirmPass)
-      return res.status(422).json({Msg: 'Confirmação de senha e Senha diferentes'})
+    if (token !== usuario.passwordResetToken)
+      return res.status(400).send({ Msg: 'Token Inválido' })
+    if (!confirmPass)
+      return res.status(422).json({ Msg: 'Confirmação de senha requerida' })
+
+    if (password !== confirmPass)
+      return res
+        .status(422)
+        .json({ Msg: 'Confirmação de senha e Senha diferentes' })
 
     const now = new Date()
-    if(now >= usuario.passwordResetExpires)
-      return res.status(400).send({Msg:'Token Expirou, favor gerar um novo'})
+    if (now >= usuario.passwordResetExpires)
+      return res.status(400).send({ Msg: 'Token Expirou, favor gerar um novo' })
 
-    const regex = /^(?=.*[@!#$%^&*()/\\])(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[@!#$%^&*()/\\a-zA-Z0-9]{8,20}$/
-    if (!regex.test(password)){
-      return res.status(422).json({Msg: 'Senha não segue as condições estabelecidas'})
+    const regex =
+      /^(?=.*[@!#$%^&*()/\\])(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[@!#$%^&*()/\\a-zA-Z0-9]{8,20}$/
+    if (!regex.test(password)) {
+      return res
+        .status(422)
+        .json({ Msg: 'Senha não segue as condições estabelecidas' })
     }
     let compararSenha = await bcrypt.compare(password, usuario.password)
-    if(compararSenha){
-      return res.status(422).json({Msg: 'Senha já usada anteriormente'})
+    if (compararSenha) {
+      return res.status(422).json({ Msg: 'Senha já usada anteriormente' })
     }
     usuario.password = password
 
     await usuario.save()
-    res.status(200).send({Msg: 'Senha alterada'})
-    
+    res.status(200).send({ Msg: 'Senha alterada' })
   } catch (error) {
-    
-    return res.status(400).send({Msg: 'Não foi possível recuperar sua senha, tente novamente'})
+    return res
+      .status(400)
+      .send({ Msg: 'Não foi possível recuperar sua senha, tente novamente' })
   }
 })
-router.get('/:id', async (req,res)=>{
-  try{
+router.get('/:id', async (req, res) => {
+  try {
     const user = await User.findById(req.params.id).populate({
       path: 'rounds',
       populate: {
         path: 'contagemOperacoes',
-        model: 'Contagem'
-      }
+        model: 'Contagem',
+      },
     })
-    if(!user) return res.status(400).send({error: 'Usuario não encontrado'})
-    res.status(200).send({user})
+    if (!user) return res.status(400).send({ error: 'Usuario não encontrado' })
+    res.status(200).send({ user })
   } catch (error) {
-    return res.status(400).send({error: 'Erro ao listar usuario'})
+    return res.status(400).send({ error: 'Erro ao listar usuario' })
   }
 })
 module.exports = router
