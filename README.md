@@ -94,3 +94,25 @@ Aplicativo mobile em React Native (Expo) com backend Node.js/Express.
 - `android.versionCode`: `1`
 
 Se quiser trocar o `android.package`, faça isso antes da primeira publicação.
+
+## APK e Backend (Network Error)
+
+O APK nao leva o backend Node.js junto. O backend precisa estar online e acessivel.
+
+### Build APK para testes com backend local (HTTP/LAN)
+
+Use o profile `preview` e informe a URL da API no build:
+
+`API_BASE_URL=http://SEU_IP_DA_REDE:3000 npx eas-cli build --platform android --profile preview`
+
+Exemplo:
+
+`API_BASE_URL=http://192.168.0.153:3000 npx eas-cli build --platform android --profile preview`
+
+### Build de producao (Play Store)
+
+Use backend publico com HTTPS:
+
+`API_BASE_URL=https://sua-api.com npx eas-cli build --platform android --profile production`
+
+Sem backend online, o app sempre vai retornar `Network Error`.

@@ -36,6 +36,7 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "expo": "~56.0.6",
+    "expo-build-properties": "~56.0.15",
     "expo-font": "~56.0.5",
     "expo-splash-screen": "~56.0.10",
     "expo-status-bar": "~56.0.4",
