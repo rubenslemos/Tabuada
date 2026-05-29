@@ -116,3 +116,26 @@ Use backend publico com HTTPS:
 `API_BASE_URL=https://sua-api.com npx eas-cli build --platform android --profile production`
 
 Sem backend online, o app sempre vai retornar `Network Error`.
+
+## Deploy robusto do backend (Render)
+
+### 1. Publicar no Render
+
+1. Envie este repositorio para o GitHub.
+2. No Render, crie um novo `Web Service` conectando o repositorio.
+3. Use as configuracoes:
+   - Build Command: `npm install --omit=dev`
+   - Start Command: `node server.js`
+4. Defina variaveis de ambiente:
+   - `MONGODB_URI` (recomendado)
+   - `SECRET`
+   - `CORS_ORIGINS` (ex.: `https://tabuada.seudominio.com,http://localhost:19006`)
+   - opcionais: `GROQ_API_KEY`, `GROQ_MODEL`
+5. Deploy e teste:
+   - `https://SEU_BACKEND.onrender.com/health` deve retornar `{\"status\":\"ok\"}`.
+
+### 2. Gerar APK apontando para backend HTTPS
+
+Depois do backend online:
+
+`API_BASE_URL=https://SEU_BACKEND.onrender.com npx eas-cli build --platform android --profile preview`

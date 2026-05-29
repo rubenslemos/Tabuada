@@ -15,10 +15,8 @@ const port = process.env.PORT || 3000
 const dbName = process.env.DB_NAME || 'tabuada'
 const mongoUriFromEnv = process.env.MONGODB_URI
 
-if (!user || !pass) {
-  console.error(
-    'Erro: Variaveis de ambiente DB_USER e DB_PASS sao obrigatorias'
-  )
+if (!mongoUriFromEnv && (!user || !pass)) {
+  console.error('Erro: configure MONGODB_URI ou as variaveis DB_USER/DB_PASS.')
   console.error('Crie um arquivo .env baseado no .env.example')
   process.exit(1)
 }
@@ -42,7 +40,7 @@ app.engine('handlebars', hbs.engine)
 app.set('view engine', 'handlebars')
 app.set('views', path.join(__dirname, 'views'))
 
-const allowedOrigins = [
+const defaultAllowedOrigins = [
   'http://localhost:8081',
   'http://127.0.0.1:8081',
   'http://localhost:19006',
@@ -50,11 +48,23 @@ const allowedOrigins = [
   'http://192.168.0.153:8081',
   'http://192.168.0.153:19006',
 ]
+const envAllowedOrigins = (process.env.CORS_ORIGINS || '')
+  .split(',')
+  .map((value) => value.trim())
+  .filter(Boolean)
+const allowedOrigins =
+  envAllowedOrigins.length > 0 ? envAllowedOrigins : defaultAllowedOrigins
 
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) return callback(null, true)
+      if (
+        !origin ||
+        allowedOrigins.includes('*') ||
+        allowedOrigins.includes(origin)
+      ) {
+        return callback(null, true)
+      }
       return callback(new Error('Not allowed by CORS'))
     },
     credentials: true,
@@ -69,6 +79,10 @@ app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
   res.redirect('/login')
+})
+
+app.get('/health', (_req, res) => {
+  res.status(200).json({ status: 'ok' })
 })
 
 app.get('/login', (req, res) => {
@@ -148,11 +162,12 @@ mongoose
   .then(() => {
     app.listen(port)
     console.log('Conectado ao MongoDB Atlas')
+    console.log(`Backend ativo na porta ${port}`)
   })
   .catch((err) => {
     console.error('Erro ao conectar ao MongoDB:', err.message)
     console.error(
-      'Verifique suas credenciais (DB_USER e DB_PASS) no arquivo .env'
+      'Verifique MONGODB_URI ou credenciais DB_USER/DB_PASS no arquivo .env'
     )
     process.exit(1)
   })
