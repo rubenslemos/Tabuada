@@ -36,6 +36,6 @@ module.exports = ({ config }) => ({
     },
     API_BASE_URL:
       process.env.API_BASE_URL ||
-      'https://tabuada.duckdns.org',
+      'http://tabuada.duckdns.org:3000',
   },
 })
