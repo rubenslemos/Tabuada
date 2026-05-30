@@ -139,3 +139,27 @@ Sem backend online, o app sempre vai retornar `Network Error`.
 Depois do backend online:
 
 `API_BASE_URL=https://SEU_BACKEND.onrender.com npx eas-cli build --platform android --profile preview`
+
+## Deploy robusto do backend (Vercel)
+
+### 1. Estrutura pronta no projeto
+
+- Entrada serverless: `api/index.js`
+- Config Vercel: `vercel.json`
+- Backend Express: `server.js` com conexao Mongo reutilizavel
+
+### 2. Publicar na Vercel
+
+1. Conecte o repositorio no painel da Vercel.
+2. Em `Settings > Environment Variables`, configure:
+   - `MONGODB_URI`
+   - `SECRET`
+   - `CORS_ORIGINS` (para demo, pode usar `*`)
+   - opcionais: `GROQ_API_KEY`, `GROQ_MODEL`
+3. Faça deploy da branch principal.
+4. Valide:
+   - `https://SEU-PROJETO.vercel.app/health` deve retornar `{"status":"ok"}`.
+
+### 3. Gerar APK com backend HTTPS da Vercel
+
+`API_BASE_URL=https://SEU-PROJETO.vercel.app npx eas-cli build --platform android --profile preview`

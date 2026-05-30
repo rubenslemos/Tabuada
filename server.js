@@ -14,6 +14,7 @@ const pass = process.env.DB_PASS
 const port = process.env.PORT || 3000
 const dbName = process.env.DB_NAME || 'tabuada'
 const mongoUriFromEnv = process.env.MONGODB_URI
+let mongoConnectPromise = null
 
 if (!mongoUriFromEnv && (!user || !pass)) {
   console.error('Erro: configure MONGODB_URI ou as variaveis DB_USER/DB_PASS.')
@@ -151,23 +152,46 @@ const mongoUri =
   `mongodb+srv://${encodeURIComponent(user)}:${encodeURIComponent(pass)}` +
     `@tabuada.hz6j8rr.mongodb.net/${dbName}?retryWrites=true&w=majority&authSource=admin&appName=TabuadaMobile`
 
-mongoose
-  .connect(mongoUri, {
-    serverApi: {
-      version: '1',
-      strict: true,
-      deprecationErrors: true,
-    },
-  })
-  .then(() => {
-    app.listen(port)
-    console.log('Conectado ao MongoDB Atlas')
-    console.log(`Backend ativo na porta ${port}`)
-  })
-  .catch((err) => {
+function connectMongo() {
+  if (mongoose.connection.readyState === 1) return Promise.resolve()
+  if (mongoConnectPromise) return mongoConnectPromise
+
+  mongoConnectPromise = mongoose
+    .connect(mongoUri, {
+      serverApi: {
+        version: '1',
+        strict: true,
+        deprecationErrors: true,
+      },
+    })
+    .then(() => {
+      console.log('Conectado ao MongoDB Atlas')
+    })
+    .catch((err) => {
+      mongoConnectPromise = null
+      throw err
+    })
+
+  return mongoConnectPromise
+}
+
+async function startServer() {
+  try {
+    await connectMongo()
+    app.listen(port, () => {
+      console.log(`Backend ativo na porta ${port}`)
+    })
+  } catch (err) {
     console.error('Erro ao conectar ao MongoDB:', err.message)
     console.error(
       'Verifique MONGODB_URI ou credenciais DB_USER/DB_PASS no arquivo .env'
     )
     process.exit(1)
-  })
+  }
+}
+
+if (require.main === module) {
+  startServer()
+}
+
+module.exports = { app, connectMongo }
