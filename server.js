@@ -93,7 +93,12 @@ function safeRender(res, viewName, locals = {}) {
 }
 
 app.get('/', (req, res) => {
-  res.redirect('/login')
+  res.status(200).json({
+    status: 'ok',
+    service: 'tabuada-api',
+    health: '/health',
+    loginPage: '/login',
+  })
 })
 
 app.get('/health', (_req, res) => {
