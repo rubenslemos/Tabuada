@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "installCommand": "npm install --omit=dev",
+  "installCommand": "npm ci --omit=dev --no-audit --fund=false --loglevel=error",
   "functions": {
     "api/index.js": {
       "maxDuration": 30
