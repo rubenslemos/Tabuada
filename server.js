@@ -78,6 +78,20 @@ app.use(express.static(__dirname + '/assets'))
 app.use(cookieParser())
 app.use(bodyParser.json())
 
+function safeRender(res, viewName, locals = {}) {
+  return res.render(viewName, locals, (err, html) => {
+    if (err) {
+      console.error(`Falha ao renderizar view "${viewName}":`, err.message)
+      return res.status(200).json({
+        status: 'ok',
+        mode: 'api',
+        message: 'Backend online. Interface web indisponivel neste ambiente.',
+      })
+    }
+    return res.send(html)
+  })
+}
+
 app.get('/', (req, res) => {
   res.redirect('/login')
 })
@@ -87,35 +101,35 @@ app.get('/health', (_req, res) => {
 })
 
 app.get('/login', (req, res) => {
-  res.render('login', { title: 'Login - Tabuada' })
+  safeRender(res, 'login', { title: 'Login - Tabuada' })
 })
 
 app.get('/register', (req, res) => {
-  res.render('register', { title: 'Cadastro - Tabuada' })
+  safeRender(res, 'register', { title: 'Cadastro - Tabuada' })
 })
 
 app.get('/forgot-password', (req, res) => {
-  res.render('forgot-password', { title: 'Recuperar Senha - Tabuada' })
+  safeRender(res, 'forgot-password', { title: 'Recuperar Senha - Tabuada' })
 })
 
 app.get('/reset-password', (req, res) => {
-  res.render('reset-password', { title: 'Alterar Senha - Tabuada' })
+  safeRender(res, 'reset-password', { title: 'Alterar Senha - Tabuada' })
 })
 
 app.get('/tabuada', webAuth, (req, res) => {
-  res.render('tabuada', { title: 'Tabuada' })
+  safeRender(res, 'tabuada', { title: 'Tabuada' })
 })
 
 app.get('/performance', webAuth, (req, res) => {
-  res.render('performance', { title: 'Desempenho - Tabuada' })
+  safeRender(res, 'performance', { title: 'Desempenho - Tabuada' })
 })
 
 app.get('/acessos', webAuth, (req, res) => {
-  res.render('acessos', { title: 'Permissoes - Tabuada' })
+  safeRender(res, 'acessos', { title: 'Permissoes - Tabuada' })
 })
 
 app.get('/logout', (req, res) => {
-  res.render('login', { title: 'Login - Tabuada' })
+  safeRender(res, 'login', { title: 'Login - Tabuada' })
 })
 
 const tipsRouter = require('./routes/tips')
