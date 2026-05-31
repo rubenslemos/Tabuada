@@ -40,3 +40,4 @@ module.exports = ({ config }) => ({
       process.env.API_FALLBACK_BASE_URL || 'http://192.168.0.153:3000',
   },
 })
+//committed by: Rubens
