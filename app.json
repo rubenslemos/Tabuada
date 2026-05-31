@@ -22,8 +22,9 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "API_BASE_URL": "https://tabuada-omega-nine.vercel.app",
+      "API_BASE_URL": "https://tabuada-theta-nine.vercel.app",
       "API_FALLBACK_BASE_URL": "http://192.168.0.153:3000",
+      "ENABLE_LOCAL_FALLBACK": "false",
       "eas": {
         "projectId": "fe60bdec-dc9f-409a-8806-9d1ca979d5a5"
       }

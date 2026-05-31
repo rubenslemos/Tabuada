@@ -35,9 +35,10 @@ module.exports = ({ config }) => ({
       projectId: 'fe60bdec-dc9f-409a-8806-9d1ca979d5a5',
     },
     API_BASE_URL:
-      process.env.API_BASE_URL || 'https://tabuada-omega-nine.vercel.app',
+      process.env.API_BASE_URL || 'https://tabuada-theta-nine.vercel.app',
     API_FALLBACK_BASE_URL:
       process.env.API_FALLBACK_BASE_URL || 'http://192.168.0.153:3000',
+    ENABLE_LOCAL_FALLBACK: process.env.ENABLE_LOCAL_FALLBACK || 'false',
   },
 })
 //committed by: Rubens Lemos
