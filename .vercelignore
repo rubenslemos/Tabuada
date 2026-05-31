@@ -1,16 +1,19 @@
 # Arquivos do app mobile (Expo/React Native) nao sao necessarios no deploy do backend.
-App.js
-index.js
-screens/
-components/
-src/
-metro.config.js
-babel.config.js
-jest.ui.config.cjs
-tests/ui/
-tabuadaapp/
-assets/icon.png
-assets/adaptive-icon.png
-assets/adaptive-monochrome.png
-assets/splash-icon.png
+/App.js
+/index.js
+/screens/
+/components/
+/src/
+/metro.config.js
+/babel.config.js
+/jest.ui.config.cjs
+/tests/ui/
+/tabuadaapp/
+/assets/icon.png
+/assets/adaptive-icon.png
+/assets/adaptive-monochrome.png
+/assets/splash-icon.png
+
+# Garantir que a entrypoint da API sempre seja enviada para a Vercel.
+!/api/index.js
  
