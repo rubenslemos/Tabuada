@@ -1,5 +1,7 @@
 # TabuadaMobile
 
+> Vercel build trigger: 2026-05-31T00:00:00Z
+
 Aplicativo mobile em React Native (Expo) com backend Node.js/Express.
 
 ## Como executar
