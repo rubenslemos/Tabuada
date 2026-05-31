@@ -17,4 +17,4 @@ const API_BASE_URLS = Array.from(
 
 export default API_BASE_URL
 export { API_FALLBACK_BASE_URL, API_BASE_URLS }
-//committed by: Rubens
+//committed by: Rubens lemos
