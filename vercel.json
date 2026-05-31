@@ -1,16 +1,10 @@
 {
   "version": 2,
   "installCommand": "npm install --omit=dev",
-  "builds": [
-    {
-      "src": "api/index.js",
-      "use": "@vercel/node"
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 30
     }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/api/index.js"
-    }
-  ]
+  },
+  "rewrites": [{ "source": "/(.*)", "destination": "/api/index.js" }]
 }
