@@ -39,3 +39,6 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# nested repo used only for reference
+/tabuadaapp/
