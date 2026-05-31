@@ -12,8 +12,7 @@ import {
 } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import API_BASE_URL from '../config/api'
-import { setAuthToken } from '../config/apiClient'
+import apiClient, { setAuthToken } from '../config/apiClient'
 import { COLORS, FONTS } from '../src/theme'
 import ChalkPanel from './ChalkPanel'
 
@@ -100,8 +99,8 @@ export default function Header({ onSelectOperation }) {
 
   const fetchTip = async () => {
     try {
-      const resp = await fetch(`${API_BASE_URL}/tips/random`)
-      const data = await resp.json()
+      const resp = await apiClient.get('/tips/random')
+      const data = resp?.data || {}
       showInfoModal('💡', 'Dica', data?.tip || 'Sem dicas disponíveis.')
     } catch {
       showInfoModal('💡', 'Dica', 'Erro ao obter dica')
