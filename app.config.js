@@ -34,7 +34,8 @@ module.exports = ({ config }) => ({
       ...((config.extra && config.extra.eas) || {}),
       projectId: 'fe60bdec-dc9f-409a-8806-9d1ca979d5a5',
     },
-    API_BASE_URL: process.env.API_BASE_URL || 'http://tabuada.duckdns.org:3000',
+    API_BASE_URL:
+      process.env.API_BASE_URL || 'https://tabuada-omega-nine.vercel.app',
     API_FALLBACK_BASE_URL:
       process.env.API_FALLBACK_BASE_URL || 'http://192.168.0.153:3000',
   },
