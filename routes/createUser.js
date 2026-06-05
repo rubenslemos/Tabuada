@@ -7,9 +7,10 @@ const auth = require('../middlewares/authenticator')
 const mailer = require('../modules/mailer')
 const {
   buildDefaultPermissoes,
-  generateInviteToken,
+  createUniqueInviteToken,
   hashInviteToken,
   isValidCpfOrCnpj,
+  MIN_INVITE_TOKEN_LENGTH,
   normalizeDocument,
 } = require('../utils/institutions')
 const { canCreateInvite } = require('../utils/access')
@@ -32,9 +33,9 @@ function buildInviteEmailHtml({ inviteToken, organizationName, role }) {
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #203124;">
       <h2>Convite para a instituicao ${organizationName}</h2>
       <p>Seu perfil liberado para cadastro e: <strong>${role}</strong>.</p>
-      <p>Use o convite abaixo no app para continuar seu cadastro:</p>
+      <p>Use o codigo abaixo no app para continuar seu cadastro:</p>
       <p style="font-size: 20px; font-weight: bold; letter-spacing: 1px;">${inviteToken}</p>
-      <p>Voce pode digitar o convite com letras maiusculas ou minusculas. O importante e manter os numeros e os tracos.</p>
+      <p>Esse codigo comeca com ${MIN_INVITE_TOKEN_LENGTH} numeros e aumenta automaticamente se um dia essa quantidade nao for mais suficiente.</p>
       <p>Esse convite fica valido por <strong>7 dias</strong> a partir do envio.</p>
       <p>Se voce nao solicitou esse acesso, ignore esta mensagem.</p>
     </div>
@@ -60,12 +61,14 @@ async function createInviteForOrganization({
   role,
   createdByUser = null,
 }) {
-  const inviteToken = generateInviteToken()
+  const { inviteToken, tokenHash } =
+    await createUniqueInviteToken(InstitutionInvite)
+
   await InstitutionInvite.create({
     organization: organization._id,
     email,
     role,
-    tokenHash: hashInviteToken(inviteToken),
+    tokenHash,
     createdByUser,
     expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
   })

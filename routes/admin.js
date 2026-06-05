@@ -7,9 +7,9 @@ const Round = require('../models/Round')
 const mailer = require('../modules/mailer')
 const { canCreateInvite } = require('../utils/access')
 const {
-  generateInviteToken,
-  hashInviteToken,
+  createUniqueInviteToken,
   isValidCpfOrCnpj,
+  MIN_INVITE_TOKEN_LENGTH,
   normalizeDocument,
 } = require('../utils/institutions')
 
@@ -79,9 +79,9 @@ function buildInviteEmailHtml({ inviteToken, organizationName, role }) {
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #203124;">
       <h2>Convite para a instituicao ${organizationName}</h2>
       <p>Seu perfil liberado para cadastro e: <strong>${role}</strong>.</p>
-      <p>Use o convite abaixo no app para continuar seu cadastro:</p>
+      <p>Use o codigo abaixo no app para continuar seu cadastro:</p>
       <p style="font-size: 20px; font-weight: bold; letter-spacing: 1px;">${inviteToken}</p>
-      <p>Voce pode digitar o convite com letras maiusculas ou minusculas. O importante e manter os numeros e os tracos.</p>
+      <p>Esse codigo comeca com ${MIN_INVITE_TOKEN_LENGTH} numeros e aumenta automaticamente se um dia essa quantidade nao for mais suficiente.</p>
       <p>Esse convite fica valido por <strong>7 dias</strong> a partir do envio.</p>
       <p>Se voce nao solicitou esse acesso, ignore esta mensagem.</p>
     </div>
@@ -596,12 +596,13 @@ router.post(
         })
       }
 
-      const inviteToken = generateInviteToken()
+      const { inviteToken, tokenHash } =
+        await createUniqueInviteToken(InstitutionInvite)
       await InstitutionInvite.create({
         organization: organization._id,
         email: normalizedEmail,
         role,
-        tokenHash: hashInviteToken(inviteToken),
+        tokenHash,
         createdByUser: req.user._id,
         expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       })
@@ -654,8 +655,9 @@ router.post(
           .json({ Msg: 'Instituicao nao encontrada ou inativa' })
       }
 
-      const inviteToken = generateInviteToken()
-      invite.tokenHash = hashInviteToken(inviteToken)
+      const { inviteToken, tokenHash } =
+        await createUniqueInviteToken(InstitutionInvite)
+      invite.tokenHash = tokenHash
       invite.expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
       invite.createdByUser = req.user._id
       await invite.save()

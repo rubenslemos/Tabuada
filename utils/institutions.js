@@ -1,4 +1,5 @@
 const crypto = require('crypto')
+const MIN_INVITE_TOKEN_LENGTH = 5
 
 function normalizeDocument(value = '') {
   return String(value).replace(/\D/g, '')
@@ -102,10 +103,47 @@ function buildDefaultPermissoes(role) {
   })
 }
 
-function generateInviteToken() {
-  const raw = crypto.randomBytes(24).toString('hex')
-  const grouped = raw.toUpperCase().match(/.{1,6}/g) || [raw.toUpperCase()]
-  return grouped.join('-')
+function generateInviteToken(digits = MIN_INVITE_TOKEN_LENGTH) {
+  return Array.from({ length: digits }, () => crypto.randomInt(0, 10)).join('')
+}
+
+function getInviteTokenLengthForCount(activeInviteCount = 0) {
+  let digits = MIN_INVITE_TOKEN_LENGTH
+  while (activeInviteCount >= 10 ** digits) {
+    digits += 1
+  }
+  return digits
+}
+
+async function createUniqueInviteToken(InviteModel) {
+  const activeInviteCount = await InviteModel.countDocuments({
+    usedAt: null,
+    expiresAt: { $gt: new Date() },
+  })
+
+  let digits = getInviteTokenLengthForCount(activeInviteCount)
+
+  while (digits < 32) {
+    const maxAttempts = Math.min(500, Math.max(50, digits * 100))
+
+    for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
+      const inviteToken = generateInviteToken(digits)
+      const tokenHash = hashInviteToken(inviteToken)
+      const existingInvite = await InviteModel.findOne({
+        tokenHash,
+        usedAt: null,
+        expiresAt: { $gt: new Date() },
+      }).lean()
+
+      if (!existingInvite) {
+        return { inviteToken, tokenHash, digits }
+      }
+    }
+
+    digits += 1
+  }
+
+  throw new Error('Nao foi possivel gerar um codigo de convite unico')
 }
 
 function hashInviteToken(token) {
@@ -115,9 +153,12 @@ function hashInviteToken(token) {
 
 module.exports = {
   buildDefaultPermissoes,
+  createUniqueInviteToken,
   generateInviteToken,
+  getInviteTokenLengthForCount,
   hashInviteToken,
   isValidCpfOrCnpj,
+  MIN_INVITE_TOKEN_LENGTH,
   normalizeAcessos,
   normalizeDocument,
 }

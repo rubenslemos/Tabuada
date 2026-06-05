@@ -298,8 +298,9 @@ test('admin global cria instituicao e reenvia convite pendente', async () => {
 
   expect(inviteRes.body).toHaveProperty(
     'message',
-    'Convite gerado com sucesso.'
+    'Convite enviado para o email informado.'
   )
+  expect(inviteRes.body.inviteToken).toMatch(/^\d{5}$/)
 
   const invitesList = await request(app)
     .get(`/admin/organizations/${organizationId}/invites`)
@@ -319,6 +320,7 @@ test('admin global cria instituicao e reenvia convite pendente', async () => {
     'message',
     'Convite reenviado com sucesso.'
   )
+  expect(resendRes.body.inviteToken).toMatch(/^\d{5}$/)
 })
 
 test('admin global edita instituicao e filtra convites por status/perfil', async () => {
