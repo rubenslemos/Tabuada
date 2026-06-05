@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   ActivityIndicator,
   ScrollView,
@@ -77,6 +77,19 @@ const ADMIN_SECTIONS = [
 ]
 const INPUT_PLACEHOLDER_COLOR = 'rgba(255, 248, 209, 0.72)'
 
+function dedupeById(items = [], getId) {
+  const seen = new Set()
+  return items.filter((item, index) => {
+    const rawId = getId(item, index)
+    const id = rawId == null ? `idx-${index}` : String(rawId)
+    if (seen.has(id)) {
+      return false
+    }
+    seen.add(id)
+    return true
+  })
+}
+
 function SelectField({ label, value, options, isOpen, onToggle, onSelect }) {
   return (
     <View style={styles.selectFieldWrap}>
@@ -149,6 +162,13 @@ export default function AdminPanelScreen({ navigation }) {
   const [editingOrg, setEditingOrg] = useState(false)
   const [sendingInvite, setSendingInvite] = useState(false)
   const [resendingInviteId, setResendingInviteId] = useState(null)
+  const requestIdsRef = useRef({
+    organizations: 0,
+    summary: 0,
+    users: 0,
+    invites: 0,
+    syncDetails: 0,
+  })
 
   const selectedOrg = useMemo(
     () =>
@@ -161,13 +181,27 @@ export default function AdminPanelScreen({ navigation }) {
     setFeedback(getErrorMessage(error, fallbackMessage))
   }
 
+  function nextRequestId(scope) {
+    requestIdsRef.current[scope] += 1
+    return requestIdsRef.current[scope]
+  }
+
+  function isLatestRequest(scope, requestId) {
+    return requestIdsRef.current[scope] === requestId
+  }
+
   async function syncOrganizationDetails(organizationId, tokenOverride) {
+    const syncRequestId = nextRequestId('syncDetails')
     const [summaryResult, usersResult, invitesResult] =
       await Promise.allSettled([
         loadSummary(organizationId, tokenOverride),
         loadUsers(organizationId, tokenOverride),
         loadInvites(organizationId, tokenOverride),
       ])
+
+    if (!isLatestRequest('syncDetails', syncRequestId)) {
+      return
+    }
 
     if (summaryResult.status === 'rejected') {
       setSummary(INITIAL_SUMMARY)
@@ -274,6 +308,7 @@ export default function AdminPanelScreen({ navigation }) {
   ])
 
   async function loadOrganizations(tokenOverride) {
+    const requestId = nextRequestId('organizations')
     const token = tokenOverride || (await AsyncStorage.getItem('token'))
     const headers = token ? { Authorization: `Bearer ${token}` } : undefined
     const params = new URLSearchParams()
@@ -292,7 +327,10 @@ export default function AdminPanelScreen({ navigation }) {
       }
     )
     const payload = resp.data
-    const nextOrgs = Array.isArray(payload) ? payload : payload?.items || []
+    const nextOrgs = dedupeById(
+      Array.isArray(payload) ? payload : payload?.items || [],
+      (org, index) => org?._id || org?.id || `org-${index}`
+    )
     const pagination = Array.isArray(payload)
       ? {
           page: orgPage,
@@ -301,6 +339,10 @@ export default function AdminPanelScreen({ navigation }) {
           totalPages: 1,
         }
       : payload?.pagination || INITIAL_PAGINATION
+
+    if (!isLatestRequest('organizations', requestId)) {
+      return
+    }
 
     setOrganizations(nextOrgs)
     setOrgPagination(pagination)
@@ -323,16 +365,30 @@ export default function AdminPanelScreen({ navigation }) {
   }
 
   async function loadSummary(organizationId, tokenOverride) {
+    const requestId = nextRequestId('summary')
     const token = tokenOverride || (await AsyncStorage.getItem('token'))
     const headers = token ? { Authorization: `Bearer ${token}` } : undefined
     const resp = await apiClient.get(
       `/admin/organizations/${organizationId}/summary`,
       { headers }
     )
-    setSummary(resp?.data || INITIAL_SUMMARY)
+    const nextSummary = resp?.data || INITIAL_SUMMARY
+
+    if (!isLatestRequest('summary', requestId)) {
+      return
+    }
+
+    setSummary({
+      ...nextSummary,
+      recentRounds: dedupeById(
+        nextSummary?.recentRounds || [],
+        (round, index) => round?._id || round?.id || `round-${index}`
+      ),
+    })
   }
 
   async function loadUsers(organizationId, tokenOverride, tipoOverride) {
+    const requestId = nextRequestId('users')
     const token = tokenOverride || (await AsyncStorage.getItem('token'))
     const headers = token ? { Authorization: `Bearer ${token}` } : undefined
     const params = new URLSearchParams()
@@ -343,10 +399,20 @@ export default function AdminPanelScreen({ navigation }) {
       `/admin/organizations/${organizationId}/users${suffix}`,
       { headers }
     )
-    setUsers(Array.isArray(resp.data) ? resp.data : [])
+
+    if (!isLatestRequest('users', requestId)) {
+      return
+    }
+
+    setUsers(
+      dedupeById(Array.isArray(resp.data) ? resp.data : [], (user, index) => {
+        return user?._id || user?.id || `${user?.email || 'user'}-${index}`
+      })
+    )
   }
 
   async function loadInvites(organizationId, tokenOverride) {
+    const requestId = nextRequestId('invites')
     const token = tokenOverride || (await AsyncStorage.getItem('token'))
     const headers = token ? { Authorization: `Bearer ${token}` } : undefined
     const params = new URLSearchParams()
@@ -364,7 +430,18 @@ export default function AdminPanelScreen({ navigation }) {
       { headers }
     )
     const payload = resp.data
-    setInvites(Array.isArray(payload) ? payload : payload?.items || [])
+
+    if (!isLatestRequest('invites', requestId)) {
+      return
+    }
+
+    setInvites(
+      dedupeById(
+        Array.isArray(payload) ? payload : payload?.items || [],
+        (invite, index) =>
+          invite?._id || invite?.id || `${invite?.email || 'invite'}-${index}`
+      )
+    )
     setInvitePagination(
       Array.isArray(payload)
         ? {
