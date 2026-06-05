@@ -152,6 +152,9 @@ app.use('/round', round)
 const acessos = require('./routes/permissoes')
 app.use('/acessos', acessos)
 
+const adminRoutes = require('./routes/admin')
+app.use('/admin', adminRoutes)
+
 if (!process.env.GROQ_API_KEY) {
   console.warn(
     'GROQ_API_KEY nao definida. As dicas usarao fallback do banco ou estatico.\n' +
@@ -183,7 +186,9 @@ function connectMongo() {
         deprecationErrors: true,
       },
     })
-    .then(() => {
+    .then(async () => {
+      const { ensureGlobalAdminUser } = require('./utils/bootstrapAdmin')
+      await ensureGlobalAdminUser()
       console.log('Conectado ao MongoDB Atlas')
     })
     .catch((err) => {

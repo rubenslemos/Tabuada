@@ -29,6 +29,20 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  organization: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Organization',
+    default: null,
+  },
+  organizationName: {
+    type: String,
+    default: '',
+    trim: true,
+  },
+  isGlobalAdmin: {
+    type: Boolean,
+    default: false,
+  },
   name: {
     type: String,
     required: true,
@@ -91,7 +105,9 @@ const UserSchema = new mongoose.Schema({
   },
   turma: {
     type: String,
-    required: true,
+    required: function () {
+      return !this.isGlobalAdmin
+    },
     trim: true,
     uppercase: true,
   },

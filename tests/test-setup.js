@@ -19,6 +19,9 @@ async function createTestApp() {
     await mongoose.connect(mongod.getUri())
   }
 
+  const { ensureGlobalAdminUser } = require('../utils/bootstrapAdmin')
+  await ensureGlobalAdminUser()
+
   const app = express()
   app.use(bodyParser.json())
   app.use(cookieParser())
@@ -27,11 +30,13 @@ async function createTestApp() {
   const login = require('../routes/login')
   const round = require('../routes/round')
   const acessos = require('../routes/permissoes')
+  const admin = require('../routes/admin')
 
   app.use('/auth/register', createUser)
   app.use('/auth/login', login)
   app.use('/round', round)
   app.use('/acessos', acessos)
+  app.use('/admin', admin)
 
   app._mongod = mongod
   return app

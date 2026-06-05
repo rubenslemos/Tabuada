@@ -2,8 +2,14 @@ const router = require('express').Router()
 const Round = require('../models/Round')
 const User = require('../models/User')
 const Contagem = require('../models/Contagem')
+const auth = require('../middlewares/authenticator')
+const {
+  canUseUserAsRoundTarget,
+  canViewRound,
+  idsMatch,
+} = require('../utils/access')
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
   try {
     const {
       acerto,
@@ -17,6 +23,11 @@ router.post('/', async (req, res) => {
     const user = await User.findById(userId)
     if (!user) {
       return res.status(404).json({ msg: 'Usuário não encontrado' })
+    }
+    if (!canUseUserAsRoundTarget(req.user, user)) {
+      return res
+        .status(403)
+        .json({ msg: 'Sem permissão para registrar rodada para este usuário' })
     }
     if (isNaN(user.totalJogos)) user.totalJogos = 0
     if (isNaN(user.totalAcertos)) user.totalAcertos = 0
@@ -35,9 +46,10 @@ router.post('/', async (req, res) => {
   }
 })
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
-    const round = await Round.find().populate('user')
+    const query = req.user.isGlobalAdmin ? {} : { user: req.user._id }
+    const round = await Round.find(query).populate('user')
     if (!round) {
       res.status(422).json({ error: 'Ainda não há rodadas salvas.' })
       return
@@ -48,13 +60,19 @@ router.get('/', async (req, res) => {
   }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   const id = req.params.id
 
   const round = await Round.findOne({ _id: id }).populate('user')
   if (!round) {
     res.status(422).json({ message: 'Rodada não encontrada!' })
     return
+  }
+
+  if (!canViewRound(req.user, round.user)) {
+    return res
+      .status(403)
+      .json({ message: 'Sem permissão para remover esta rodada' })
   }
 
   try {
@@ -65,13 +83,19 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
-router.post('/resultado-operacoes', async (req, res) => {
+router.post('/resultado-operacoes', auth, async (req, res) => {
   const { roundId, userId, contagemOperacoes } = req.body
 
   try {
     const user = await User.findById(userId)
     if (!user) {
       return res.status(404).json({ msg: 'Usuário não encontrado' })
+    }
+
+    if (!canUseUserAsRoundTarget(req.user, user)) {
+      return res.status(403).json({
+        msg: 'Sem permissão para registrar contagem para este usuário',
+      })
     }
 
     // Criar um novo objeto Contagem com as operações
@@ -98,6 +122,11 @@ router.post('/resultado-operacoes', async (req, res) => {
     if (!round) {
       return res.status(404).json({ msg: 'Rodada não encontrada' })
     }
+    if (!idsMatch(round.user, userId)) {
+      return res
+        .status(422)
+        .json({ msg: 'Rodada não pertence ao usuário informado' })
+    }
     round.contagemOperacoes = operacoes._id
     await round.save()
 
@@ -110,9 +139,11 @@ router.post('/resultado-operacoes', async (req, res) => {
   }
 })
 
-router.get('/resultado-operacoes', async (req, res) => {
+router.get('/resultado-operacoes', auth, async (req, res) => {
   try {
-    const contagem = await Contagem.find().populate('rounds user')
+    const contagem = await Contagem.find(
+      req.user.isGlobalAdmin ? {} : { user: req.user._id }
+    ).populate('rounds user')
     if (!contagem || contagem.length === 0)
       return res.status(422).json({ Msg: 'ainda não há contagens salvas' })
     res.status(201).json(contagem)
@@ -121,16 +152,19 @@ router.get('/resultado-operacoes', async (req, res) => {
   }
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
   try {
-    const round = await Round.findById(req.params.id).populate(
-      'contagemOperacoes'
-    )
+    const round = await Round.findById(req.params.id)
+      .populate('contagemOperacoes')
+      .populate('user')
 
     if (!round) return res.status(400).send({ error: 'Round não encontrado' })
+    if (!canViewRound(req.user, round.user)) {
+      return res.status(403).send({ error: 'Acesso negado a esta rodada' })
+    }
 
     res.status(200).send({ round })
-  } catch (error) {
+  } catch {
     return res.status(500).send({ error: 'Erro ao recuperar round' })
   }
 })

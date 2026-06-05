@@ -3,17 +3,21 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "expo start",
+    "postinstall": "node scripts/patch-rn-devtools-shell.js && node scripts/patch-rn-debugger-locales.js",
+    "start": "node scripts/run-expo-clean-env.js start",
     "server": "nodemon server.js",
-    "client": "expo start --web --port 19006",
+    "client": "node scripts/run-expo-clean-env.js start --web --port 19006",
     "dev": "concurrently -k -n API,APP -c yellow,cyan \"npm:server\" \"npm:client\"",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
+    "admin:bootstrap": "node scripts/bootstrap-admin.js",
+    "android": "node scripts/run-expo-clean-env.js start --android",
+    "start:dev-client": "node scripts/run-expo-clean-env.js start --dev-client",
+    "ios": "node scripts/run-expo-clean-env.js start --ios",
+    "web": "node scripts/run-expo-clean-env.js start --web",
     "expo:doctor": "npx expo-doctor",
-    "build:android:preview": "npx eas build --platform android --profile preview",
-    "build:android:prod": "npx eas build --platform android --profile production",
-    "submit:android:prod": "npx eas submit --platform android --profile production",
+    "build:android:dev": "npx eas-cli build --platform android --profile development",
+    "build:android:preview": "npx eas-cli build --platform android --profile preview",
+    "build:android:prod": "npx eas-cli build --platform android --profile production",
+    "submit:android:prod": "npx eas-cli submit --platform android --profile production",
     "test": "jest --config jest.backend.config.cjs --runInBand",
     "test:watch": "jest --config jest.backend.config.cjs --watch",
     "test:coverage": "jest --config jest.backend.config.cjs --coverage",
@@ -37,6 +41,7 @@
     "dotenv": "^17.2.3",
     "expo": "~56.0.6",
     "expo-build-properties": "~56.0.15",
+    "expo-dev-client": "~56.0.18",
     "expo-font": "~56.0.5",
     "expo-splash-screen": "~56.0.10",
     "expo-status-bar": "~56.0.4",
@@ -76,6 +81,6 @@
     "supertest": "^7.2.2"
   },
   "overrides": {
-   "uuid": "11.1.1"
+    "uuid": "11.1.1"
   }
 }

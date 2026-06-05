@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 const auth = require('../middlewares/authenticator')
 const crypto = require('crypto')
 const mailer = require('../modules/mailer')
+const { canViewUser, idsMatch } = require('../utils/access')
 require('dotenv').config()
 const hash = process.env.SECRET
 
@@ -12,6 +13,10 @@ function generateToken(params = {}) {
   return jwt.sign(params, hash, {
     expiresIn: 86400,
   })
+}
+
+function getMailFrom() {
+  return process.env.MAIL_FROM || 'Tabuada <nao-responda@tabuada.app>'
 }
 router.post('/', async (req, res) => {
   const { email, password } = req.body
@@ -66,12 +71,9 @@ router.post('/forgot_password', async (req, res) => {
     const now = new Date()
     now.setHours(now.getHours() + 1)
 
-    await User.findByIdAndUpdate(usuario.id, {
-      $set: {
-        passwordResetToken: token,
-        passwordResetExpires: now,
-      },
-    })
+    usuario.passwordResetToken = token
+    usuario.passwordResetExpires = now
+    await usuario.save()
     /*     await mailer.sendMail({
       to: email,
       from:'rubenslemos@gmail.com',
@@ -89,7 +91,7 @@ router.post('/forgot_password', async (req, res) => {
     try {
       await mailer.sendMail({
         to: normalizedEmail,
-        from: 'rubenslemos@gmail.com',
+        from: getMailFrom(),
         template: 'auth/forgot_password',
         context: { token },
       })
@@ -155,13 +157,13 @@ router.post('/reset_password', async (req, res) => {
 
     await usuario.save()
     res.status(200).send({ Msg: 'Senha alterada' })
-  } catch (error) {
+  } catch {
     return res
       .status(400)
       .send({ Msg: 'Não foi possível recuperar sua senha, tente novamente' })
   }
 })
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
   try {
     const user = await User.findById(req.params.id).populate({
       path: 'rounds',
@@ -171,8 +173,18 @@ router.get('/:id', async (req, res) => {
       },
     })
     if (!user) return res.status(400).send({ error: 'Usuario não encontrado' })
+
+    if (
+      !canViewUser(req.user, user) &&
+      !idsMatch(req.user._id || req.user.id, user._id || user.id)
+    ) {
+      return res
+        .status(403)
+        .send({ error: 'Acesso negado ao usuario informado' })
+    }
+
     res.status(200).send({ user })
-  } catch (error) {
+  } catch {
     return res.status(400).send({ error: 'Erro ao listar usuario' })
   }
 })

@@ -55,6 +55,34 @@ describe('LoginScreen', () => {
     expect(navigation.navigate).toHaveBeenCalledWith('Tabuada')
   })
 
+  it('faz login global admin e navega para Tabuada', async () => {
+    apiClient.post.mockResolvedValue({
+      data: {
+        token: 'token123',
+        user: { _id: 'u1', name: 'Admin', isGlobalAdmin: true },
+        totalAcertos: 0,
+        totalJogos: 0,
+        totalErros: 0,
+      },
+    })
+
+    const { getByPlaceholderText, getByText } = await renderAsync(
+      <LoginScreen navigation={navigation} />
+    )
+
+    fireEvent.changeText(getByPlaceholderText('Email'), 'admin@a.com')
+    fireEvent.changeText(getByPlaceholderText('Senha'), '123')
+    fireEvent.press(getByText('Entrar'))
+
+    await waitFor(() =>
+      expect(getByText('Login realizado com sucesso!')).toBeTruthy()
+    )
+
+    fireEvent.press(getByText('OK'))
+
+    expect(navigation.navigate).toHaveBeenCalledWith('Tabuada')
+  })
+
   it('mostra erro quando login falha', async () => {
     apiClient.post.mockRejectedValue(new Error('fail'))
 
@@ -66,5 +94,13 @@ describe('LoginScreen', () => {
     await waitFor(() =>
       expect(Alert.alert).toHaveBeenCalledWith('Erro', 'fail')
     )
+  })
+
+  it('nao exibe mais atalho do painel admin na tela de login', async () => {
+    const { queryByText } = await renderAsync(
+      <LoginScreen navigation={navigation} />
+    )
+
+    expect(queryByText('Painel do Administrador')).toBeNull()
   })
 })

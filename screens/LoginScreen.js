@@ -20,6 +20,7 @@ const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [successVisible, setSuccessVisible] = useState(false)
+  const [loginDestination, setLoginDestination] = useState('Tabuada')
 
   const handleLogin = async () => {
     try {
@@ -39,18 +40,32 @@ const LoginScreen = ({ navigation }) => {
       const totalAcertos = response.data.totalAcertos || 0
       const totalJogos = response.data.totalJogos || 0
       const totalErros = response.data.totalErros || 0
+      const isGlobalAdmin = Boolean(user?.isGlobalAdmin)
 
       if (token) {
         await AsyncStorage.setItem('token', token)
         if (userId) await AsyncStorage.setItem('userId', String(userId))
         if (user && (user.name || user._id))
           await AsyncStorage.setItem('userName', user.name || user._id)
+        await AsyncStorage.setItem(
+          'userPermissions',
+          JSON.stringify(user?.permissoes || {})
+        )
+        await AsyncStorage.setItem(
+          'userOrganizationName',
+          user?.organizationName || ''
+        )
+        await AsyncStorage.setItem(
+          'isGlobalAdmin',
+          isGlobalAdmin ? 'true' : 'false'
+        )
         await AsyncStorage.setItem('totalAcertos', String(totalAcertos))
         await AsyncStorage.setItem('totalJogos', String(totalJogos))
         await AsyncStorage.setItem('totalErros', String(totalErros))
 
         // set default Authorization header for future axios calls
         setAuthToken(token)
+        setLoginDestination('Tabuada')
 
         setSuccessVisible(true)
       } else {
@@ -132,7 +147,7 @@ const LoginScreen = ({ navigation }) => {
               style={styles.successButton}
               onPress={() => {
                 setSuccessVisible(false)
-                navigation.navigate('Tabuada')
+                navigation.navigate(loginDestination)
               }}
             >
               <Text style={styles.successButtonText}>OK</Text>

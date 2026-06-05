@@ -10,9 +10,19 @@ const mockNavigation = {
 
 jest.mock('@react-navigation/native', () => ({
   useNavigation: () => mockNavigation,
+  useIsFocused: () => true,
 }))
 
-jest.mock('../../config/api', () => 'http://localhost:3000')
+jest.mock('../../config/apiClient', () => ({
+  __esModule: true,
+  default: {
+    get: jest.fn(),
+    defaults: { headers: { common: {} } },
+  },
+  setAuthToken: jest.fn(),
+}))
+
+const apiClient = require('../../config/apiClient').default
 
 describe('Header', () => {
   beforeEach(() => {
@@ -22,12 +32,46 @@ describe('Header', () => {
       if (key === 'userName') return 'Rubens'
       if (key === 'totalAcertos') return '20'
       if (key === 'totalErros') return '10'
+      if (key === 'token') return 'token123'
+      if (key === 'userId') return 'u1'
+      if (key === 'isGlobalAdmin') return 'false'
+      if (key === 'userPermissions')
+        return JSON.stringify({
+          soma: true,
+          menos: true,
+          vezes: true,
+          dividir: true,
+          todas: true,
+        })
       return null
     })
-    global.fetch = jest.fn().mockResolvedValue({
-      json: jest.fn().mockResolvedValue({
-        tip: 'Use desenhos para memorizar a tabuada.',
-      }),
+    apiClient.get.mockImplementation(async (url) => {
+      if (url === '/tips/random') {
+        return {
+          data: {
+            tip: 'Use desenhos para memorizar a tabuada.',
+          },
+        }
+      }
+
+      if (url === '/auth/login/u1') {
+        return {
+          data: {
+            user: {
+              isGlobalAdmin: false,
+              permissoes: {
+                soma: true,
+                menos: true,
+                vezes: true,
+                dividir: true,
+                todas: true,
+              },
+            },
+          },
+        }
+      }
+
+      return { data: {} }
     })
   })
 
@@ -51,6 +95,61 @@ describe('Header', () => {
     await waitFor(() =>
       expect(queryByText('Use desenhos para memorizar a tabuada.')).toBeNull()
     )
+  })
+
+  it('mostra acesso ao painel admin no header quando a conta e global admin', async () => {
+    AsyncStorage.getItem.mockImplementation(async (key) => {
+      if (key === 'userName') return 'Rubens'
+      if (key === 'totalAcertos') return '20'
+      if (key === 'totalErros') return '10'
+      if (key === 'token') return 'token123'
+      if (key === 'userId') return 'u1'
+      if (key === 'isGlobalAdmin') return 'true'
+      if (key === 'userPermissions')
+        return JSON.stringify({
+          soma: true,
+          menos: true,
+          vezes: true,
+          dividir: true,
+          todas: true,
+        })
+      return null
+    })
+
+    apiClient.get.mockImplementation(async (url) => {
+      if (url === '/tips/random') {
+        return {
+          data: {
+            tip: 'Use desenhos para memorizar a tabuada.',
+          },
+        }
+      }
+
+      if (url === '/auth/login/u1') {
+        return {
+          data: {
+            user: {
+              isGlobalAdmin: true,
+              permissoes: {
+                soma: true,
+                menos: true,
+                vezes: true,
+                dividir: true,
+                todas: true,
+              },
+            },
+          },
+        }
+      }
+
+      return { data: {} }
+    })
+
+    const { getByLabelText } = await renderAsync(<Header />)
+
+    fireEvent.press(getByLabelText('Abrir painel administrador'))
+
+    expect(mockNavigation.navigate).toHaveBeenCalledWith('AdminPanel')
   })
 
   it.each([
@@ -100,6 +199,16 @@ describe('Header', () => {
       if (key === 'userName') return 'Rubens'
       if (key === 'totalAcertos') return '100'
       if (key === 'totalErros') return '0'
+      if (key === 'token') return 'token123'
+      if (key === 'userId') return 'u1'
+      if (key === 'userPermissions')
+        return JSON.stringify({
+          soma: true,
+          menos: true,
+          vezes: true,
+          dividir: true,
+          todas: true,
+        })
       return null
     })
 
@@ -124,6 +233,16 @@ describe('Header', () => {
       if (key === 'userName') return 'Rubens'
       if (key === 'totalAcertos') return '0'
       if (key === 'totalErros') return '0'
+      if (key === 'token') return 'token123'
+      if (key === 'userId') return 'u1'
+      if (key === 'userPermissions')
+        return JSON.stringify({
+          soma: true,
+          menos: true,
+          vezes: true,
+          dividir: true,
+          todas: true,
+        })
       return null
     })
 
@@ -152,5 +271,60 @@ describe('Header', () => {
       'Tabuada',
       expect.objectContaining({ selectedOperation: 'soma10' })
     )
+  })
+
+  it('esconde operacoes sem permissao no menu hamburger', async () => {
+    AsyncStorage.getItem.mockImplementation(async (key) => {
+      if (key === 'userName') return 'Rubens'
+      if (key === 'totalAcertos') return '20'
+      if (key === 'totalErros') return '10'
+      if (key === 'token') return 'token123'
+      if (key === 'userId') return 'u1'
+      if (key === 'userPermissions')
+        return JSON.stringify({
+          soma: true,
+          menos: false,
+          vezes: false,
+          dividir: false,
+          todas: false,
+        })
+      return null
+    })
+
+    apiClient.get.mockImplementation(async (url) => {
+      if (url === '/tips/random') {
+        return { data: { tip: 'Use desenhos para memorizar a tabuada.' } }
+      }
+
+      if (url === '/auth/login/u1') {
+        return {
+          data: {
+            user: {
+              permissoes: {
+                soma: true,
+                menos: false,
+                vezes: false,
+                dividir: false,
+                todas: false,
+              },
+            },
+          },
+        }
+      }
+
+      return { data: {} }
+    })
+
+    const { getByLabelText, getByText, queryByText } = await renderAsync(
+      <Header />
+    )
+
+    fireEvent.press(getByLabelText('Abrir menu'))
+
+    expect(getByText('Adição')).toBeTruthy()
+    expect(queryByText('Todas')).toBeNull()
+    expect(queryByText('Subtração')).toBeNull()
+    expect(queryByText('Multiplicação')).toBeNull()
+    expect(queryByText('Divisão')).toBeNull()
   })
 })

@@ -1,4 +1,3 @@
-import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { StatusBar } from 'expo-status-bar'
@@ -20,6 +19,7 @@ import PerformanceScreen from './screens/PerformanceScreen'
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen'
 import ResetPasswordScreen from './screens/ResetPasswordScreen'
 import PermissoesScreen from './screens/PermissoesScreen'
+import AdminPanelScreen from './screens/AdminPanelScreen'
 
 const Stack = createStackNavigator()
 
@@ -47,6 +47,7 @@ export default function App() {
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
         <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
+        <Stack.Screen name="AdminPanel" component={AdminPanelScreen} />
         <Stack.Screen name="Tabuada" component={TabuadaScreen} />
         <Stack.Screen name="Performance" component={PerformanceScreen} />
         <Stack.Screen name="Permissoes" component={PermissoesScreen} />

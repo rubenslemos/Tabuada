@@ -288,29 +288,11 @@ export default function PerformanceScreen({ navigation }) {
                             <Text style={styles.roundStatValue}>
                               {item.acerto || 0}
                             </Text>
-                            <Text style={styles.roundStatArrow}>➜</Text>
-                            <Text
-                              style={[
-                                styles.roundPercentValue,
-                                styles.percentGood,
-                              ]}
-                            >
-                              {acertos}%
-                            </Text>
                           </View>
                           <View style={styles.roundStatRow}>
                             <Text style={styles.roundStatLabel}>Erros</Text>
                             <Text style={styles.roundStatValue}>
                               {item.errou || 0}
-                            </Text>
-                            <Text style={styles.roundStatArrow}>➜</Text>
-                            <Text
-                              style={[
-                                styles.roundPercentValue,
-                                styles.percentBad,
-                              ]}
-                            >
-                              {erros}%
                             </Text>
                           </View>
                         </View>

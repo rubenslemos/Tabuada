@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   ActivityIndicator,
   Alert,
+  Modal,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
   Image,
@@ -25,9 +27,37 @@ const DEFAULT_ACESSOS = {
   todas: false,
 }
 
+function normalizeAcessos(acessos = {}) {
+  const normalized = {
+    ...DEFAULT_ACESSOS,
+    ...acessos,
+  }
+
+  if (normalized.todas) {
+    normalized.soma = true
+    normalized.menos = true
+    normalized.vezes = true
+    normalized.dividir = true
+  } else {
+    normalized.todas = Boolean(
+      normalized.soma &&
+      normalized.menos &&
+      normalized.vezes &&
+      normalized.dividir
+    )
+  }
+
+  return normalized
+}
+
 function CheckRow({ label, value, onPress }) {
   return (
-    <TouchableOpacity style={styles.row} onPress={onPress} activeOpacity={0.8}>
+    <TouchableOpacity
+      style={styles.row}
+      onPress={onPress}
+      activeOpacity={0.8}
+      accessibilityLabel={`Alternar ${label}`}
+    >
       <Text style={styles.rowLabel}>{label}</Text>
       <View style={[styles.checkbox, value && styles.checkboxOn]}>
         {value ? <Text style={styles.checkMark}>✓</Text> : null}
@@ -45,6 +75,15 @@ export default function PermissoesScreen({ navigation }) {
   const [selectedAlunoId, setSelectedAlunoId] = useState(null)
   const [alunoDropdownVisible, setAlunoDropdownVisible] = useState(false)
   const [acessos, setAcessos] = useState(DEFAULT_ACESSOS)
+  const [inviteVisible, setInviteVisible] = useState(false)
+  const [inviteEmail, setInviteEmail] = useState('')
+  const [inviteRole, setInviteRole] = useState('Aluno')
+  const [inviteSending, setInviteSending] = useState(false)
+  const acessosRef = useRef(DEFAULT_ACESSOS)
+
+  useEffect(() => {
+    acessosRef.current = acessos
+  }, [acessos])
 
   useEffect(() => {
     ;(async () => {
@@ -80,7 +119,7 @@ export default function PermissoesScreen({ navigation }) {
           const first = filtered[0]
           const id = first._id || first.id
           setSelectedAlunoId(id)
-          setAcessos({ ...DEFAULT_ACESSOS, ...(first.permissoes || {}) })
+          setAcessos(normalizeAcessos(first.permissoes))
         }
       } catch (err) {
         console.error(
@@ -98,29 +137,45 @@ export default function PermissoesScreen({ navigation }) {
     [alunos, selectedAlunoId]
   )
   const selectedAlunoLabel = selectedAluno?.name || 'Selecione um aluno'
+  const inviteRoles = useMemo(() => {
+    if (loggedUser?.tipo === 'Professor') return ['Aluno']
+    if (loggedUser?.tipo === 'Coordenador') {
+      return ['Aluno', 'Professor', 'Coordenador']
+    }
+    return []
+  }, [loggedUser])
+  const canInvite = inviteRoles.length > 0
 
   function onSelectAluno(id) {
     setSelectedAlunoId(id)
     setAlunoDropdownVisible(false)
     const aluno = alunos.find((a) => (a._id || a.id) === id)
-    setAcessos({ ...DEFAULT_ACESSOS, ...(aluno?.permissoes || {}) })
+    const nextAcessos = normalizeAcessos(aluno?.permissoes)
+    acessosRef.current = nextAcessos
+    setAcessos(nextAcessos)
   }
 
   function toggleAcesso(key) {
     setAcessos((prev) => {
-      const next = { ...prev, [key]: !prev[key] }
+      let normalized
+
       if (key === 'todas') {
         const on = !prev.todas
-        next.soma = on
-        next.menos = on
-        next.vezes = on
-        next.dividir = on
+        normalized = normalizeAcessos({
+          ...prev,
+          soma: on,
+          menos: on,
+          vezes: on,
+          dividir: on,
+          todas: on,
+        })
       } else {
-        next.todas = Boolean(
-          next.soma && next.menos && next.vezes && next.dividir
-        )
+        const next = { ...prev, [key]: !prev[key], todas: false }
+        normalized = normalizeAcessos(next)
       }
-      return next
+
+      acessosRef.current = normalized
+      return normalized
     })
   }
 
@@ -131,21 +186,26 @@ export default function PermissoesScreen({ navigation }) {
       setSaving(true)
       const headers = token ? { Authorization: `Bearer ${token}` } : undefined
 
+      const acessosNormalizados = normalizeAcessos(acessosRef.current)
+
       await apiClient.post(
         '/acessos',
         {
           alunoId: selectedAlunoId,
           tipoUsuario: loggedUser?.tipo,
-          acessos,
+          acessos: acessosNormalizados,
         },
         { headers }
       )
 
       Alert.alert('Sucesso', 'Acessos concedidos com sucesso')
+      setAcessos(acessosNormalizados)
       setAlunos((prev) =>
         prev.map((u) => {
           const id = u._id || u.id
-          return id === selectedAlunoId ? { ...u, permissoes: acessos } : u
+          return id === selectedAlunoId
+            ? { ...u, permissoes: acessosNormalizados }
+            : u
         })
       )
     } catch (err) {
@@ -159,6 +219,40 @@ export default function PermissoesScreen({ navigation }) {
       )
     } finally {
       setSaving(false)
+    }
+  }
+
+  async function enviarConvite() {
+    try {
+      setInviteSending(true)
+      const headers = token ? { Authorization: `Bearer ${token}` } : undefined
+      const response = await apiClient.post(
+        '/auth/register/request-invite',
+        {
+          email: inviteEmail,
+          role: inviteRole,
+        },
+        { headers }
+      )
+
+      setInviteVisible(false)
+      setInviteEmail('')
+      setInviteRole(inviteRoles[0] || 'Aluno')
+      Alert.alert(
+        'Convite enviado',
+        response?.data?.message || 'Convite enviado para o email informado.'
+      )
+    } catch (err) {
+      console.error(
+        'Erro ao enviar convite:',
+        err?.response?.data || err.message
+      )
+      Alert.alert(
+        'Erro',
+        getErrorMessage(err, 'Não foi possível enviar o convite.')
+      )
+    } finally {
+      setInviteSending(false)
     }
   }
 
@@ -250,6 +344,26 @@ export default function PermissoesScreen({ navigation }) {
             </View>
           )}
 
+          {canInvite ? (
+            <View style={styles.inviteSection}>
+              <View style={styles.inviteTextWrap}>
+                <Text style={styles.inviteTitle}>Convidar novo usuário</Text>
+                <Text style={styles.inviteSubtitle}>
+                  Gere convites seguros para entrar na sua instituição.
+                </Text>
+              </View>
+              <TouchableOpacity
+                style={styles.inviteButton}
+                onPress={() => {
+                  setInviteRole(inviteRoles[0] || 'Aluno')
+                  setInviteVisible(true)
+                }}
+              >
+                <Text style={styles.inviteButtonText}>Gerar convite</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
+
           {!selectedAluno ? (
             <Text style={styles.empty}>
               Nenhum aluno encontrado para este perfil.
@@ -321,6 +435,78 @@ export default function PermissoesScreen({ navigation }) {
           </View>
         </ChalkPanel>
       </ScrollView>
+
+      <Modal transparent visible={inviteVisible} animationType="fade">
+        <View style={styles.modalOverlay}>
+          <ChalkPanel style={styles.modalFrame} boardStyle={styles.modalBoard}>
+            <View style={styles.flagsRow}>
+              <Text style={styles.flag}>▲</Text>
+              <Text style={styles.flag}>●</Text>
+              <Text style={styles.flag}>■</Text>
+              <Text style={styles.flag}>●</Text>
+              <Text style={styles.flag}>▲</Text>
+            </View>
+            <Text style={styles.modalTitle}>Gerar convite</Text>
+            <Text style={styles.modalSubtitle}>
+              O convite será enviado por email e já ficará vinculado à
+              instituição.
+            </Text>
+
+            <TextInput
+              style={styles.modalInput}
+              placeholder="Email do usuário"
+              placeholderTextColor="rgba(255,255,255,0.7)"
+              value={inviteEmail}
+              onChangeText={setInviteEmail}
+              autoCapitalize="none"
+              keyboardType="email-address"
+            />
+
+            <View style={styles.roleRow}>
+              {inviteRoles.map((role) => {
+                const selected = inviteRole === role
+                return (
+                  <TouchableOpacity
+                    key={role}
+                    style={[
+                      styles.roleChip,
+                      selected && styles.roleChipSelected,
+                    ]}
+                    onPress={() => setInviteRole(role)}
+                  >
+                    <Text
+                      style={[
+                        styles.roleChipText,
+                        selected && styles.roleChipTextSelected,
+                      ]}
+                    >
+                      {role}
+                    </Text>
+                  </TouchableOpacity>
+                )
+              })}
+            </View>
+
+            <View style={styles.modalActions}>
+              <TouchableOpacity
+                style={[styles.actionBtn, styles.secondary]}
+                onPress={() => setInviteVisible(false)}
+              >
+                <Text style={styles.secondaryText}>Cancelar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.actionBtn, styles.primary]}
+                onPress={enviarConvite}
+                disabled={inviteSending}
+              >
+                <Text style={styles.primaryText}>
+                  {inviteSending ? 'Enviando...' : 'Enviar convite'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </ChalkPanel>
+        </View>
+      </Modal>
     </ClassroomBackground>
   )
 }
@@ -465,6 +651,46 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   alunoOptionTextActive: { color: '#1f1f1f' },
+  inviteSection: {
+    marginHorizontal: 14,
+    marginBottom: 10,
+    padding: 12,
+    borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.22)',
+    borderRadius: 12,
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 10,
+  },
+  inviteTextWrap: {
+    flex: 1,
+  },
+  inviteTitle: {
+    color: '#f8f8f8',
+    fontFamily: FONTS.title,
+    fontSize: 19,
+  },
+  inviteSubtitle: {
+    color: '#f8f8f8',
+    opacity: 0.85,
+    fontFamily: FONTS.body,
+    marginTop: 2,
+  },
+  inviteButton: {
+    backgroundColor: '#5a93d8',
+    borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.42)',
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+  },
+  inviteButtonText: {
+    color: '#fff',
+    fontFamily: FONTS.body,
+    fontSize: 15,
+  },
   row: {
     paddingVertical: 10,
     paddingHorizontal: 14,
@@ -532,4 +758,76 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   footerIcon: { width: 22, height: 22, resizeMode: 'contain' },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    padding: 16,
+  },
+  modalFrame: {
+    width: '100%',
+    maxWidth: 720,
+  },
+  modalBoard: {
+    paddingHorizontal: 14,
+    paddingVertical: 16,
+  },
+  modalTitle: {
+    color: '#f8f8f8',
+    fontFamily: FONTS.title,
+    fontSize: 24,
+    textAlign: 'center',
+    marginBottom: 6,
+  },
+  modalSubtitle: {
+    color: '#f8f8f8',
+    opacity: 0.88,
+    fontFamily: FONTS.body,
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  modalInput: {
+    height: 46,
+    borderColor: 'rgba(255,255,255,0.5)',
+    borderWidth: 2,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    marginBottom: 10,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    color: '#f8f8f8',
+    fontFamily: FONTS.body,
+  },
+  roleRow: {
+    flexDirection: 'row',
+    gap: 8,
+    flexWrap: 'wrap',
+    marginBottom: 12,
+  },
+  roleChip: {
+    flexGrow: 1,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.45)',
+    borderRadius: 999,
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    paddingHorizontal: 12,
+    paddingVertical: 9,
+    alignItems: 'center',
+  },
+  roleChipSelected: {
+    backgroundColor: '#ffd54f',
+    borderColor: '#ffd54f',
+  },
+  roleChipText: {
+    color: '#f8f8f8',
+    fontFamily: FONTS.body,
+  },
+  roleChipTextSelected: {
+    color: '#1f1f1f',
+  },
+  modalActions: {
+    flexDirection: 'row',
+    gap: 10,
+    marginTop: 4,
+  },
 })

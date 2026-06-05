@@ -43,3 +43,4 @@ yarn-error.*
 # nested repo used only for reference
 /tabuadaapp/
 .env
+.env

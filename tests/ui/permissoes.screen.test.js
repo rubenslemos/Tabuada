@@ -66,7 +66,7 @@ describe('PermissoesScreen', () => {
 
     apiClient.post.mockResolvedValue({ data: { message: 'ok' } })
 
-    const { getByText, queryByText } = await renderAsync(
+    const { getByText, getByLabelText, queryByText } = await renderAsync(
       <PermissoesScreen navigation={navigation} />
     )
 
@@ -76,7 +76,7 @@ describe('PermissoesScreen', () => {
     expect(getByText('Aluno 1')).toBeTruthy()
     expect(queryByText('Aluno 2')).toBeNull()
 
-    fireEvent.press(getByText('Subtração'))
+    fireEvent.press(getByLabelText('Alternar Subtração'))
     fireEvent.press(getByText('Salvar Permissões'))
 
     await waitFor(() => expect(apiClient.post).toHaveBeenCalledTimes(1))
@@ -223,5 +223,240 @@ describe('PermissoesScreen', () => {
     await waitFor(() =>
       expect(Alert.alert).toHaveBeenCalledWith('Erro', 'fail')
     )
+  })
+
+  it('marca todas as operacoes ao ativar Todas', async () => {
+    apiClient.get.mockImplementation((url) => {
+      if (url.includes('/auth/login/prof123')) {
+        return Promise.resolve({
+          data: {
+            user: {
+              _id: 'prof123',
+              name: 'Prof',
+              tipo: 'Professor',
+              turma: 'A1',
+            },
+          },
+        })
+      }
+      if (url.includes('/auth/register')) {
+        return Promise.resolve({
+          data: [
+            {
+              _id: 'aluno1',
+              name: 'Aluno 1',
+              tipo: 'Aluno',
+              turma: 'A1',
+              permissoes: {
+                soma: false,
+                menos: false,
+                vezes: false,
+                dividir: false,
+                todas: false,
+              },
+            },
+          ],
+        })
+      }
+      return Promise.resolve({ data: {} })
+    })
+
+    apiClient.post.mockResolvedValue({ data: { message: 'ok' } })
+
+    const { getByText, getByLabelText } = await renderAsync(
+      <PermissoesScreen navigation={navigation} />
+    )
+
+    await waitFor(() =>
+      expect(getByText('Permissões às Tabuadas')).toBeTruthy()
+    )
+
+    fireEvent.press(getByLabelText('Alternar Todas'))
+    fireEvent.press(getByText('Salvar Permissões'))
+
+    await waitFor(() => expect(apiClient.post).toHaveBeenCalledTimes(1))
+    expect(apiClient.post.mock.calls[0][1].acessos).toEqual({
+      soma: true,
+      menos: true,
+      vezes: true,
+      dividir: true,
+      todas: true,
+    })
+  })
+
+  it('desmarca Todas ao desativar uma operacao individual', async () => {
+    apiClient.get.mockImplementation((url) => {
+      if (url.includes('/auth/login/prof123')) {
+        return Promise.resolve({
+          data: {
+            user: {
+              _id: 'prof123',
+              name: 'Prof',
+              tipo: 'Professor',
+              turma: 'A1',
+            },
+          },
+        })
+      }
+      if (url.includes('/auth/register')) {
+        return Promise.resolve({
+          data: [
+            {
+              _id: 'aluno1',
+              name: 'Aluno 1',
+              tipo: 'Aluno',
+              turma: 'A1',
+              permissoes: {
+                soma: true,
+                menos: true,
+                vezes: true,
+                dividir: true,
+                todas: true,
+              },
+            },
+          ],
+        })
+      }
+      return Promise.resolve({ data: {} })
+    })
+
+    apiClient.post.mockResolvedValue({ data: { message: 'ok' } })
+
+    const { getByText, getByLabelText } = await renderAsync(
+      <PermissoesScreen navigation={navigation} />
+    )
+
+    await waitFor(() =>
+      expect(getByText('Permissões às Tabuadas')).toBeTruthy()
+    )
+
+    fireEvent.press(getByLabelText('Alternar Subtração'))
+    fireEvent.press(getByText('Salvar Permissões'))
+
+    await waitFor(() => expect(apiClient.post).toHaveBeenCalledTimes(1))
+    expect(apiClient.post.mock.calls[0][1].acessos).toEqual({
+      soma: true,
+      menos: false,
+      vezes: true,
+      dividir: true,
+      todas: false,
+    })
+  })
+
+  it('gera convite para aluno a partir da tela de permissoes', async () => {
+    apiClient.get.mockImplementation((url) => {
+      if (url.includes('/auth/login/prof123')) {
+        return Promise.resolve({
+          data: {
+            user: {
+              _id: 'prof123',
+              name: 'Prof',
+              tipo: 'Professor',
+              turma: 'A1',
+            },
+          },
+        })
+      }
+      if (url.includes('/auth/register')) {
+        return Promise.resolve({
+          data: [
+            {
+              _id: 'aluno1',
+              name: 'Aluno 1',
+              tipo: 'Aluno',
+              turma: 'A1',
+              permissoes: { soma: true },
+            },
+          ],
+        })
+      }
+      return Promise.resolve({ data: {} })
+    })
+
+    apiClient.post.mockResolvedValueOnce({
+      data: { message: 'Convite enviado para o email informado.' },
+    })
+
+    const { getByText, getByPlaceholderText } = await renderAsync(
+      <PermissoesScreen navigation={navigation} />
+    )
+
+    await waitFor(() => expect(getByText('Gerar convite')).toBeTruthy())
+
+    fireEvent.press(getByText('Gerar convite'))
+    fireEvent.changeText(
+      getByPlaceholderText('Email do usuário'),
+      'novoaluno@escola.com'
+    )
+    fireEvent.press(getByText('Enviar convite'))
+
+    await waitFor(() => expect(apiClient.post).toHaveBeenCalledTimes(1))
+    expect(apiClient.post).toHaveBeenCalledWith(
+      '/auth/register/request-invite',
+      {
+        email: 'novoaluno@escola.com',
+        role: 'Aluno',
+      },
+      expect.any(Object)
+    )
+    expect(Alert.alert).toHaveBeenCalledWith(
+      'Convite enviado',
+      'Convite enviado para o email informado.'
+    )
+  })
+
+  it('permite coordenador escolher perfil do convite', async () => {
+    apiClient.get.mockImplementation((url) => {
+      if (url.includes('/auth/login/prof123')) {
+        return Promise.resolve({
+          data: {
+            user: {
+              _id: 'prof123',
+              name: 'Coord',
+              tipo: 'Coordenador',
+              turma: 'A1',
+            },
+          },
+        })
+      }
+      if (url.includes('/auth/register')) {
+        return Promise.resolve({
+          data: [
+            {
+              _id: 'aluno1',
+              name: 'Aluno 1',
+              tipo: 'Aluno',
+              turma: 'A1',
+              permissoes: { soma: true },
+            },
+          ],
+        })
+      }
+      return Promise.resolve({ data: {} })
+    })
+
+    apiClient.post.mockResolvedValueOnce({
+      data: { message: 'Convite enviado para o email informado.' },
+    })
+
+    const { getByText, getByPlaceholderText } = await renderAsync(
+      <PermissoesScreen navigation={navigation} />
+    )
+
+    await waitFor(() => expect(getByText('Gerar convite')).toBeTruthy())
+
+    fireEvent.press(getByText('Gerar convite'))
+    fireEvent.press(getByText('Professor'))
+    fireEvent.changeText(
+      getByPlaceholderText('Email do usuário'),
+      'novoprof@escola.com'
+    )
+    fireEvent.press(getByText('Enviar convite'))
+
+    await waitFor(() => expect(apiClient.post).toHaveBeenCalledTimes(1))
+    expect(apiClient.post.mock.calls[0][1]).toEqual({
+      email: 'novoprof@escola.com',
+      role: 'Professor',
+    })
   })
 })
