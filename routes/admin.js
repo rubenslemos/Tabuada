@@ -606,6 +606,7 @@ router.post(
         expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       })
 
+      let emailSent = true
       try {
         await sendInviteEmail({
           email: normalizedEmail,
@@ -614,11 +615,14 @@ router.post(
           role,
         })
       } catch (emailError) {
+        emailSent = false
         console.error('Erro ao enviar convite pelo admin:', emailError)
       }
 
       return res.status(200).json({
-        message: 'Convite gerado com sucesso.',
+        message: emailSent
+          ? 'Convite enviado para o email informado.'
+          : 'Convite gerado com sucesso. Nao foi possivel enviar o e-mail neste momento.',
         ...(isTestEnv() ? { inviteToken } : {}),
       })
     } catch (error) {
@@ -656,6 +660,7 @@ router.post(
       invite.createdByUser = req.user._id
       await invite.save()
 
+      let emailSent = true
       try {
         await sendInviteEmail({
           email: invite.email,
@@ -664,11 +669,14 @@ router.post(
           role: invite.role,
         })
       } catch (emailError) {
+        emailSent = false
         console.error('Erro ao reenviar convite pelo admin:', emailError)
       }
 
       return res.status(200).json({
-        message: 'Convite reenviado com sucesso.',
+        message: emailSent
+          ? 'Convite reenviado com sucesso.'
+          : 'Convite atualizado com sucesso. Nao foi possivel enviar o e-mail neste momento.',
         ...(isTestEnv() ? { inviteToken } : {}),
       })
     } catch (error) {
