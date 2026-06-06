@@ -235,6 +235,13 @@ export default function Header({
     }
   }
 
+  const openAbout = () => {
+    setMenuVisible(false)
+    setOpenOp(null)
+    setOpenInterval(null)
+    navigation.navigate('About')
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.topRow}>
@@ -365,32 +372,48 @@ export default function Header({
         <View style={styles.modalScroll}>
           <Text style={styles.modalTitle}>{menuTitle}</Text>
           {menuItems ? (
-            <View style={styles.customMenuList}>
-              {menuItems.map((item) => {
-                const active = activeMenuKey === item.key
-                return (
-                  <TouchableOpacity
-                    key={item.key}
-                    style={[
-                      styles.customMenuItem,
-                      active && styles.customMenuItemActive,
-                      item.danger && styles.customMenuItemDanger,
-                    ]}
-                    onPress={() => handleCustomMenuItemPress(item)}
-                  >
-                    <Text
+            <>
+              <View style={styles.customMenuList}>
+                {menuItems.map((item) => {
+                  const active = activeMenuKey === item.key
+                  return (
+                    <TouchableOpacity
+                      key={item.key}
                       style={[
-                        styles.customMenuItemText,
-                        active && styles.customMenuItemTextActive,
-                        item.danger && styles.customMenuItemTextDanger,
+                        styles.customMenuItem,
+                        active && styles.customMenuItemActive,
+                        item.danger && styles.customMenuItemDanger,
                       ]}
+                      onPress={() => handleCustomMenuItemPress(item)}
                     >
-                      {item.label}
+                      <Text
+                        style={[
+                          styles.customMenuItemText,
+                          active && styles.customMenuItemTextActive,
+                          item.danger && styles.customMenuItemTextDanger,
+                        ]}
+                      >
+                        {item.label}
+                      </Text>
+                    </TouchableOpacity>
+                  )
+                })}
+              </View>
+
+              {activeMenuKey !== 'about' ? (
+                <>
+                  <View style={styles.customMenuDivider} />
+                  <TouchableOpacity
+                    style={styles.customMenuItem}
+                    onPress={openAbout}
+                  >
+                    <Text style={styles.customMenuItemText}>
+                      Sobre o aplicativo
                     </Text>
                   </TouchableOpacity>
-                )
-              })}
-            </View>
+                </>
+              ) : null}
+            </>
           ) : (
             <>
               {visibleOperations.map((op) => (
@@ -477,6 +500,15 @@ export default function Header({
                   )}
                 </View>
               ))}
+
+              <TouchableOpacity
+                style={styles.customMenuItem}
+                onPress={openAbout}
+              >
+                <Text style={styles.customMenuItemText}>
+                  Sobre o aplicativo
+                </Text>
+              </TouchableOpacity>
 
               <TouchableOpacity
                 style={styles.logoutButton}
@@ -671,6 +703,11 @@ const styles = StyleSheet.create({
   },
   customMenuList: {
     gap: 8,
+  },
+  customMenuDivider: {
+    height: 1,
+    backgroundColor: 'rgba(255,255,255,0.16)',
+    marginVertical: 10,
   },
   customMenuItem: {
     borderRadius: 12,

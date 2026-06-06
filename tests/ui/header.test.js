@@ -194,6 +194,15 @@ describe('Header', () => {
     )
   })
 
+  it('abre a tela de sobre pelo menu hamburger', async () => {
+    const { getByLabelText, getByText } = await renderAsync(<Header />)
+
+    fireEvent.press(getByLabelText('Abrir menu'))
+    fireEvent.press(getByText('Sobre o aplicativo'))
+
+    expect(mockNavigation.navigate).toHaveBeenCalledWith('About')
+  })
+
   it('mostra apenas intervalos antes de abrir um intervalo', async () => {
     AsyncStorage.getItem.mockImplementation(async (key) => {
       if (key === 'userName') return 'Rubens'

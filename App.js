@@ -20,6 +20,7 @@ import ForgotPasswordScreen from './screens/ForgotPasswordScreen'
 import ResetPasswordScreen from './screens/ResetPasswordScreen'
 import PermissoesScreen from './screens/PermissoesScreen'
 import AdminPanelScreen from './screens/AdminPanelScreen'
+import AboutScreen from './screens/AboutScreen'
 
 const Stack = createStackNavigator()
 
@@ -51,6 +52,7 @@ export default function App() {
         <Stack.Screen name="Tabuada" component={TabuadaScreen} />
         <Stack.Screen name="Performance" component={PerformanceScreen} />
         <Stack.Screen name="Permissoes" component={PermissoesScreen} />
+        <Stack.Screen name="About" component={AboutScreen} />
       </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>
