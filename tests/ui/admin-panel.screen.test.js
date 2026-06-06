@@ -369,19 +369,7 @@ describe('AdminPanelScreen', () => {
     )
 
     await waitFor(() =>
-      expect(screen.getByPlaceholderText('Buscar instituição')).toBeTruthy()
-    )
-
-    fireEvent.changeText(
-      screen.getByPlaceholderText('Buscar instituição'),
-      'Alpha'
-    )
-
-    await waitFor(() =>
-      expect(apiClient.get).toHaveBeenCalledWith(
-        '/admin/organizations?page=1&pageSize=6&sortBy=createdAt&sortOrder=desc&search=Alpha',
-        expect.any(Object)
-      )
+      expect(screen.getByText('Instituição selecionada')).toBeTruthy()
     )
 
     await openMenuItem(screen, 'Convites enviados')
@@ -419,7 +407,7 @@ describe('AdminPanelScreen', () => {
 
     await waitFor(() =>
       expect(apiClient.get).toHaveBeenCalledWith(
-        '/admin/organizations?page=1&pageSize=6&sortBy=name&sortOrder=asc',
+        '/admin/organizations?sortBy=name&sortOrder=asc',
         expect.any(Object)
       )
     )
@@ -444,7 +432,7 @@ describe('AdminPanelScreen', () => {
     )
 
     await waitFor(() =>
-      expect(screen.getByPlaceholderText('Buscar instituição')).toBeTruthy()
+      expect(screen.getByText('Instituição selecionada')).toBeTruthy()
     )
 
     fireEvent.press(screen.getByText('Todos status'))
@@ -452,7 +440,7 @@ describe('AdminPanelScreen', () => {
 
     await waitFor(() =>
       expect(apiClient.get).toHaveBeenCalledWith(
-        '/admin/organizations?page=1&pageSize=6&sortBy=createdAt&sortOrder=desc&status=active',
+        '/admin/organizations?sortBy=createdAt&sortOrder=desc&status=active',
         expect.any(Object)
       )
     )

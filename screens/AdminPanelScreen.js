@@ -137,11 +137,8 @@ export default function AdminPanelScreen({ navigation }) {
   const [activeSection, setActiveSection] = useState('organizations')
   const [openSelect, setOpenSelect] = useState(null)
   const [organizations, setOrganizations] = useState([])
-  const [orgSearch, setOrgSearch] = useState('')
   const [orgStatusFilter, setOrgStatusFilter] = useState('all')
   const [orgSortKey, setOrgSortKey] = useState('createdAt:desc')
-  const [orgPage, setOrgPage] = useState(1)
-  const [orgPagination, setOrgPagination] = useState(INITIAL_PAGINATION)
   const [selectedOrgId, setSelectedOrgId] = useState(null)
   const [summary, setSummary] = useState(INITIAL_SUMMARY)
   const [users, setUsers] = useState([])
@@ -272,7 +269,7 @@ export default function AdminPanelScreen({ navigation }) {
         handlePanelError(error, 'Nao foi possivel atualizar as instituicoes.')
       }
     })()
-  }, [hasBootstrapped, orgSearch, orgStatusFilter, orgSortKey, orgPage])
+  }, [hasBootstrapped, orgStatusFilter, orgSortKey])
 
   useEffect(() => {
     if (!hasBootstrapped || !selectedOrgId) return
@@ -313,13 +310,9 @@ export default function AdminPanelScreen({ navigation }) {
     const headers = token ? { Authorization: `Bearer ${token}` } : undefined
     const params = new URLSearchParams()
     const [orgSortBy, orgSortOrder] = orgSortKey.split(':')
-    params.set('page', String(orgPage))
-    params.set('pageSize', String(DEFAULT_PAGE_SIZE))
     params.set('sortBy', orgSortBy)
     params.set('sortOrder', orgSortOrder || 'desc')
     if (orgStatusFilter !== 'all') params.set('status', orgStatusFilter)
-    if (orgSearch.trim()) params.set('search', orgSearch.trim())
-
     const resp = await apiClient.get(
       `/admin/organizations?${params.toString()}`,
       {
@@ -331,21 +324,11 @@ export default function AdminPanelScreen({ navigation }) {
       Array.isArray(payload) ? payload : payload?.items || [],
       (org, index) => org?._id || org?.id || `org-${index}`
     )
-    const pagination = Array.isArray(payload)
-      ? {
-          page: orgPage,
-          pageSize: DEFAULT_PAGE_SIZE,
-          totalItems: nextOrgs.length,
-          totalPages: 1,
-        }
-      : payload?.pagination || INITIAL_PAGINATION
-
     if (!isLatestRequest('organizations', requestId)) {
       return
     }
 
     setOrganizations(nextOrgs)
-    setOrgPagination(pagination)
 
     if (nextOrgs.length === 0) {
       setSelectedOrgId(null)
@@ -471,14 +454,15 @@ export default function AdminPanelScreen({ navigation }) {
     }
   }
 
-  async function handleToggleStatus() {
-    if (!selectedOrg) return
+  async function handleToggleStatus(organization = selectedOrg) {
+    if (!organization) return
     try {
       const token = await AsyncStorage.getItem('token')
       const headers = token ? { Authorization: `Bearer ${token}` } : undefined
-      const nextStatus = selectedOrg.status === 'active' ? 'disabled' : 'active'
+      const nextStatus =
+        organization.status === 'active' ? 'disabled' : 'active'
       await apiClient.patch(
-        `/admin/organizations/${selectedOrg._id}/status`,
+        `/admin/organizations/${organization._id}/status`,
         { status: nextStatus },
         { headers }
       )
@@ -660,6 +644,10 @@ export default function AdminPanelScreen({ navigation }) {
     key: item,
     label: item,
   }))
+  const organizationOptions = organizations.map((org) => ({
+    key: String(org._id),
+    label: org.name,
+  }))
 
   const renderSelectedOrgHint = (message) => {
     const hintMessage =
@@ -678,14 +666,19 @@ export default function AdminPanelScreen({ navigation }) {
     <>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Instituições</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Buscar instituição"
-          placeholderTextColor={INPUT_PLACEHOLDER_COLOR}
-          value={orgSearch}
-          onChangeText={(value) => {
-            setOrgPage(1)
-            setOrgSearch(value)
+        <SelectField
+          label="Instituição selecionada"
+          value={selectedOrg?.name || 'Selecione uma instituição'}
+          options={organizationOptions}
+          isOpen={openSelect === 'organization'}
+          onToggle={() =>
+            setOpenSelect((prev) =>
+              prev === 'organization' ? null : 'organization'
+            )
+          }
+          onSelect={async (option) => {
+            setOpenSelect(null)
+            await handleSelectOrg(option.key)
           }}
         />
         <SelectField
@@ -700,7 +693,6 @@ export default function AdminPanelScreen({ navigation }) {
             setOpenSelect((prev) => (prev === 'orgStatus' ? null : 'orgStatus'))
           }
           onSelect={(option) => {
-            setOrgPage(1)
             setOrgStatusFilter(option.key)
             setOpenSelect(null)
           }}
@@ -717,85 +709,48 @@ export default function AdminPanelScreen({ navigation }) {
             setOpenSelect((prev) => (prev === 'orgSort' ? null : 'orgSort'))
           }
           onSelect={(option) => {
-            setOrgPage(1)
             setOrgSortKey(option.key)
             setOpenSelect(null)
           }}
         />
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.orgsRow}
-        >
-          {organizations.map((org) => {
-            const active = String(org._id) === String(selectedOrgId)
-            return (
+        {selectedOrg ? (
+          <View style={[styles.orgCard, styles.orgCardExpanded]}>
+            <View style={styles.orgCardHeader}>
               <TouchableOpacity
-                key={String(org._id)}
-                style={[styles.orgCard, active && styles.orgCardActive]}
-                onPress={() => handleSelectOrg(org._id)}
+                style={styles.orgCardMain}
+                onPress={() => handleSelectOrg(selectedOrg._id)}
               >
-                <Text
-                  style={[styles.orgName, active && styles.orgNameActive]}
-                  numberOfLines={2}
-                >
-                  {org.name}
-                </Text>
-                <Text style={styles.orgMeta}>Status: {org.status}</Text>
-                <Text style={styles.orgMeta}>
-                  Usuários: {org.userCount || 0}
-                </Text>
-                <Text style={styles.orgMeta}>
-                  Convites: {org.pendingInvites || 0}
+                <Text style={[styles.orgName, styles.orgNameActive]}>
+                  {selectedOrg.name}
                 </Text>
               </TouchableOpacity>
-            )
-          })}
-        </ScrollView>
-        {selectedOrg ? (
-          <View style={styles.orgActionsWrap}>
-            <TouchableOpacity
-              style={[styles.secondaryButton, styles.orgActionButton]}
-              onPress={handleToggleStatus}
-            >
-              <Text style={styles.secondaryButtonText}>
-                {selectedOrg.status === 'active'
-                  ? 'Desativar instituição'
-                  : 'Ativar instituição'}
+              <TouchableOpacity
+                style={[
+                  styles.orgStatusBubble,
+                  selectedOrg.status === 'active'
+                    ? styles.orgStatusBubbleDanger
+                    : styles.orgStatusBubbleActivate,
+                ]}
+                onPress={() => handleToggleStatus(selectedOrg)}
+              >
+                <Text style={styles.orgStatusBubbleText}>
+                  {selectedOrg.status === 'active' ? '✕' : '✓'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.orgCardMain}>
+              <Text style={styles.orgMeta}>Status: {selectedOrg.status}</Text>
+              <Text style={styles.orgMeta}>
+                Usuários: {selectedOrg.userCount || 0}
               </Text>
-            </TouchableOpacity>
+              <Text style={styles.orgMeta}>
+                Convites: {selectedOrg.pendingInvites || 0}
+              </Text>
+            </View>
           </View>
-        ) : null}
-        <View style={styles.paginationRow}>
-          <TouchableOpacity
-            style={[
-              styles.paginationButton,
-              orgPage <= 1 && styles.paginationButtonDisabled,
-            ]}
-            disabled={orgPage <= 1}
-            onPress={() => setOrgPage((prev) => Math.max(1, prev - 1))}
-          >
-            <Text style={styles.paginationButtonText}>Anterior</Text>
-          </TouchableOpacity>
-          <Text style={styles.paginationLabel}>
-            Página {orgPagination.page} de {orgPagination.totalPages}
-          </Text>
-          <TouchableOpacity
-            style={[
-              styles.paginationButton,
-              orgPage >= orgPagination.totalPages &&
-                styles.paginationButtonDisabled,
-            ]}
-            disabled={orgPage >= orgPagination.totalPages}
-            onPress={() =>
-              setOrgPage((prev) =>
-                Math.min(orgPagination.totalPages || 1, prev + 1)
-              )
-            }
-          >
-            <Text style={styles.paginationButtonText}>Próxima</Text>
-          </TouchableOpacity>
-        </View>
+        ) : (
+          <Text style={styles.empty}>Selecione uma instituição.</Text>
+        )}
       </View>
 
       {selectedOrg ? (
@@ -1305,7 +1260,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     elevation: 2,
   },
-  orgsRow: { gap: 10, paddingVertical: 4 },
   orgCard: {
     width: 180,
     borderRadius: 14,
@@ -1320,13 +1274,54 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     elevation: 2,
   },
+  orgCardExpanded: {
+    width: '100%',
+    minHeight: 112,
+  },
+  orgCardHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 8,
+  },
+  orgCardMain: {
+    flex: 1,
+    gap: 4,
+  },
   orgCardActive: {
     borderColor: '#ffe082',
     backgroundColor: 'rgba(255,214,90,0.2)',
     shadowOpacity: 0.26,
   },
-  orgActionsWrap: { gap: 10 },
-  orgActionButton: { width: '100%' },
+  orgStatusBubble: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1.5,
+    shadowColor: '#1b1003',
+    shadowOpacity: 0.22,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 2,
+  },
+  orgStatusBubbleDanger: {
+    backgroundColor: '#dc5f5f',
+    borderColor: '#f6b0b0',
+  },
+  orgStatusBubbleActivate: {
+    backgroundColor: '#5c9bf4',
+    borderColor: '#d4e4ff',
+  },
+  orgStatusBubbleText: {
+    color: '#fffdf1',
+    fontFamily: FONTS.title,
+    fontSize: 19,
+    lineHeight: 19,
+    fontWeight: '900',
+    textAlign: 'center',
+    includeFontPadding: false,
+  },
   orgName: { color: COLORS.chalkText, fontFamily: FONTS.title, fontSize: 18 },
   orgNameActive: { color: '#fff8d1' },
   orgMeta: { color: COLORS.chalkText, fontFamily: FONTS.body, fontSize: 13 },
