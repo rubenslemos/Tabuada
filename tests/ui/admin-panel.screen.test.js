@@ -348,7 +348,7 @@ describe('AdminPanelScreen', () => {
     )
     await openMenuItem(screen, 'Convites enviados')
 
-    fireEvent.press(screen.getByText('Pendentes'))
+    fireEvent.press(screen.getAllByText('Todos')[0])
     fireEvent.press(screen.getByText('Usados'))
     fireEvent.press(screen.getByText('Todos'))
     fireEvent.press(screen.getByText('Professor'))
@@ -380,7 +380,7 @@ describe('AdminPanelScreen', () => {
 
     await waitFor(() =>
       expect(apiClient.get).toHaveBeenCalledWith(
-        '/admin/organizations/org1/invites?status=pending&page=1&pageSize=6&sortBy=createdAt&sortOrder=desc&search=filtrado',
+        '/admin/organizations/org1/invites?status=all&page=1&pageSize=6&sortBy=createdAt&sortOrder=desc&search=filtrado',
         expect.any(Object)
       )
     )
@@ -402,23 +402,13 @@ describe('AdminPanelScreen', () => {
     expect(screen.getByText('Últimas rodadas')).toBeTruthy()
     expect(screen.getAllByText('Professor 1').length).toBeGreaterThan(0)
 
-    fireEvent.press(screen.getByText('Mais recentes'))
-    fireEvent.press(screen.getByText('Nome A-Z'))
-
-    await waitFor(() =>
-      expect(apiClient.get).toHaveBeenCalledWith(
-        '/admin/organizations?sortBy=name&sortOrder=asc',
-        expect.any(Object)
-      )
-    )
-
     await openMenuItem(screen, 'Convites enviados')
     fireEvent.press(screen.getByText('Mais recentes'))
     fireEvent.press(screen.getByText('Email A-Z'))
 
     await waitFor(() =>
       expect(apiClient.get).toHaveBeenCalledWith(
-        '/admin/organizations/org1/invites?status=pending&page=1&pageSize=6&sortBy=email&sortOrder=asc',
+        '/admin/organizations/org1/invites?status=all&page=1&pageSize=6&sortBy=email&sortOrder=asc',
         expect.any(Object)
       )
     )
@@ -433,16 +423,6 @@ describe('AdminPanelScreen', () => {
 
     await waitFor(() =>
       expect(screen.getByText('Instituição selecionada')).toBeTruthy()
-    )
-
-    fireEvent.press(screen.getByText('Todos status'))
-    fireEvent.press(screen.getByText('Ativas'))
-
-    await waitFor(() =>
-      expect(apiClient.get).toHaveBeenCalledWith(
-        '/admin/organizations?sortBy=createdAt&sortOrder=desc&status=active',
-        expect.any(Object)
-      )
     )
 
     await openMenuItem(screen, 'Usuários da instituição')

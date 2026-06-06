@@ -18,17 +18,12 @@ import { getErrorMessage } from '../utils/errorMessage'
 
 const ROLES = ['Aluno', 'Professor', 'Coordenador']
 const INVITE_STATUSES = [
+  { key: 'all', label: 'Todos' },
   { key: 'pending', label: 'Pendentes' },
   { key: 'used', label: 'Usados' },
   { key: 'expired', label: 'Expirados' },
 ]
 const INVITE_ROLE_FILTERS = ['Todos', ...ROLES]
-const ORG_STATUS_FILTERS = [
-  { key: 'all', label: 'Todos status' },
-  { key: 'active', label: 'Ativas' },
-  { key: 'pending', label: 'Pendentes' },
-  { key: 'disabled', label: 'Desativadas' },
-]
 const USER_TYPE_FILTERS = ['Todos', ...ROLES]
 const INITIAL_ORG_FORM = {
   name: '',
@@ -42,11 +37,6 @@ const INITIAL_PAGINATION = {
   totalItems: 0,
   totalPages: 1,
 }
-const ORG_SORT_OPTIONS = [
-  { key: 'createdAt:desc', label: 'Mais recentes' },
-  { key: 'name:asc', label: 'Nome A-Z' },
-  { key: 'status:asc', label: 'Status' },
-]
 const INVITE_SORT_OPTIONS = [
   { key: 'createdAt:desc', label: 'Mais recentes' },
   { key: 'email:asc', label: 'Email A-Z' },
@@ -88,6 +78,14 @@ function dedupeById(items = [], getId) {
     seen.add(id)
     return true
   })
+}
+
+function getInviteStatusLabel(invite) {
+  if (invite?.usedAt) return 'Usado'
+  if (invite?.expiresAt && new Date(invite.expiresAt) <= new Date()) {
+    return 'Expirado'
+  }
+  return 'Pendente'
 }
 
 function SelectField({ label, value, options, isOpen, onToggle, onSelect }) {
@@ -137,8 +135,6 @@ export default function AdminPanelScreen({ navigation }) {
   const [activeSection, setActiveSection] = useState('organizations')
   const [openSelect, setOpenSelect] = useState(null)
   const [organizations, setOrganizations] = useState([])
-  const [orgStatusFilter, setOrgStatusFilter] = useState('all')
-  const [orgSortKey, setOrgSortKey] = useState('createdAt:desc')
   const [selectedOrgId, setSelectedOrgId] = useState(null)
   const [summary, setSummary] = useState(INITIAL_SUMMARY)
   const [users, setUsers] = useState([])
@@ -148,7 +144,7 @@ export default function AdminPanelScreen({ navigation }) {
   const [inviteSortKey, setInviteSortKey] = useState('createdAt:desc')
   const [invitePage, setInvitePage] = useState(1)
   const [invitePagination, setInvitePagination] = useState(INITIAL_PAGINATION)
-  const [inviteStatus, setInviteStatus] = useState('pending')
+  const [inviteStatus, setInviteStatus] = useState('all')
   const [inviteRoleFilter, setInviteRoleFilter] = useState('Todos')
   const [inviteEmail, setInviteEmail] = useState('')
   const [inviteRole, setInviteRole] = useState('Aluno')
@@ -269,7 +265,7 @@ export default function AdminPanelScreen({ navigation }) {
         handlePanelError(error, 'Nao foi possivel atualizar as instituicoes.')
       }
     })()
-  }, [hasBootstrapped, orgStatusFilter, orgSortKey])
+  }, [hasBootstrapped])
 
   useEffect(() => {
     if (!hasBootstrapped || !selectedOrgId) return
@@ -308,17 +304,7 @@ export default function AdminPanelScreen({ navigation }) {
     const requestId = nextRequestId('organizations')
     const token = tokenOverride || (await AsyncStorage.getItem('token'))
     const headers = token ? { Authorization: `Bearer ${token}` } : undefined
-    const params = new URLSearchParams()
-    const [orgSortBy, orgSortOrder] = orgSortKey.split(':')
-    params.set('sortBy', orgSortBy)
-    params.set('sortOrder', orgSortOrder || 'desc')
-    if (orgStatusFilter !== 'all') params.set('status', orgStatusFilter)
-    const resp = await apiClient.get(
-      `/admin/organizations?${params.toString()}`,
-      {
-        headers,
-      }
-    )
+    const resp = await apiClient.get('/admin/organizations', { headers })
     const payload = resp.data
     const nextOrgs = dedupeById(
       Array.isArray(payload) ? payload : payload?.items || [],
@@ -620,14 +606,6 @@ export default function AdminPanelScreen({ navigation }) {
     },
   ]
 
-  const orgStatusOptions = ORG_STATUS_FILTERS.map((item) => ({
-    key: item.key,
-    label: item.label,
-  }))
-  const orgSortOptions = ORG_SORT_OPTIONS.map((item) => ({
-    key: item.key,
-    label: item.label,
-  }))
   const inviteSortOptions = INVITE_SORT_OPTIONS.map((item) => ({
     key: item.key,
     label: item.label,
@@ -679,38 +657,6 @@ export default function AdminPanelScreen({ navigation }) {
           onSelect={async (option) => {
             setOpenSelect(null)
             await handleSelectOrg(option.key)
-          }}
-        />
-        <SelectField
-          label="Status"
-          value={
-            orgStatusOptions.find((item) => item.key === orgStatusFilter)
-              ?.label || 'Todos status'
-          }
-          options={orgStatusOptions}
-          isOpen={openSelect === 'orgStatus'}
-          onToggle={() =>
-            setOpenSelect((prev) => (prev === 'orgStatus' ? null : 'orgStatus'))
-          }
-          onSelect={(option) => {
-            setOrgStatusFilter(option.key)
-            setOpenSelect(null)
-          }}
-        />
-        <SelectField
-          label="Ordenar por"
-          value={
-            orgSortOptions.find((item) => item.key === orgSortKey)?.label ||
-            'Mais recentes'
-          }
-          options={orgSortOptions}
-          isOpen={openSelect === 'orgSort'}
-          onToggle={() =>
-            setOpenSelect((prev) => (prev === 'orgSort' ? null : 'orgSort'))
-          }
-          onSelect={(option) => {
-            setOrgSortKey(option.key)
-            setOpenSelect(null)
           }}
         />
         {selectedOrg ? (
@@ -999,7 +945,7 @@ export default function AdminPanelScreen({ navigation }) {
           label="Status"
           value={
             inviteStatusOptions.find((item) => item.key === inviteStatus)
-              ?.label || 'Pendentes'
+              ?.label || 'Todos'
           }
           options={inviteStatusOptions}
           isOpen={openSelect === 'inviteStatus'}
@@ -1040,6 +986,9 @@ export default function AdminPanelScreen({ navigation }) {
               <Text style={styles.userName}>{invite.email}</Text>
               <Text style={styles.userMeta}>{invite.role}</Text>
               <Text style={styles.userMeta}>
+                Status: {getInviteStatusLabel(invite)}
+              </Text>
+              <Text style={styles.userMeta}>
                 Criado em{' '}
                 {new Date(
                   invite.createdAt || invite.expiresAt
@@ -1049,7 +998,7 @@ export default function AdminPanelScreen({ navigation }) {
                 Expira em{' '}
                 {new Date(invite.expiresAt).toLocaleDateString('pt-BR')}
               </Text>
-              {inviteStatus !== 'used' ? (
+              {!invite.usedAt ? (
                 <TouchableOpacity
                   style={styles.smallActionButton}
                   onPress={() => handleResendInvite(invite._id)}
