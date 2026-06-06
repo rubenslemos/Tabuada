@@ -7,12 +7,21 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
+import * as Clipboard from 'expo-clipboard'
+import QRCode from 'react-native-qrcode-svg'
 import Header from '../components/Header'
 import ChalkPanel from '../components/ChalkPanel'
 import ClassroomBackground from '../components/ClassroomBackground'
 import { FONTS } from '../src/theme'
+import { buildPixPayload } from '../utils/pix'
 
 const PIX_KEY = '1c135bc4-4cfb-4f6a-beac-90b6d7ee2d58'
+const PIX_COPY_PASTE = buildPixPayload({
+  key: PIX_KEY,
+  merchantName: 'Tabuada',
+  merchantCity: 'Sao Paulo',
+  description: 'Apoio ao app Tabuada',
+})
 
 const features = [
   {
@@ -48,10 +57,22 @@ const features = [
 ]
 
 export default function AboutScreen({ navigation }) {
+  async function copyPixPayload() {
+    try {
+      await Clipboard.setStringAsync(PIX_COPY_PASTE)
+      Alert.alert(
+        'Pix copiado',
+        'O código Pix Copia e Cola foi copiado para a área de transferência.'
+      )
+    } catch {
+      Alert.alert('Não foi possível copiar', 'Tente novamente em instantes.')
+    }
+  }
+
   async function sharePixKey() {
     try {
       await Share.share({
-        message: `Apoie o desenvolvimento do app Tabuada.\n\nChave Pix: ${PIX_KEY}`,
+        message: `Apoie o desenvolvimento do app Tabuada.\n\nChave Pix: ${PIX_KEY}\n\nPix Copia e Cola:\n${PIX_COPY_PASTE}`,
         title: 'Doação via Pix',
       })
     } catch {
@@ -139,7 +160,33 @@ export default function AboutScreen({ navigation }) {
                 projeto, é possível fazer uma doação via Pix.
               </Text>
               <Text style={styles.pixHint}>
-                Toque e segure a chave abaixo para copiar no celular.
+                O QR Code funciona bem quando alguém estiver vendo esta tela em
+                outro aparelho ou na tela do computador.
+              </Text>
+              <View style={styles.qrWrap}>
+                <View style={styles.qrCard}>
+                  <QRCode value={PIX_COPY_PASTE} size={174} />
+                </View>
+              </View>
+              <Text style={styles.pixHint}>
+                No mesmo celular, o caminho mais fácil costuma ser copiar o Pix
+                Copia e Cola e colar no app do banco.
+              </Text>
+              <Text selectable style={styles.pixPayload}>
+                {PIX_COPY_PASTE}
+              </Text>
+
+              <TouchableOpacity
+                style={styles.copyButton}
+                onPress={copyPixPayload}
+              >
+                <Text style={styles.copyButtonText}>
+                  Copiar Pix Copia e Cola
+                </Text>
+              </TouchableOpacity>
+
+              <Text style={styles.pixHint}>
+                Se preferir, a chave Pix também continua disponível abaixo.
               </Text>
               <Text selectable style={styles.pixKey}>
                 {PIX_KEY}
@@ -150,7 +197,7 @@ export default function AboutScreen({ navigation }) {
                 onPress={sharePixKey}
               >
                 <Text style={styles.donateButtonText}>
-                  Compartilhar chave Pix
+                  Compartilhar dados do Pix
                 </Text>
               </TouchableOpacity>
             </View>
@@ -303,6 +350,30 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.body,
     marginBottom: 8,
   },
+  qrWrap: {
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  qrCard: {
+    backgroundColor: '#fffdf7',
+    borderRadius: 20,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.55)',
+  },
+  pixPayload: {
+    color: '#ffffff',
+    fontSize: 13,
+    lineHeight: 19,
+    fontFamily: FONTS.body,
+    backgroundColor: 'rgba(0,0,0,0.22)',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.18)',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    marginBottom: 12,
+  },
   pixKey: {
     color: '#ffffff',
     fontSize: 17,
@@ -315,6 +386,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 10,
     marginBottom: 14,
+  },
+  copyButton: {
+    alignSelf: 'stretch',
+    backgroundColor: '#4aa0ec',
+    borderRadius: 14,
+    paddingVertical: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.35)',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  copyButtonText: {
+    color: '#f7fcff',
+    fontSize: 15,
+    fontFamily: FONTS.title,
   },
   donateButton: {
     alignSelf: 'stretch',
