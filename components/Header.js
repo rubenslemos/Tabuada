@@ -212,7 +212,10 @@ export default function Header({
         'token',
         'userId',
         'userName',
+        'userEmail',
         'userPermissions',
+        'userOrganizationName',
+        'isGlobalAdmin',
         'totalAcertos',
         'totalJogos',
         'totalErros',
@@ -240,6 +243,20 @@ export default function Header({
     setOpenOp(null)
     setOpenInterval(null)
     navigation.navigate('About')
+  }
+
+  const openPrivacyPolicy = () => {
+    setMenuVisible(false)
+    setOpenOp(null)
+    setOpenInterval(null)
+    navigation.navigate('PrivacyPolicy')
+  }
+
+  const openDeleteAccount = () => {
+    setMenuVisible(false)
+    setOpenOp(null)
+    setOpenInterval(null)
+    navigation.navigate('DeleteAccount')
   }
 
   return (
@@ -413,6 +430,27 @@ export default function Header({
                   </TouchableOpacity>
                 </>
               ) : null}
+              <TouchableOpacity
+                style={styles.customMenuItem}
+                onPress={openPrivacyPolicy}
+              >
+                <Text style={styles.customMenuItemText}>
+                  Política de privacidade
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.customMenuItem, styles.customMenuItemDanger]}
+                onPress={openDeleteAccount}
+              >
+                <Text
+                  style={[
+                    styles.customMenuItemText,
+                    styles.customMenuItemTextDanger,
+                  ]}
+                >
+                  Excluir minha conta
+                </Text>
+              </TouchableOpacity>
             </>
           ) : (
             <>
@@ -507,6 +545,27 @@ export default function Header({
               >
                 <Text style={styles.customMenuItemText}>
                   Sobre o aplicativo
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.customMenuItem}
+                onPress={openPrivacyPolicy}
+              >
+                <Text style={styles.customMenuItemText}>
+                  Política de privacidade
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.customMenuItem, styles.customMenuItemDanger]}
+                onPress={openDeleteAccount}
+              >
+                <Text
+                  style={[
+                    styles.customMenuItemText,
+                    styles.customMenuItemTextDanger,
+                  ]}
+                >
+                  Excluir minha conta
                 </Text>
               </TouchableOpacity>
 

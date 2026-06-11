@@ -77,6 +77,7 @@ app.options(/.*/, cors())
 app.use(express.static(__dirname + '/assets'))
 app.use(cookieParser())
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 function safeRender(res, viewName, locals = {}) {
   return res.render(viewName, locals, (err, html) => {
@@ -136,6 +137,74 @@ app.get('/acessos', webAuth, (req, res) => {
 app.get('/logout', (req, res) => {
   safeRender(res, 'login', { title: 'Login - Tabuada' })
 })
+
+app.get('/privacy-policy', (_req, res) => {
+  safeRender(res, 'privacy-policy', {
+    title: 'Politica de Privacidade - Tabuada',
+    privacyPolicyUrl: `${process.env.API_BASE_URL || 'https://tabuada-theta-nine.vercel.app'}/privacy-policy`,
+    accountDeletionUrl: `${process.env.API_BASE_URL || 'https://tabuada-theta-nine.vercel.app'}/account-deletion`,
+  })
+})
+
+app
+  .route('/account-deletion')
+  .get((_req, res) => {
+    safeRender(res, 'account-deletion', {
+      title: 'Exclusao de Conta - Tabuada',
+      success: false,
+      error: '',
+      values: { name: '', email: '', reason: '' },
+    })
+  })
+  .post(async (req, res) => {
+    try {
+      const email = String(req.body?.email || '')
+        .toLowerCase()
+        .trim()
+      if (!email) {
+        return safeRender(res, 'account-deletion', {
+          title: 'Exclusao de Conta - Tabuada',
+          success: false,
+          error: 'Email obrigatorio',
+          values: {
+            name: req.body?.name || '',
+            email: req.body?.email || '',
+            reason: req.body?.reason || '',
+          },
+        })
+      }
+
+      const loginRoutes = require('./routes/login')
+      await loginRoutes.createDeletionRequest({
+        email,
+        name: String(req.body?.name || '').trim(),
+        reason: String(req.body?.reason || '').trim(),
+        source: 'web',
+      })
+
+      return safeRender(res, 'account-deletion', {
+        title: 'Exclusao de Conta - Tabuada',
+        success: true,
+        error: '',
+        values: { name: '', email: '', reason: '' },
+      })
+    } catch (error) {
+      console.error(
+        'Erro ao processar formulario publico de exclusao:',
+        error.message
+      )
+      return safeRender(res, 'account-deletion', {
+        title: 'Exclusao de Conta - Tabuada',
+        success: false,
+        error: 'Nao foi possivel enviar seu pedido agora.',
+        values: {
+          name: req.body?.name || '',
+          email: req.body?.email || '',
+          reason: req.body?.reason || '',
+        },
+      })
+    }
+  })
 
 const tipsRouter = require('./routes/tips')
 app.use('/tips', tipsRouter)

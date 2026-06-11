@@ -92,7 +92,7 @@ Aplicativo mobile em React Native (Expo) com backend Node.js/Express.
 
 ### 6. Identidade Android atual
 
-- `android.package`: `com.rubenslemos.tabuadamobile`
+- `android.package`: `com.tabuadamobile`
 - `android.versionCode`: `1`
 
 Se quiser trocar o `android.package`, faça isso antes da primeira publicação.

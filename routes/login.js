@@ -6,6 +6,8 @@ const auth = require('../middlewares/authenticator')
 const crypto = require('crypto')
 const mailer = require('../modules/mailer')
 const { canViewUser, idsMatch } = require('../utils/access')
+const AccountDeletionRequest = require('../models/AccountDeletionRequest')
+const { deleteUserData } = require('../utils/deleteUserData')
 require('dotenv').config()
 const hash = process.env.SECRET
 
@@ -17,6 +19,44 @@ function generateToken(params = {}) {
 
 function getMailFrom() {
   return process.env.MAIL_FROM || 'Tabuada <nao-responda@tabuada.app>'
+}
+
+function getDeletionContactEmail() {
+  return (
+    process.env.ADMIN_EMAIL || process.env.MAIL_FROM || 'contato@tabuada.app'
+  )
+}
+
+async function notifyDeletionRequest({ email, name, reason }) {
+  const contactEmail = getDeletionContactEmail()
+  return mailer.sendMail({
+    to: contactEmail,
+    from: getMailFrom(),
+    subject: 'Novo pedido de exclusao de conta - Tabuada',
+    html: `
+      <div style="font-family: Arial, sans-serif; color: #203124; line-height: 1.6;">
+        <h2>Novo pedido de exclusao de conta</h2>
+        <p><strong>Nome:</strong> ${name || 'Nao informado'}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Motivo:</strong> ${reason || 'Nao informado'}</p>
+      </div>
+    `,
+  })
+}
+
+async function createDeletionRequest({ email, name, reason, source = 'web' }) {
+  await AccountDeletionRequest.create({
+    email,
+    name,
+    reason,
+    source,
+  })
+
+  try {
+    await notifyDeletionRequest({ email, name, reason })
+  } catch (mailError) {
+    console.error('Erro ao notificar pedido de exclusao:', mailError.message)
+  }
 }
 router.post('/', async (req, res) => {
   const { email, password } = req.body
@@ -188,4 +228,69 @@ router.get('/:id', auth, async (req, res) => {
     return res.status(400).send({ error: 'Erro ao listar usuario' })
   }
 })
+
+router.post('/delete_account_request', async (req, res) => {
+  const email = String(req.body?.email || '')
+    .toLowerCase()
+    .trim()
+  const name = String(req.body?.name || '').trim()
+  const reason = String(req.body?.reason || '').trim()
+
+  if (!email) {
+    return res.status(422).json({ Msg: 'Email obrigatorio' })
+  }
+
+  try {
+    await createDeletionRequest({ email, name, reason, source: 'web' })
+
+    return res.status(200).json({
+      Msg: 'Pedido de exclusao recebido. Vamos analisar e processar a solicitacao.',
+    })
+  } catch (error) {
+    console.error('Erro ao registrar pedido de exclusao:', error.message)
+    return res
+      .status(500)
+      .json({ Msg: 'Nao foi possivel registrar o pedido agora.' })
+  }
+})
+
+router.post('/delete_account', auth, async (req, res) => {
+  const password = String(req.body?.password || '')
+  const confirmation = String(req.body?.confirmation || '').trim()
+
+  if (!password) {
+    return res.status(422).json({ Msg: 'Senha obrigatoria' })
+  }
+
+  if (confirmation !== 'EXCLUIR') {
+    return res.status(422).json({
+      Msg: 'Digite EXCLUIR para confirmar a exclusao da conta',
+    })
+  }
+
+  try {
+    const user = await User.findById(req.user._id).select('+password')
+    if (!user) {
+      return res.status(404).json({ Msg: 'Usuario nao encontrado' })
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password)
+    if (!isPasswordValid) {
+      return res.status(422).json({ Msg: 'Senha invalida' })
+    }
+
+    await deleteUserData(user._id, { email: user.email })
+
+    return res.status(200).json({
+      Msg: 'Conta excluida com sucesso',
+    })
+  } catch (error) {
+    console.error('Erro ao excluir conta:', error.message)
+    return res
+      .status(500)
+      .json({ Msg: 'Nao foi possivel excluir a conta agora.' })
+  }
+})
+
+router.createDeletionRequest = createDeletionRequest
 module.exports = router

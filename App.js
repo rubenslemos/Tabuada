@@ -21,6 +21,8 @@ import ResetPasswordScreen from './screens/ResetPasswordScreen'
 import PermissoesScreen from './screens/PermissoesScreen'
 import AdminPanelScreen from './screens/AdminPanelScreen'
 import AboutScreen from './screens/AboutScreen'
+import PrivacyPolicyScreen from './screens/PrivacyPolicyScreen'
+import DeleteAccountScreen from './screens/DeleteAccountScreen'
 
 const Stack = createStackNavigator()
 
@@ -53,6 +55,8 @@ export default function App() {
         <Stack.Screen name="Performance" component={PerformanceScreen} />
         <Stack.Screen name="Permissoes" component={PermissoesScreen} />
         <Stack.Screen name="About" component={AboutScreen} />
+        <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicyScreen} />
+        <Stack.Screen name="DeleteAccount" component={DeleteAccountScreen} />
       </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>

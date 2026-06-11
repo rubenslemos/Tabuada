@@ -103,4 +103,16 @@ describe('LoginScreen', () => {
 
     expect(queryByText('Painel do Administrador')).toBeNull()
   })
+
+  it('permite navegar para politica de privacidade e exclusao de conta', async () => {
+    const { getByText } = await renderAsync(
+      <LoginScreen navigation={navigation} />
+    )
+
+    fireEvent.press(getByText('Política de privacidade'))
+    fireEvent.press(getByText('Solicitar exclusão de conta'))
+
+    expect(navigation.navigate).toHaveBeenCalledWith('PrivacyPolicy')
+    expect(navigation.navigate).toHaveBeenCalledWith('DeleteAccount')
+  })
 })

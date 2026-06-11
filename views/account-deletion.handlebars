@@ -1,0 +1,73 @@
+<main
+  style='max-width: 760px; margin: 32px auto; padding: 24px; background: rgba(255,255,255,0.95); border-radius: 18px; color: #203124; line-height: 1.6; box-shadow: 0 10px 30px rgba(0,0,0,0.18);'
+>
+  <h1 style='margin-top: 0;'>Solicitar exclusão de conta</h1>
+  <p>
+    Use este formulário caso você queira pedir a exclusão da sua conta e dos
+    dados associados ao app Tabuada fora do aplicativo.
+  </p>
+
+  {{#if success}}
+    <div
+      style='background: #e7f6ea; color: #1f5f2b; border: 1px solid #8fd19e; border-radius: 12px; padding: 14px; margin-bottom: 18px;'
+    >
+      Seu pedido foi recebido com sucesso. Vamos analisar e processar a
+      solicitação.
+    </div>
+  {{/if}}
+
+  {{#if error}}
+    <div
+      style='background: #fdeaea; color: #9a1e1e; border: 1px solid #e09b9b; border-radius: 12px; padding: 14px; margin-bottom: 18px;'
+    >
+      {{error}}
+    </div>
+  {{/if}}
+
+  <form method='post' action='/account-deletion'>
+    <label style='display:block; margin-bottom:12px;'>
+      <span
+        style='display:block; font-weight:700; margin-bottom:6px;'
+      >Nome</span>
+      <input
+        type='text'
+        name='name'
+        value='{{values.name}}'
+        style='width:100%; border:1px solid #c8d0c8; border-radius:10px; padding:12px; font-size:15px;'
+        placeholder='Seu nome'
+      />
+    </label>
+
+    <label style='display:block; margin-bottom:12px;'>
+      <span
+        style='display:block; font-weight:700; margin-bottom:6px;'
+      >Email</span>
+      <input
+        type='email'
+        name='email'
+        value='{{values.email}}'
+        required
+        style='width:100%; border:1px solid #c8d0c8; border-radius:10px; padding:12px; font-size:15px;'
+        placeholder='seuemail@exemplo.com'
+      />
+    </label>
+
+    <label style='display:block; margin-bottom:16px;'>
+      <span style='display:block; font-weight:700; margin-bottom:6px;'>Motivo
+        (opcional)</span>
+      <textarea
+        name='reason'
+        rows='5'
+        style='width:100%; border:1px solid #c8d0c8; border-radius:10px; padding:12px; font-size:15px; resize:vertical;'
+        placeholder='Se quiser, explique rapidamente o pedido.'
+      >{{values.reason}}</textarea>
+    </label>
+
+    <button
+      type='submit'
+      style='background:#2d8cff; color:#fff; border:none; border-radius:12px; padding:12px 18px; font-size:16px; cursor:pointer;'
+    >
+      Enviar pedido
+    </button>
+  </form>
+</main>

@@ -47,6 +47,7 @@ const LoginScreen = ({ navigation }) => {
         if (userId) await AsyncStorage.setItem('userId', String(userId))
         if (user && (user.name || user._id))
           await AsyncStorage.setItem('userName', user.name || user._id)
+        if (user?.email) await AsyncStorage.setItem('userEmail', user.email)
         await AsyncStorage.setItem(
           'userPermissions',
           JSON.stringify(user?.permissoes || {})
@@ -121,6 +122,16 @@ const LoginScreen = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('Register')}>
             <Text style={styles.link}>Registrar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('PrivacyPolicy')}
+          >
+            <Text style={styles.link}>Política de privacidade</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('DeleteAccount')}
+          >
+            <Text style={styles.link}>Solicitar exclusão de conta</Text>
           </TouchableOpacity>
         </View>
       </ChalkPanel>
