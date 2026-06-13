@@ -17,7 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import apiClient, { setAuthToken } from '../config/apiClient'
 import { COLORS, FONTS } from '../src/theme'
 import ChalkPanel from './ChalkPanel'
-import { PROFILE_AVATARS } from '../utils/profileOptions'
+import { PROFILE_AVATAR_GROUPS } from '../utils/profileOptions'
 
 const RELATION_OPTIONS = {
   Pais: ['Pai', 'Mae', 'Responsavel'],
@@ -771,23 +771,28 @@ export default function Header({
               )}
 
               <Text style={styles.profileLabel}>Avatar</Text>
-              <View style={styles.avatarGrid}>
-                {PROFILE_AVATARS.map((avatar) => {
-                  const selected = draftAvatar === avatar
-                  return (
-                    <TouchableOpacity
-                      key={avatar}
-                      style={[
-                        styles.avatarChip,
-                        selected && styles.avatarChipSelected,
-                      ]}
-                      onPress={() => setDraftAvatar(avatar)}
-                    >
-                      <Text style={styles.avatarChipText}>{avatar}</Text>
-                    </TouchableOpacity>
-                  )
-                })}
-              </View>
+              {PROFILE_AVATAR_GROUPS.map((group) => (
+                <View key={group.title} style={styles.avatarGroup}>
+                  <Text style={styles.avatarGroupTitle}>{group.title}</Text>
+                  <View style={styles.avatarGrid}>
+                    {group.options.map((avatar) => {
+                      const selected = draftAvatar === avatar
+                      return (
+                        <TouchableOpacity
+                          key={avatar}
+                          style={[
+                            styles.avatarChip,
+                            selected && styles.avatarChipSelected,
+                          ]}
+                          onPress={() => setDraftAvatar(avatar)}
+                        >
+                          <Text style={styles.avatarChipText}>{avatar}</Text>
+                        </TouchableOpacity>
+                      )
+                    })}
+                  </View>
+                </View>
+              ))}
             </ScrollView>
 
             <View style={styles.profileActions}>
@@ -1217,6 +1222,17 @@ const styles = StyleSheet.create({
   },
   profileOptionTextSelected: {
     color: '#1f412f',
+  },
+  avatarGroup: {
+    gap: 10,
+    marginBottom: 12,
+  },
+  avatarGroupTitle: {
+    color: '#f7e8b8',
+    fontFamily: FONTS.body,
+    fontSize: 15,
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
   },
   avatarGrid: {
     flexDirection: 'row',
