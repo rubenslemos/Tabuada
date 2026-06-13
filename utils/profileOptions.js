@@ -1,6 +1,27 @@
 const { ROLE_TYPES, getCanonicalTipo } = require('./roles')
 
-const PROFILE_AVATARS = ['🧒', '👦', '👧', '👨', '👩', '🧑']
+const PROFILE_AVATARS = [
+  '🧒',
+  '👦',
+  '👧',
+  '👨',
+  '👩',
+  '🧑',
+  '👦🏻',
+  '👦🏽',
+  '👦🏿',
+  '👧🏻',
+  '👧🏽',
+  '👧🏿',
+  '👨🏻',
+  '👨🏽',
+  '👨🏿',
+  '👩🏻',
+  '👩🏽',
+  '👩🏿',
+  '🧑🏻',
+  '🧑🏽',
+]
 
 function getDefaultAvatar(tipo, vinculo = '') {
   const canonicalTipo = getCanonicalTipo(tipo)
