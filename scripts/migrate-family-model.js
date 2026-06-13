@@ -5,6 +5,7 @@ const User = require('../models/User')
 const Organization = require('../models/Organization')
 const InstitutionInvite = require('../models/InstitutionInvite')
 const { normalizeDocument } = require('../utils/institutions')
+const { decryptCpf } = require('../utils/cpfProtection')
 const {
   getCanonicalTipo,
   getDefaultVinculoForTipo,
@@ -48,10 +49,11 @@ async function migrateUsers() {
           nextTipo,
           user.vinculo || getDefaultVinculoForTipo(nextTipo)
         )
+    const currentCpf = decryptCpf(user.cpf || '')
     const nextNormalizedCpf = normalizeDocument(
-      user.cpf || user.normalizedCpf || ''
+      currentCpf || user.normalizedCpf || ''
     )
-    const nextCpf = isPais(nextTipo) ? String(user.cpf || '').trim() : ''
+    const nextCpf = isPais(nextTipo) ? String(currentCpf || '').trim() : ''
     const nextTurma = user.isGlobalAdmin
       ? undefined
       : nextTipo === 'Pais'

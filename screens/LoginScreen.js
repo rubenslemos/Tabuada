@@ -48,6 +48,8 @@ const LoginScreen = ({ navigation }) => {
         if (user && (user.name || user._id))
           await AsyncStorage.setItem('userName', user.name || user._id)
         if (user?.email) await AsyncStorage.setItem('userEmail', user.email)
+        await AsyncStorage.setItem('userVinculo', user?.vinculo || '')
+        await AsyncStorage.setItem('userAvatar', user?.avatar || '🧒')
         await AsyncStorage.setItem(
           'userPermissions',
           JSON.stringify(user?.permissoes || {})

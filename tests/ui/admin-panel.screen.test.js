@@ -80,6 +80,7 @@ describe('AdminPanelScreen', () => {
               _id: 'user1',
               name: 'Responsavel 1',
               tipo: 'Pais',
+              vinculo: 'Responsavel',
               turma: 'A1',
               email: 'prof@alpha.com',
             },
@@ -93,6 +94,7 @@ describe('AdminPanelScreen', () => {
               _id: 'user1',
               name: 'Responsavel 1',
               tipo: 'Pais',
+              vinculo: 'Responsavel',
               turma: 'A1',
               email: 'prof@alpha.com',
             },
@@ -268,6 +270,24 @@ describe('AdminPanelScreen', () => {
       index: 0,
       routes: [{ name: 'Login' }],
     })
+  })
+
+  it('mostra o vinculo junto do tipo na lista de usuarios', async () => {
+    mockBaseRequests()
+
+    const screen = await renderAsync(
+      <AdminPanelScreen navigation={navigation} />
+    )
+
+    await waitFor(() =>
+      expect(screen.getByText('Painel do Administrador')).toBeTruthy()
+    )
+    await openMenuItem(screen, 'Usuários da casa')
+
+    await waitFor(() =>
+      expect(screen.getByText('Pais • Responsavel')).toBeTruthy()
+    )
+    expect(screen.getByText('prof@alpha.com')).toBeTruthy()
   })
 
   it('reenvia convite pendente na subpagina de convites', async () => {

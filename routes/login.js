@@ -13,6 +13,7 @@ const {
   getDefaultVinculoForTipo,
   sanitizeVinculo,
 } = require('../utils/roles')
+const { sanitizeAvatar } = require('../utils/profileOptions')
 require('dotenv').config()
 const hash = process.env.SECRET
 
@@ -29,6 +30,7 @@ function serializeUser(user) {
       canonicalTipo,
       plain.vinculo || getDefaultVinculoForTipo(canonicalTipo)
     ),
+    avatar: sanitizeAvatar(plain.avatar, canonicalTipo, plain.vinculo),
   }
 }
 
@@ -246,6 +248,38 @@ router.get('/:id', auth, async (req, res) => {
     res.status(200).send({ user: serializeUser(user) })
   } catch {
     return res.status(400).send({ error: 'Erro ao listar usuario' })
+  }
+})
+
+router.patch('/me', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id)
+    if (!user) {
+      return res.status(404).json({ Msg: 'Usuario nao encontrado' })
+    }
+
+    const nextName = String(req.body?.name || '').trim()
+    if (!nextName) {
+      return res.status(422).json({ Msg: 'Nome obrigatorio' })
+    }
+
+    const canonicalTipo = getCanonicalTipo(user.tipo)
+    const nextVinculo = sanitizeVinculo(canonicalTipo, req.body?.vinculo)
+
+    user.name = nextName.toLowerCase()
+    user.vinculo = nextVinculo
+    user.avatar = sanitizeAvatar(req.body?.avatar, canonicalTipo, nextVinculo)
+    await user.save()
+
+    return res.status(200).json({
+      Msg: 'Perfil atualizado com sucesso',
+      user: serializeUser(user),
+    })
+  } catch (error) {
+    console.error('Erro ao atualizar perfil:', error.message)
+    return res
+      .status(500)
+      .json({ Msg: 'Nao foi possivel atualizar o perfil agora.' })
   }
 })
 

@@ -1060,7 +1060,10 @@ export default function AdminPanelScreen({ navigation }) {
           users.map((user) => (
             <View key={String(user._id || user.id)} style={styles.userCard}>
               <Text style={styles.userName}>{user.name}</Text>
-              <Text style={styles.userMeta}>{user.tipo}</Text>
+              <Text style={styles.userMeta}>
+                {user.tipo}
+                {user.vinculo ? ` • ${user.vinculo}` : ''}
+              </Text>
               <Text style={styles.userMeta}>{user.email}</Text>
             </View>
           ))

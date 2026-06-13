@@ -1,5 +1,12 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
+const {
+  decryptCpf,
+  encryptCpf,
+  hashCpf,
+  isCpfHash,
+  isEncryptedCpf,
+} = require('../utils/cpfProtection')
 
 const PermissoesSchema = new mongoose.Schema({
   soma: {
@@ -38,6 +45,11 @@ const UserSchema = new mongoose.Schema({
     ],
   },
   vinculo: {
+    type: String,
+    default: '',
+    trim: true,
+  },
+  avatar: {
     type: String,
     default: '',
     trim: true,
@@ -138,10 +150,25 @@ const UserSchema = new mongoose.Schema({
   },
 })
 UserSchema.pre('save', async function () {
+  if (this.isModified('cpf')) {
+    this.cpf = this.cpf ? encryptCpf(this.cpf) : ''
+  }
+
+  if (this.isModified('normalizedCpf')) {
+    this.normalizedCpf = this.normalizedCpf ? hashCpf(this.normalizedCpf) : ''
+  }
+
   if (!this.isModified('password')) return
 
   const hash = await bcrypt.hash(this.password, 12)
   this.password = hash
 })
+
+UserSchema.methods.getCpfDecrypted = function getCpfDecrypted() {
+  return decryptCpf(this.cpf)
+}
+
+UserSchema.statics.isCpfEncrypted = isEncryptedCpf
+UserSchema.statics.isCpfHashed = isCpfHash
 const User = mongoose.model('User', UserSchema)
 module.exports = User

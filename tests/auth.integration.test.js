@@ -12,6 +12,7 @@ const InstitutionInvite = require('../models/InstitutionInvite')
 const User = require('../models/User')
 const Round = require('../models/Round')
 const { hashInviteToken } = require('../utils/institutions')
+const { decryptCpf } = require('../utils/cpfProtection')
 
 let app
 let cpfCounter = 0
@@ -172,6 +173,7 @@ test('register accepts invite token in lowercase', async () => {
 test('register allows pais without turma in family flow', async () => {
   const email = `${uniqueId('test_pais_sem_turma')}@example.com`
   const inviteToken = await createInvite({ email, role: 'Pais' })
+  const plainCpf = buildValidCpf()
 
   const res = await request(app)
     .post('/auth/register')
@@ -181,13 +183,17 @@ test('register allows pais without turma in family flow', async () => {
       email,
       password: 'P@ssw0rd1',
       confirmPassword: 'P@ssw0rd1',
-      cpf: buildValidCpf(),
+      cpf: plainCpf,
       vinculo: 'Responsavel',
     })
     .expect(201)
 
+  const savedUser = await User.findOne({ email })
   expect(res.body).toHaveProperty('user.email', email)
   expect(res.body).toHaveProperty('user.turma', '')
+  expect(savedUser.cpf).not.toBe(plainCpf)
+  expect(savedUser.normalizedCpf).not.toBe(plainCpf)
+  expect(decryptCpf(savedUser.cpf)).toBe(plainCpf)
 })
 
 test('forgot_password should send recovery token and call mailer', async () => {
@@ -260,6 +266,39 @@ test('pais pode gerar convite para outro perfil na mesma casa', async () => {
     'message',
     'Convite enviado para o email informado. A entrega pode levar alguns minutos.'
   )
+})
+
+test('usuario pode atualizar nome vinculo e avatar pelo proprio perfil', async () => {
+  const email = `${uniqueId('profile_update')}@example.com`
+  const password = 'P@ssw0rd1'
+
+  const registerRes = await registerWithInvite({
+    email,
+    password,
+    role: 'Pais',
+  })
+  expect(registerRes.status).toBe(201)
+
+  const loginRes = await request(app)
+    .post('/auth/login')
+    .send({ email, password })
+    .expect(200)
+
+  const token = loginRes.body.token
+
+  const updateRes = await request(app)
+    .patch('/auth/login/me')
+    .set('Authorization', `Bearer ${token}`)
+    .send({
+      name: 'Pai Atualizado',
+      vinculo: 'Pai',
+      avatar: '👨',
+    })
+    .expect(200)
+
+  expect(updateRes.body).toHaveProperty('user.name', 'pai atualizado')
+  expect(updateRes.body).toHaveProperty('user.vinculo', 'Pai')
+  expect(updateRes.body).toHaveProperty('user.avatar', '👨')
 })
 
 test('dependente nao pode gerar convite para pais', async () => {

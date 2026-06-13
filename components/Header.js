@@ -9,12 +9,20 @@ import {
   Alert,
   Platform,
   StatusBar,
+  TextInput,
+  ScrollView,
 } from 'react-native'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import apiClient, { setAuthToken } from '../config/apiClient'
 import { COLORS, FONTS } from '../src/theme'
 import ChalkPanel from './ChalkPanel'
+import { PROFILE_AVATARS } from '../utils/profileOptions'
+
+const RELATION_OPTIONS = {
+  Pais: ['Pai', 'Mae', 'Responsavel'],
+  Dependentes: ['Filho', 'Filha', 'Dependente'],
+}
 
 const operations = [
   { key: 'todas', label: 'Todas' },
@@ -64,6 +72,10 @@ export default function Header({
   const navigation = useNavigation()
   const isFocused = useIsFocused()
   const [userName, setUserName] = useState('')
+  const [userEmail, setUserEmail] = useState('')
+  const [userVinculo, setUserVinculo] = useState('')
+  const [userTipo, setUserTipo] = useState('')
+  const [userAvatar, setUserAvatar] = useState('🧒')
   const [isGlobalAdmin, setIsGlobalAdmin] = useState(false)
   const [permissoes, setPermissoes] = useState(DEFAULT_PERMISSOES)
   const [menuVisible, setMenuVisible] = useState(false)
@@ -78,11 +90,19 @@ export default function Header({
     title: 'Dica',
     message: '',
   })
+  const [profileModalVisible, setProfileModalVisible] = useState(false)
+  const [profileSaving, setProfileSaving] = useState(false)
+  const [draftName, setDraftName] = useState('')
+  const [draftVinculo, setDraftVinculo] = useState('')
+  const [draftAvatar, setDraftAvatar] = useState('🧒')
 
   useEffect(() => {
     ;(async () => {
       try {
         const name = await AsyncStorage.getItem('userName')
+        const email = await AsyncStorage.getItem('userEmail')
+        const vinculo = await AsyncStorage.getItem('userVinculo')
+        const avatar = await AsyncStorage.getItem('userAvatar')
         const cachedPermissoes = await AsyncStorage.getItem('userPermissions')
         const cachedGlobalAdmin = await AsyncStorage.getItem('isGlobalAdmin')
         if (cachedPermissoes) {
@@ -90,8 +110,14 @@ export default function Header({
         }
         setIsGlobalAdmin(cachedGlobalAdmin === 'true')
         setUserName(name || 'Usuário')
+        setUserEmail(email || '')
+        setUserVinculo(vinculo || '')
+        setUserAvatar(avatar || '🧒')
       } catch {
         setUserName('Usuário')
+        setUserEmail('')
+        setUserVinculo('')
+        setUserAvatar('🧒')
         setIsGlobalAdmin(false)
       }
       await loadPermissoes()
@@ -119,13 +145,23 @@ export default function Header({
         resp?.data?.user?.permissoes || {}
       )
       const nextIsGlobalAdmin = Boolean(resp?.data?.user?.isGlobalAdmin)
+      const nextUser = resp?.data?.user || {}
 
       setPermissoes(nextPermissoes)
       setIsGlobalAdmin(nextIsGlobalAdmin)
+      setUserName(nextUser.name || 'Usuário')
+      setUserEmail(nextUser.email || '')
+      setUserVinculo(nextUser.vinculo || '')
+      setUserTipo(nextUser.tipo || '')
+      setUserAvatar(nextUser.avatar || '🧒')
       await AsyncStorage.setItem(
         'userPermissions',
         JSON.stringify(nextPermissoes)
       )
+      await AsyncStorage.setItem('userName', nextUser.name || 'Usuário')
+      await AsyncStorage.setItem('userEmail', nextUser.email || '')
+      await AsyncStorage.setItem('userVinculo', nextUser.vinculo || '')
+      await AsyncStorage.setItem('userAvatar', nextUser.avatar || '🧒')
       await AsyncStorage.setItem(
         'isGlobalAdmin',
         nextIsGlobalAdmin ? 'true' : 'false'
@@ -165,6 +201,63 @@ export default function Header({
 
   const toggleMenu = () => {
     setMenuVisible((prev) => !prev)
+  }
+
+  const availableVinculos = RELATION_OPTIONS[userTipo] || []
+
+  const openProfileModal = () => {
+    setDraftName(userName || '')
+    setDraftVinculo(
+      userVinculo || availableVinculos[0] || (isGlobalAdmin ? '' : '')
+    )
+    setDraftAvatar(userAvatar || '🧒')
+    setProfileModalVisible(true)
+  }
+
+  const closeProfileModal = () => {
+    if (profileSaving) return
+    setProfileModalVisible(false)
+  }
+
+  const saveProfile = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token')
+      if (!token) {
+        Alert.alert('Erro', 'Sessão não encontrada.')
+        return
+      }
+
+      setProfileSaving(true)
+      const headers = { Authorization: `Bearer ${token}` }
+      const response = await apiClient.patch(
+        '/auth/login/me',
+        {
+          name: draftName,
+          vinculo: draftVinculo,
+          avatar: draftAvatar,
+        },
+        { headers }
+      )
+
+      const nextUser = response?.data?.user || {}
+      setUserName(nextUser.name || 'Usuário')
+      setUserEmail(nextUser.email || '')
+      setUserVinculo(nextUser.vinculo || '')
+      setUserTipo(nextUser.tipo || '')
+      setUserAvatar(nextUser.avatar || '🧒')
+      await AsyncStorage.setItem('userName', nextUser.name || 'Usuário')
+      await AsyncStorage.setItem('userEmail', nextUser.email || '')
+      await AsyncStorage.setItem('userVinculo', nextUser.vinculo || '')
+      await AsyncStorage.setItem('userAvatar', nextUser.avatar || '🧒')
+      setProfileModalVisible(false)
+    } catch (error) {
+      Alert.alert(
+        'Erro',
+        error?.response?.data?.Msg || 'Não foi possível salvar o perfil.'
+      )
+    } finally {
+      setProfileSaving(false)
+    }
   }
 
   const selectOperation = (code) => {
@@ -328,12 +421,17 @@ export default function Header({
       </View>
 
       <View style={styles.metaRow}>
-        <View style={styles.userWrap}>
-          <Text style={styles.userAvatar}>🧒</Text>
+        <TouchableOpacity
+          style={styles.userWrap}
+          onPress={openProfileModal}
+          accessibilityLabel="Abrir perfil"
+          activeOpacity={0.85}
+        >
+          <Text style={styles.userAvatar}>{userAvatar}</Text>
           <Text style={styles.userText} numberOfLines={1}>
             Olá, {userName}
           </Text>
-        </View>
+        </TouchableOpacity>
 
         <View style={styles.scoreWrap}>
           <TouchableOpacity
@@ -602,6 +700,118 @@ export default function Header({
           </ChalkPanel>
         </View>
       </Modal>
+
+      <Modal transparent visible={profileModalVisible} animationType="fade">
+        <View style={styles.tipOverlay}>
+          <ChalkPanel
+            style={styles.profileFrame}
+            boardStyle={styles.profileBoard}
+          >
+            <View style={styles.tipFlagsRow}>
+              <Text style={styles.tipFlag}>▲</Text>
+              <Text style={styles.tipFlag}>●</Text>
+              <Text style={styles.tipFlag}>■</Text>
+              <Text style={styles.tipFlag}>●</Text>
+              <Text style={styles.tipFlag}>▲</Text>
+            </View>
+            <Text style={styles.profileTitle}>Seu perfil</Text>
+            <ScrollView
+              style={styles.profileScroll}
+              contentContainerStyle={styles.profileScrollContent}
+              showsVerticalScrollIndicator={false}
+            >
+              <Text style={styles.profileLabel}>Nome</Text>
+              <TextInput
+                style={styles.profileInput}
+                value={draftName}
+                onChangeText={setDraftName}
+                placeholder="Seu nome"
+                placeholderTextColor="rgba(255,255,255,0.55)"
+              />
+
+              <Text style={styles.profileLabel}>Email</Text>
+              <View style={styles.profileReadonly}>
+                <Text style={styles.profileReadonlyText}>
+                  {userEmail || '-'}
+                </Text>
+              </View>
+
+              <Text style={styles.profileLabel}>Vínculo</Text>
+              {availableVinculos.length > 0 ? (
+                <View style={styles.profileOptionRow}>
+                  {availableVinculos.map((option) => {
+                    const selected = draftVinculo === option
+                    return (
+                      <TouchableOpacity
+                        key={option}
+                        style={[
+                          styles.profileOptionChip,
+                          selected && styles.profileOptionChipSelected,
+                        ]}
+                        onPress={() => setDraftVinculo(option)}
+                      >
+                        <Text
+                          style={[
+                            styles.profileOptionText,
+                            selected && styles.profileOptionTextSelected,
+                          ]}
+                        >
+                          {option}
+                        </Text>
+                      </TouchableOpacity>
+                    )
+                  })}
+                </View>
+              ) : (
+                <View style={styles.profileReadonly}>
+                  <Text style={styles.profileReadonlyText}>
+                    {userVinculo || userTipo || 'Sem vínculo'}
+                  </Text>
+                </View>
+              )}
+
+              <Text style={styles.profileLabel}>Avatar</Text>
+              <View style={styles.avatarGrid}>
+                {PROFILE_AVATARS.map((avatar) => {
+                  const selected = draftAvatar === avatar
+                  return (
+                    <TouchableOpacity
+                      key={avatar}
+                      style={[
+                        styles.avatarChip,
+                        selected && styles.avatarChipSelected,
+                      ]}
+                      onPress={() => setDraftAvatar(avatar)}
+                    >
+                      <Text style={styles.avatarChipText}>{avatar}</Text>
+                    </TouchableOpacity>
+                  )
+                })}
+              </View>
+            </ScrollView>
+
+            <View style={styles.profileActions}>
+              <TouchableOpacity
+                style={[styles.profileActionButton, styles.profileCancelButton]}
+                onPress={closeProfileModal}
+                accessibilityLabel="Cancelar edição do perfil"
+              >
+                <Text style={styles.profileActionIcon}>✕</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.profileActionButton, styles.profileSaveButton]}
+                onPress={saveProfile}
+                accessibilityLabel="Salvar alterações do perfil"
+                disabled={profileSaving}
+              >
+                <Text style={styles.profileActionIcon}>
+                  {profileSaving ? '…' : '✓'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </ChalkPanel>
+        </View>
+      </Modal>
     </View>
   )
 }
@@ -703,6 +913,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     maxWidth: '52%',
+    paddingRight: 6,
   },
   userAvatar: {
     fontSize: 20,
@@ -926,5 +1137,134 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: FONTS.body,
     fontSize: 18,
+  },
+  profileFrame: {
+    width: '92%',
+    maxWidth: 460,
+    backgroundColor: 'transparent',
+  },
+  profileBoard: {
+    paddingHorizontal: 18,
+    paddingTop: 10,
+    paddingBottom: 18,
+  },
+  profileTitle: {
+    color: COLORS.chalkText,
+    fontFamily: FONTS.title,
+    fontSize: 28,
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  profileScroll: {
+    width: '100%',
+    maxHeight: 420,
+  },
+  profileScrollContent: {
+    paddingBottom: 8,
+  },
+  profileLabel: {
+    color: COLORS.chalkText,
+    fontFamily: FONTS.title,
+    fontSize: 19,
+    marginBottom: 6,
+    marginTop: 10,
+  },
+  profileInput: {
+    borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.7)',
+    borderRadius: 10,
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    color: COLORS.chalkText,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    fontFamily: FONTS.body,
+    fontSize: 16,
+  },
+  profileReadonly: {
+    borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.32)',
+    borderRadius: 10,
+    backgroundColor: 'rgba(255,255,255,0.06)',
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+  },
+  profileReadonlyText: {
+    color: COLORS.chalkText,
+    fontFamily: FONTS.body,
+    fontSize: 16,
+  },
+  profileOptionRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  profileOptionChip: {
+    borderRadius: 18,
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255,255,255,0.45)',
+    backgroundColor: 'rgba(255,255,255,0.08)',
+  },
+  profileOptionChipSelected: {
+    backgroundColor: '#ffd35a',
+    borderColor: '#ffe7a3',
+  },
+  profileOptionText: {
+    color: COLORS.chalkText,
+    fontFamily: FONTS.body,
+    fontSize: 15,
+  },
+  profileOptionTextSelected: {
+    color: '#1f412f',
+  },
+  avatarGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  avatarChip: {
+    width: 58,
+    height: 58,
+    borderRadius: 18,
+    borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.42)',
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  avatarChipSelected: {
+    backgroundColor: 'rgba(255,211,90,0.2)',
+    borderColor: '#ffd35a',
+  },
+  avatarChipText: {
+    fontSize: 28,
+  },
+  profileActions: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 18,
+    marginTop: 14,
+  },
+  profileActionButton: {
+    width: 62,
+    height: 62,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.72)',
+  },
+  profileCancelButton: {
+    backgroundColor: '#d96262',
+  },
+  profileSaveButton: {
+    backgroundColor: '#72c35f',
+  },
+  profileActionIcon: {
+    color: '#fff',
+    fontFamily: FONTS.title,
+    fontSize: 32,
+    lineHeight: 34,
   },
 })
