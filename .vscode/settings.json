@@ -29,8 +29,12 @@
   ],
   "DockerRun.DisableDockerrc": true,
       "github.copilot.enable": {
-        "*": true
-    },
+        "*": true,
+        "plaintext": true,
+        "markdown": false,
+        "scminput": false,
+        "css": true
+      },
     "terminal.integrated.initialHintCopilotCli": true,
     "githubPullRequests.devMode": true,
     "githubPullRequests.experimental.useQuickChat": true,
