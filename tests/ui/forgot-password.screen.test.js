@@ -1,4 +1,3 @@
-import React from 'react'
 import { Alert } from 'react-native'
 import { renderAsync, fireEvent, waitFor } from '@testing-library/react-native'
 import ForgotPasswordScreen from '../../screens/ForgotPasswordScreen'
@@ -26,7 +25,10 @@ describe('ForgotPasswordScreen', () => {
     const { getByText, getByPlaceholderText } = await renderAsync(
       <ForgotPasswordScreen navigation={navigation} />
     )
-    fireEvent.changeText(getByPlaceholderText('Seu email'), 'rubenslemos@gmail.com')
+    fireEvent.changeText(
+      getByPlaceholderText('Seu email'),
+      'rubenslemos@gmail.com'
+    )
     fireEvent.press(getByText('Enviar instruções'))
 
     await waitFor(() =>

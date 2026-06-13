@@ -73,6 +73,43 @@ describe('TabuadaScreen', () => {
     )
   })
 
+  it('mantem a configuracao escolhida nas proximas perguntas da rodada', async () => {
+    generateQuestion
+      .mockReturnValueOnce({
+        num1: 10,
+        num2: 10,
+        opSymbol: '+',
+        result: 20,
+      })
+      .mockReturnValueOnce({
+        num1: 10,
+        num2: 10,
+        opSymbol: '+',
+        result: 20,
+      })
+
+    const navigation = { goBack: jest.fn() }
+    const { getByText, getByDisplayValue, queryByText } = await renderAsync(
+      <TabuadaScreen
+        navigation={navigation}
+        route={{
+          params: { selectedOperation: 'soma10', selectedOperationKey: 1 },
+        }}
+      />
+    )
+
+    fireEvent.changeText(getByDisplayValue(''), '20')
+    fireEvent.press(getByText('Verificar'))
+
+    await waitFor(() => expect(queryByText('Correto!')).toBeTruthy())
+
+    fireEvent.press(getByText('Próxima'))
+
+    await waitFor(() =>
+      expect(generateQuestion).toHaveBeenLastCalledWith('soma10')
+    )
+  })
+
   it('envia resultados com sucesso e mostra confirmacao', async () => {
     apiClient.post.mockResolvedValue({ data: {} })
     const navigation = { goBack: jest.fn() }

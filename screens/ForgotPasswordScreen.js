@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {
   View,
   Text,
@@ -24,8 +24,14 @@ export default function ForgotPasswordScreen({ navigation }) {
       })
       const token = response?.data?.token
 
-      Alert.alert('Enviado', 'Token gerado com sucesso. Continue para alterar a senha.')
-      navigation.navigate('ResetPassword', { email: email.toLowerCase().trim(), token })
+      Alert.alert(
+        'Enviado',
+        'Token gerado com sucesso. Continue para alterar a senha.'
+      )
+      navigation.navigate('ResetPassword', {
+        email: email.toLowerCase().trim(),
+        token,
+      })
     } catch (err) {
       console.error(
         'Forgot password error:',
@@ -64,9 +70,18 @@ export default function ForgotPasswordScreen({ navigation }) {
           <Text style={styles.link}>Voltar ao Login</Text>
         </TouchableOpacity>
         <View style={styles.footerDecor}>
-          <Image source={require('../assets/images/estrela.png')} style={styles.footerIcon} />
-          <Image source={require('../assets/images/check2.png')} style={styles.footerIcon} />
-          <Image source={require('../assets/images/calculadora.png')} style={styles.footerIcon} />
+          <Image
+            source={require('../assets/images/estrela.png')}
+            style={styles.footerIcon}
+          />
+          <Image
+            source={require('../assets/images/check2.png')}
+            style={styles.footerIcon}
+          />
+          <Image
+            source={require('../assets/images/calculadora.png')}
+            style={styles.footerIcon}
+          />
         </View>
       </ChalkPanel>
     </ClassroomBackground>

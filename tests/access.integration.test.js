@@ -19,7 +19,7 @@ test('acessos route should reject requests without token', async () => {
     .post('/acessos')
     .send({
       alunoId: new mongoose.Types.ObjectId().toString(),
-      tipoUsuario: 'Professor',
+      tipoUsuario: 'Pais',
       acessos: {
         soma: true,
         menos: true,

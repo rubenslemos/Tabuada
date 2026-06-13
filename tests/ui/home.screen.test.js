@@ -1,4 +1,3 @@
-import React from 'react'
 import { renderAsync, fireEvent } from '@testing-library/react-native'
 import HomeScreen from '../../screens/HomeScreen'
 

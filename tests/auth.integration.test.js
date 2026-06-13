@@ -54,7 +54,7 @@ async function createInvite({ email, role }) {
   return inviteToken
 }
 
-async function registerWithInvite({ email, password, role = 'Aluno' }) {
+async function registerWithInvite({ email, password, role = 'Dependentes' }) {
   const inviteToken = await createInvite({ email, role })
   return request(app)
     .post('/auth/register')
@@ -64,7 +64,9 @@ async function registerWithInvite({ email, password, role = 'Aluno' }) {
       email,
       password,
       confirmPassword: password,
-      turma: 'A1',
+      turma: role === 'Dependentes' ? 'A1' : undefined,
+      cpf: role === 'Pais' ? buildValidCpf() : undefined,
+      vinculo: role === 'Pais' ? 'Responsavel' : 'Dependente',
     })
 }
 
@@ -80,7 +82,7 @@ beforeAll(async () => {
   const requestInviteRes = await request(app)
     .post('/auth/register/request-organization')
     .send({
-      organizationName: uniqueId('InstituicaoBase'),
+      organizationName: uniqueId('CasaBase'),
       document: buildValidCpf(),
       email: coordinatorEmail,
     })
@@ -94,7 +96,8 @@ beforeAll(async () => {
       email: coordinatorEmail,
       password: 'P@ssw0rd1',
       confirmPassword: 'P@ssw0rd1',
-      turma: 'A1',
+      cpf: buildValidCpf(),
+      vinculo: 'Responsavel',
     })
     .expect(201)
 
@@ -116,7 +119,7 @@ test('login should fail with wrong password', async () => {
   const registerRes = await registerWithInvite({
     email,
     password,
-    role: 'Aluno',
+    role: 'Dependentes',
   })
   expect(registerRes.status).toBe(201)
 
@@ -130,7 +133,7 @@ test('login should fail with wrong password', async () => {
 
 test('register should fail when password confirmation does not match', async () => {
   const email = `${uniqueId('test_mismatch')}@example.com`
-  const inviteToken = await createInvite({ email, role: 'Aluno' })
+  const inviteToken = await createInvite({ email, role: 'Dependentes' })
 
   const res = await request(app)
     .post('/auth/register')
@@ -149,7 +152,7 @@ test('register should fail when password confirmation does not match', async () 
 
 test('register accepts invite token in lowercase', async () => {
   const email = `${uniqueId('test_lowercase')}@example.com`
-  const inviteToken = await createInvite({ email, role: 'Aluno' })
+  const inviteToken = await createInvite({ email, role: 'Dependentes' })
 
   const res = await request(app)
     .post('/auth/register')
@@ -166,6 +169,27 @@ test('register accepts invite token in lowercase', async () => {
   expect(res.body).toHaveProperty('user.email', email)
 })
 
+test('register allows pais without turma in family flow', async () => {
+  const email = `${uniqueId('test_pais_sem_turma')}@example.com`
+  const inviteToken = await createInvite({ email, role: 'Pais' })
+
+  const res = await request(app)
+    .post('/auth/register')
+    .send({
+      inviteToken,
+      name: uniqueId('jest_pais_sem_turma'),
+      email,
+      password: 'P@ssw0rd1',
+      confirmPassword: 'P@ssw0rd1',
+      cpf: buildValidCpf(),
+      vinculo: 'Responsavel',
+    })
+    .expect(201)
+
+  expect(res.body).toHaveProperty('user.email', email)
+  expect(res.body).toHaveProperty('user.turma', '')
+})
+
 test('forgot_password should send recovery token and call mailer', async () => {
   const email = `${uniqueId('test_forgot')}@example.com`
   const password = 'P@ssw0rd1'
@@ -173,7 +197,7 @@ test('forgot_password should send recovery token and call mailer', async () => {
   const registerRes = await registerWithInvite({
     email,
     password,
-    role: 'Aluno',
+    role: 'Dependentes',
   })
   expect(registerRes.status).toBe(201)
 
@@ -197,12 +221,12 @@ test('auth token endpoint should reject requests without token', async () => {
   expect(tokenCheck.body).toHaveProperty('error', 'Token não informado')
 })
 
-test('coordenador pode gerar convite para professor na mesma instituicao', async () => {
+test('pais pode gerar convite para outro perfil na mesma casa', async () => {
   const coordinatorEmail = `${uniqueId('coord_login')}@example.com`
   const coordinatorPassword = 'P@ssw0rd1'
   const coordinatorInviteToken = await createInvite({
     email: coordinatorEmail,
-    role: 'Coordenador',
+    role: 'Pais',
   })
 
   const coordinatorRegister = await request(app)
@@ -213,7 +237,8 @@ test('coordenador pode gerar convite para professor na mesma instituicao', async
       email: coordinatorEmail,
       password: coordinatorPassword,
       confirmPassword: coordinatorPassword,
-      turma: 'A1',
+      cpf: buildValidCpf(),
+      vinculo: 'Responsavel',
     })
   expect(coordinatorRegister.status).toBe(201)
 
@@ -227,23 +252,23 @@ test('coordenador pode gerar convite para professor na mesma instituicao', async
     .set('Authorization', `Bearer ${loginRes.body.token}`)
     .send({
       email: `${uniqueId('prof_target')}@example.com`,
-      role: 'Professor',
+      role: 'Pais',
     })
     .expect(200)
 
   expect(inviteRes.body).toHaveProperty(
     'message',
-    'Convite enviado para o email informado.'
+    'Convite enviado para o email informado. A entrega pode levar alguns minutos.'
   )
 })
 
-test('professor nao pode gerar convite para outro professor', async () => {
+test('dependente nao pode gerar convite para pais', async () => {
   const professorEmail = `${uniqueId('prof_login')}@example.com`
   const professorPassword = 'P@ssw0rd1'
   const professorRegister = await registerWithInvite({
     email: professorEmail,
     password: professorPassword,
-    role: 'Professor',
+    role: 'Dependentes',
   })
   expect(professorRegister.status).toBe(201)
 
@@ -257,7 +282,7 @@ test('professor nao pode gerar convite para outro professor', async () => {
     .set('Authorization', `Bearer ${loginRes.body.token}`)
     .send({
       email: `${uniqueId('forbidden_prof')}@example.com`,
-      role: 'Professor',
+      role: 'Pais',
     })
     .expect(403)
 
@@ -292,13 +317,13 @@ test('admin global cria instituicao e reenvia convite pendente', async () => {
     .set('Authorization', `Bearer ${adminToken}`)
     .send({
       email: `${uniqueId('pending_invite')}@example.com`,
-      role: 'Aluno',
+      role: 'Dependentes',
     })
     .expect(200)
 
   expect(inviteRes.body).toHaveProperty(
     'message',
-    'Convite enviado para o email informado.'
+    'Convite enviado para o email informado. A entrega pode levar alguns minutos.'
   )
   expect(inviteRes.body.inviteToken).toMatch(/^\d{5}$/)
 
@@ -318,7 +343,7 @@ test('admin global cria instituicao e reenvia convite pendente', async () => {
 
   expect(resendRes.body).toHaveProperty(
     'message',
-    'Convite reenviado com sucesso.'
+    'Convite reenviado com sucesso. A entrega pode levar alguns minutos.'
   )
   expect(resendRes.body.inviteToken).toMatch(/^\d{5}$/)
 })
@@ -360,19 +385,19 @@ test('admin global edita instituicao e filtra convites por status/perfil', async
     .set('Authorization', `Bearer ${adminToken}`)
     .send({
       email: `${uniqueId('invite_filter')}@example.com`,
-      role: 'Professor',
+      role: 'Pais',
     })
     .expect(200)
 
   const pendingFilter = await request(app)
     .get(
-      `/admin/organizations/${organizationId}/invites?status=pending&role=Professor`
+      `/admin/organizations/${organizationId}/invites?status=pending&role=Pais`
     )
     .set('Authorization', `Bearer ${adminToken}`)
     .expect(200)
 
   expect(Array.isArray(pendingFilter.body)).toBe(true)
-  expect(pendingFilter.body[0]).toHaveProperty('role', 'Professor')
+  expect(pendingFilter.body[0]).toHaveProperty('role', 'Pais')
 })
 
 test('admin global pode buscar instituicoes e convites com paginacao', async () => {
@@ -403,7 +428,7 @@ test('admin global pode buscar instituicoes e convites com paginacao', async () 
     .set('Authorization', `Bearer ${adminToken}`)
     .send({
       email: `${uniqueId('pagina_prof')}@example.com`,
-      role: 'Professor',
+      role: 'Pais',
     })
     .expect(200)
 
@@ -420,14 +445,14 @@ test('admin global pode buscar instituicoes e convites com paginacao', async () 
 
   const inviteSearchRes = await request(app)
     .get(
-      `/admin/organizations/${organizationId}/invites?status=pending&role=Professor&search=pagina_prof&page=1&pageSize=5`
+      `/admin/organizations/${organizationId}/invites?status=pending&role=Pais&search=pagina_prof&page=1&pageSize=5`
     )
     .set('Authorization', `Bearer ${adminToken}`)
     .expect(200)
 
   expect(inviteSearchRes.body).toHaveProperty('items')
   expect(inviteSearchRes.body).toHaveProperty('pagination')
-  expect(inviteSearchRes.body.items[0]).toHaveProperty('role', 'Professor')
+  expect(inviteSearchRes.body.items[0]).toHaveProperty('role', 'Pais')
 })
 
 test('admin global pode ordenar instituicoes e ver resumo da instituicao', async () => {
@@ -455,13 +480,13 @@ test('admin global pode ordenar instituicoes e ver resumo da instituicao', async
     .set('Authorization', `Bearer ${adminToken}`)
     .send({
       email: `${uniqueId('resumo_coord')}@example.com`,
-      role: 'Coordenador',
+      role: 'Pais',
     })
     .expect(200)
 
   const coordinatorInvite = await InstitutionInvite.findOne({
     organization: organizationId,
-    role: 'Coordenador',
+    role: 'Pais',
   })
   expect(coordinatorInvite).toBeTruthy()
 
@@ -476,7 +501,8 @@ test('admin global pode ordenar instituicoes e ver resumo da instituicao', async
       email: coordinatorEmail,
       password: 'P@ssw0rd1',
       confirmPassword: 'P@ssw0rd1',
-      turma: 'A1',
+      cpf: buildValidCpf(),
+      vinculo: 'Responsavel',
     })
     .expect(201)
 
@@ -559,13 +585,13 @@ test('admin global pode filtrar instituicoes por status e usuarios por tipo', as
     .set('Authorization', `Bearer ${adminToken}`)
     .send({
       email: inviteEmail,
-      role: 'Professor',
+      role: 'Pais',
     })
     .expect(404)
 
   expect(professorInviteRes.body).toHaveProperty(
     'Msg',
-    'Instituicao nao encontrada ou inativa'
+    'Casa nao encontrada ou inativa'
   )
 
   await request(app)
@@ -579,7 +605,7 @@ test('admin global pode filtrar instituicoes por status e usuarios por tipo', as
     .set('Authorization', `Bearer ${adminToken}`)
     .send({
       email: inviteEmail,
-      role: 'Professor',
+      role: 'Pais',
     })
     .expect(200)
 
@@ -591,17 +617,18 @@ test('admin global pode filtrar instituicoes por status e usuarios por tipo', as
       email: inviteEmail,
       password: 'P@ssw0rd1',
       confirmPassword: 'P@ssw0rd1',
-      turma: 'A1',
+      cpf: buildValidCpf(),
+      vinculo: 'Responsavel',
     })
     .expect(201)
 
   const usersByType = await request(app)
-    .get(`/admin/organizations/${organizationId}/users?tipo=Professor`)
+    .get(`/admin/organizations/${organizationId}/users?tipo=Pais`)
     .set('Authorization', `Bearer ${adminToken}`)
     .expect(200)
 
   expect(Array.isArray(usersByType.body)).toBe(true)
-  expect(usersByType.body[0]).toHaveProperty('tipo', 'Professor')
+  expect(usersByType.body[0]).toHaveProperty('tipo', 'Pais')
 })
 
 test('forgot_password should still return token when mailer fails', async () => {
@@ -611,7 +638,7 @@ test('forgot_password should still return token when mailer fails', async () => 
   const registerRes = await registerWithInvite({
     email,
     password,
-    role: 'Aluno',
+    role: 'Dependentes',
   })
   expect(registerRes.status).toBe(201)
 

@@ -14,11 +14,11 @@ import API_BASE_URL from '../config/api'
 const sections = [
   {
     title: 'Dados coletados',
-    text: 'O app pode tratar nome, email, tipo de usuário, turma, instituição, desempenho em rodadas, permissões e dados técnicos necessários para autenticação e segurança.',
+    text: 'O app pode tratar nome, email, tipo de usuário, vínculo familiar e casa, desempenho em rodadas, permissões e dados técnicos necessários para autenticação e segurança.',
   },
   {
     title: 'Uso dos dados',
-    text: 'Esses dados são usados para permitir login, organizar instituições, mostrar desempenho, controlar permissões, enviar convites e recuperar senha.',
+    text: 'Esses dados são usados para permitir login, organizar casas, mostrar desempenho, controlar permissões, enviar convites e recuperar senha.',
   },
   {
     title: 'Compartilhamento',

@@ -34,19 +34,19 @@ const features = [
     icon: '📊',
     title: 'Acompanhamento de desempenho',
     description:
-      'O app mostra jogadas, acertos, erros e rodadas, ajudando a acompanhar a evolução de cada aluno com mais clareza.',
+      'O app mostra jogadas, acertos, erros e rodadas, ajudando a acompanhar a evolução de cada dependente com mais clareza.',
   },
   {
     icon: '🔐',
-    title: 'Permissões por perfil',
+    title: 'Permissões da família',
     description:
-      'Professores, coordenadores e administradores podem liberar ou restringir operações de acordo com a necessidade de cada estudante.',
+      'Os responsáveis pela casa podem liberar ou restringir operações de acordo com a necessidade de cada dependente.',
   },
   {
-    icon: '🏫',
-    title: 'Organização por instituição',
+    icon: '🏠',
+    title: 'Organização da casa',
     description:
-      'Os dados podem ser separados por instituição, com convites e acessos próprios, mantendo cada grupo isolado e mais seguro.',
+      'Cada casa tem seus próprios convites, acessos e histórico, mantendo os dados da família mais organizados e seguros.',
   },
   {
     icon: '💡',
@@ -114,7 +114,7 @@ export default function AboutScreen({ navigation }) {
               <Text style={styles.title}>Sobre o App</Text>
               <Text style={styles.subtitle}>
                 Um apoio lúdico para aprender tabuada com acompanhamento e
-                organização escolar.
+                organização familiar.
               </Text>
             </View>
 
@@ -148,8 +148,8 @@ export default function AboutScreen({ navigation }) {
               <Text style={styles.paragraph}>
                 O Tabuada foi pensado para tornar o treino matemático mais
                 visual, acolhedor e organizado. Ele atende tanto o uso
-                individual quanto o acompanhamento por professores,
-                coordenadores e instituições.
+                individual quanto o acompanhamento da família, com espaço para
+                responsáveis e dependentes usarem o app juntos.
               </Text>
             </View>
 

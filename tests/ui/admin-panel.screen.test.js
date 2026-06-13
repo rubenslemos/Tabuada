@@ -56,7 +56,7 @@ describe('AdminPanelScreen', () => {
             items: [
               {
                 _id: 'org1',
-                name: 'Escola Alpha',
+                name: 'Casa Alpha',
                 status: 'active',
                 userCount: 2,
                 pendingInvites: 1,
@@ -78,21 +78,21 @@ describe('AdminPanelScreen', () => {
           data: [
             {
               _id: 'user1',
-              name: 'Professor 1',
-              tipo: 'Professor',
+              name: 'Responsavel 1',
+              tipo: 'Pais',
               turma: 'A1',
               email: 'prof@alpha.com',
             },
           ],
         })
       }
-      if (url === '/admin/organizations/org1/users?tipo=Professor') {
+      if (url === '/admin/organizations/org1/users?tipo=Pais') {
         return Promise.resolve({
           data: [
             {
               _id: 'user1',
-              name: 'Professor 1',
-              tipo: 'Professor',
+              name: 'Responsavel 1',
+              tipo: 'Pais',
               turma: 'A1',
               email: 'prof@alpha.com',
             },
@@ -104,9 +104,8 @@ describe('AdminPanelScreen', () => {
           data: {
             metrics: {
               totalUsers: 2,
-              totalAlunos: 1,
-              totalProfessores: 1,
-              totalCoordenadores: 0,
+              totalDependentes: 1,
+              totalPais: 1,
               totalInvites: 3,
               pendingInvites: 1,
               totalRounds: 4,
@@ -122,8 +121,8 @@ describe('AdminPanelScreen', () => {
                 errou: 2,
                 user: {
                   _id: 'user1',
-                  name: 'Professor 1',
-                  tipo: 'Professor',
+                  name: 'Responsavel 1',
+                  tipo: 'Pais',
                 },
               },
             ],
@@ -133,7 +132,7 @@ describe('AdminPanelScreen', () => {
       if (url.startsWith('/admin/organizations/org1/invites?')) {
         const isFilteredRequest =
           url.includes('status=used') ||
-          url.includes('role=Professor') ||
+          url.includes('role=Pais') ||
           url.includes('search=filtrado')
         return Promise.resolve({
           data: {
@@ -142,14 +141,14 @@ describe('AdminPanelScreen', () => {
                 ? {
                     _id: 'invite-filtered',
                     email: 'filtrado@alpha.com',
-                    role: 'Professor',
+                    role: 'Pais',
                     createdAt: '2030-01-01T00:00:00.000Z',
                     expiresAt: '2030-02-01T00:00:00.000Z',
                   }
                 : {
                     _id: 'invite1',
                     email: 'novo@alpha.com',
-                    role: 'Aluno',
+                    role: 'Dependentes',
                     createdAt: '2030-01-01T00:00:00.000Z',
                     expiresAt: '2030-02-01T00:00:00.000Z',
                   },
@@ -192,7 +191,7 @@ describe('AdminPanelScreen', () => {
           data: {
             organization: {
               _id: 'org2',
-              name: 'Escola Beta',
+              name: 'Casa Beta',
             },
           },
         })
@@ -207,27 +206,27 @@ describe('AdminPanelScreen', () => {
     await waitFor(() =>
       expect(screen.getByText('Painel do Administrador')).toBeTruthy()
     )
-    await openMenuItem(screen, 'Criar instituição manualmente')
+    await openMenuItem(screen, 'Criar casa manualmente')
 
     fireEvent.changeText(
-      screen.getByPlaceholderText('Nome da instituição'),
-      'Escola Beta'
+      screen.getByPlaceholderText('Nome da casa'),
+      'Casa Beta'
     )
     fireEvent.changeText(
-      screen.getByPlaceholderText('CPF ou CNPJ'),
+      screen.getByPlaceholderText('CPF do responsável'),
       '11222333000181'
     )
     fireEvent.changeText(
-      screen.getByPlaceholderText('Email responsável'),
+      screen.getByPlaceholderText('Email do responsável'),
       'coord@beta.com'
     )
-    fireEvent.press(screen.getByText('Criar instituição'))
+    fireEvent.press(screen.getByText('Criar casa'))
 
     await waitFor(() =>
       expect(apiClient.post).toHaveBeenCalledWith(
         '/admin/organizations',
         {
-          name: 'Escola Beta',
+          name: 'Casa Beta',
           document: '11222333000181',
           contactEmail: 'coord@beta.com',
         },
@@ -308,7 +307,7 @@ describe('AdminPanelScreen', () => {
       data: {
         organization: {
           _id: 'org1',
-          name: 'Escola Alpha Editada',
+          name: 'Casa Alpha Editada',
         },
       },
     })
@@ -318,19 +317,19 @@ describe('AdminPanelScreen', () => {
     )
 
     await waitFor(() =>
-      expect(screen.getByText('Editar instituição selecionada')).toBeTruthy()
+      expect(screen.getByText('Editar casa selecionada')).toBeTruthy()
     )
 
     fireEvent.changeText(
-      screen.getByDisplayValue('Escola Alpha'),
-      'Escola Alpha Editada'
+      screen.getByDisplayValue('Casa Alpha'),
+      'Casa Alpha Editada'
     )
-    fireEvent.press(screen.getByText('Salvar instituição'))
+    fireEvent.press(screen.getByText('Salvar casa'))
 
     await waitFor(() =>
       expect(apiClient.patch).toHaveBeenCalledWith(
         '/admin/organizations/org1',
-        expect.objectContaining({ name: 'Escola Alpha Editada' }),
+        expect.objectContaining({ name: 'Casa Alpha Editada' }),
         expect.any(Object)
       )
     )
@@ -351,11 +350,11 @@ describe('AdminPanelScreen', () => {
     fireEvent.press(screen.getAllByText('Todos')[0])
     fireEvent.press(screen.getByText('Usados'))
     fireEvent.press(screen.getByText('Todos'))
-    fireEvent.press(screen.getByText('Professor'))
+    fireEvent.press(screen.getByText('Pais'))
 
     await waitFor(() =>
       expect(apiClient.get).toHaveBeenCalledWith(
-        '/admin/organizations/org1/invites?status=used&page=1&pageSize=6&sortBy=createdAt&sortOrder=desc&role=Professor',
+        '/admin/organizations/org1/invites?status=used&page=1&pageSize=6&sortBy=createdAt&sortOrder=desc&role=Pais',
         expect.any(Object)
       )
     )
@@ -369,7 +368,7 @@ describe('AdminPanelScreen', () => {
     )
 
     await waitFor(() =>
-      expect(screen.getByText('Instituição selecionada')).toBeTruthy()
+      expect(screen.getByText('Casa selecionada')).toBeTruthy()
     )
 
     await openMenuItem(screen, 'Convites enviados')
@@ -393,14 +392,12 @@ describe('AdminPanelScreen', () => {
       <AdminPanelScreen navigation={navigation} />
     )
 
-    await waitFor(() =>
-      expect(screen.getByText('Resumo da instituição')).toBeTruthy()
-    )
+    await waitFor(() => expect(screen.getByText('Resumo da casa')).toBeTruthy())
 
     expect(screen.getByText('Usuários')).toBeTruthy()
     expect(screen.getByText('Convites')).toBeTruthy()
-    expect(screen.getByText('Últimas rodadas')).toBeTruthy()
-    expect(screen.getAllByText('Professor 1').length).toBeGreaterThan(0)
+    expect(screen.getByText('Últimas rodadas da casa')).toBeTruthy()
+    expect(screen.getAllByText('Responsavel 1').length).toBeGreaterThan(0)
 
     await openMenuItem(screen, 'Convites enviados')
     fireEvent.press(screen.getByText('Mais recentes'))
@@ -422,16 +419,16 @@ describe('AdminPanelScreen', () => {
     )
 
     await waitFor(() =>
-      expect(screen.getByText('Instituição selecionada')).toBeTruthy()
+      expect(screen.getByText('Casa selecionada')).toBeTruthy()
     )
 
-    await openMenuItem(screen, 'Usuários da instituição')
+    await openMenuItem(screen, 'Usuários da casa')
     fireEvent.press(screen.getByText('Todos'))
-    fireEvent.press(screen.getByText('Professor'))
+    fireEvent.press(screen.getByText('Pais'))
 
     await waitFor(() =>
       expect(apiClient.get).toHaveBeenCalledWith(
-        '/admin/organizations/org1/users?tipo=Professor',
+        '/admin/organizations/org1/users?tipo=Pais',
         expect.any(Object)
       )
     )

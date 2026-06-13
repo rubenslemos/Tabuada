@@ -22,7 +22,7 @@ module.exports = (req, res, next) => {
         }
         req.user = user
         return next()
-      } catch (error) {
+      } catch {
         return res.status(500).send({ error: 'Erro no servidor' })
       }
     })
@@ -46,7 +46,7 @@ module.exports = (req, res, next) => {
         }
         req.user = user
         return next()
-      } catch (error) {
+      } catch {
         return res.status(500).send({ error: 'Erro no servidor' })
       }
     })

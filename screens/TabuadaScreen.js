@@ -25,6 +25,7 @@ const TabuadaScreen = ({ navigation, route }) => {
   const [numerador, setNumerador] = useState(1)
   const [denominador, setDenominador] = useState(1)
   const [operacao, setOperacao] = useState('+')
+  const [operacaoSelecionada, setOperacaoSelecionada] = useState(null)
   const [resposta, setResposta] = useState('')
   const [resultadoCorreto, setResultadoCorreto] = useState(0)
   const [acerto, setAcerto] = useState(0)
@@ -74,11 +75,16 @@ const TabuadaScreen = ({ navigation, route }) => {
   }, [route?.params?.selectedOperation, route?.params?.selectedOperationKey])
 
   const gerarPergunta = (forcedOp) => {
-    const q = generateQuestion(forcedOp)
+    const nextSelection =
+      typeof forcedOp === 'string' && forcedOp.length > 0 ? forcedOp : null
+    const q = generateQuestion(nextSelection)
     setNumerador(q.num1)
     setDenominador(q.num2)
     setOperacao(q.opSymbol)
     setResultadoCorreto(q.result)
+    if (typeof forcedOp !== 'undefined') {
+      setOperacaoSelecionada(nextSelection)
+    }
   }
 
   const [resultModalVisible, setResultModalVisible] = useState(false)
@@ -137,7 +143,6 @@ const TabuadaScreen = ({ navigation, route }) => {
     <ClassroomBackground stripeTop={120}>
       <Header
         onSelectOperation={(op) => {
-          setOperacao(op)
           gerarPergunta(op)
         }}
       />
@@ -287,7 +292,7 @@ const TabuadaScreen = ({ navigation, route }) => {
                 style={[styles.modalCardButton, styles.retryModalButton]}
                 onPress={() => {
                   setResultModalVisible(false)
-                  gerarPergunta(operacao)
+                  gerarPergunta(operacaoSelecionada)
                 }}
               >
                 <Text style={styles.modalButtonIcon}>↻</Text>
@@ -297,7 +302,7 @@ const TabuadaScreen = ({ navigation, route }) => {
                 style={[styles.modalCardButton, styles.nextModalButton]}
                 onPress={() => {
                   setResultModalVisible(false)
-                  gerarPergunta(operacao)
+                  gerarPergunta(operacaoSelecionada)
                 }}
               >
                 <Text style={styles.modalButtonIcon}>→</Text>

@@ -1,5 +1,6 @@
 const User = require('../models/User')
 const { buildDefaultPermissoes } = require('./institutions')
+const { ROLE_TYPES } = require('./roles')
 
 let bootstrapPromise = null
 
@@ -19,11 +20,14 @@ async function ensureGlobalAdminUser() {
     if (existing) {
       if (!existing.isGlobalAdmin) {
         existing.isGlobalAdmin = true
-        existing.tipo = 'Administrador'
+        existing.tipo = ROLE_TYPES.ADMIN
         existing.organization = null
         existing.organizationName = ''
         existing.turma = undefined
-        existing.permissoes = buildDefaultPermissoes('Coordenador')
+        existing.vinculo = ''
+        existing.cpf = ''
+        existing.normalizedCpf = ''
+        existing.permissoes = buildDefaultPermissoes(ROLE_TYPES.PAIS)
         await existing.save()
       }
       return existing
@@ -34,12 +38,12 @@ async function ensureGlobalAdminUser() {
     }
 
     return User.create({
-      tipo: 'Administrador',
+      tipo: ROLE_TYPES.ADMIN,
       isGlobalAdmin: true,
       name: name.toLowerCase(),
       email,
       password,
-      permissoes: buildDefaultPermissoes('Coordenador'),
+      permissoes: buildDefaultPermissoes(ROLE_TYPES.PAIS),
       organization: null,
       organizationName: '',
     })

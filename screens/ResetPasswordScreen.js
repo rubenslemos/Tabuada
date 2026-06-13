@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {
   Alert,
   StyleSheet,
@@ -16,7 +16,7 @@ import ClassroomBackground from '../components/ClassroomBackground'
 
 export default function ResetPasswordScreen({ navigation, route }) {
   const [email, setEmail] = useState(route?.params?.email || '')
-  const [token, setToken] = useState(route?.params?.token || '')
+  const [token] = useState(route?.params?.token || '')
   const [password, setPassword] = useState('')
   const [confirmPass, setConfirmPass] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -34,7 +34,10 @@ export default function ResetPasswordScreen({ navigation, route }) {
       navigation.navigate('Login')
     } catch (err) {
       console.error('Reset password error:', err?.response?.data || err.message)
-      Alert.alert('Erro', getErrorMessage(err, 'Não foi possível alterar a senha.'))
+      Alert.alert(
+        'Erro',
+        getErrorMessage(err, 'Não foi possível alterar a senha.')
+      )
     }
   }
 
@@ -97,9 +100,18 @@ export default function ResetPasswordScreen({ navigation, route }) {
           <Text style={styles.link}>Voltar ao Login</Text>
         </TouchableOpacity>
         <View style={styles.footerDecor}>
-          <Image source={require('../assets/images/estrela.png')} style={styles.footerIcon} />
-          <Image source={require('../assets/images/check2.png')} style={styles.footerIcon} />
-          <Image source={require('../assets/images/calculadora.png')} style={styles.footerIcon} />
+          <Image
+            source={require('../assets/images/estrela.png')}
+            style={styles.footerIcon}
+          />
+          <Image
+            source={require('../assets/images/check2.png')}
+            style={styles.footerIcon}
+          />
+          <Image
+            source={require('../assets/images/calculadora.png')}
+            style={styles.footerIcon}
+          />
         </View>
       </ChalkPanel>
     </ClassroomBackground>

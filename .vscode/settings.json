@@ -27,5 +27,14 @@
     "usuario",
     "visivel"
   ],
-  "DockerRun.DisableDockerrc": true
+  "DockerRun.DisableDockerrc": true,
+      "github.copilot.enable": {
+        "*": true
+    },
+    "terminal.integrated.initialHintCopilotCli": true,
+    "githubPullRequests.devMode": true,
+    "githubPullRequests.experimental.useQuickChat": true,
+    "openInGitHub.requireSelectionForLines": true,
+    "githubPullRequests.autoRepositoryDetection": true
+
 }

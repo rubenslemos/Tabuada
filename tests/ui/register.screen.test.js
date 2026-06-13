@@ -24,9 +24,9 @@ describe('RegisterScreen', () => {
       .mockResolvedValueOnce({
         data: {
           invite: {
-            role: 'Aluno',
-            email: 'aluno@escola.com',
-            organizationName: 'Escola Legal',
+            role: 'Dependentes',
+            email: 'dependente@casa.com',
+            organizationName: 'Casa Legal',
             inviteToken: 'ABC-123',
           },
         },
@@ -37,7 +37,7 @@ describe('RegisterScreen', () => {
       <RegisterScreen navigation={navigation} />
     )
 
-    fireEvent.press(getByText('Entrar em uma instituição'))
+    fireEvent.press(getByText('Entrar em uma casa'))
     fireEvent.changeText(getByPlaceholderText('Código do convite'), 'ABC-123')
     fireEvent.press(getByText('Validar convite'))
 
@@ -46,8 +46,7 @@ describe('RegisterScreen', () => {
     fireEvent.changeText(getByPlaceholderText('Nome'), 'Rubens')
     fireEvent.changeText(getByPlaceholderText('Senha'), 'P@ssw0rd1')
     fireEvent.changeText(getByPlaceholderText('Confirme a senha'), 'P@ssw0rd1')
-    fireEvent.changeText(getByPlaceholderText('Turma'), 'A1')
-    fireEvent.press(getByText('Registrar como Aluno'))
+    fireEvent.press(getByText('Registrar como Dependente'))
 
     await waitFor(() =>
       expect(navigation.navigate).toHaveBeenCalledWith('Login')
@@ -56,6 +55,36 @@ describe('RegisterScreen', () => {
       'Sucesso',
       'Registro realizado com sucesso!'
     )
+  })
+
+  it('normaliza convite legado de coordenador para responsaveis na interface', async () => {
+    apiClient.post.mockResolvedValueOnce({
+      data: {
+        invite: {
+          role: 'Coordenador',
+          email: 'rubens.lemos@localiza.com',
+          organizationName: 'localiza',
+          inviteToken: '08061',
+        },
+      },
+    })
+
+    const { getByText, getByPlaceholderText, queryByText } = await renderAsync(
+      <RegisterScreen navigation={navigation} />
+    )
+
+    fireEvent.press(getByText('Entrar em uma casa'))
+    fireEvent.changeText(getByPlaceholderText('Código do convite'), '08061')
+    fireEvent.press(getByText('Validar convite'))
+
+    await waitFor(() => expect(getByText('Convite liberado')).toBeTruthy())
+    expect(getByText('localiza • Responsáveis')).toBeTruthy()
+    expect(getByText('Você entra como')).toBeTruthy()
+    expect(getByText('Pai')).toBeTruthy()
+    expect(getByText('Mae')).toBeTruthy()
+    expect(getByText('Responsavel')).toBeTruthy()
+    expect(getByText('Registrar como Responsavel')).toBeTruthy()
+    expect(queryByText('Registrar como Coordenador')).toBeNull()
   })
 
   it('solicita criação de instituição e mostra fluxo de convite', async () => {
@@ -70,14 +99,14 @@ describe('RegisterScreen', () => {
       <RegisterScreen navigation={navigation} />
     )
 
-    fireEvent.press(getByText('Criar nova instituição'))
+    fireEvent.press(getByText('Criar nova casa'))
+    fireEvent.changeText(getByPlaceholderText('Nome da casa'), 'Escola Teste')
     fireEvent.changeText(
-      getByPlaceholderText('Nome da instituição'),
-      'Escola Teste'
+      getByPlaceholderText('CPF do responsável'),
+      '11222333000181'
     )
-    fireEvent.changeText(getByPlaceholderText('CPF ou CNPJ'), '11222333000181')
     fireEvent.changeText(
-      getByPlaceholderText('Email responsável'),
+      getByPlaceholderText('Email do responsável'),
       'coord@escola.com'
     )
     fireEvent.press(getByText('Criar e enviar convite'))
@@ -97,7 +126,7 @@ describe('RegisterScreen', () => {
       <RegisterScreen navigation={navigation} />
     )
 
-    fireEvent.press(getByText('Entrar em uma instituição'))
+    fireEvent.press(getByText('Entrar em uma casa'))
     fireEvent.changeText(getByPlaceholderText('Código do convite'), 'ABC-123')
     fireEvent.press(getByText('Validar convite'))
 

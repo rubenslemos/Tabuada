@@ -77,7 +77,7 @@ export default function PermissoesScreen({ navigation }) {
   const [acessos, setAcessos] = useState(DEFAULT_ACESSOS)
   const [inviteVisible, setInviteVisible] = useState(false)
   const [inviteEmail, setInviteEmail] = useState('')
-  const [inviteRole, setInviteRole] = useState('Aluno')
+  const [inviteRole, setInviteRole] = useState('Dependentes')
   const [inviteSending, setInviteSending] = useState(false)
   const acessosRef = useRef(DEFAULT_ACESSOS)
 
@@ -103,14 +103,10 @@ export default function PermissoesScreen({ navigation }) {
         const users = Array.isArray(usersResp.data) ? usersResp.data : []
 
         let filtered = []
-        if (me?.tipo === 'Professor') {
-          filtered = users.filter(
-            (u) => u.tipo === 'Aluno' && u.turma === me.turma
-          )
-        } else if (me?.tipo === 'Coordenador') {
-          filtered = users.filter((u) => u.tipo !== 'Coordenador')
+        if (me?.tipo === 'Pais') {
+          filtered = users.filter((u) => u.tipo === 'Dependentes')
         } else {
-          filtered = users.filter((u) => u.tipo === 'Aluno')
+          filtered = users.filter((u) => u._id === me?._id)
         }
 
         setAlunos(filtered)
@@ -136,11 +132,10 @@ export default function PermissoesScreen({ navigation }) {
     () => alunos.find((a) => (a._id || a.id) === selectedAlunoId),
     [alunos, selectedAlunoId]
   )
-  const selectedAlunoLabel = selectedAluno?.name || 'Selecione um aluno'
+  const selectedAlunoLabel = selectedAluno?.name || 'Selecione um dependente'
   const inviteRoles = useMemo(() => {
-    if (loggedUser?.tipo === 'Professor') return ['Aluno']
-    if (loggedUser?.tipo === 'Coordenador') {
-      return ['Aluno', 'Professor', 'Coordenador']
+    if (loggedUser?.tipo === 'Pais') {
+      return ['Dependentes', 'Pais']
     }
     return []
   }, [loggedUser])
@@ -237,7 +232,7 @@ export default function PermissoesScreen({ navigation }) {
 
       setInviteVisible(false)
       setInviteEmail('')
-      setInviteRole(inviteRoles[0] || 'Aluno')
+      setInviteRole(inviteRoles[0] || 'Dependentes')
       Alert.alert(
         'Convite enviado',
         response?.data?.message || 'Convite enviado para o email informado.'
@@ -280,7 +275,7 @@ export default function PermissoesScreen({ navigation }) {
       <ScrollView contentContainerStyle={styles.container}>
         <ChalkPanel style={styles.panel} boardStyle={styles.panelBoard}>
           <View style={styles.panelHeader}>
-            <Text style={styles.title}>Permissões às Tabuadas</Text>
+            <Text style={styles.title}>Permissões dos Dependentes</Text>
           </View>
           <View style={styles.flagsRow}>
             <Text style={styles.flag}>▲</Text>
@@ -295,10 +290,10 @@ export default function PermissoesScreen({ navigation }) {
               <TouchableOpacity
                 style={styles.alunoDropdownButton}
                 onPress={() => setAlunoDropdownVisible((visible) => !visible)}
-                accessibilityLabel="Selecionar aluno"
+                accessibilityLabel="Selecionar dependente"
               >
                 <View style={styles.alunoDropdownLabelWrap}>
-                  <Text style={styles.alunoDropdownCaption}>Aluno</Text>
+                  <Text style={styles.alunoDropdownCaption}>Dependente</Text>
                   <Text style={styles.alunoDropdownText} numberOfLines={1}>
                     {selectedAlunoLabel}
                   </Text>
@@ -349,13 +344,13 @@ export default function PermissoesScreen({ navigation }) {
               <View style={styles.inviteTextWrap}>
                 <Text style={styles.inviteTitle}>Convidar novo usuário</Text>
                 <Text style={styles.inviteSubtitle}>
-                  Gere convites seguros para entrar na sua instituição.
+                  Gere convites seguros para entrar na sua casa.
                 </Text>
               </View>
               <TouchableOpacity
                 style={styles.inviteButton}
                 onPress={() => {
-                  setInviteRole(inviteRoles[0] || 'Aluno')
+                  setInviteRole(inviteRoles[0] || 'Dependentes')
                   setInviteVisible(true)
                 }}
               >
@@ -366,7 +361,7 @@ export default function PermissoesScreen({ navigation }) {
 
           {!selectedAluno ? (
             <Text style={styles.empty}>
-              Nenhum aluno encontrado para este perfil.
+              Nenhum dependente encontrado para este perfil.
             </Text>
           ) : (
             <View>
@@ -448,8 +443,7 @@ export default function PermissoesScreen({ navigation }) {
             </View>
             <Text style={styles.modalTitle}>Gerar convite</Text>
             <Text style={styles.modalSubtitle}>
-              O convite será enviado por email e já ficará vinculado à
-              instituição.
+              O convite será enviado por email e já ficará vinculado à casa.
             </Text>
 
             <TextInput

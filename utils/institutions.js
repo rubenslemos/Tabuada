@@ -1,4 +1,6 @@
 const crypto = require('crypto')
+const { ROLE_TYPES, getCanonicalTipo } = require('./roles')
+
 const MIN_INVITE_TOKEN_LENGTH = 5
 
 function normalizeDocument(value = '') {
@@ -24,36 +26,6 @@ function isValidCPF(value = '') {
   digit = (sum * 10) % 11
   if (digit === 10) digit = 0
   return digit === Number(cpf[10])
-}
-
-function isValidCNPJ(value = '') {
-  const cnpj = normalizeDocument(value)
-  if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false
-
-  const calcDigit = (base, weights) => {
-    const sum = base
-      .split('')
-      .reduce((acc, digit, index) => acc + Number(digit) * weights[index], 0)
-    const remainder = sum % 11
-    return remainder < 2 ? 0 : 11 - remainder
-  }
-
-  const first = calcDigit(
-    cnpj.slice(0, 12),
-    [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
-  )
-  if (first !== Number(cnpj[12])) return false
-
-  const second = calcDigit(
-    cnpj.slice(0, 13),
-    [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
-  )
-  return second === Number(cnpj[13])
-}
-
-function isValidCpfOrCnpj(value = '') {
-  const normalized = normalizeDocument(value)
-  return isValidCPF(normalized) || isValidCNPJ(normalized)
 }
 
 function normalizeAcessos(acessos = {}) {
@@ -84,7 +56,9 @@ function normalizeAcessos(acessos = {}) {
 }
 
 function buildDefaultPermissoes(role) {
-  if (role === 'Professor' || role === 'Coordenador') {
+  const canonicalRole = getCanonicalTipo(role)
+
+  if (canonicalRole === ROLE_TYPES.PAIS || canonicalRole === ROLE_TYPES.ADMIN) {
     return normalizeAcessos({
       soma: true,
       menos: true,
@@ -157,7 +131,7 @@ module.exports = {
   generateInviteToken,
   getInviteTokenLengthForCount,
   hashInviteToken,
-  isValidCpfOrCnpj,
+  isValidCPF,
   MIN_INVITE_TOKEN_LENGTH,
   normalizeAcessos,
   normalizeDocument,

@@ -24,6 +24,11 @@ const OrganizationSchema = new mongoose.Schema({
     trim: true,
     lowercase: true,
   },
+  houseLabel: {
+    type: String,
+    default: '',
+    trim: true,
+  },
   status: {
     type: String,
     enum: ['pending', 'active', 'disabled'],

@@ -8,7 +8,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Image,
   useWindowDimensions,
 } from 'react-native'
 import apiClient from '../config/apiClient'
@@ -55,7 +54,7 @@ export default function PerformanceScreen({ navigation }) {
         setLoggedUser(me)
         setSelectedUserId(me?._id || me?.id || null)
 
-        if (me && (me.tipo === 'Professor' || me.tipo === 'Coordenador')) {
+        if (me?.tipo === 'Pais') {
           const usersResp = await apiClient.get('/auth/register', {
             headers: authHeaders,
           })
@@ -78,13 +77,7 @@ export default function PerformanceScreen({ navigation }) {
     const meId = loggedUser._id || loggedUser.id
     if (!selectedUserId || selectedUserId === meId) return loggedUser
 
-    if (loggedUser.tipo === 'Professor') {
-      return usersList
-        .filter((u) => u.tipo === 'Aluno' && u.turma === loggedUser.turma)
-        .find((u) => (u._id || u.id) === selectedUserId)
-    }
-
-    if (loggedUser.tipo === 'Coordenador') {
+    if (loggedUser.tipo === 'Pais') {
       return usersList.find((u) => (u._id || u.id) === selectedUserId)
     }
 
@@ -97,16 +90,11 @@ export default function PerformanceScreen({ navigation }) {
     const meId = loggedUser._id || loggedUser.id
     const meOption = [{ id: meId, label: `Logado: ${loggedUser.name}` }]
 
-    if (loggedUser.tipo === 'Professor') {
-      const turmaUsers = usersList
-        .filter((u) => u.tipo === 'Aluno' && u.turma === loggedUser.turma)
+    if (loggedUser.tipo === 'Pais') {
+      const dependentes = usersList
+        .filter((u) => u.tipo === 'Dependentes')
         .map((u) => ({ id: u._id || u.id, label: u.name }))
-      return [...meOption, ...turmaUsers]
-    }
-
-    if (loggedUser.tipo === 'Coordenador') {
-      const all = usersList.map((u) => ({ id: u._id || u.id, label: u.name }))
-      return [...meOption, ...all]
+      return [...meOption, ...dependentes]
     }
 
     return meOption
@@ -150,7 +138,7 @@ export default function PerformanceScreen({ navigation }) {
   const rounds = selectedUser?.rounds || []
   const selectedUserLabel =
     selectableUsers.find((u) => u.id === selectedUserId)?.label ||
-    'Selecione um usuário'
+    'Selecione um dependente'
   const gridColumns = width >= 720 ? 3 : width < 360 ? 1 : 2
   const roundCardWidth =
     gridColumns === 3 ? '31.6%' : gridColumns === 2 ? '48.2%' : '100%'
@@ -260,41 +248,36 @@ export default function PerformanceScreen({ navigation }) {
 
                     return (
                       <View
-                        key={String(item._id || item.id || index)}
+                        key={item._id || item.id || index}
                         style={[styles.roundCard, { width: roundCardWidth }]}
                       >
                         <View style={styles.roundCardHeader}>
-                          <Text style={styles.roundTitle}>#{index + 1}</Text>
+                          <Text style={styles.roundNumber}>#{index + 1}</Text>
                           <TouchableOpacity
-                            style={styles.detailsMiniBtn}
-                            onPress={() => openRoundDetails(item, index)}
                             accessibilityLabel={`Detalhes da rodada ${index + 1}`}
+                            style={styles.expandButton}
+                            onPress={() => openRoundDetails(item, index)}
                           >
-                            <Text style={styles.detailsMiniText}>＋</Text>
+                            <Text style={styles.expandButtonText}>⊕</Text>
                           </TouchableOpacity>
                         </View>
-
-                        <View style={styles.roundStatsBox}>
-                          <View style={styles.roundStatRow}>
-                            <Text style={styles.roundStatLabel}>Jogadas</Text>
-                            <Text style={styles.roundStatValue}>
-                              {item.jogou || 0}
-                            </Text>
-                            <Text style={styles.roundStatArrow} />
-                            <Text style={styles.roundPercentValue} />
-                          </View>
-                          <View style={styles.roundStatRow}>
-                            <Text style={styles.roundStatLabel}>Acertos</Text>
-                            <Text style={styles.roundStatValue}>
-                              {item.acerto || 0}
-                            </Text>
-                          </View>
-                          <View style={styles.roundStatRow}>
-                            <Text style={styles.roundStatLabel}>Erros</Text>
-                            <Text style={styles.roundStatValue}>
-                              {item.errou || 0}
-                            </Text>
-                          </View>
+                        <View style={styles.metricLine}>
+                          <Text style={styles.metricLabel}>Jogadas</Text>
+                          <Text style={styles.metricValue}>
+                            {item.jogou || 0}
+                          </Text>
+                        </View>
+                        <View style={styles.metricLine}>
+                          <Text style={styles.metricLabel}>Acertos</Text>
+                          <Text style={styles.metricValue}>
+                            {item.acerto || 0} ➜ {acertos}%
+                          </Text>
+                        </View>
+                        <View style={styles.metricLine}>
+                          <Text style={styles.metricLabel}>Erros</Text>
+                          <Text style={styles.metricValue}>
+                            {item.errou || 0} ➜ {erros}%
+                          </Text>
                         </View>
                       </View>
                     )
@@ -302,101 +285,41 @@ export default function PerformanceScreen({ navigation }) {
                 </View>
               )}
             </ScrollView>
-            <View style={styles.footerDecor}>
-              <Image
-                source={require('../assets/images/estrela.png')}
-                style={styles.footerIcon}
-              />
-              <Image
-                source={require('../assets/images/check2.png')}
-                style={styles.footerIcon}
-              />
-              <Image
-                source={require('../assets/images/calculadora.png')}
-                style={styles.footerIcon}
-              />
-              <Image
-                source={require('../assets/images/redCross2.png')}
-                style={styles.footerIcon}
-              />
-            </View>
           </View>
         </ChalkPanel>
       </View>
 
-      <Modal
-        visible={detailsVisible}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setDetailsVisible(false)}
-      >
+      <Modal visible={detailsVisible} transparent animationType="fade">
         <Pressable
           style={styles.modalOverlay}
           onPress={() => setDetailsVisible(false)}
         >
-          <Pressable onPress={(event) => event.stopPropagation()}>
-            <ChalkPanel
-              style={styles.modalFrame}
-              boardStyle={styles.modalBoard}
+          <Pressable style={styles.modalCard} onPress={() => {}}>
+            <Text style={styles.modalTitle}>
+              Detalhes Rodada {details?.index || ''}
+            </Text>
+            <Text style={styles.modalLine}>Adição: {details?.faPlus ?? 0}</Text>
+            <Text style={styles.modalLine}>
+              Subtração: {details?.faMinus ?? 0}
+            </Text>
+            <Text style={styles.modalLine}>
+              Multiplicação: {details?.faTimes ?? 0}
+            </Text>
+            <Text style={styles.modalLine}>
+              Divisão: {details?.faDivide ?? 0}
+            </Text>
+            <Text style={styles.modalLine}>
+              Acertos (%): {details?.acertosPercent ?? 0}
+            </Text>
+            <Text style={styles.modalLine}>
+              Erros (%): {details?.errosPercent ?? 0}
+            </Text>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setDetailsVisible(false)}
             >
-              <View style={styles.modalFlagsRow}>
-                <Text style={styles.modalFlag}>▲</Text>
-                <Text style={styles.modalFlag}>●</Text>
-                <Text style={styles.modalFlag}>■</Text>
-                <Text style={styles.modalFlag}>●</Text>
-                <Text style={styles.modalFlag}>▲</Text>
-              </View>
-              <Text style={styles.modalBadge}>📊</Text>
-              <Text style={styles.modalTitle}>
-                Detalhes Rodada {details?.index}
-              </Text>
-
-              <View style={styles.modalStatsBox}>
-                <View style={styles.modalLine}>
-                  <Text style={styles.modalLineLabel}>Adição</Text>
-                  <Text style={styles.modalLineValue}>
-                    {details?.faPlus ?? 0}
-                  </Text>
-                </View>
-                <View style={styles.modalLine}>
-                  <Text style={styles.modalLineLabel}>Subtração</Text>
-                  <Text style={styles.modalLineValue}>
-                    {details?.faMinus ?? 0}
-                  </Text>
-                </View>
-                <View style={styles.modalLine}>
-                  <Text style={styles.modalLineLabel}>Multiplicação</Text>
-                  <Text style={styles.modalLineValue}>
-                    {details?.faTimes ?? 0}
-                  </Text>
-                </View>
-                <View style={styles.modalLine}>
-                  <Text style={styles.modalLineLabel}>Divisão</Text>
-                  <Text style={styles.modalLineValue}>
-                    {details?.faDivide ?? 0}
-                  </Text>
-                </View>
-                <View style={styles.modalDivider} />
-                <View style={styles.modalLine}>
-                  <Text style={styles.modalLineLabel}>Acertos (%)</Text>
-                  <Text style={[styles.modalLineValue, styles.modalGoodValue]}>
-                    {details?.acertosPercent ?? 0}
-                  </Text>
-                </View>
-                <View style={styles.modalLine}>
-                  <Text style={styles.modalLineLabel}>Erros (%)</Text>
-                  <Text style={[styles.modalLineValue, styles.modalBadValue]}>
-                    {details?.errosPercent ?? 0}
-                  </Text>
-                </View>
-              </View>
-              <TouchableOpacity
-                style={styles.closeBtn}
-                onPress={() => setDetailsVisible(false)}
-              >
-                <Text style={styles.closeBtnText}>Fechar</Text>
-              </TouchableOpacity>
-            </ChalkPanel>
+              <Text style={styles.closeButtonText}>Fechar</Text>
+            </TouchableOpacity>
           </Pressable>
         </Pressable>
       </Modal>
@@ -405,363 +328,155 @@ export default function PerformanceScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  bg: { flex: 1 },
   centered: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  fixedBackWrap: {
-    paddingHorizontal: 14,
-    paddingTop: 8,
-    paddingBottom: 4,
-    backgroundColor: 'rgba(243,229,199,0.82)',
-    borderBottomWidth: 2,
-    borderBottomColor: 'rgba(97,190,220,0.8)',
-    alignItems: 'center',
-  },
+  fixedBackWrap: { paddingHorizontal: 16, paddingTop: 10, paddingBottom: 8 },
   fixedBackButton: {
     alignSelf: 'center',
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#15553f',
-    borderRadius: 20,
-    borderWidth: 2,
-    borderColor: '#d9c29b',
-    paddingVertical: 7,
+    backgroundColor: '#0b5d4c',
+    borderRadius: 18,
     paddingHorizontal: 16,
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 3,
+    paddingVertical: 9,
+    borderWidth: 1.5,
+    borderColor: '#d7c48e',
   },
   fixedBackArrow: {
-    color: '#f8f8f8',
-    fontFamily: FONTS.body,
-    fontSize: 18,
-    lineHeight: 18,
-    marginRight: 5,
-    transform: [{ translateY: -1 }],
+    color: '#f3f1d6',
+    fontSize: 20,
+    marginRight: 6,
+    lineHeight: 22,
+    fontFamily: FONTS.title,
   },
-  fixedBackText: {
-    color: '#f8f8f8',
-    fontFamily: FONTS.body,
-    fontSize: 16,
-  },
-  container: {
-    flex: 1,
-    paddingHorizontal: 14,
-    paddingTop: 8,
-    paddingBottom: 34,
-  },
-  panel: {
-    backgroundColor: 'transparent',
-    flex: 1,
-  },
-  panelBoard: {
-    flex: 1,
-    paddingBottom: 8,
-  },
+  fixedBackText: { color: '#f3f1d6', fontSize: 13, fontFamily: FONTS.body },
+  container: { flex: 1, paddingHorizontal: 14, paddingBottom: 14 },
+  panel: { flex: 1 },
+  panelBoard: { paddingHorizontal: 12, paddingVertical: 12 },
   boardContent: { flex: 1 },
-  panelHeader: {
-    backgroundColor: 'rgba(255,255,255,0.08)',
-    borderBottomWidth: 2,
-    borderBottomColor: 'rgba(255,255,255,0.35)',
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-  },
+  panelHeader: { marginBottom: 8 },
+  title: { color: '#f2f4dc', fontSize: 24, fontFamily: FONTS.title },
   flagsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '92%',
-    alignSelf: 'center',
-    opacity: 0.45,
-    marginTop: 8,
-    marginBottom: 6,
+    marginBottom: 10,
+    paddingHorizontal: 8,
   },
-  flag: { color: '#f8f8f8', fontSize: 12 },
-  title: {
-    fontSize: 22,
-    fontFamily: FONTS.title,
-    color: '#f8f8f8',
-    letterSpacing: 0.3,
+  flag: {
+    color: 'rgba(255,255,255,0.45)',
+    fontSize: 12,
+    fontFamily: FONTS.body,
   },
-  userDropdownWrap: {
-    paddingHorizontal: 14,
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
+  userDropdownWrap: { marginBottom: 12 },
   userDropdownButton: {
-    minHeight: 54,
-    borderRadius: 12,
     borderWidth: 2,
-    borderColor: 'rgba(255,255,255,0.48)',
-    backgroundColor: 'rgba(0,0,0,0.13)',
+    borderColor: 'rgba(255,255,255,0.24)',
+    borderRadius: 14,
+    backgroundColor: 'rgba(255,255,255,0.06)',
     paddingHorizontal: 12,
-    paddingVertical: 7,
+    paddingVertical: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  userDropdownLabelWrap: {
-    flex: 1,
-    minWidth: 0,
-    paddingRight: 10,
-  },
+  userDropdownLabelWrap: { flex: 1, marginRight: 8 },
   userDropdownCaption: {
-    color: '#ffd54f',
+    color: '#fff6cf',
+    fontSize: 12,
     fontFamily: FONTS.body,
-    fontSize: 13,
-    lineHeight: 16,
   },
-  userDropdownText: {
-    color: '#f8f8f8',
-    fontFamily: FONTS.body,
-    fontSize: 17,
-    lineHeight: 22,
-  },
+  userDropdownText: { color: '#f5f8f0', fontSize: 18, fontFamily: FONTS.body },
   userDropdownArrow: {
-    color: '#f8f8f8',
+    color: '#f5f8f0',
+    fontSize: 18,
     fontFamily: FONTS.title,
-    fontSize: 22,
-    lineHeight: 24,
   },
   userDropdownList: {
     marginTop: 6,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: 'rgba(255,255,255,0.38)',
-    backgroundColor: '#174d3b',
-    overflow: 'hidden',
-  },
-  userOptionsScroll: {
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.18)',
+    backgroundColor: '#1d5b47',
     maxHeight: 190,
   },
-  userOption: {
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255,255,255,0.12)',
-  },
-  userOptionActive: {
-    backgroundColor: '#ffd54f',
-  },
-  userOptionText: {
-    color: '#f8f8f8',
-    fontFamily: FONTS.body,
-    fontSize: 16,
-  },
-  userOptionTextActive: { color: '#1f1f1f' },
-  empty: {
-    fontFamily: FONTS.body,
-    color: '#f8f8f8',
-    marginTop: 10,
-    paddingHorizontal: 14,
-    paddingBottom: 14,
-  },
-  resultsScroll: {
-    flex: 1,
-  },
-  resultsScrollContent: {
-    paddingBottom: 4,
-  },
+  userOptionsScroll: { maxHeight: 190 },
+  userOption: { paddingHorizontal: 12, paddingVertical: 10 },
+  userOptionActive: { backgroundColor: 'rgba(255,212,87,0.18)' },
+  userOptionText: { color: '#f5f8f0', fontSize: 15, fontFamily: FONTS.body },
+  userOptionTextActive: { color: '#ffe89a' },
+  resultsScroll: { flex: 1 },
+  resultsScrollContent: { paddingBottom: 18 },
+  empty: { color: '#f5f8f0', fontSize: 16, fontFamily: FONTS.body },
   roundGrid: {
-    paddingHorizontal: 14,
-    paddingTop: 2,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+    gap: 10,
   },
   roundCard: {
     backgroundColor: 'rgba(255,255,255,0.06)',
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: 'rgba(255,255,255,0.3)',
-    padding: 8,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.16)',
+    padding: 12,
     marginBottom: 10,
   },
   roundCardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 6,
+    marginBottom: 10,
   },
-  roundTitle: {
-    fontFamily: FONTS.title,
-    color: '#ffd54f',
-    fontSize: 19,
-  },
-  detailsMiniBtn: {
-    width: 31,
-    height: 31,
-    borderRadius: 16,
+  roundNumber: { color: '#fff6cf', fontSize: 24, fontFamily: FONTS.title },
+  expandButton: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: '#4aa0ec',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#46a3e5',
-    borderWidth: 2,
-    borderColor: 'rgba(255,255,255,0.6)',
   },
-  detailsMiniText: {
-    color: '#fff',
-    fontFamily: FONTS.title,
-    fontSize: 24,
-    lineHeight: 25,
-    transform: [{ translateY: -1 }],
-  },
-  roundStatsBox: {
-    backgroundColor: 'rgba(0,0,0,0.12)',
-    borderRadius: 6,
-    paddingVertical: 7,
-    paddingHorizontal: 7,
-  },
-  roundStatRow: {
+  expandButtonText: { color: '#fff', fontSize: 18, fontFamily: FONTS.title },
+  metricLine: {
     flexDirection: 'row',
-    alignItems: 'center',
-    minHeight: 21,
+    justifyContent: 'space-between',
+    marginBottom: 5,
+    gap: 10,
   },
-  roundStatLabel: {
-    fontFamily: FONTS.body,
-    color: '#f8f8f8',
-    fontSize: 14,
-    lineHeight: 20,
-    width: 58,
-  },
-  roundStatValue: {
-    fontFamily: FONTS.body,
-    color: '#f8f8f8',
-    fontSize: 14,
-    lineHeight: 20,
-    width: 28,
-    textAlign: 'right',
-  },
-  roundStatArrow: {
-    color: 'rgba(255,255,255,0.72)',
-    fontFamily: FONTS.body,
-    fontSize: 14,
-    lineHeight: 20,
-    width: 22,
-    textAlign: 'center',
-  },
-  roundPercentValue: {
-    fontFamily: FONTS.body,
-    fontSize: 14,
-    lineHeight: 20,
-    width: 42,
-    textAlign: 'right',
-  },
-  percentGood: { color: '#8ddf6f' },
-  percentBad: { color: '#ff7a70' },
+  metricLabel: { color: '#f5f8f0', fontSize: 18, fontFamily: FONTS.body },
+  metricValue: { color: '#f5f8f0', fontSize: 18, fontFamily: FONTS.body },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.48)',
-    alignItems: 'center',
     justifyContent: 'center',
-    padding: 16,
-  },
-  modalFrame: {
-    width: '92%',
-    maxWidth: 420,
-    backgroundColor: 'transparent',
-  },
-  modalBoard: {
-    paddingHorizontal: 18,
-    paddingTop: 10,
-    paddingBottom: 18,
     alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.45)',
+    padding: 20,
   },
-  modalFlagsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '86%',
-    opacity: 0.45,
-    marginBottom: 4,
-  },
-  modalFlag: {
-    color: '#f8f8f8',
-    fontSize: 11,
-  },
-  modalBadge: {
-    width: 58,
-    height: 58,
-    borderRadius: 29,
-    backgroundColor: 'transparent',
-    borderWidth: 2,
-    borderColor: 'rgba(255,213,79,0.9)',
-    color: '#ffd54f',
-    fontSize: 30,
-    lineHeight: 54,
-    textAlign: 'center',
-    fontFamily: FONTS.title,
-    marginTop: 6,
-    marginBottom: 8,
+  modalCard: {
+    width: '100%',
+    maxWidth: 420,
+    backgroundColor: '#fff',
+    borderRadius: 18,
+    padding: 18,
   },
   modalTitle: {
+    color: '#1a1a1a',
+    fontSize: 24,
     fontFamily: FONTS.title,
-    color: '#f8f8f8',
-    fontSize: 27,
-    marginBottom: 12,
-    textAlign: 'center',
-  },
-  modalStatsBox: {
-    width: '100%',
-    backgroundColor: 'rgba(0,0,0,0.13)',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.22)',
-    paddingVertical: 8,
-    paddingHorizontal: 10,
+    marginBottom: 10,
   },
   modalLine: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 4,
-  },
-  modalLineLabel: {
-    fontFamily: FONTS.body,
-    color: '#f8f8f8',
-    fontSize: 17,
-  },
-  modalLineValue: {
-    fontFamily: FONTS.body,
-    color: '#ffd54f',
-    fontSize: 17,
-  },
-  modalGoodValue: {
-    color: '#8ddf6f',
-  },
-  modalBadValue: {
-    color: '#ff7a70',
-  },
-  modalDivider: {
-    height: 1,
-    backgroundColor: 'rgba(255,255,255,0.22)',
-    marginVertical: 6,
-  },
-  closeBtn: {
-    marginTop: 14,
-    alignSelf: 'center',
-    minWidth: 140,
-    backgroundColor: '#72c35f',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: 'rgba(255,255,255,0.75)',
-    alignItems: 'center',
-  },
-  closeBtnText: {
-    fontFamily: FONTS.body,
-    color: '#fff',
+    color: '#333',
     fontSize: 18,
+    fontFamily: FONTS.body,
+    marginBottom: 6,
   },
-  footerDecor: {
-    marginTop: 6,
-    marginBottom: 14,
-    width: '92%',
-    paddingTop: 8,
-    borderTopWidth: 2,
-    borderTopColor: 'rgba(120,72,32,0.5)',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignSelf: 'center',
+  closeButton: {
+    alignSelf: 'flex-end',
+    marginTop: 10,
+    backgroundColor: '#ececec',
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
   },
-  footerIcon: { width: 22, height: 22, resizeMode: 'contain' },
+  closeButtonText: { color: '#333', fontSize: 16, fontFamily: FONTS.body },
 })

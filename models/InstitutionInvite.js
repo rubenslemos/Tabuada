@@ -14,7 +14,7 @@ const InstitutionInviteSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['Aluno', 'Professor', 'Coordenador'],
+    enum: ['Aluno', 'Professor', 'Coordenador', 'Pais', 'Dependentes'],
     required: true,
   },
   tokenHash: {

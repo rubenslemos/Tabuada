@@ -50,7 +50,7 @@ async function createInvite({ email, role }) {
   return inviteToken
 }
 
-async function registerWithInvite({ email, password, role = 'Aluno' }) {
+async function registerWithInvite({ email, password, role = 'Dependentes' }) {
   const inviteToken = await createInvite({ email, role })
 
   return request(app)
@@ -61,7 +61,9 @@ async function registerWithInvite({ email, password, role = 'Aluno' }) {
       email,
       password,
       confirmPassword: password,
-      turma: 'A1',
+      turma: role === 'Dependentes' ? 'A1' : undefined,
+      cpf: role === 'Pais' ? buildValidCpf() : undefined,
+      vinculo: role === 'Pais' ? 'Responsavel' : 'Dependente',
     })
 }
 
@@ -74,7 +76,7 @@ beforeAll(async () => {
   const requestInviteRes = await request(app)
     .post('/auth/register/request-organization')
     .send({
-      organizationName: uniqueId('InstituicaoBase'),
+      organizationName: uniqueId('CasaBase'),
       document: buildValidCpf(),
       email: coordinatorEmail,
     })
@@ -88,7 +90,8 @@ beforeAll(async () => {
       email: coordinatorEmail,
       password: 'P@ssw0rd1',
       confirmPassword: 'P@ssw0rd1',
-      turma: 'A1',
+      cpf: buildValidCpf(),
+      vinculo: 'Responsavel',
     })
     .expect(201)
 
@@ -110,7 +113,7 @@ test('full round flow: register -> login -> create round -> post contagem -> ver
   const regRes = await registerWithInvite({
     email,
     password,
-    role: 'Aluno',
+    role: 'Dependentes',
   })
   expect(regRes.status).toBe(201)
   const userId = regRes.body.user._id || regRes.body.user.id

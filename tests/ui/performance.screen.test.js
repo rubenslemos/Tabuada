@@ -28,8 +28,8 @@ describe('PerformanceScreen', () => {
             user: {
               _id: 'user123',
               id: 'user123',
-              name: 'Aluno 1',
-              tipo: 'Aluno',
+              name: 'Dependente 1',
+              tipo: 'Dependentes',
               rounds: [{ _id: 'round1', jogou: 4, acerto: 3, errou: 1 }],
             },
           },
@@ -64,9 +64,9 @@ describe('PerformanceScreen', () => {
     fireEvent.press(getByLabelText('Detalhes da rodada 1'))
 
     await waitFor(() => expect(getByText('Detalhes Rodada 1')).toBeTruthy())
-    expect(getByText('Adição')).toBeTruthy()
-    expect(getByText('Subtração')).toBeTruthy()
-    expect(getByText('Divisão')).toBeTruthy()
+    expect(getByText('Adição: 2')).toBeTruthy()
+    expect(getByText('Subtração: 1')).toBeTruthy()
+    expect(getByText('Divisão: 0')).toBeTruthy()
     expect(queryByText('Fechar')).toBeTruthy()
   })
 
@@ -79,7 +79,7 @@ describe('PerformanceScreen', () => {
               _id: 'user123',
               id: 'user123',
               name: 'Prof Rubens',
-              tipo: 'Professor',
+              tipo: 'Pais',
               turma: 'A',
               rounds: [{ _id: 'round-prof', jogou: 2, acerto: 1, errou: 1 }],
             },
@@ -92,8 +92,8 @@ describe('PerformanceScreen', () => {
             {
               _id: 'aluno1',
               id: 'aluno1',
-              name: 'Aluno Selecionado',
-              tipo: 'Aluno',
+              name: 'Dependente Selecionado',
+              tipo: 'Dependentes',
               turma: 'A',
               rounds: [{ _id: 'round-aluno', jogou: 10, acerto: 8, errou: 2 }],
             },
@@ -110,11 +110,11 @@ describe('PerformanceScreen', () => {
     await waitFor(() => expect(getByText('Logado: Prof Rubens')).toBeTruthy())
 
     fireEvent.press(getByLabelText('Selecionar usuário'))
-    fireEvent.press(getByText('Aluno Selecionado'))
+    fireEvent.press(getByText('Dependente Selecionado'))
 
     await waitFor(() => expect(getByText('Jogadas')).toBeTruthy())
     expect(getByText('Acertos')).toBeTruthy()
-    expect(getByText('80%')).toBeTruthy()
+    expect(getByText('8 ➜ 80%')).toBeTruthy()
     expect(queryByText('50%')).toBeNull()
   })
 

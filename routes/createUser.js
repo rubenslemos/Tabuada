@@ -9,11 +9,19 @@ const {
   buildDefaultPermissoes,
   createUniqueInviteToken,
   hashInviteToken,
-  isValidCpfOrCnpj,
+  isValidCPF,
   MIN_INVITE_TOKEN_LENGTH,
   normalizeDocument,
 } = require('../utils/institutions')
 const { canCreateInvite } = require('../utils/access')
+const {
+  ROLE_TYPES,
+  getCanonicalTipo,
+  getDisplayRole,
+  isGlobalAdminLike,
+  isPais,
+  sanitizeVinculo,
+} = require('../utils/roles')
 require('dotenv').config()
 
 const hash = process.env.SECRET
@@ -31,8 +39,8 @@ function getMailFrom() {
 function buildInviteEmailHtml({ inviteToken, organizationName, role }) {
   return `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #203124;">
-      <h2>Convite para a instituicao ${organizationName}</h2>
-      <p>Seu perfil liberado para cadastro e: <strong>${role}</strong>.</p>
+      <h2>Convite para a casa ${organizationName}</h2>
+      <p>Seu acesso foi liberado como: <strong>${getDisplayRole(role)}</strong>.</p>
       <p>Use o codigo abaixo no app para continuar seu cadastro:</p>
       <p style="font-size: 20px; font-weight: bold; letter-spacing: 1px;">${inviteToken}</p>
       <p>Esse codigo comeca com ${MIN_INVITE_TOKEN_LENGTH} numeros e aumenta automaticamente se um dia essa quantidade nao for mais suficiente.</p>
@@ -50,7 +58,7 @@ async function sendInviteEmail({ email, inviteToken, organizationName, role }) {
   return mailer.sendMail({
     to: email,
     from: getMailFrom(),
-    subject: `Convite da instituicao ${organizationName}`,
+    subject: `Convite da casa ${organizationName}`,
     html: buildInviteEmailHtml({ inviteToken, organizationName, role }),
   })
 }
@@ -61,13 +69,14 @@ async function createInviteForOrganization({
   role,
   createdByUser = null,
 }) {
+  const canonicalRole = getCanonicalTipo(role)
   const { inviteToken, tokenHash } =
     await createUniqueInviteToken(InstitutionInvite)
 
   await InstitutionInvite.create({
     organization: organization._id,
     email,
-    role,
+    role: canonicalRole,
     tokenHash,
     createdByUser,
     expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
@@ -87,15 +96,15 @@ router.post('/request-organization', async (req, res) => {
 
   if (!organizationName || !document || !email) {
     return res.status(422).json({
-      Msg: 'Nome da instituicao, CPF/CNPJ e email sao obrigatorios',
+      Msg: 'Nome da casa, CPF e email sao obrigatorios',
     })
   }
 
   const normalizedEmail = email.toLowerCase().trim()
   const normalizedDocument = normalizeDocument(document)
 
-  if (!isValidCpfOrCnpj(normalizedDocument)) {
-    return res.status(422).json({ Msg: 'CPF ou CNPJ invalido' })
+  if (!isValidCPF(normalizedDocument)) {
+    return res.status(422).json({ Msg: 'CPF invalido' })
   }
 
   try {
@@ -117,12 +126,13 @@ router.post('/request-organization', async (req, res) => {
 
     if (orgExists) {
       return res.status(422).json({
-        Msg: 'Nao foi possivel processar essa instituicao com os dados informados',
+        Msg: 'Nao foi possivel processar essa casa com os dados informados',
       })
     }
 
     const organization = await Organization.create({
       name: organizationName.trim(),
+      houseLabel: organizationName.trim(),
       document: String(document).trim(),
       normalizedDocument,
       contactEmail: normalizedEmail,
@@ -132,7 +142,7 @@ router.post('/request-organization', async (req, res) => {
     const inviteToken = await createInviteForOrganization({
       organization,
       email: normalizedEmail,
-      role: 'Coordenador',
+      role: ROLE_TYPES.PAIS,
     })
 
     try {
@@ -140,15 +150,16 @@ router.post('/request-organization', async (req, res) => {
         email: normalizedEmail,
         inviteToken,
         organizationName: organization.name,
-        role: 'Coordenador',
+        role: ROLE_TYPES.PAIS,
       })
 
       return res.status(200).json({
-        message: 'Convite enviado para o email informado.',
+        message:
+          'Convite enviado para o email informado. A entrega pode levar alguns minutos.',
         ...(isTestEnv() ? { inviteToken } : {}),
       })
     } catch (emailError) {
-      console.error('Erro ao enviar convite da instituicao:', emailError)
+      console.error('Erro ao enviar convite da casa:', emailError)
       return res.status(200).json({
         message:
           'Convite gerado com sucesso. Nao foi possivel enviar o e-mail neste momento.',
@@ -156,7 +167,7 @@ router.post('/request-organization', async (req, res) => {
       })
     }
   } catch (error) {
-    console.error('Erro ao criar instituicao:', error)
+    console.error('Erro ao criar casa:', error)
     return res.status(500).json({
       Msg: 'Erro no servidor, tente novamente em instantes',
       ...(isTestEnv() ? { details: error.message } : {}),
@@ -172,7 +183,8 @@ router.post('/request-invite', auth, async (req, res) => {
   }
 
   const targetOrganizationId = organizationId || req.user.organization
-  if (!canCreateInvite(req.user, targetOrganizationId, role)) {
+  const canonicalRole = getCanonicalTipo(role)
+  if (!canCreateInvite(req.user, targetOrganizationId, canonicalRole)) {
     return res.status(403).json({ Msg: 'Nao autorizado a gerar este convite' })
   }
 
@@ -190,21 +202,19 @@ router.post('/request-invite', auth, async (req, res) => {
     ])
 
     if (!organization || organization.status !== 'active') {
-      return res
-        .status(404)
-        .json({ Msg: 'Instituicao nao encontrada ou inativa' })
+      return res.status(404).json({ Msg: 'Casa nao encontrada ou inativa' })
     }
 
     if (existingUser || existingInvite) {
-      return res
-        .status(422)
-        .json({ Msg: 'Esse email ja possui cadastro ou convite em andamento' })
+      return res.status(422).json({
+        Msg: 'Esse email ja possui cadastro ou convite em andamento',
+      })
     }
 
     const inviteToken = await createInviteForOrganization({
       organization,
       email: normalizedEmail,
-      role,
+      role: canonicalRole,
       createdByUser: req.user._id,
     })
 
@@ -213,14 +223,15 @@ router.post('/request-invite', auth, async (req, res) => {
         email: normalizedEmail,
         inviteToken,
         organizationName: organization.name,
-        role,
+        role: canonicalRole,
       })
     } catch (emailError) {
       console.error('Erro ao enviar convite adicional:', emailError)
     }
 
     return res.status(200).json({
-      message: 'Convite enviado para o email informado.',
+      message:
+        'Convite enviado para o email informado. A entrega pode levar alguns minutos.',
       ...(isTestEnv() ? { inviteToken } : {}),
     })
   } catch (error) {
@@ -251,9 +262,11 @@ router.post('/validate-invite', async (req, res) => {
       return genericInviteError(res)
     }
 
+    const canonicalRole = getCanonicalTipo(invite.role)
+
     return res.status(200).json({
       invite: {
-        role: invite.role,
+        role: canonicalRole,
         email: invite.email,
         organizationId: invite.organization._id,
         organizationName: invite.organization.name,
@@ -267,8 +280,9 @@ router.post('/validate-invite', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  const { inviteToken, name, email, password, confirmPassword, turma } =
+  const { inviteToken, name, email, password, confirmPassword, cpf, vinculo } =
     req.body
+
   if (!inviteToken || !name || !email || !password || !confirmPassword) {
     return res.status(422).json({ Msg: 'Todos os campos sao obrigatorios' })
   }
@@ -316,24 +330,29 @@ router.post('/', async (req, res) => {
       return res.status(422).json({ Msg: 'Usuário já existe' })
     }
 
-    const effectiveTurma =
-      turma && String(turma).trim()
-        ? String(turma).toUpperCase().trim()
-        : invite.role === 'Coordenador'
-          ? 'GERAL'
-          : ''
+    const canonicalRole = getCanonicalTipo(invite.role)
+    const normalizedCpf = normalizeDocument(cpf)
+    const safeVinculo = sanitizeVinculo(canonicalRole, vinculo)
 
-    if (!effectiveTurma) {
-      return res.status(422).json({ Msg: 'Turma é obrigatória' })
+    if (isPais(canonicalRole)) {
+      if (!normalizedCpf) {
+        return res.status(422).json({ Msg: 'CPF é obrigatório para Pais' })
+      }
+      if (!isValidCPF(normalizedCpf)) {
+        return res.status(422).json({ Msg: 'CPF invalido' })
+      }
     }
 
     const user = await User.create({
-      tipo: invite.role,
+      tipo: canonicalRole,
+      vinculo: safeVinculo,
+      cpf: isPais(canonicalRole) ? String(cpf).trim() : '',
+      normalizedCpf: isPais(canonicalRole) ? normalizedCpf : '',
       name: name.toLowerCase().trim(),
       email: normalizedEmail,
       password,
-      permissoes: buildDefaultPermissoes(invite.role),
-      turma: effectiveTurma,
+      permissoes: buildDefaultPermissoes(canonicalRole),
+      turma: '',
       organization: invite.organization._id,
       organizationName: invite.organization.name,
     })
@@ -342,7 +361,7 @@ router.post('/', async (req, res) => {
     invite.usedByUser = user._id
     await invite.save()
 
-    if (!invite.organization.createdByUser && invite.role === 'Coordenador') {
+    if (!invite.organization.createdByUser && isPais(canonicalRole)) {
       invite.organization.createdByUser = user._id
       await invite.organization.save()
     }
@@ -364,34 +383,18 @@ router.post('/', async (req, res) => {
 router.get('/', auth, async (req, res) => {
   try {
     const loggedInUser = req.user
-    const baseQuery = loggedInUser.isGlobalAdmin
+    const baseQuery = isGlobalAdminLike(loggedInUser)
       ? {}
       : { organization: loggedInUser.organization }
 
-    if (loggedInUser.isGlobalAdmin) {
+    if (isGlobalAdminLike(loggedInUser)) {
       const allUsers = await User.find(baseQuery)
         .populate('rounds')
         .populate('organization')
       return res.status(200).json(allUsers)
     }
 
-    if (loggedInUser.tipo === 'Professor') {
-      const alunosDaMesmaTurma = await User.find({
-        ...baseQuery,
-        tipo: 'Aluno',
-        turma: loggedInUser.turma,
-      }).populate('rounds')
-
-      if (!alunosDaMesmaTurma.length) {
-        return res
-          .status(422)
-          .json({ error: 'Não há alunos cadastrados nessa turma.' })
-      }
-
-      return res.status(200).json(alunosDaMesmaTurma)
-    }
-
-    if (loggedInUser.tipo === 'Coordenador') {
+    if (isPais(loggedInUser)) {
       const allUsers = await User.find({
         ...baseQuery,
         isGlobalAdmin: false,
@@ -404,37 +407,34 @@ router.get('/', auth, async (req, res) => {
       return res.status(200).json(allUsers)
     }
 
-    const allAlunos = await User.find({
-      ...baseQuery,
-      tipo: 'Aluno',
-    }).populate('rounds')
+    const ownUser = await User.findById(loggedInUser._id).populate('rounds')
 
-    if (!allAlunos.length) {
-      return res.status(422).json({ error: 'Não há alunos cadastrados.' })
+    if (!ownUser) {
+      return res.status(422).json({ error: 'Não há dependentes cadastrados.' })
     }
 
-    return res.status(200).json(allAlunos)
+    return res.status(200).json([ownUser])
   } catch (error) {
-    console.error('Erro ao listar alunos:', error)
-    return res.status(500).json({ error: 'Erro ao listar alunos' })
+    console.error('Erro ao listar usuarios:', error)
+    return res.status(500).json({ error: 'Erro ao listar usuarios' })
   }
 })
 
 router.get('/organization/me', auth, async (req, res) => {
   try {
-    if (req.user.isGlobalAdmin) {
+    if (isGlobalAdminLike(req.user)) {
       return res.status(200).json({ organization: null, isGlobalAdmin: true })
     }
 
     const organization = await Organization.findById(req.user.organization)
     if (!organization) {
-      return res.status(404).json({ Msg: 'Instituicao nao encontrada' })
+      return res.status(404).json({ Msg: 'Casa nao encontrada' })
     }
 
     return res.status(200).json({ organization, isGlobalAdmin: false })
   } catch (error) {
-    console.error('Erro ao carregar instituicao:', error)
-    return res.status(500).json({ Msg: 'Erro ao carregar instituicao' })
+    console.error('Erro ao carregar casa:', error)
+    return res.status(500).json({ Msg: 'Erro ao carregar casa' })
   }
 })
 

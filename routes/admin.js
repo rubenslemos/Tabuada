@@ -8,10 +8,11 @@ const mailer = require('../modules/mailer')
 const { canCreateInvite } = require('../utils/access')
 const {
   createUniqueInviteToken,
-  isValidCpfOrCnpj,
+  isValidCPF,
   MIN_INVITE_TOKEN_LENGTH,
   normalizeDocument,
 } = require('../utils/institutions')
+const { getCanonicalTipo, ROLE_TYPES } = require('../utils/roles')
 
 function isGlobalAdmin(req, res, next) {
   if (!req.user?.isGlobalAdmin) {
@@ -77,8 +78,8 @@ function getMailFrom() {
 function buildInviteEmailHtml({ inviteToken, organizationName, role }) {
   return `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #203124;">
-      <h2>Convite para a instituicao ${organizationName}</h2>
-      <p>Seu perfil liberado para cadastro e: <strong>${role}</strong>.</p>
+      <h2>Convite para a casa ${organizationName}</h2>
+      <p>Seu perfil liberado para cadastro e: <strong>${getCanonicalTipo(role)}</strong>.</p>
       <p>Use o codigo abaixo no app para continuar seu cadastro:</p>
       <p style="font-size: 20px; font-weight: bold; letter-spacing: 1px;">${inviteToken}</p>
       <p>Esse codigo comeca com ${MIN_INVITE_TOKEN_LENGTH} numeros e aumenta automaticamente se um dia essa quantidade nao for mais suficiente.</p>
@@ -92,7 +93,7 @@ async function sendInviteEmail({ email, inviteToken, organizationName, role }) {
   return mailer.sendMail({
     to: email,
     from: getMailFrom(),
-    subject: `Convite da instituicao ${organizationName}`,
+    subject: `Convite da casa ${organizationName}`,
     html: buildInviteEmailHtml({ inviteToken, organizationName, role }),
   })
 }
@@ -184,10 +185,8 @@ router.get('/organizations', auth, isGlobalAdmin, async (_req, res) => {
       },
     })
   } catch (error) {
-    console.error('Erro ao listar instituicoes:', error)
-    return res
-      .status(500)
-      .json({ Msg: 'Nao foi possivel listar as instituicoes' })
+    console.error('Erro ao listar casas:', error)
+    return res.status(500).json({ Msg: 'Nao foi possivel listar as casas' })
   }
 })
 
@@ -200,18 +199,21 @@ router.get(
       const { tipo = 'Todos' } = req.query
       const filters = { organization: req.params.organizationId }
 
-      if (['Aluno', 'Professor', 'Coordenador'].includes(tipo)) {
-        filters.tipo = tipo
+      if ([ROLE_TYPES.DEPENDENTES, ROLE_TYPES.PAIS].includes(tipo)) {
+        filters.tipo =
+          tipo === ROLE_TYPES.PAIS
+            ? { $in: [ROLE_TYPES.PAIS, 'Professor', 'Coordenador'] }
+            : { $in: [ROLE_TYPES.DEPENDENTES, 'Aluno'] }
       }
 
       const users = await User.find(filters).sort({ tipo: 1, name: 1 }).lean()
 
       return res.status(200).json(users)
     } catch (error) {
-      console.error('Erro ao listar usuarios da instituicao:', error)
+      console.error('Erro ao listar usuarios da casa:', error)
       return res
         .status(500)
-        .json({ Msg: 'Nao foi possivel listar os usuarios da instituicao' })
+        .json({ Msg: 'Nao foi possivel listar os usuarios da casa' })
     }
   }
 )
@@ -226,45 +228,16 @@ router.get(
       const organization = await Organization.findById(organizationId).lean()
 
       if (!organization) {
-        return res.status(404).json({ Msg: 'Instituicao nao encontrada' })
+        return res.status(404).json({ Msg: 'Casa nao encontrada' })
       }
 
       const now = new Date()
-      const [usersAgg, totalInvites, pendingInvites, recentRounds] =
+      const [users, totalInvites, pendingInvites, recentRounds] =
         await Promise.all([
-          User.aggregate([
-            {
-              $match: {
-                organization: organization._id,
-                isGlobalAdmin: { $ne: true },
-              },
-            },
-            {
-              $group: {
-                _id: null,
-                totalUsers: { $sum: 1 },
-                totalAlunos: {
-                  $sum: { $cond: [{ $eq: ['$tipo', 'Aluno'] }, 1, 0] },
-                },
-                totalProfessores: {
-                  $sum: { $cond: [{ $eq: ['$tipo', 'Professor'] }, 1, 0] },
-                },
-                totalCoordenadores: {
-                  $sum: { $cond: [{ $eq: ['$tipo', 'Coordenador'] }, 1, 0] },
-                },
-                totalJogos: { $sum: '$totalJogos' },
-                totalAcertos: { $sum: '$totalAcertos' },
-                totalErros: { $sum: '$totalErros' },
-                totalRounds: {
-                  $sum: {
-                    $size: {
-                      $ifNull: ['$rounds', []],
-                    },
-                  },
-                },
-              },
-            },
-          ]),
+          User.find({
+            organization: organization._id,
+            isGlobalAdmin: { $ne: true },
+          }).lean(),
           InstitutionInvite.countDocuments({
             organization: organization._id,
           }),
@@ -307,16 +280,29 @@ router.get(
           ]),
         ])
 
-      const summary = usersAgg[0] || {
-        totalUsers: 0,
-        totalAlunos: 0,
-        totalProfessores: 0,
-        totalCoordenadores: 0,
-        totalJogos: 0,
-        totalAcertos: 0,
-        totalErros: 0,
-        totalRounds: 0,
-      }
+      const summary = users.reduce(
+        (acc, user) => {
+          const tipo = getCanonicalTipo(user.tipo)
+
+          acc.totalUsers += 1
+          if (tipo === ROLE_TYPES.DEPENDENTES) acc.totalDependentes += 1
+          if (tipo === ROLE_TYPES.PAIS) acc.totalPais += 1
+          acc.totalJogos += user.totalJogos || 0
+          acc.totalAcertos += user.totalAcertos || 0
+          acc.totalErros += user.totalErros || 0
+          acc.totalRounds += Array.isArray(user.rounds) ? user.rounds.length : 0
+          return acc
+        },
+        {
+          totalUsers: 0,
+          totalDependentes: 0,
+          totalPais: 0,
+          totalJogos: 0,
+          totalAcertos: 0,
+          totalErros: 0,
+          totalRounds: 0,
+        }
+      )
 
       return res.status(200).json({
         organization: {
@@ -326,9 +312,8 @@ router.get(
         },
         metrics: {
           totalUsers: summary.totalUsers || 0,
-          totalAlunos: summary.totalAlunos || 0,
-          totalProfessores: summary.totalProfessores || 0,
-          totalCoordenadores: summary.totalCoordenadores || 0,
+          totalDependentes: summary.totalDependentes || 0,
+          totalPais: summary.totalPais || 0,
           totalInvites,
           pendingInvites,
           totalRounds: summary.totalRounds || 0,
@@ -342,14 +327,17 @@ router.get(
           jogou: round.jogou || 0,
           acerto: round.acerto || 0,
           errou: round.errou || 0,
-          user: round.user,
+          user: {
+            ...round.user,
+            tipo: getCanonicalTipo(round.user?.tipo),
+          },
         })),
       })
     } catch (error) {
-      console.error('Erro ao carregar resumo da instituicao:', error)
+      console.error('Erro ao carregar resumo da casa:', error)
       return res
         .status(500)
-        .json({ Msg: 'Nao foi possivel carregar o resumo da instituicao' })
+        .json({ Msg: 'Nao foi possivel carregar o resumo da casa' })
     }
   }
 )
@@ -378,8 +366,11 @@ router.get(
       }
       const normalizedSearch = String(search).trim()
 
-      if (role && ['Aluno', 'Professor', 'Coordenador'].includes(role)) {
-        filters.role = role
+      if (role && [ROLE_TYPES.DEPENDENTES, ROLE_TYPES.PAIS].includes(role)) {
+        filters.role =
+          role === ROLE_TYPES.PAIS
+            ? { $in: [ROLE_TYPES.PAIS, 'Professor', 'Coordenador'] }
+            : { $in: [ROLE_TYPES.DEPENDENTES, 'Aluno'] }
       }
 
       if (normalizedSearch) {
@@ -422,10 +413,10 @@ router.get(
         },
       })
     } catch (error) {
-      console.error('Erro ao listar convites da instituicao:', error)
+      console.error('Erro ao listar convites da casa:', error)
       return res
         .status(500)
-        .json({ Msg: 'Nao foi possivel listar os convites da instituicao' })
+        .json({ Msg: 'Nao foi possivel listar os convites da casa' })
     }
   }
 )
@@ -438,14 +429,12 @@ router.patch(
     const { name, document, contactEmail } = req.body
 
     if (!name || !document || !contactEmail) {
-      return res
-        .status(422)
-        .json({ Msg: 'Nome, CPF/CNPJ e email sao obrigatorios' })
+      return res.status(422).json({ Msg: 'Nome, CPF e email sao obrigatorios' })
     }
 
     const normalizedDocument = normalizeDocument(document)
-    if (!isValidCpfOrCnpj(normalizedDocument)) {
-      return res.status(422).json({ Msg: 'CPF ou CNPJ invalido' })
+    if (!isValidCPF(normalizedDocument)) {
+      return res.status(422).json({ Msg: 'CPF invalido' })
     }
 
     try {
@@ -457,13 +446,14 @@ router.patch(
       if (duplicate) {
         return res
           .status(422)
-          .json({ Msg: 'Ja existe uma instituicao com esse documento' })
+          .json({ Msg: 'Ja existe uma casa com esse documento' })
       }
 
       const organization = await Organization.findByIdAndUpdate(
         req.params.organizationId,
         {
           name: String(name).trim(),
+          houseLabel: String(name).trim(),
           document: String(document).trim(),
           normalizedDocument,
           contactEmail: String(contactEmail).toLowerCase().trim(),
@@ -472,15 +462,13 @@ router.patch(
       )
 
       if (!organization) {
-        return res.status(404).json({ Msg: 'Instituicao nao encontrada' })
+        return res.status(404).json({ Msg: 'Casa nao encontrada' })
       }
 
       return res.status(200).json({ organization })
     } catch (error) {
-      console.error('Erro ao editar instituicao no admin:', error)
-      return res
-        .status(500)
-        .json({ Msg: 'Nao foi possivel editar a instituicao' })
+      console.error('Erro ao editar casa no admin:', error)
+      return res.status(500).json({ Msg: 'Nao foi possivel editar a casa' })
     }
   }
 )
@@ -489,14 +477,12 @@ router.post('/organizations', auth, isGlobalAdmin, async (req, res) => {
   const { name, document, contactEmail } = req.body
 
   if (!name || !document || !contactEmail) {
-    return res
-      .status(422)
-      .json({ Msg: 'Nome, CPF/CNPJ e email sao obrigatorios' })
+    return res.status(422).json({ Msg: 'Nome, CPF e email sao obrigatorios' })
   }
 
   const normalizedDocument = normalizeDocument(document)
-  if (!isValidCpfOrCnpj(normalizedDocument)) {
-    return res.status(422).json({ Msg: 'CPF ou CNPJ invalido' })
+  if (!isValidCPF(normalizedDocument)) {
+    return res.status(422).json({ Msg: 'CPF invalido' })
   }
 
   try {
@@ -504,11 +490,12 @@ router.post('/organizations', auth, isGlobalAdmin, async (req, res) => {
     if (exists) {
       return res
         .status(422)
-        .json({ Msg: 'Ja existe uma instituicao com esse documento' })
+        .json({ Msg: 'Ja existe uma casa com esse documento' })
     }
 
     const organization = await Organization.create({
       name: String(name).trim(),
+      houseLabel: String(name).trim(),
       document: String(document).trim(),
       normalizedDocument,
       contactEmail: String(contactEmail).toLowerCase().trim(),
@@ -517,8 +504,8 @@ router.post('/organizations', auth, isGlobalAdmin, async (req, res) => {
 
     return res.status(201).json({ organization })
   } catch (error) {
-    console.error('Erro ao criar instituicao no admin:', error)
-    return res.status(500).json({ Msg: 'Nao foi possivel criar a instituicao' })
+    console.error('Erro ao criar casa no admin:', error)
+    return res.status(500).json({ Msg: 'Nao foi possivel criar a casa' })
   }
 })
 
@@ -540,15 +527,13 @@ router.patch(
       )
 
       if (!organization) {
-        return res.status(404).json({ Msg: 'Instituicao nao encontrada' })
+        return res.status(404).json({ Msg: 'Casa nao encontrada' })
       }
 
       return res.status(200).json({ organization })
     } catch (error) {
-      console.error('Erro ao atualizar status da instituicao:', error)
-      return res
-        .status(500)
-        .json({ Msg: 'Nao foi possivel atualizar a instituicao' })
+      console.error('Erro ao atualizar status da casa:', error)
+      return res.status(500).json({ Msg: 'Nao foi possivel atualizar a casa' })
     }
   }
 )
@@ -560,8 +545,9 @@ router.post(
   async (req, res) => {
     const { email, role } = req.body
     const organizationId = req.params.organizationId
+    const canonicalRole = getCanonicalTipo(role)
 
-    if (!canCreateInvite(req.user, organizationId, role)) {
+    if (!canCreateInvite(req.user, organizationId, canonicalRole)) {
       return res
         .status(403)
         .json({ Msg: 'Nao autorizado a gerar este convite' })
@@ -585,9 +571,7 @@ router.post(
       ])
 
       if (!organization || organization.status !== 'active') {
-        return res
-          .status(404)
-          .json({ Msg: 'Instituicao nao encontrada ou inativa' })
+        return res.status(404).json({ Msg: 'Casa nao encontrada ou inativa' })
       }
 
       if (existingUser || existingInvite) {
@@ -601,7 +585,7 @@ router.post(
       await InstitutionInvite.create({
         organization: organization._id,
         email: normalizedEmail,
-        role,
+        role: canonicalRole,
         tokenHash,
         createdByUser: req.user._id,
         expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
@@ -613,7 +597,7 @@ router.post(
           email: normalizedEmail,
           inviteToken,
           organizationName: organization.name,
-          role,
+          role: canonicalRole,
         })
       } catch (emailError) {
         emailSent = false
@@ -622,7 +606,7 @@ router.post(
 
       return res.status(200).json({
         message: emailSent
-          ? 'Convite enviado para o email informado.'
+          ? 'Convite enviado para o email informado. A entrega pode levar alguns minutos.'
           : 'Convite gerado com sucesso. Nao foi possivel enviar o e-mail neste momento.',
         ...(isTestEnv() ? { inviteToken } : {}),
       })
@@ -650,9 +634,7 @@ router.post(
       }
 
       if (!invite.organization || invite.organization.status !== 'active') {
-        return res
-          .status(404)
-          .json({ Msg: 'Instituicao nao encontrada ou inativa' })
+        return res.status(404).json({ Msg: 'Casa nao encontrada ou inativa' })
       }
 
       const { inviteToken, tokenHash } =
@@ -677,7 +659,7 @@ router.post(
 
       return res.status(200).json({
         message: emailSent
-          ? 'Convite reenviado com sucesso.'
+          ? 'Convite reenviado com sucesso. A entrega pode levar alguns minutos.'
           : 'Convite atualizado com sucesso. Nao foi possivel enviar o e-mail neste momento.',
         ...(isTestEnv() ? { inviteToken } : {}),
       })

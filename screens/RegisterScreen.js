@@ -15,10 +15,42 @@ import { COLORS, FONTS } from '../src/theme'
 import ChalkPanel from '../components/ChalkPanel'
 import ClassroomBackground from '../components/ClassroomBackground'
 
-const INITIAL_INSTITUTION_FORM = {
+const ROLE_TYPES = {
+  PAIS: 'Pais',
+  DEPENDENTES: 'Dependentes',
+}
+
+const LEGACY_TO_CANONICAL_ROLE = {
+  Aluno: ROLE_TYPES.DEPENDENTES,
+  Professor: ROLE_TYPES.PAIS,
+  Coordenador: ROLE_TYPES.PAIS,
+  Dependentes: ROLE_TYPES.DEPENDENTES,
+  Pais: ROLE_TYPES.PAIS,
+}
+
+const ROLE_DISPLAY = {
+  [ROLE_TYPES.PAIS]: 'Responsáveis',
+  [ROLE_TYPES.DEPENDENTES]: 'Dependentes',
+}
+
+const RELATION_OPTIONS = {
+  [ROLE_TYPES.PAIS]: ['Pai', 'Mae', 'Responsavel'],
+  [ROLE_TYPES.DEPENDENTES]: ['Filho', 'Filha', 'Dependente'],
+}
+
+const INITIAL_HOUSE_FORM = {
   organizationName: '',
   document: '',
   email: '',
+}
+
+function getCanonicalRole(role) {
+  return LEGACY_TO_CANONICAL_ROLE[String(role || '').trim()] || role || ''
+}
+
+function getRoleDisplay(role) {
+  const canonicalRole = getCanonicalRole(role)
+  return ROLE_DISPLAY[canonicalRole] || canonicalRole
 }
 
 const RegisterScreen = ({ navigation }) => {
@@ -26,32 +58,34 @@ const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [turma, setTurma] = useState('')
+  const [cpf, setCpf] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [inviteToken, setInviteToken] = useState('')
   const [inviteInfo, setInviteInfo] = useState(null)
   const [flowStep, setFlowStep] = useState('choice')
   const [modalVisible, setModalVisible] = useState(true)
-  const [institutionForm, setInstitutionForm] = useState(
-    INITIAL_INSTITUTION_FORM
-  )
+  const [houseForm, setHouseForm] = useState(INITIAL_HOUSE_FORM)
   const [statusMessage, setStatusMessage] = useState('')
   const [loading, setLoading] = useState(false)
+  const [vinculo, setVinculo] = useState('Dependente')
 
-  const resolvedRole = inviteInfo?.role || 'Aluno'
-  const shouldShowTurma = resolvedRole !== 'Coordenador'
+  const resolvedRole = getCanonicalRole(
+    inviteInfo?.role || ROLE_TYPES.DEPENDENTES
+  )
+  const shouldShowCpf = resolvedRole === ROLE_TYPES.PAIS
+  const relationOptions = RELATION_OPTIONS[resolvedRole] || []
   const registerButtonLabel = inviteInfo
-    ? `Registrar como ${resolvedRole}`
+    ? `Registrar como ${vinculo || getRoleDisplay(resolvedRole)}`
     : 'Registrar'
 
   const inviteSummary = useMemo(() => {
     if (!inviteInfo) return null
-    return `${inviteInfo.organizationName} • ${inviteInfo.role}`
+    return `${inviteInfo.organizationName} • ${getRoleDisplay(inviteInfo.role)}`
   }, [inviteInfo])
 
-  const updateInstitutionField = (key, value) => {
-    setInstitutionForm((prev) => ({ ...prev, [key]: value }))
+  const updateHouseField = (key, value) => {
+    setHouseForm((prev) => ({ ...prev, [key]: value }))
   }
 
   const handleRequestOrganization = async () => {
@@ -59,7 +93,7 @@ const RegisterScreen = ({ navigation }) => {
       setLoading(true)
       const response = await apiClient.post(
         '/auth/register/request-organization',
-        institutionForm
+        houseForm
       )
       setStatusMessage(
         response?.data?.message ||
@@ -69,7 +103,7 @@ const RegisterScreen = ({ navigation }) => {
         setInviteToken(response.data.inviteToken)
       }
       setEmail(
-        String(institutionForm.email || '')
+        String(houseForm.email || '')
           .toLowerCase()
           .trim()
       )
@@ -77,7 +111,7 @@ const RegisterScreen = ({ navigation }) => {
     } catch (error) {
       Alert.alert(
         'Erro',
-        getErrorMessage(error, 'Nao foi possivel criar a instituicao.')
+        getErrorMessage(error, 'Nao foi possivel criar a casa.')
       )
     } finally {
       setLoading(false)
@@ -91,10 +125,13 @@ const RegisterScreen = ({ navigation }) => {
         inviteToken,
       })
       const invite = response?.data?.invite
+      const canonicalRole = getCanonicalRole(invite?.role)
       setInviteInfo(invite)
       setEmail(invite?.email || '')
-      if (invite?.role === 'Coordenador') {
-        setTurma('')
+      const nextRole = canonicalRole || ROLE_TYPES.DEPENDENTES
+      setVinculo(nextRole === ROLE_TYPES.PAIS ? 'Responsavel' : 'Dependente')
+      if (nextRole !== ROLE_TYPES.PAIS) {
+        setCpf('')
       }
       setStatusMessage('Convite validado. Agora podemos concluir seu cadastro.')
       setModalVisible(false)
@@ -117,7 +154,8 @@ const RegisterScreen = ({ navigation }) => {
         email,
         password,
         confirmPassword,
-        turma,
+        cpf,
+        vinculo,
       }
       await apiClient.post('/auth/register', payload)
       Alert.alert('Sucesso', 'Registro realizado com sucesso!')
@@ -134,7 +172,7 @@ const RegisterScreen = ({ navigation }) => {
     <View style={styles.modalStepWrap}>
       <Text style={styles.modalTitle}>Como você deseja entrar?</Text>
       <Text style={styles.modalSubtitle}>
-        Primeiro vamos vincular seu cadastro a uma instituição com segurança.
+        Primeiro vamos vincular seu cadastro a uma casa com segurança.
       </Text>
       <TouchableOpacity
         style={styles.choiceButton}
@@ -143,7 +181,7 @@ const RegisterScreen = ({ navigation }) => {
           setFlowStep('create-organization')
         }}
       >
-        <Text style={styles.choiceButtonText}>Criar nova instituição</Text>
+        <Text style={styles.choiceButtonText}>Criar nova casa</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.choiceButton, styles.choiceSecondaryButton]}
@@ -152,41 +190,39 @@ const RegisterScreen = ({ navigation }) => {
           setFlowStep('invite-entry')
         }}
       >
-        <Text style={styles.choiceButtonText}>Entrar em uma instituição</Text>
+        <Text style={styles.choiceButtonText}>Entrar em uma casa</Text>
       </TouchableOpacity>
     </View>
   )
 
   const renderCreateOrganizationStep = () => (
     <View style={styles.modalStepWrap}>
-      <Text style={styles.modalTitle}>Criar instituição</Text>
+      <Text style={styles.modalTitle}>Criar casa</Text>
       <Text style={styles.modalSubtitle}>
         Vamos validar os dados e enviar o convite inicial para o email
         informado.
       </Text>
       <TextInput
         style={styles.input}
-        placeholder="Nome da instituição"
+        placeholder="Nome da casa"
         placeholderTextColor="rgba(255,255,255,0.7)"
-        value={institutionForm.organizationName}
-        onChangeText={(value) =>
-          updateInstitutionField('organizationName', value)
-        }
+        value={houseForm.organizationName}
+        onChangeText={(value) => updateHouseField('organizationName', value)}
       />
       <TextInput
         style={styles.input}
-        placeholder="CPF ou CNPJ"
+        placeholder="CPF do responsável"
         placeholderTextColor="rgba(255,255,255,0.7)"
-        value={institutionForm.document}
-        onChangeText={(value) => updateInstitutionField('document', value)}
+        value={houseForm.document}
+        onChangeText={(value) => updateHouseField('document', value)}
         keyboardType="number-pad"
       />
       <TextInput
         style={styles.input}
-        placeholder="Email responsável"
+        placeholder="Email do responsável"
         placeholderTextColor="rgba(255,255,255,0.7)"
-        value={institutionForm.email}
-        onChangeText={(value) => updateInstitutionField('email', value)}
+        value={houseForm.email}
+        onChangeText={(value) => updateHouseField('email', value)}
         keyboardType="email-address"
         autoCapitalize="none"
       />
@@ -263,8 +299,7 @@ const RegisterScreen = ({ navigation }) => {
                 Cadastro protegido por convite
               </Text>
               <Text style={styles.lockedText}>
-                Antes de continuar, precisamos validar a instituição do seu
-                acesso.
+                Antes de continuar, precisamos validar a casa do seu acesso.
               </Text>
               <TouchableOpacity
                 style={styles.button}
@@ -292,6 +327,52 @@ const RegisterScreen = ({ navigation }) => {
             keyboardType="email-address"
             editable={!inviteInfo}
           />
+
+          {relationOptions.length ? (
+            <View style={styles.relationSection}>
+              <Text style={styles.relationLabel}>
+                {resolvedRole === ROLE_TYPES.PAIS
+                  ? 'Você entra como'
+                  : 'Esse dependente é seu'}
+              </Text>
+              <View style={styles.roleRow}>
+                {relationOptions.map((option) => {
+                  const selected = vinculo === option
+                  return (
+                    <TouchableOpacity
+                      key={option}
+                      style={[
+                        styles.roleChip,
+                        selected && styles.roleChipSelected,
+                      ]}
+                      onPress={() => setVinculo(option)}
+                    >
+                      <Text
+                        style={[
+                          styles.roleChipText,
+                          selected && styles.roleChipTextSelected,
+                        ]}
+                      >
+                        {option}
+                      </Text>
+                    </TouchableOpacity>
+                  )
+                })}
+              </View>
+            </View>
+          ) : null}
+
+          {shouldShowCpf ? (
+            <TextInput
+              style={styles.input}
+              placeholder="CPF"
+              placeholderTextColor="rgba(255,255,255,0.7)"
+              value={cpf}
+              onChangeText={setCpf}
+              keyboardType="number-pad"
+            />
+          ) : null}
+
           <View style={styles.passwordRow}>
             <TextInput
               style={styles.passwordInput}
@@ -327,18 +408,10 @@ const RegisterScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
 
-          {shouldShowTurma ? (
-            <TextInput
-              style={styles.input}
-              placeholder="Turma"
-              placeholderTextColor="rgba(255,255,255,0.7)"
-              value={turma}
-              onChangeText={setTurma}
-            />
-          ) : (
+          {!shouldShowCpf ? null : (
             <Text style={styles.helperText}>
-              O primeiro coordenador entra vinculado à instituição e recebe a
-              turma geral automaticamente.
+              O primeiro cadastro de responsáveis entra vinculado à casa e
+              recebe o grupo geral automaticamente.
             </Text>
           )}
 
@@ -437,6 +510,39 @@ const styles = StyleSheet.create({
   },
   inputLocked: {
     opacity: 0.78,
+  },
+  roleRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  relationSection: {
+    marginBottom: 10,
+  },
+  relationLabel: {
+    color: COLORS.chalkText,
+    fontFamily: FONTS.body,
+    marginBottom: 6,
+    opacity: 0.9,
+  },
+  roleChip: {
+    borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.28)',
+    borderRadius: 999,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: 'rgba(255,255,255,0.08)',
+  },
+  roleChipSelected: {
+    backgroundColor: '#ffd457',
+    borderColor: '#ffe7a8',
+  },
+  roleChipText: {
+    color: COLORS.chalkText,
+    fontFamily: FONTS.body,
+  },
+  roleChipTextSelected: {
+    color: '#264117',
   },
   passwordRow: {
     flexDirection: 'row',

@@ -16,7 +16,7 @@ import Header from '../components/Header'
 import { COLORS, FONTS } from '../src/theme'
 import { getErrorMessage } from '../utils/errorMessage'
 
-const ROLES = ['Aluno', 'Professor', 'Coordenador']
+const ROLES = ['Dependentes', 'Pais']
 const INVITE_STATUSES = [
   { key: 'all', label: 'Todos' },
   { key: 'pending', label: 'Pendentes' },
@@ -40,15 +40,14 @@ const INITIAL_PAGINATION = {
 const INVITE_SORT_OPTIONS = [
   { key: 'createdAt:desc', label: 'Mais recentes' },
   { key: 'email:asc', label: 'Email A-Z' },
-  { key: 'role:asc', label: 'Perfil' },
+  { key: 'role:asc', label: 'Tipo' },
   { key: 'expiresAt:asc', label: 'Expira antes' },
 ]
 const INITIAL_SUMMARY = {
   metrics: {
     totalUsers: 0,
-    totalAlunos: 0,
-    totalProfessores: 0,
-    totalCoordenadores: 0,
+    totalDependentes: 0,
+    totalPais: 0,
     totalInvites: 0,
     pendingInvites: 0,
     totalRounds: 0,
@@ -59,11 +58,11 @@ const INITIAL_SUMMARY = {
   recentRounds: [],
 }
 const ADMIN_SECTIONS = [
-  { key: 'createOrg', label: 'Criar instituição manualmente' },
-  { key: 'organizations', label: 'Instituições' },
+  { key: 'createOrg', label: 'Criar casa manualmente' },
+  { key: 'organizations', label: 'Casas' },
   { key: 'invite', label: 'Gerar convite' },
   { key: 'invites', label: 'Convites enviados' },
-  { key: 'users', label: 'Usuários da instituição' },
+  { key: 'users', label: 'Usuários da casa' },
 ]
 const INPUT_PLACEHOLDER_COLOR = 'rgba(255, 248, 209, 0.72)'
 
@@ -147,7 +146,7 @@ export default function AdminPanelScreen({ navigation }) {
   const [inviteStatus, setInviteStatus] = useState('all')
   const [inviteRoleFilter, setInviteRoleFilter] = useState('Todos')
   const [inviteEmail, setInviteEmail] = useState('')
-  const [inviteRole, setInviteRole] = useState('Aluno')
+  const [inviteRole, setInviteRole] = useState('Dependentes')
   const [orgForm, setOrgForm] = useState(INITIAL_ORG_FORM)
   const [editOrgForm, setEditOrgForm] = useState(INITIAL_ORG_FORM)
   const [feedback, setFeedback] = useState('')
@@ -200,7 +199,7 @@ export default function AdminPanelScreen({ navigation }) {
       setSummary(INITIAL_SUMMARY)
       handlePanelError(
         summaryResult.reason,
-        'Nao foi possivel carregar o resumo da instituicao.'
+        'Nao foi possivel carregar o resumo da casa.'
       )
     }
 
@@ -208,7 +207,7 @@ export default function AdminPanelScreen({ navigation }) {
       setUsers([])
       handlePanelError(
         usersResult.reason,
-        'Nao foi possivel carregar os usuarios da instituicao.'
+        'Nao foi possivel carregar os usuarios da casa.'
       )
     }
 
@@ -217,7 +216,7 @@ export default function AdminPanelScreen({ navigation }) {
       setInvitePagination(INITIAL_PAGINATION)
       handlePanelError(
         invitesResult.reason,
-        'Nao foi possivel carregar os convites da instituicao.'
+        'Nao foi possivel carregar os convites da casa.'
       )
     }
   }
@@ -262,7 +261,7 @@ export default function AdminPanelScreen({ navigation }) {
       try {
         await loadOrganizations()
       } catch (error) {
-        handlePanelError(error, 'Nao foi possivel atualizar as instituicoes.')
+        handlePanelError(error, 'Nao foi possivel atualizar as casas.')
       }
     })()
   }, [hasBootstrapped])
@@ -433,10 +432,7 @@ export default function AdminPanelScreen({ navigation }) {
       setFeedback('')
       await syncOrganizationDetails(organizationId)
     } catch (error) {
-      handlePanelError(
-        error,
-        'Nao foi possivel trocar a instituicao selecionada.'
-      )
+      handlePanelError(error, 'Nao foi possivel trocar a casa selecionada.')
     }
   }
 
@@ -453,13 +449,11 @@ export default function AdminPanelScreen({ navigation }) {
         { headers }
       )
       setFeedback(
-        `Instituição ${nextStatus === 'active' ? 'ativada' : 'desativada'} com sucesso.`
+        `Casa ${nextStatus === 'active' ? 'ativada' : 'desativada'} com sucesso.`
       )
       await loadOrganizations(token)
     } catch (error) {
-      setFeedback(
-        getErrorMessage(error, 'Nao foi possivel atualizar a instituicao.')
-      )
+      setFeedback(getErrorMessage(error, 'Nao foi possivel atualizar a casa.'))
     }
   }
 
@@ -472,7 +466,7 @@ export default function AdminPanelScreen({ navigation }) {
         headers,
       })
       const createdOrg = resp?.data?.organization
-      setFeedback('Instituição criada com sucesso.')
+      setFeedback('Casa criada com sucesso.')
       setOrgForm(INITIAL_ORG_FORM)
       await loadOrganizations(token)
       if (createdOrg?._id) {
@@ -480,9 +474,7 @@ export default function AdminPanelScreen({ navigation }) {
         await handleSelectOrg(createdOrg._id)
       }
     } catch (error) {
-      setFeedback(
-        getErrorMessage(error, 'Nao foi possivel criar a instituicao.')
-      )
+      setFeedback(getErrorMessage(error, 'Nao foi possivel criar a casa.'))
     } finally {
       setCreatingOrg(false)
     }
@@ -499,12 +491,10 @@ export default function AdminPanelScreen({ navigation }) {
         editOrgForm,
         { headers }
       )
-      setFeedback('Instituição atualizada com sucesso.')
+      setFeedback('Casa atualizada com sucesso.')
       await loadOrganizations(token)
     } catch (error) {
-      setFeedback(
-        getErrorMessage(error, 'Nao foi possivel editar a instituicao.')
-      )
+      setFeedback(getErrorMessage(error, 'Nao foi possivel editar a casa.'))
     } finally {
       setEditingOrg(false)
     }
@@ -582,7 +572,7 @@ export default function AdminPanelScreen({ navigation }) {
 
   const activeSectionLabel =
     ADMIN_SECTIONS.find((section) => section.key === activeSection)?.label ||
-    'Instituições'
+    'Casas'
 
   const adminMenuItems = [
     ...ADMIN_SECTIONS.map((section) => ({
@@ -629,9 +619,7 @@ export default function AdminPanelScreen({ navigation }) {
 
   const renderSelectedOrgHint = (message) => {
     const hintMessage =
-      organizations.length === 0
-        ? 'Ainda não há instituições cadastradas.'
-        : message
+      organizations.length === 0 ? 'Ainda não há casas cadastradas.' : message
 
     return (
       <View style={styles.section}>
@@ -643,10 +631,10 @@ export default function AdminPanelScreen({ navigation }) {
   const renderOrganizationsSection = () => (
     <>
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Instituições</Text>
+        <Text style={styles.sectionTitle}>Casas</Text>
         <SelectField
-          label="Instituição selecionada"
-          value={selectedOrg?.name || 'Selecione uma instituição'}
+          label="Casa selecionada"
+          value={selectedOrg?.name || 'Selecione uma casa'}
           options={organizationOptions}
           isOpen={openSelect === 'organization'}
           onToggle={() =>
@@ -695,13 +683,13 @@ export default function AdminPanelScreen({ navigation }) {
             </View>
           </View>
         ) : (
-          <Text style={styles.empty}>Selecione uma instituição.</Text>
+          <Text style={styles.empty}>Selecione uma casa.</Text>
         )}
       </View>
 
       {selectedOrg ? (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Resumo da instituição</Text>
+          <Text style={styles.sectionTitle}>Resumo da casa</Text>
           <View style={styles.summaryGrid}>
             <View style={styles.summaryCard}>
               <Text style={styles.summaryLabel}>Usuários</Text>
@@ -709,9 +697,8 @@ export default function AdminPanelScreen({ navigation }) {
                 {summary.metrics.totalUsers}
               </Text>
               <Text style={styles.summaryMeta}>
-                A {summary.metrics.totalAlunos} • P{' '}
-                {summary.metrics.totalProfessores} • C{' '}
-                {summary.metrics.totalCoordenadores}
+                Dependentes {summary.metrics.totalDependentes} • Pais{' '}
+                {summary.metrics.totalPais}
               </Text>
             </View>
             <View style={styles.summaryCard}>
@@ -737,14 +724,14 @@ export default function AdminPanelScreen({ navigation }) {
               <Text style={styles.summaryValue}>
                 {summary.metrics.totalAcertos} / {summary.metrics.totalErros}
               </Text>
-              <Text style={styles.summaryMeta}>Totais da instituição</Text>
+              <Text style={styles.summaryMeta}>Totais da casa</Text>
             </View>
           </View>
           <View style={styles.recentWrap}>
-            <Text style={styles.recentTitle}>Últimas rodadas</Text>
+            <Text style={styles.recentTitle}>Últimas rodadas da casa</Text>
             {summary.recentRounds.length === 0 ? (
               <Text style={styles.empty}>
-                Ainda não há rodadas registradas nesta instituição.
+                Ainda não há rodadas registradas nesta casa.
               </Text>
             ) : (
               summary.recentRounds.map((round) => (
@@ -765,12 +752,10 @@ export default function AdminPanelScreen({ navigation }) {
 
       {selectedOrg ? (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>
-            Editar instituição selecionada
-          </Text>
+          <Text style={styles.sectionTitle}>Editar casa selecionada</Text>
           <TextInput
             style={styles.input}
-            placeholder="Nome da instituição"
+            placeholder="Nome da casa"
             placeholderTextColor={INPUT_PLACEHOLDER_COLOR}
             value={editOrgForm.name}
             onChangeText={(value) =>
@@ -779,7 +764,7 @@ export default function AdminPanelScreen({ navigation }) {
           />
           <TextInput
             style={styles.input}
-            placeholder="CPF ou CNPJ"
+            placeholder="CPF do responsável"
             placeholderTextColor={INPUT_PLACEHOLDER_COLOR}
             value={editOrgForm.document}
             onChangeText={(value) =>
@@ -789,7 +774,7 @@ export default function AdminPanelScreen({ navigation }) {
           />
           <TextInput
             style={styles.input}
-            placeholder="Email responsável"
+            placeholder="Email do responsável"
             placeholderTextColor={INPUT_PLACEHOLDER_COLOR}
             value={editOrgForm.contactEmail}
             onChangeText={(value) =>
@@ -803,7 +788,7 @@ export default function AdminPanelScreen({ navigation }) {
             onPress={handleEditOrganization}
           >
             <Text style={styles.primaryButtonText}>
-              {editingOrg ? 'Salvando...' : 'Salvar instituição'}
+              {editingOrg ? 'Salvando...' : 'Salvar casa'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -813,10 +798,10 @@ export default function AdminPanelScreen({ navigation }) {
 
   const renderCreateOrgSection = () => (
     <View style={styles.section}>
-      <Text style={styles.sectionTitle}>Criar instituição manualmente</Text>
+      <Text style={styles.sectionTitle}>Criar casa manualmente</Text>
       <TextInput
         style={styles.input}
-        placeholder="Nome da instituição"
+        placeholder="Nome da casa"
         placeholderTextColor={INPUT_PLACEHOLDER_COLOR}
         value={orgForm.name}
         onChangeText={(value) =>
@@ -825,7 +810,7 @@ export default function AdminPanelScreen({ navigation }) {
       />
       <TextInput
         style={styles.input}
-        placeholder="CPF ou CNPJ"
+        placeholder="CPF do responsável"
         placeholderTextColor={INPUT_PLACEHOLDER_COLOR}
         value={orgForm.document}
         onChangeText={(value) =>
@@ -835,7 +820,7 @@ export default function AdminPanelScreen({ navigation }) {
       />
       <TextInput
         style={styles.input}
-        placeholder="Email responsável"
+        placeholder="Email do responsável"
         placeholderTextColor={INPUT_PLACEHOLDER_COLOR}
         value={orgForm.contactEmail}
         onChangeText={(value) =>
@@ -849,7 +834,7 @@ export default function AdminPanelScreen({ navigation }) {
         onPress={handleCreateOrganization}
       >
         <Text style={styles.primaryButtonText}>
-          {creatingOrg ? 'Criando...' : 'Criar instituição'}
+          {creatingOrg ? 'Criando...' : 'Criar casa'}
         </Text>
       </TouchableOpacity>
     </View>
@@ -857,9 +842,7 @@ export default function AdminPanelScreen({ navigation }) {
 
   const renderInviteSection = () => {
     if (!selectedOrg) {
-      return renderSelectedOrgHint(
-        'Selecione uma instituição para gerar convites.'
-      )
+      return renderSelectedOrgHint('Selecione uma casa para gerar convites.')
     }
 
     return (
@@ -901,9 +884,7 @@ export default function AdminPanelScreen({ navigation }) {
 
   const renderInvitesSection = () => {
     if (!selectedOrg) {
-      return renderSelectedOrgHint(
-        'Selecione uma instituição para ver os convites.'
-      )
+      return renderSelectedOrgHint('Selecione uma casa para ver os convites.')
     }
 
     return (
@@ -1050,13 +1031,13 @@ export default function AdminPanelScreen({ navigation }) {
   const renderUsersSection = () => {
     if (!selectedOrg) {
       return renderSelectedOrgHint(
-        'Selecione uma instituição para visualizar os usuários.'
+        'Selecione uma casa para visualizar os usuários.'
       )
     }
 
     return (
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Usuários da instituição</Text>
+        <Text style={styles.sectionTitle}>Usuários da casa</Text>
         <Text style={styles.sectionHelper}>{selectedOrg.name}</Text>
         <SelectField
           label="Tipo de usuário"
@@ -1079,9 +1060,7 @@ export default function AdminPanelScreen({ navigation }) {
           users.map((user) => (
             <View key={String(user._id || user.id)} style={styles.userCard}>
               <Text style={styles.userName}>{user.name}</Text>
-              <Text style={styles.userMeta}>
-                {user.tipo} • Turma {user.turma || 'GERAL'}
-              </Text>
+              <Text style={styles.userMeta}>{user.tipo}</Text>
               <Text style={styles.userMeta}>{user.email}</Text>
             </View>
           ))

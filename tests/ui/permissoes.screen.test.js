@@ -35,7 +35,7 @@ describe('PermissoesScreen', () => {
             user: {
               _id: 'prof123',
               name: 'Prof',
-              tipo: 'Professor',
+              tipo: 'Pais',
               turma: 'A1',
             },
           },
@@ -46,15 +46,15 @@ describe('PermissoesScreen', () => {
           data: [
             {
               _id: 'aluno1',
-              name: 'Aluno 1',
-              tipo: 'Aluno',
+              name: 'Dependente 1',
+              tipo: 'Dependentes',
               turma: 'A1',
               permissoes: { soma: true },
             },
             {
               _id: 'aluno2',
-              name: 'Aluno 2',
-              tipo: 'Aluno',
+              name: 'Dependente 2',
+              tipo: 'Dependentes',
               turma: 'B1',
               permissoes: { soma: false },
             },
@@ -71,10 +71,10 @@ describe('PermissoesScreen', () => {
     )
 
     await waitFor(() =>
-      expect(getByText('Permissões às Tabuadas')).toBeTruthy()
+      expect(getByText('Permissões dos Dependentes')).toBeTruthy()
     )
-    expect(getByText('Aluno 1')).toBeTruthy()
-    expect(queryByText('Aluno 2')).toBeNull()
+    expect(getByText('Dependente 1')).toBeTruthy()
+    expect(queryByText('Dependente 2')).toBeNull()
 
     fireEvent.press(getByLabelText('Alternar Subtração'))
     fireEvent.press(getByText('Salvar Permissões'))
@@ -92,7 +92,7 @@ describe('PermissoesScreen', () => {
             user: {
               _id: 'prof123',
               name: 'Prof',
-              tipo: 'Professor',
+              tipo: 'Pais',
               turma: 'A1',
             },
           },
@@ -103,8 +103,8 @@ describe('PermissoesScreen', () => {
           data: [
             {
               _id: 'aluno1',
-              name: 'Aluno 1',
-              tipo: 'Aluno',
+              name: 'Dependente 1',
+              tipo: 'Dependentes',
               turma: 'A1',
               permissoes: {},
             },
@@ -119,7 +119,7 @@ describe('PermissoesScreen', () => {
     )
 
     await waitFor(() =>
-      expect(getByText('Permissões às Tabuadas')).toBeTruthy()
+      expect(getByText('Permissões dos Dependentes')).toBeTruthy()
     )
 
     fireEvent.press(getByText('Voltar para Tabuada'))
@@ -135,7 +135,7 @@ describe('PermissoesScreen', () => {
             user: {
               _id: 'prof123',
               name: 'Coord',
-              tipo: 'Coordenador',
+              tipo: 'Pais',
               turma: 'A1',
             },
           },
@@ -146,15 +146,15 @@ describe('PermissoesScreen', () => {
           data: [
             {
               _id: 'aluno1',
-              name: 'Aluno 1',
-              tipo: 'Aluno',
+              name: 'Dependente 1',
+              tipo: 'Dependentes',
               turma: 'A1',
               permissoes: { soma: true },
             },
             {
               _id: 'aluno2',
-              name: 'Aluno 2',
-              tipo: 'Aluno',
+              name: 'Dependente 2',
+              tipo: 'Dependentes',
               turma: 'A1',
               permissoes: { dividir: true },
             },
@@ -168,12 +168,12 @@ describe('PermissoesScreen', () => {
       <PermissoesScreen navigation={navigation} />
     )
 
-    await waitFor(() => expect(getByText('Aluno 1')).toBeTruthy())
+    await waitFor(() => expect(getByText('Dependente 1')).toBeTruthy())
 
-    fireEvent.press(getByLabelText('Selecionar aluno'))
-    fireEvent.press(getByText('Aluno 2'))
+    fireEvent.press(getByLabelText('Selecionar dependente'))
+    fireEvent.press(getByText('Dependente 2'))
 
-    expect(getByText('Aluno 2')).toBeTruthy()
+    expect(getByText('Dependente 2')).toBeTruthy()
 
     fireEvent.press(getByText('Salvar Permissões'))
 
@@ -188,7 +188,7 @@ describe('PermissoesScreen', () => {
           data: {
             user: {
               _id: 'prof123',
-              tipo: 'Professor',
+              tipo: 'Pais',
               turma: 'A1',
               name: 'Prof',
             },
@@ -200,8 +200,8 @@ describe('PermissoesScreen', () => {
           data: [
             {
               _id: 'aluno1',
-              name: 'Aluno 1',
-              tipo: 'Aluno',
+              name: 'Dependente 1',
+              tipo: 'Dependentes',
               turma: 'A1',
               permissoes: {},
             },
@@ -216,7 +216,7 @@ describe('PermissoesScreen', () => {
       <PermissoesScreen navigation={navigation} />
     )
     await waitFor(() =>
-      expect(getByText('Permissões às Tabuadas')).toBeTruthy()
+      expect(getByText('Permissões dos Dependentes')).toBeTruthy()
     )
 
     fireEvent.press(getByText('Salvar Permissões'))
@@ -233,7 +233,7 @@ describe('PermissoesScreen', () => {
             user: {
               _id: 'prof123',
               name: 'Prof',
-              tipo: 'Professor',
+              tipo: 'Pais',
               turma: 'A1',
             },
           },
@@ -244,8 +244,8 @@ describe('PermissoesScreen', () => {
           data: [
             {
               _id: 'aluno1',
-              name: 'Aluno 1',
-              tipo: 'Aluno',
+              name: 'Dependente 1',
+              tipo: 'Dependentes',
               turma: 'A1',
               permissoes: {
                 soma: false,
@@ -268,7 +268,7 @@ describe('PermissoesScreen', () => {
     )
 
     await waitFor(() =>
-      expect(getByText('Permissões às Tabuadas')).toBeTruthy()
+      expect(getByText('Permissões dos Dependentes')).toBeTruthy()
     )
 
     fireEvent.press(getByLabelText('Alternar Todas'))
@@ -292,7 +292,7 @@ describe('PermissoesScreen', () => {
             user: {
               _id: 'prof123',
               name: 'Prof',
-              tipo: 'Professor',
+              tipo: 'Pais',
               turma: 'A1',
             },
           },
@@ -303,8 +303,8 @@ describe('PermissoesScreen', () => {
           data: [
             {
               _id: 'aluno1',
-              name: 'Aluno 1',
-              tipo: 'Aluno',
+              name: 'Dependente 1',
+              tipo: 'Dependentes',
               turma: 'A1',
               permissoes: {
                 soma: true,
@@ -327,7 +327,7 @@ describe('PermissoesScreen', () => {
     )
 
     await waitFor(() =>
-      expect(getByText('Permissões às Tabuadas')).toBeTruthy()
+      expect(getByText('Permissões dos Dependentes')).toBeTruthy()
     )
 
     fireEvent.press(getByLabelText('Alternar Subtração'))
@@ -351,7 +351,7 @@ describe('PermissoesScreen', () => {
             user: {
               _id: 'prof123',
               name: 'Prof',
-              tipo: 'Professor',
+              tipo: 'Pais',
               turma: 'A1',
             },
           },
@@ -362,8 +362,8 @@ describe('PermissoesScreen', () => {
           data: [
             {
               _id: 'aluno1',
-              name: 'Aluno 1',
-              tipo: 'Aluno',
+              name: 'Dependente 1',
+              tipo: 'Dependentes',
               turma: 'A1',
               permissoes: { soma: true },
             },
@@ -395,7 +395,7 @@ describe('PermissoesScreen', () => {
       '/auth/register/request-invite',
       {
         email: 'novoaluno@escola.com',
-        role: 'Aluno',
+        role: 'Dependentes',
       },
       expect.any(Object)
     )
@@ -413,7 +413,7 @@ describe('PermissoesScreen', () => {
             user: {
               _id: 'prof123',
               name: 'Coord',
-              tipo: 'Coordenador',
+              tipo: 'Pais',
               turma: 'A1',
             },
           },
@@ -424,8 +424,8 @@ describe('PermissoesScreen', () => {
           data: [
             {
               _id: 'aluno1',
-              name: 'Aluno 1',
-              tipo: 'Aluno',
+              name: 'Dependente 1',
+              tipo: 'Dependentes',
               turma: 'A1',
               permissoes: { soma: true },
             },
@@ -446,7 +446,7 @@ describe('PermissoesScreen', () => {
     await waitFor(() => expect(getByText('Gerar convite')).toBeTruthy())
 
     fireEvent.press(getByText('Gerar convite'))
-    fireEvent.press(getByText('Professor'))
+    fireEvent.press(getByText('Pais'))
     fireEvent.changeText(
       getByPlaceholderText('Email do usuário'),
       'novoprof@escola.com'
@@ -456,7 +456,7 @@ describe('PermissoesScreen', () => {
     await waitFor(() => expect(apiClient.post).toHaveBeenCalledTimes(1))
     expect(apiClient.post.mock.calls[0][1]).toEqual({
       email: 'novoprof@escola.com',
-      role: 'Professor',
+      role: 'Pais',
     })
   })
 })

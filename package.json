@@ -9,6 +9,8 @@
     "client": "node scripts/run-expo-clean-env.js start --web --port 19006",
     "dev": "concurrently -k -n API,APP -c yellow,cyan \"npm:server\" \"npm:client\"",
     "admin:bootstrap": "node scripts/bootstrap-admin.js",
+    "migrate:family:dry": "node scripts/migrate-family-model.js",
+    "migrate:family": "node scripts/migrate-family-model.js --apply",
     "android": "node scripts/run-expo-clean-env.js start --android",
     "start:dev-client": "node scripts/run-expo-clean-env.js start --dev-client",
     "ios": "node scripts/run-expo-clean-env.js start --ios",

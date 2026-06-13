@@ -28,6 +28,29 @@ const UserSchema = new mongoose.Schema({
   tipo: {
     type: String,
     required: true,
+    enum: [
+      'Administrador',
+      'Pais',
+      'Dependentes',
+      'Aluno',
+      'Professor',
+      'Coordenador',
+    ],
+  },
+  vinculo: {
+    type: String,
+    default: '',
+    trim: true,
+  },
+  cpf: {
+    type: String,
+    default: '',
+    trim: true,
+  },
+  normalizedCpf: {
+    type: String,
+    default: '',
+    trim: true,
   },
   organization: {
     type: mongoose.Schema.Types.ObjectId,
@@ -105,9 +128,7 @@ const UserSchema = new mongoose.Schema({
   },
   turma: {
     type: String,
-    required: function () {
-      return !this.isGlobalAdmin
-    },
+    default: '',
     trim: true,
     uppercase: true,
   },

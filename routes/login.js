@@ -8,8 +8,29 @@ const mailer = require('../modules/mailer')
 const { canViewUser, idsMatch } = require('../utils/access')
 const AccountDeletionRequest = require('../models/AccountDeletionRequest')
 const { deleteUserData } = require('../utils/deleteUserData')
+const {
+  getCanonicalTipo,
+  getDefaultVinculoForTipo,
+  sanitizeVinculo,
+} = require('../utils/roles')
 require('dotenv').config()
 const hash = process.env.SECRET
+
+function serializeUser(user) {
+  if (!user) return user
+  const plain =
+    typeof user.toObject === 'function' ? user.toObject() : { ...user }
+  const canonicalTipo = getCanonicalTipo(plain.tipo)
+
+  return {
+    ...plain,
+    tipo: canonicalTipo,
+    vinculo: sanitizeVinculo(
+      canonicalTipo,
+      plain.vinculo || getDefaultVinculoForTipo(canonicalTipo)
+    ),
+  }
+}
 
 function generateToken(params = {}) {
   return jwt.sign(params, hash, {
@@ -82,7 +103,7 @@ router.post('/', async (req, res) => {
   let totalErros = user.totalErros || 0
   const token = generateToken({ id: user.id })
   res.cookie('token', token).send({
-    user,
+    user: serializeUser(user),
     token,
     totalAcertos: totalAcertos,
     totalJogos: totalJogos,
@@ -222,8 +243,7 @@ router.get('/:id', auth, async (req, res) => {
         .status(403)
         .send({ error: 'Acesso negado ao usuario informado' })
     }
-
-    res.status(200).send({ user })
+    res.status(200).send({ user: serializeUser(user) })
   } catch {
     return res.status(400).send({ error: 'Erro ao listar usuario' })
   }
